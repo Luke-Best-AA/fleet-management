@@ -27,5 +27,5 @@ def render(
         ctx.update(context)
 
     return templates.TemplateResponse(
-        template_name, ctx, status_code=status_code
+        request, template_name, ctx, status_code=status_code
     )
