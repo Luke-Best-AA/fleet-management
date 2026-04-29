@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Mileage Records - Fleet Management{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Mileage Records</h2>
+    <a href="/mileage/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Record</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Reading</th>
+                    <th>Date</th>
+                    <th>Recorded By</th>
+                    <th>Override</th>
+                    {% if user.role == 'admin' %}<th>Actions</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in records %}
+                <tr>
+                    <td><a href="/vehicles/{{ rec.vehicle.id }}">{{ rec.vehicle.registration_number }}</a></td>
+                    <td>{{ "{:,}".format(rec.reading_value) }} mi</td>
+                    <td>{{ rec.recorded_at.strftime('%d %b %Y %H:%M') }}</td>
+                    <td>{{ rec.recorded_by.username }}</td>
+                    <td>
+                        {% if rec.is_admin_override %}
+                        <span class="badge bg-info" title="{{ rec.override_reason }}">Override</span>
+                        {% endif %}
+                    </td>
+                    {% if user.role == 'admin' %}
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="/mileage/{{ rec.id }}/edit" class="btn btn-outline-secondary">Edit</a>
+                            <form method="POST" action="/mileage/{{ rec.id }}/delete" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Delete this record?')">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-muted text-center py-3">No mileage records found</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

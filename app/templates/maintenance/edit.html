@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}Edit Maintenance - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/maintenance">Maintenance</a></li>
+        <li class="breadcrumb-item active">Edit Record #{{ record.id }}</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Edit Maintenance Record</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <div class="alert alert-info">
+                    Vehicle: <strong>{{ record.vehicle.registration_number }}</strong>
+                </div>
+
+                <form method="POST" action="/maintenance/{{ record.id }}/edit" novalidate>
+                    {{ csrf_field(csrf_token) }}
+
+                    {{ form_field("category_id", "Category", value=form_data.category_id if form_data else "", errors=errors, required=true, options=[{"value": c.id, "label": c.name ~ (" *" if c.requires_notes else "")} for c in categories]) }}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_field("maintenance_date", "Date", type="date", value=form_data.maintenance_date if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_field("mileage_at_time", "Mileage at Time", type="number", value=form_data.mileage_at_time if form_data else "", errors=errors, required=true) }}
+                        </div>
+                    </div>
+
+                    {{ form_field("notes", "Notes", value=form_data.notes if form_data else "", errors=errors, textarea=true) }}
+                    {{ form_field("cost", "Cost (£)", type="number", value=form_data.cost if form_data else "", errors=errors, step="0.01") }}
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Save Changes", "primary") }}
+                        <a href="/maintenance" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
