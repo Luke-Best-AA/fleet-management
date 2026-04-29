@@ -2,8 +2,10 @@
 {% block title %}Retirement Requests - Fleet Management{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Retirement Requests</h2>
-    <a href="/requests/retirement/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> New Request</a>
+    <h2>{% if user.role == 'admin' %}Retirement Requests{% else %}My Retirement Requests{% endif %}</h2>
+    <a href="/requests/retirement/create" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> {% if user.role == 'admin' %}Retire Vehicle{% else %}New Request{% endif %}
+    </a>
 </div>
 
 <div class="card">
