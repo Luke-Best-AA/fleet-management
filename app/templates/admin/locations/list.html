@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Locations - Fleet Management{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Locations</h2>
+    <a href="/admin/locations/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Location</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <table class="table table-hover table-sm mb-0">
+            <thead>
+                <tr><th>Name</th><th>Code</th><th>Region</th><th>City</th><th>Active</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for loc in locations %}
+                <tr>
+                    <td>{{ loc.name }}</td>
+                    <td><code>{{ loc.code }}</code></td>
+                    <td>{{ loc.region or '-' }}</td>
+                    <td>{{ loc.city or '-' }}</td>
+                    <td>
+                        {% if loc.is_active %}
+                        <span class="badge bg-success">Active</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <a href="/admin/locations/{{ loc.id }}/edit" class="btn btn-outline-secondary">Edit</a>
+                            <form method="POST" action="/admin/locations/{{ loc.id }}/delete" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Delete this location?')">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="text-muted text-center py-3">No locations</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

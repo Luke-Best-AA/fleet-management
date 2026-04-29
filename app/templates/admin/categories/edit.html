@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, checkbox_field, csrf_field, submit_button %}
+{% block title %}Edit Category - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/categories">Categories</a></li>
+        <li class="breadcrumb-item active">Edit {{ category.name }}</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Edit Category</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/admin/categories/{{ category.id }}/edit" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    {{ form_field("name", "Name", value=form_data.name if form_data else "", errors=errors, required=true) }}
+                    {{ form_field("description", "Description", value=form_data.description if form_data else "", errors=errors, textarea=true) }}
+                    {{ checkbox_field("requires_notes", "Requires notes when used", checked=form_data.requires_notes if form_data else false) }}
+                    {{ checkbox_field("is_active", "Active", checked=form_data.is_active if form_data else true) }}
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Save Changes", "primary") }}
+                        <a href="/admin/categories" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

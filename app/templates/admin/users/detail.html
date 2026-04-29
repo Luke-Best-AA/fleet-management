@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{{ target_user.full_name }} - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/users">Users</a></li>
+        <li class="breadcrumb-item active">{{ target_user.username }}</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ target_user.full_name }}
+        {% if target_user.role == 'admin' %}
+        <span class="badge bg-warning text-dark">Admin</span>
+        {% else %}
+        <span class="badge bg-primary">Standard</span>
+        {% endif %}
+    </h2>
+    <a href="/admin/users/{{ target_user.id }}/edit" class="btn btn-outline-secondary">Edit</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">User Details</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">Username</dt>
+                    <dd class="col-sm-7">{{ target_user.username }}</dd>
+                    <dt class="col-sm-5">Email</dt>
+                    <dd class="col-sm-7">{{ target_user.email }}</dd>
+                    <dt class="col-sm-5">Employee Number</dt>
+                    <dd class="col-sm-7">{{ target_user.employee_number or '-' }}</dd>
+                    <dt class="col-sm-5">Location</dt>
+                    <dd class="col-sm-7">{{ target_user.location.name if target_user.location else '-' }}</dd>
+                    <dt class="col-sm-5">Active</dt>
+                    <dd class="col-sm-7">{{ 'Yes' if target_user.is_active else 'No' }}</dd>
+                    <dt class="col-sm-5">Created</dt>
+                    <dd class="col-sm-7">{{ target_user.created_at.strftime('%d %b %Y %H:%M') }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Assigned Vehicles</div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <thead><tr><th>Registration</th><th>Status</th></tr></thead>
+                    <tbody>
+                    {% for v in target_user.primary_driver_vehicles %}
+                    {% if not v.is_deleted %}
+                    <tr>
+                        <td><a href="/vehicles/{{ v.id }}">{{ v.registration_number }}</a></td>
+                        <td><span class="badge badge-status-{{ v.status }}">{{ v.status.replace('_', ' ').title() }}</span></td>
+                    </tr>
+                    {% endif %}
+                    {% else %}
+                    <tr><td colspan="2" class="text-muted text-center">None assigned</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

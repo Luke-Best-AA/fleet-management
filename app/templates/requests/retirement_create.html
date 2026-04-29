@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}New Retirement Request - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/requests/retirement">Retirement Requests</a></li>
+        <li class="breadcrumb-item active">New Request</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Request Vehicle Retirement</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/requests/retirement/create" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    {{ form_field("vehicle_id", "Vehicle", value=form_data.vehicle_id if form_data else "", errors=errors, required=true, options=[{"value": v.id, "label": v.registration_number ~ " - " ~ v.make ~ " " ~ v.model} for v in vehicles]) }}
+                    {{ form_field("reason", "Reason for Retirement", value=form_data.reason if form_data else "", errors=errors, required=true, textarea=true, help_text="Minimum 10 characters") }}
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Submit Request", "warning") }}
+                        <a href="/requests/retirement" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
