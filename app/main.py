@@ -1,0 +1,91 @@
+import json
+
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from starlette.middleware.base import BaseHTTPMiddleware
+
+from app.config import settings
+from app.db.base import Base
+from app.db.session import engine
+from app.services.session import get_session, redis_client
+from app.utils.template import render
+
+# Import all models so Base.metadata sees them
+from app.models.location import Location  # noqa: F401
+from app.models.user import User  # noqa: F401
+from app.models.vehicle import Vehicle  # noqa: F401
+from app.models.maintenance import MaintenanceCategory, MaintenanceRecord  # noqa: F401
+from app.models.mileage import MileageRecord  # noqa: F401
+from app.models.retirement_request import RetirementRequest  # noqa: F401
+from app.models.deletion_request import DeletionRequest  # noqa: F401
+
+
+class SessionMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        session_id = request.cookies.get("session_id")
+        session_data = None
+
+        if session_id:
+            session_data = get_session(session_id)
+
+        request.state.session_id = session_id if session_data else None
+        request.state.session = session_data or {}
+        request.state.user = None
+
+        if session_data and "user_id" in session_data:
+            request.state.user = {
+                "id": session_data["user_id"],
+                "username": session_data["username"],
+                "role": session_data["role"],
+                "first_name": session_data["first_name"],
+            }
+
+        response = await call_next(request)
+        return response
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(title=settings.APP_NAME, docs_url=None, redoc_url=None)
+
+    app.mount("/static", StaticFiles(directory="app/static"), name="static")
+    app.add_middleware(SessionMiddleware)
+
+    # Create tables
+    Base.metadata.create_all(bind=engine)
+
+    # Import and include routers
+    from app.routes.web.auth import router as auth_router
+    from app.routes.web.dashboard import router as dashboard_router
+    from app.routes.web.vehicles import router as vehicles_router
+    from app.routes.web.maintenance import router as maintenance_router
+    from app.routes.web.mileage import router as mileage_router
+    from app.routes.web.requests import router as requests_router
+    from app.routes.web.admin import router as admin_router
+
+    app.include_router(auth_router)
+    app.include_router(dashboard_router)
+    app.include_router(vehicles_router)
+    app.include_router(maintenance_router)
+    app.include_router(mileage_router)
+    app.include_router(requests_router)
+    app.include_router(admin_router)
+
+    @app.get("/", response_class=HTMLResponse)
+    async def root(request: Request):
+        if request.state.user:
+            return RedirectResponse("/dashboard", status_code=302)
+        return RedirectResponse("/auth/login", status_code=302)
+
+    @app.exception_handler(404)
+    async def not_found_handler(request: Request, exc):
+        return render(request, "errors/404.html", status_code=404)
+
+    @app.exception_handler(500)
+    async def server_error_handler(request: Request, exc):
+        return render(request, "errors/500.html", status_code=500)
+
+    return app
+
+
+app = create_app()

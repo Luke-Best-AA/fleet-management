@@ -1,0 +1,29 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.table th {
+    white-space: nowrap;
+}
+
+.card-header {
+    font-weight: 600;
+}
+
+.badge-status-active { background-color: #198754; }
+.badge-status-pending_retirement { background-color: #ffc107; color: #000; }
+.badge-status-retired { background-color: #6c757d; }
+.badge-status-pending { background-color: #0dcaf0; color: #000; }
+.badge-status-approved { background-color: #198754; }
+.badge-status-rejected { background-color: #dc3545; }
+
+.btn-group-sm > .btn {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+}

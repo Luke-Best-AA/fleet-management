@@ -1,0 +1,41 @@
+{% macro form_field(name, label, type="text", value="", errors=None, required=false, placeholder="", help_text="", options=None, textarea=false, step=None) %}
+<div class="mb-3">
+    <label for="{{ name }}" class="form-label">{{ label }}{% if required %} <span class="text-danger">*</span>{% endif %}</label>
+    {% if options %}
+    <select class="form-select {% if errors and errors.get(name) %}is-invalid{% endif %}" id="{{ name }}" name="{{ name }}">
+        <option value="">-- Select --</option>
+        {% for opt in options %}
+        <option value="{{ opt.value }}" {% if opt.value|string == value|string %}selected{% endif %}>{{ opt.label }}</option>
+        {% endfor %}
+    </select>
+    {% elif textarea %}
+    <textarea class="form-control {% if errors and errors.get(name) %}is-invalid{% endif %}" id="{{ name }}" name="{{ name }}" rows="3" placeholder="{{ placeholder }}">{{ value }}</textarea>
+    {% else %}
+    <input type="{{ type }}" class="form-control {% if errors and errors.get(name) %}is-invalid{% endif %}" id="{{ name }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" {% if step %}step="{{ step }}"{% endif %}>
+    {% endif %}
+    {% if errors and errors.get(name) %}
+    <div class="invalid-feedback">{{ errors[name] }}</div>
+    {% endif %}
+    {% if help_text %}
+    <div class="form-text">{{ help_text }}</div>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{% macro checkbox_field(name, label, checked=false, errors=None) %}
+<div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input {% if errors and errors.get(name) %}is-invalid{% endif %}" id="{{ name }}" name="{{ name }}" value="true" {% if checked %}checked{% endif %}>
+    <label class="form-check-label" for="{{ name }}">{{ label }}</label>
+    {% if errors and errors.get(name) %}
+    <div class="invalid-feedback">{{ errors[name] }}</div>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{% macro submit_button(text="Submit", style="primary") %}
+<button type="submit" class="btn btn-{{ style }}">{{ text }}</button>
+{% endmacro %}
+
+{% macro csrf_field(token) %}
+<input type="hidden" name="csrf_token" value="{{ token }}">
+{% endmacro %}
