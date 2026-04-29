@@ -4,3 +4,13 @@ sqlalchemy
 psycopg2-binary
 python-dotenv
 redis
+jinja2
+python-multipart
+passlib[bcrypt]
+bcrypt==4.0.1
+pydantic[email]
+pydantic-settings
+itsdangerous
+pytest
+pytest-asyncio
+httpx
