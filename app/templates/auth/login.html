@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}Login - Fleet Management{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="card-title text-center mb-4">Login</h3>
+
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/auth/login" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    {{ form_field("username", "Username", value=form_data.username if form_data else "", errors=errors, required=true) }}
+                    {{ form_field("password", "Password", type="password", errors=errors, required=true) }}
+                    <div class="d-grid">
+                        {{ submit_button("Sign In", "primary") }}
+                    </div>
+                </form>
+
+                <p class="text-center mt-3 mb-0">
+                    <small>Don't have an account? <a href="/auth/register">Register</a></small>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

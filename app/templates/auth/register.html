@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}Register - Fleet Management{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="card-title text-center mb-4">Create Account</h3>
+
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/auth/register" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_field("first_name", "First Name", value=form_data.first_name if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_field("last_name", "Last Name", value=form_data.last_name if form_data else "", errors=errors, required=true) }}
+                        </div>
+                    </div>
+                    {{ form_field("username", "Username", value=form_data.username if form_data else "", errors=errors, required=true) }}
+                    {{ form_field("email", "Email", type="email", value=form_data.email if form_data else "", errors=errors, required=true) }}
+                    {{ form_field("employee_number", "Employee Number", value=form_data.employee_number if form_data else "", errors=errors, help_text="Optional") }}
+                    {{ form_field("password", "Password", type="password", errors=errors, required=true, help_text="Minimum 8 characters") }}
+                    {{ form_field("password_confirm", "Confirm Password", type="password", errors=errors, required=true) }}
+                    <div class="d-grid">
+                        {{ submit_button("Create Account", "primary") }}
+                    </div>
+                </form>
+
+                <p class="text-center mt-3 mb-0">
+                    <small>Already have an account? <a href="/auth/login">Login</a></small>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
