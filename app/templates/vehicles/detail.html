@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}{{ vehicle.registration_number }} - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/vehicles">Vehicles</a></li>
+        <li class="breadcrumb-item active">{{ vehicle.registration_number }}</li>
+    </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ vehicle.registration_number }}
+        <span class="badge badge-status-{{ vehicle.status }}">{{ vehicle.status.replace('_', ' ').title() }}</span>
+    </h2>
+    {% if user.role == 'admin' and not vehicle.is_retired %}
+    <div class="btn-group">
+        <a href="/vehicles/{{ vehicle.id }}/edit" class="btn btn-outline-secondary">Edit</a>
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+    </div>
+    {% endif %}
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Vehicle Details</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">Fleet Reference</dt>
+                    <dd class="col-sm-7">{{ vehicle.fleet_reference }}</dd>
+                    <dt class="col-sm-5">Type</dt>
+                    <dd class="col-sm-7">{{ vehicle.display_type }}</dd>
+                    <dt class="col-sm-5">Make</dt>
+                    <dd class="col-sm-7">{{ vehicle.make }}</dd>
+                    <dt class="col-sm-5">Model</dt>
+                    <dd class="col-sm-7">{{ vehicle.model }}</dd>
+                    <dt class="col-sm-5">Year</dt>
+                    <dd class="col-sm-7">{{ vehicle.year }}</dd>
+                    <dt class="col-sm-5">Current Mileage</dt>
+                    <dd class="col-sm-7">{{ "{:,}".format(vehicle.current_mileage) }} mi</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Assignment</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">Location</dt>
+                    <dd class="col-sm-7">{{ vehicle.location.name if vehicle.location else '-' }}</dd>
+                    <dt class="col-sm-5">Primary Driver</dt>
+                    <dd class="col-sm-7">{{ vehicle.primary_driver.full_name if vehicle.primary_driver else 'Unassigned' }}</dd>
+                    {% if vehicle.is_retired and vehicle.retirement_reason %}
+                    <dt class="col-sm-5">Retirement Reason</dt>
+                    <dd class="col-sm-7">{{ vehicle.retirement_reason }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Mileage Records</span>
+                {% if not vehicle.is_retired %}
+                <a href="/mileage/create?vehicle_id={{ vehicle.id }}" class="btn btn-sm btn-outline-primary">Add</a>
+                {% endif %}
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <thead><tr><th>Reading</th><th>By</th><th>Date</th><th>Override</th></tr></thead>
+                    <tbody>
+                    {% for rec in vehicle.mileage_records|selectattr("is_deleted", "false")|list|sort(attribute="recorded_at", reverse=true) %}
+                    {% if not rec.is_deleted %}
+                    <tr>
+                        <td>{{ "{:,}".format(rec.reading_value) }}</td>
+                        <td>{{ rec.recorded_by.username }}</td>
+                        <td>{{ rec.recorded_at.strftime('%d %b %Y') }}</td>
+                        <td>{% if rec.is_admin_override %}<span class="badge bg-info">Override</span>{% endif %}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Maintenance Records</span>
+                {% if not vehicle.is_retired %}
+                <a href="/maintenance/create?vehicle_id={{ vehicle.id }}" class="btn btn-sm btn-outline-primary">Add</a>
+                {% endif %}
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <thead><tr><th>Category</th><th>Date</th><th>Cost</th><th>By</th></tr></thead>
+                    <tbody>
+                    {% for rec in vehicle.maintenance_records|selectattr("is_deleted", "false")|list|sort(attribute="maintenance_date", reverse=true) %}
+                    {% if not rec.is_deleted %}
+                    <tr>
+                        <td>{{ rec.category.name }}</td>
+                        <td>{{ rec.maintenance_date.strftime('%d %b %Y') }}</td>
+                        <td>{{ "£{:,.2f}".format(rec.cost) if rec.cost else '-' }}</td>
+                        <td>{{ rec.logged_by.username }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.role == 'admin' and not vehicle.is_retired %}
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ vehicle.registration_number }}</strong>?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/vehicles/{{ vehicle.id }}/delete">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

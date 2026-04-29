@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}Edit {{ vehicle.registration_number }} - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/vehicles">Vehicles</a></li>
+        <li class="breadcrumb-item"><a href="/vehicles/{{ vehicle.id }}">{{ vehicle.registration_number }}</a></li>
+        <li class="breadcrumb-item active">Edit</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Edit Vehicle</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/vehicles/{{ vehicle.id }}/edit" novalidate>
+                    {{ csrf_field(csrf_token) }}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_field("registration_number", "Registration Number", value=form_data.registration_number if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_field("fleet_reference", "Fleet Reference", value=form_data.fleet_reference if form_data else "", errors=errors, required=true) }}
+                        </div>
+                    </div>
+
+                    {{ form_field("vehicle_type", "Vehicle Type", value=form_data.vehicle_type if form_data else "", errors=errors, required=true, options=[{"value": t.value, "label": t.label} for t in vehicle_types]) }}
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form_field("make", "Make", value=form_data.make if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form_field("model", "Model", value=form_data.model if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form_field("year", "Year", type="number", value=form_data.year if form_data else "", errors=errors, required=true) }}
+                        </div>
+                    </div>
+
+                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, required=true, options=[{"value": l.id, "label": l.name} for l in locations]) }}
+
+                    {{ form_field("primary_driver_user_id", "Primary Driver", value=form_data.primary_driver_user_id if form_data else "", errors=errors, options=[{"value": d.id, "label": d.full_name ~ " (" ~ d.username ~ ")"} for d in drivers]) }}
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Save Changes", "primary") }}
+                        <a href="/vehicles/{{ vehicle.id }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
