@@ -8,21 +8,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             {% if user %}
+            {% set path = request.url.path %}
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                    <a class="nav-link{{ ' active' if path == '/dashboard' }}" href="/dashboard">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/vehicles">Vehicles</a>
+                    <a class="nav-link{{ ' active' if path.startswith('/vehicles') }}" href="/vehicles">Vehicles</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/maintenance">Maintenance</a>
+                    <a class="nav-link{{ ' active' if path.startswith('/maintenance') }}" href="/maintenance">Maintenance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/mileage">Mileage</a>
+                    <a class="nav-link{{ ' active' if path.startswith('/mileage') }}" href="/mileage">Mileage</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle{{ ' active' if path.startswith('/requests') }}" href="#" role="button" data-bs-toggle="dropdown">
                         Requests
                     </a>
                     <ul class="dropdown-menu">
@@ -32,7 +33,7 @@
                 </li>
                 {% if user.role == 'admin' %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle{{ ' active' if path.startswith('/admin') }}" href="#" role="button" data-bs-toggle="dropdown">
                         Admin
                     </a>
                     <ul class="dropdown-menu">

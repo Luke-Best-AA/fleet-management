@@ -33,13 +33,11 @@
                     </td>
                     {% if user.role == 'admin' %}
                     <td>
-                        <div class="btn-group btn-group-sm">
-                            <a href="/mileage/{{ rec.id }}/edit" class="btn btn-outline-secondary">Edit</a>
-                            <form method="POST" action="/mileage/{{ rec.id }}/delete" class="d-inline">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Delete this record?')">Delete</button>
-                            </form>
-                        </div>
+                        <a href="/mileage/{{ rec.id }}/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form method="POST" action="/mileage/{{ rec.id }}/delete" class="d-inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this record?')">Delete</button>
+                        </form>
                     </td>
                     {% endif %}
                 </tr>

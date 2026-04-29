@@ -23,7 +23,6 @@ main {
 .badge-status-approved { background-color: #198754; }
 .badge-status-rejected { background-color: #dc3545; }
 
-.btn-group-sm > .btn {
-    padding: 0.2rem 0.5rem;
-    font-size: 0.8rem;
+.card .card-title {
+    white-space: nowrap;
 }

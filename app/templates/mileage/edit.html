@@ -5,6 +5,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/mileage">Mileage</a></li>
+        <li class="breadcrumb-item"><a href="/vehicles/{{ record.vehicle.id }}">{{ record.vehicle.registration_number }}</a></li>
         <li class="breadcrumb-item active">Edit Record #{{ record.id }}</li>
     </ol>
 </nav>
