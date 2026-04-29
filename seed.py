@@ -7,7 +7,10 @@ from app.db.session import SessionLocal, engine
 from app.models.location import Location
 from app.models.user import User
 from app.models.vehicle import Vehicle
-from app.models.maintenance import MaintenanceCategory
+from app.models.maintenance import MaintenanceCategory, MaintenanceRecord  # noqa: F401
+from app.models.mileage import MileageRecord  # noqa: F401
+from app.models.retirement_request import RetirementRequest  # noqa: F401
+from app.models.deletion_request import DeletionRequest  # noqa: F401
 from app.security.password import hash_password
 
 
