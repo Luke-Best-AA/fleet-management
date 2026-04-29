@@ -23,6 +23,14 @@
         </div>
     </div>
     <div class="col-md-3">
+        <div class="card text-bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Total Drivers</h5>
+                <p class="display-6">{{ total_drivers }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
         <div class="card text-bg-secondary">
             <div class="card-body">
                 <h5 class="card-title">Retired</h5>
@@ -30,6 +38,9 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="card text-bg-warning">
             <div class="card-body">
@@ -39,6 +50,30 @@
         </div>
     </div>
 </div>
+
+{% if location_stats %}
+<div class="card mb-4">
+    <div class="card-header">Stats by Location</div>
+    <div class="card-body p-0">
+        <table class="table table-sm table-hover mb-0">
+            <thead>
+                <tr><th>Location</th><th>Code</th><th>Vehicles</th><th>Active</th><th>Drivers</th></tr>
+            </thead>
+            <tbody>
+                {% for loc in location_stats %}
+                <tr>
+                    <td>{{ loc.name }}</td>
+                    <td><code>{{ loc.code }}</code></td>
+                    <td>{{ loc.vehicles }}</td>
+                    <td>{{ loc.active_vehicles }}</td>
+                    <td>{{ loc.drivers }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
 
 <div class="row g-3">
     <div class="col-md-6">
