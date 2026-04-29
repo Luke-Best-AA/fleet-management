@@ -29,7 +29,8 @@
                     {{ form_field("password", "Password", type="password", errors=errors, required=true, help_text="Minimum 8 characters") }}
                     {{ form_field("employee_number", "Employee Number", value=form_data.employee_number if form_data else "", errors=errors) }}
                     {{ form_field("role", "Role", value=form_data.role if form_data else "standard", errors=errors, required=true, options=[{"value": "standard", "label": "Standard"}, {"value": "admin", "label": "Admin"}]) }}
-                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, options=[{"value": l.id, "label": l.name} for l in locations]) }}
+                    {% set loc_opts = [] %}{% for l in locations %}{% if loc_opts.append({"value": l.id, "label": l.name}) %}{% endif %}{% endfor %}
+                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, options=loc_opts) }}
                     <div class="d-flex gap-2">
                         {{ submit_button("Create User", "primary") }}
                         <a href="/admin/users" class="btn btn-secondary">Cancel</a>

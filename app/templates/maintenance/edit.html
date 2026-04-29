@@ -25,7 +25,8 @@
                 <form method="POST" action="/maintenance/{{ record.id }}/edit" novalidate>
                     {{ csrf_field(csrf_token) }}
 
-                    {{ form_field("category_id", "Category", value=form_data.category_id if form_data else "", errors=errors, required=true, options=[{"value": c.id, "label": c.name ~ (" *" if c.requires_notes else "")} for c in categories]) }}
+                    {% set cat_opts = [] %}{% for c in categories %}{% if cat_opts.append({"value": c.id, "label": c.name ~ (" *" if c.requires_notes else "")}) %}{% endif %}{% endfor %}
+                    {{ form_field("category_id", "Category", value=form_data.category_id if form_data else "", errors=errors, required=true, options=cat_opts) }}
 
                     <div class="row">
                         <div class="col-md-6">

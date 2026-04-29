@@ -30,7 +30,8 @@
                         </div>
                     </div>
 
-                    {{ form_field("vehicle_type", "Vehicle Type", value=form_data.vehicle_type if form_data else "", errors=errors, required=true, options=[{"value": t.value, "label": t.label} for t in vehicle_types]) }}
+                    {% set type_opts = [] %}{% for t in vehicle_types %}{% if type_opts.append({"value": t.value, "label": t.label}) %}{% endif %}{% endfor %}
+                    {{ form_field("vehicle_type", "Vehicle Type", value=form_data.vehicle_type if form_data else "", errors=errors, required=true, options=type_opts) }}
 
                     <div class="row">
                         <div class="col-md-4">
@@ -46,9 +47,11 @@
 
                     {{ form_field("current_mileage", "Current Mileage", type="number", value=form_data.current_mileage if form_data else "0", errors=errors) }}
 
-                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, required=true, options=[{"value": l.id, "label": l.name} for l in locations]) }}
+                    {% set loc_opts = [] %}{% for l in locations %}{% if loc_opts.append({"value": l.id, "label": l.name}) %}{% endif %}{% endfor %}
+                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, required=true, options=loc_opts) }}
 
-                    {{ form_field("primary_driver_user_id", "Primary Driver", value=form_data.primary_driver_user_id if form_data else "", errors=errors, options=[{"value": d.id, "label": d.full_name ~ " (" ~ d.username ~ ")"} for d in drivers]) }}
+                    {% set drv_opts = [] %}{% for d in drivers %}{% if drv_opts.append({"value": d.id, "label": d.full_name ~ " (" ~ d.username ~ ")"}) %}{% endif %}{% endfor %}
+                    {{ form_field("primary_driver_user_id", "Primary Driver", value=form_data.primary_driver_user_id if form_data else "", errors=errors, options=drv_opts) }}
 
                     <div class="d-flex gap-2">
                         {{ submit_button("Create Vehicle", "primary") }}

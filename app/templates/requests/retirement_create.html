@@ -20,7 +20,8 @@
 
                 <form method="POST" action="/requests/retirement/create" novalidate>
                     {{ csrf_field(csrf_token) }}
-                    {{ form_field("vehicle_id", "Vehicle", value=form_data.vehicle_id if form_data else "", errors=errors, required=true, options=[{"value": v.id, "label": v.registration_number ~ " - " ~ v.make ~ " " ~ v.model} for v in vehicles]) }}
+                    {% set veh_opts = [] %}{% for v in vehicles %}{% if veh_opts.append({"value": v.id, "label": v.registration_number ~ " - " ~ v.make ~ " " ~ v.model}) %}{% endif %}{% endfor %}
+                    {{ form_field("vehicle_id", "Vehicle", value=form_data.vehicle_id if form_data else "", errors=errors, required=true, options=veh_opts) }}
                     {{ form_field("reason", "Reason for Retirement", value=form_data.reason if form_data else "", errors=errors, required=true, textarea=true, help_text="Minimum 10 characters") }}
 
                     <div class="d-flex gap-2">

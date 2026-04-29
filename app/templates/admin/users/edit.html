@@ -33,7 +33,8 @@
                     </div>
                     {{ form_field("email", "Email", type="email", value=form_data.email if form_data else "", errors=errors, required=true) }}
                     {{ form_field("employee_number", "Employee Number", value=form_data.employee_number if form_data else "", errors=errors) }}
-                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, options=[{"value": l.id, "label": l.name} for l in locations]) }}
+                    {% set loc_opts = [] %}{% for l in locations %}{% if loc_opts.append({"value": l.id, "label": l.name}) %}{% endif %}{% endfor %}
+                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, options=loc_opts) }}
                     {{ checkbox_field("is_active", "Active", checked=form_data.is_active if form_data else true) }}
                     <div class="d-flex gap-2">
                         {{ submit_button("Save Changes", "primary") }}
