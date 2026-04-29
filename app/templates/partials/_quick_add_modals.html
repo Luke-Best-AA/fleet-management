@@ -1,0 +1,81 @@
+{# Quick-add Driver modal #}
+<div class="modal fade" id="addDriverModal" tabindex="-1" aria-labelledby="addDriverModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addDriverModalLabel">Quick Add Driver</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="driverModalAlert" class="alert alert-danger d-none"></div>
+                <div class="mb-3">
+                    <label class="form-label">First Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="drv_first_name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="drv_last_name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Username <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="drv_username" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="drv_email" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password <span class="text-danger">*</span></label>
+                    <input type="password" class="form-control" id="drv_password" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Employee Number</label>
+                    <input type="text" class="form-control" id="drv_employee_number">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveDriverBtn">Create Driver</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Quick-add Location modal #}
+<div class="modal fade" id="addLocationModal" tabindex="-1" aria-labelledby="addLocationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addLocationModalLabel">Quick Add Location</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="locationModalAlert" class="alert alert-danger d-none"></div>
+                <div class="mb-3">
+                    <label class="form-label">Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="loc_name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Code <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="loc_code" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">City</label>
+                    <input type="text" class="form-control" id="loc_city">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Region</label>
+                    <input type="text" class="form-control" id="loc_region">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Postcode</label>
+                    <input type="text" class="form-control" id="loc_postcode">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveLocationBtn">Create Location</button>
+            </div>
+        </div>
+    </div>
+</div>
