@@ -10,6 +10,7 @@ from app.security.csrf import validate_csrf_token
 from app.services import auth as auth_service
 from app.services import session as session_service
 from app.services import user as user_service
+from app.services.session import make_client_fingerprint
 from app.utils.flash import flash
 from app.utils.forms import parse_errors
 from app.utils.template import render
@@ -45,8 +46,12 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
             {"form_data": form_data, "errors": parse_errors(e)},
         )
 
+    fingerprint = make_client_fingerprint(
+        request.client.host, request.headers.get("user-agent", "")
+    )
+
     try:
-        session_id, user = auth_service.login(db, schema.username, schema.password)
+        session_id, user = auth_service.login(db, schema.username, schema.password, fingerprint=fingerprint)
     except LockedOutError as e:
         return render(
             request,
@@ -66,7 +71,7 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
         "session_id",
         session_id,
         httponly=True,
-        samesite="lax",
+        samesite="strict",
         max_age=session_service.settings.SESSION_LIFETIME_SECONDS,
         path="/",
     )
@@ -130,14 +135,17 @@ async def register_post(request: Request, db: Session = Depends(get_db)):
         )
 
     # Log the user in automatically
-    session_id, user = auth_service.login(db, schema.username, schema.password)
+    fingerprint = make_client_fingerprint(
+        request.client.host, request.headers.get("user-agent", "")
+    )
+    session_id, user = auth_service.login(db, schema.username, schema.password, fingerprint=fingerprint)
     flash(session_id, "Registration successful! Welcome.", "success")
     response = RedirectResponse("/dashboard", status_code=303)
     response.set_cookie(
         "session_id",
         session_id,
         httponly=True,
-        samesite="lax",
+        samesite="strict",
         max_age=session_service.settings.SESSION_LIFETIME_SECONDS,
         path="/",
     )

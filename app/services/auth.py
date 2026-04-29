@@ -30,7 +30,7 @@ def authenticate(db: Session, username: str, password: str) -> User:
     return user
 
 
-def login(db: Session, username: str, password: str) -> tuple[str, User]:
+def login(db: Session, username: str, password: str, fingerprint: str = "") -> tuple[str, User]:
     user = authenticate(db, username, password)
     session_id = session_service.create_session(
         user.id,
@@ -39,6 +39,7 @@ def login(db: Session, username: str, password: str) -> tuple[str, User]:
             "role": user.role,
             "first_name": user.first_name,
         },
+        fingerprint=fingerprint,
     )
     return session_id, user
 

@@ -8,7 +8,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from app.config import settings
 from app.db.base import Base
 from app.db.session import engine
-from app.services.session import get_session, redis_client, refresh_session
+from app.services.session import get_session, make_client_fingerprint, redis_client, refresh_session
 from app.utils.template import render
 
 # Import all models so Base.metadata sees them
@@ -34,6 +34,17 @@ class SessionMiddleware(BaseHTTPMiddleware):
                     "Session cookie present but Redis key missing: %s... (path=%s)",
                     session_id[:8], request.url.path,
                 )
+            elif session_data.get("fingerprint"):
+                expected = session_data["fingerprint"]
+                actual = make_client_fingerprint(
+                    request.client.host, request.headers.get("user-agent", "")
+                )
+                if actual != expected:
+                    logger.warning(
+                        "Session fingerprint mismatch for %s... (path=%s)",
+                        session_id[:8], request.url.path,
+                    )
+                    session_data = None
 
         request.state.session_id = session_id if session_data else None
         request.state.session = session_data or {}
@@ -57,7 +68,7 @@ class SessionMiddleware(BaseHTTPMiddleware):
                 "session_id",
                 session_id,
                 httponly=True,
-                samesite="lax",
+                samesite="strict",
                 max_age=settings.SESSION_LIFETIME_SECONDS,
                 path="/",
             )

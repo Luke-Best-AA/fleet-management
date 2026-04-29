@@ -1,3 +1,4 @@
+import hashlib
 import json
 import secrets
 import uuid
@@ -14,7 +15,13 @@ FLASH_PREFIX = "flash:"
 LOGIN_ATTEMPTS_PREFIX = "login_attempts:"
 
 
-def create_session(user_id: int, user_data: dict) -> str:
+def make_client_fingerprint(ip: str, user_agent: str) -> str:
+    """Hash IP + User-Agent to bind a session to a specific client."""
+    raw = f"{ip}|{user_agent}"
+    return hashlib.sha256(raw.encode()).hexdigest()
+
+
+def create_session(user_id: int, user_data: dict, fingerprint: str = "") -> str:
     invalidate_user_sessions(user_id)
     session_id = str(uuid.uuid4())
     session_data = {
@@ -22,6 +29,7 @@ def create_session(user_id: int, user_data: dict) -> str:
         "username": user_data["username"],
         "role": user_data["role"],
         "first_name": user_data["first_name"],
+        "fingerprint": fingerprint,
     }
     redis_client.setex(
         f"{SESSION_PREFIX}{session_id}",
