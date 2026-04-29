@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     MAX_LOGIN_ATTEMPTS: int = 5
     LOCKOUT_DURATION_SECONDS: int = 900
     APP_NAME: str = "Fleet Management"
+    SECURE_COOKIES: bool = True
 
     model_config = {"env_file": ".env", "extra": "ignore"}
 

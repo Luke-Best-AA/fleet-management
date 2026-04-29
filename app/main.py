@@ -68,6 +68,7 @@ class SessionMiddleware(BaseHTTPMiddleware):
                 "session_id",
                 session_id,
                 httponly=True,
+                secure=settings.SECURE_COOKIES,
                 samesite="strict",
                 max_age=settings.SESSION_LIFETIME_SECONDS,
                 path="/",
