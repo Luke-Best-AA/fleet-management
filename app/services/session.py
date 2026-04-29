@@ -45,6 +45,21 @@ def get_session(session_id: str) -> dict | None:
     return None
 
 
+def refresh_session(session_id: str, user_id: int | None = None) -> None:
+    """Extend the TTL of an active session so it doesn't expire during use."""
+    if not session_id:
+        return
+    redis_client.expire(
+        f"{SESSION_PREFIX}{session_id}",
+        settings.SESSION_LIFETIME_SECONDS,
+    )
+    if user_id:
+        redis_client.expire(
+            f"{USER_SESSION_PREFIX}{user_id}",
+            settings.SESSION_LIFETIME_SECONDS,
+        )
+
+
 def destroy_session(session_id: str) -> None:
     if not session_id:
         return

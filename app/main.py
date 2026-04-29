@@ -8,7 +8,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from app.config import settings
 from app.db.base import Base
 from app.db.session import engine
-from app.services.session import get_session, redis_client
+from app.services.session import get_session, redis_client, refresh_session
 from app.utils.template import render
 
 # Import all models so Base.metadata sees them
@@ -40,6 +40,8 @@ class SessionMiddleware(BaseHTTPMiddleware):
                 "role": session_data["role"],
                 "first_name": session_data["first_name"],
             }
+            # Refresh session TTL on each request so active users stay logged in
+            refresh_session(session_id, session_data["user_id"])
 
         response = await call_next(request)
         return response
