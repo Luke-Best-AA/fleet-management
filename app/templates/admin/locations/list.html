@@ -27,13 +27,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        <div class="btn-group btn-group-sm">
-                            <a href="/admin/locations/{{ loc.id }}/edit" class="btn btn-outline-secondary">Edit</a>
-                            <form method="POST" action="/admin/locations/{{ loc.id }}/delete" class="d-inline">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Delete this location?')">Delete</button>
-                            </form>
-                        </div>
+                        <a href="/admin/locations/{{ loc.id }}/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <form method="POST" action="/admin/locations/{{ loc.id }}/delete" class="d-inline">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this location?')">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 {% else %}
