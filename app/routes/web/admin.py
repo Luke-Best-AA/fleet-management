@@ -16,17 +16,10 @@ from app.services import location as location_service
 from app.services import maintenance as maint_service
 from app.services import user as user_service
 from app.utils.flash import flash
+from app.utils.forms import parse_errors, safe_int_or_none
 from app.utils.template import render
 
 router = APIRouter(prefix="/admin", tags=["admin"])
-
-
-def _parse_errors(e: PydanticValidationError) -> dict:
-    errors = {}
-    for err in e.errors():
-        field = err["loc"][-1] if err["loc"] else "_general"
-        errors[field] = err["msg"].replace("Value error, ", "")
-    return errors
 
 
 def _require_admin(request: Request):
@@ -70,7 +63,7 @@ async def location_create_post(request: Request, db: Session = Depends(get_db)):
         schema = LocationCreateSchema(**form_data)
     except PydanticValidationError as e:
         return render(request, "admin/locations/create.html", {
-            "form_data": form_data, "errors": _parse_errors(e),
+            "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:
@@ -128,7 +121,7 @@ async def location_edit_post(request: Request, location_id: int, db: Session = D
         except AppError:
             return render(request, "errors/404.html", status_code=404)
         return render(request, "admin/locations/edit.html", {
-            "location": loc, "form_data": form_data, "errors": _parse_errors(e),
+            "location": loc, "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:
@@ -201,7 +194,7 @@ async def category_create_post(request: Request, db: Session = Depends(get_db)):
         schema = MaintenanceCategoryCreateSchema(**form_data)
     except PydanticValidationError as e:
         return render(request, "admin/categories/create.html", {
-            "form_data": form_data, "errors": _parse_errors(e),
+            "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:
@@ -254,7 +247,7 @@ async def category_edit_post(request: Request, category_id: int, db: Session = D
         except AppError:
             return render(request, "errors/404.html", status_code=404)
         return render(request, "admin/categories/edit.html", {
-            "category": cat, "form_data": form_data, "errors": _parse_errors(e),
+            "category": cat, "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:
@@ -336,7 +329,7 @@ async def user_create_post(request: Request, db: Session = Depends(get_db)):
     except PydanticValidationError as e:
         locations = location_service.get_all_locations(db, active_only=True)
         return render(request, "admin/users/create.html", {
-            "locations": locations, "form_data": form_data, "errors": _parse_errors(e),
+            "locations": locations, "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:
@@ -425,7 +418,7 @@ async def user_edit_post(request: Request, user_id: int, db: Session = Depends(g
         locations = location_service.get_all_locations(db, active_only=True)
         return render(request, "admin/users/edit.html", {
             "target_user": target_user, "locations": locations,
-            "form_data": form_data, "errors": _parse_errors(e),
+            "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:

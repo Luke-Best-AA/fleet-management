@@ -16,17 +16,10 @@ from app.services import deletion as deletion_service
 from app.services import retirement as retirement_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
+from app.utils.forms import parse_errors, safe_int
 from app.utils.template import render
 
 router = APIRouter(prefix="/requests", tags=["requests"])
-
-
-def _parse_errors(e: PydanticValidationError) -> dict:
-    errors = {}
-    for err in e.errors():
-        field = err["loc"][-1] if err["loc"] else "_general"
-        errors[field] = err["msg"].replace("Value error, ", "")
-    return errors
 
 
 # --- Retirement Requests ---
@@ -73,10 +66,7 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
     if not validate_csrf_token(form_data.get("csrf_token", "")):
         return RedirectResponse("/requests/retirement/create", status_code=303)
 
-    try:
-        form_data["vehicle_id"] = int(form_data.get("vehicle_id", 0))
-    except (ValueError, TypeError):
-        pass
+    form_data["vehicle_id"] = safe_int(form_data.get("vehicle_id", ""))
 
     try:
         schema = RetirementRequestCreateSchema(**form_data)
@@ -87,7 +77,7 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
             vehicles = vehicle_service.get_vehicles_for_user(db, user["id"])
         vehicles = [v for v in vehicles if v.is_active_status]
         return render(request, "requests/retirement_create.html", {
-            "vehicles": vehicles, "form_data": form_data, "errors": _parse_errors(e),
+            "vehicles": vehicles, "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:
@@ -204,16 +194,13 @@ async def deletion_create_post(request: Request, db: Session = Depends(get_db)):
     if not validate_csrf_token(form_data.get("csrf_token", "")):
         return RedirectResponse("/requests/deletion/create", status_code=303)
 
-    try:
-        form_data["target_id"] = int(form_data.get("target_id", 0))
-    except (ValueError, TypeError):
-        pass
+    form_data["target_id"] = safe_int(form_data.get("target_id", ""))
 
     try:
         schema = DeletionRequestCreateSchema(**form_data)
     except PydanticValidationError as e:
         return render(request, "requests/deletion_create.html", {
-            "form_data": form_data, "errors": _parse_errors(e),
+            "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:

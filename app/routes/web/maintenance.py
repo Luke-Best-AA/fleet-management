@@ -1,6 +1,3 @@
-from datetime import date
-from decimal import Decimal, InvalidOperation
-
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import RedirectResponse
 from pydantic import ValidationError as PydanticValidationError
@@ -16,17 +13,10 @@ from app.security.csrf import validate_csrf_token
 from app.services import maintenance as maint_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
+from app.utils.forms import parse_errors, safe_int, safe_date, safe_decimal
 from app.utils.template import render
 
 router = APIRouter(prefix="/maintenance", tags=["maintenance"])
-
-
-def _parse_errors(e: PydanticValidationError) -> dict:
-    errors = {}
-    for err in e.errors():
-        field = err["loc"][-1] if err["loc"] else "_general"
-        errors[field] = err["msg"].replace("Value error, ", "")
-    return errors
 
 
 def _record_form_context(db: Session, user: dict):
@@ -86,20 +76,17 @@ async def maintenance_create_post(request: Request, db: Session = Depends(get_db
         context.update({"form_data": form_data, "errors": {"_general": "Invalid request."}})
         return render(request, "maintenance/create.html", context)
 
-    try:
-        form_data["vehicle_id"] = int(form_data.get("vehicle_id", 0))
-        form_data["category_id"] = int(form_data.get("category_id", 0))
-        form_data["mileage_at_time"] = int(form_data.get("mileage_at_time", 0))
-        cost_str = form_data.get("cost", "").strip()
-        form_data["cost"] = Decimal(cost_str) if cost_str else None
-    except (ValueError, TypeError, InvalidOperation):
-        pass
+    form_data["vehicle_id"] = safe_int(form_data.get("vehicle_id", ""))
+    form_data["category_id"] = safe_int(form_data.get("category_id", ""))
+    form_data["mileage_at_time"] = safe_int(form_data.get("mileage_at_time", ""))
+    form_data["cost"] = safe_decimal(form_data.get("cost", ""))
+    form_data["maintenance_date"] = safe_date(form_data.get("maintenance_date", ""))
 
     try:
         schema = MaintenanceRecordCreateSchema(**form_data)
     except PydanticValidationError as e:
         context = _record_form_context(db, user)
-        context.update({"form_data": form_data, "errors": _parse_errors(e)})
+        context.update({"form_data": form_data, "errors": parse_errors(e)})
         return render(request, "maintenance/create.html", context)
 
     try:
@@ -160,13 +147,10 @@ async def maintenance_edit_post(request: Request, record_id: int, db: Session = 
         flash(request.state.session_id, "Invalid request.", "danger")
         return RedirectResponse(f"/maintenance/{record_id}/edit", status_code=303)
 
-    try:
-        form_data["category_id"] = int(form_data.get("category_id", 0))
-        form_data["mileage_at_time"] = int(form_data.get("mileage_at_time", 0))
-        cost_str = form_data.get("cost", "").strip()
-        form_data["cost"] = Decimal(cost_str) if cost_str else None
-    except (ValueError, TypeError, InvalidOperation):
-        pass
+    form_data["category_id"] = safe_int(form_data.get("category_id", ""))
+    form_data["mileage_at_time"] = safe_int(form_data.get("mileage_at_time", ""))
+    form_data["cost"] = safe_decimal(form_data.get("cost", ""))
+    form_data["maintenance_date"] = safe_date(form_data.get("maintenance_date", ""))
 
     try:
         schema = MaintenanceRecordUpdateSchema(**form_data)
@@ -176,7 +160,7 @@ async def maintenance_edit_post(request: Request, record_id: int, db: Session = 
         except AppError:
             return render(request, "errors/404.html", status_code=404)
         context = _record_form_context(db, user)
-        context.update({"record": record, "form_data": form_data, "errors": _parse_errors(e)})
+        context.update({"record": record, "form_data": form_data, "errors": parse_errors(e)})
         return render(request, "maintenance/edit.html", context)
 
     try:

@@ -11,17 +11,10 @@ from app.services import auth as auth_service
 from app.services import session as session_service
 from app.services import user as user_service
 from app.utils.flash import flash
+from app.utils.forms import parse_errors
 from app.utils.template import render
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-
-
-def _parse_errors(e: PydanticValidationError) -> dict:
-    errors = {}
-    for err in e.errors():
-        field = err["loc"][-1] if err["loc"] else "_general"
-        errors[field] = err["msg"].replace("Value error, ", "")
-    return errors
 
 
 @router.get("/login")
@@ -49,7 +42,7 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
         return render(
             request,
             "auth/login.html",
-            {"form_data": form_data, "errors": _parse_errors(e)},
+            {"form_data": form_data, "errors": parse_errors(e)},
         )
 
     try:
@@ -114,7 +107,7 @@ async def register_post(request: Request, db: Session = Depends(get_db)):
         return render(
             request,
             "auth/register.html",
-            {"form_data": form_data, "errors": _parse_errors(e)},
+            {"form_data": form_data, "errors": parse_errors(e)},
         )
 
     try:
@@ -177,7 +170,7 @@ async def change_password_post(request: Request, db: Session = Depends(get_db)):
         return render(
             request,
             "auth/change_password.html",
-            {"errors": _parse_errors(e)},
+            {"errors": parse_errors(e)},
         )
 
     try:

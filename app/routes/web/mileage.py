@@ -10,17 +10,10 @@ from app.security.csrf import validate_csrf_token
 from app.services import mileage as mileage_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
+from app.utils.forms import parse_errors, safe_int
 from app.utils.template import render
 
 router = APIRouter(prefix="/mileage", tags=["mileage"])
-
-
-def _parse_errors(e: PydanticValidationError) -> dict:
-    errors = {}
-    for err in e.errors():
-        field = err["loc"][-1] if err["loc"] else "_general"
-        errors[field] = err["msg"].replace("Value error, ", "")
-    return errors
 
 
 def _form_vehicles(db: Session, user: dict):
@@ -76,19 +69,16 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
             "errors": {"_general": "Invalid request."},
         })
 
-    try:
-        form_data["vehicle_id"] = int(form_data.get("vehicle_id", 0))
-        form_data["reading_value"] = int(form_data.get("reading_value", 0))
-        form_data["is_admin_override"] = form_data.get("is_admin_override") == "true"
-    except (ValueError, TypeError):
-        pass
+    form_data["vehicle_id"] = safe_int(form_data.get("vehicle_id", ""))
+    form_data["reading_value"] = safe_int(form_data.get("reading_value", ""))
+    form_data["is_admin_override"] = form_data.get("is_admin_override") == "true"
 
     try:
         schema = MileageCreateSchema(**form_data)
     except PydanticValidationError as e:
         vehicles = _form_vehicles(db, user)
         return render(request, "mileage/create.html", {
-            "vehicles": vehicles, "form_data": form_data, "errors": _parse_errors(e),
+            "vehicles": vehicles, "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:
@@ -144,11 +134,8 @@ async def mileage_edit_post(request: Request, record_id: int, db: Session = Depe
         flash(request.state.session_id, "Invalid request.", "danger")
         return RedirectResponse(f"/mileage/{record_id}/edit", status_code=303)
 
-    try:
-        form_data["reading_value"] = int(form_data.get("reading_value", 0))
-        form_data["is_admin_override"] = form_data.get("is_admin_override") == "true"
-    except (ValueError, TypeError):
-        pass
+    form_data["reading_value"] = safe_int(form_data.get("reading_value", ""))
+    form_data["is_admin_override"] = form_data.get("is_admin_override") == "true"
 
     try:
         schema = MileageUpdateSchema(**form_data)
@@ -158,7 +145,7 @@ async def mileage_edit_post(request: Request, record_id: int, db: Session = Depe
         except AppError:
             return render(request, "errors/404.html", status_code=404)
         return render(request, "mileage/edit.html", {
-            "record": record, "form_data": form_data, "errors": _parse_errors(e),
+            "record": record, "form_data": form_data, "errors": parse_errors(e),
         })
 
     try:

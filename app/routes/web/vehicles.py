@@ -11,17 +11,10 @@ from app.services import location as location_service
 from app.services import user as user_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
+from app.utils.forms import parse_errors, safe_int, safe_int_or_none
 from app.utils.template import render
 
 router = APIRouter(prefix="/vehicles", tags=["vehicles"])
-
-
-def _parse_errors(e: PydanticValidationError) -> dict:
-    errors = {}
-    for err in e.errors():
-        field = err["loc"][-1] if err["loc"] else "_general"
-        errors[field] = err["msg"].replace("Value error, ", "")
-    return errors
 
 
 def _vehicle_form_context(db: Session):
@@ -74,21 +67,17 @@ async def vehicle_create_post(request: Request, db: Session = Depends(get_db)):
         context.update({"form_data": form_data, "errors": {"_general": "Invalid request."}})
         return render(request, "vehicles/create.html", context)
 
-    # Convert empty strings to appropriate types
-    try:
-        form_data["year"] = int(form_data.get("year", 0))
-        form_data["current_mileage"] = int(form_data.get("current_mileage", 0))
-        form_data["location_id"] = int(form_data["location_id"]) if form_data.get("location_id") else 0
-        driver_id = form_data.get("primary_driver_user_id", "")
-        form_data["primary_driver_user_id"] = int(driver_id) if driver_id else None
-    except (ValueError, TypeError):
-        pass
+    # Convert form strings to appropriate types
+    form_data["year"] = safe_int(form_data.get("year", ""))
+    form_data["current_mileage"] = safe_int(form_data.get("current_mileage", "0"))
+    form_data["location_id"] = safe_int(form_data.get("location_id", ""))
+    form_data["primary_driver_user_id"] = safe_int_or_none(form_data.get("primary_driver_user_id", ""))
 
     try:
         schema = VehicleCreateSchema(**form_data)
     except PydanticValidationError as e:
         context = _vehicle_form_context(db)
-        context.update({"form_data": form_data, "errors": _parse_errors(e)})
+        context.update({"form_data": form_data, "errors": parse_errors(e)})
         return render(request, "vehicles/create.html", context)
 
     try:
@@ -161,13 +150,9 @@ async def vehicle_edit_post(request: Request, vehicle_id: int, db: Session = Dep
         context.update({"form_data": form_data, "errors": {"_general": "Invalid request."}})
         return render(request, "vehicles/edit.html", context)
 
-    try:
-        form_data["year"] = int(form_data.get("year", 0))
-        form_data["location_id"] = int(form_data["location_id"]) if form_data.get("location_id") else 0
-        driver_id = form_data.get("primary_driver_user_id", "")
-        form_data["primary_driver_user_id"] = int(driver_id) if driver_id else None
-    except (ValueError, TypeError):
-        pass
+    form_data["year"] = safe_int(form_data.get("year", ""))
+    form_data["location_id"] = safe_int(form_data.get("location_id", ""))
+    form_data["primary_driver_user_id"] = safe_int_or_none(form_data.get("primary_driver_user_id", ""))
 
     try:
         schema = VehicleUpdateSchema(**form_data)
@@ -177,7 +162,7 @@ async def vehicle_edit_post(request: Request, vehicle_id: int, db: Session = Dep
         except AppError:
             return render(request, "errors/404.html", status_code=404)
         context = _vehicle_form_context(db)
-        context.update({"vehicle": vehicle, "form_data": form_data, "errors": _parse_errors(e)})
+        context.update({"vehicle": vehicle, "form_data": form_data, "errors": parse_errors(e)})
         return render(request, "vehicles/edit.html", context)
 
     try:
