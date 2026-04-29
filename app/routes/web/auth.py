@@ -66,8 +66,9 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
         "session_id",
         session_id,
         httponly=True,
-        samesite="strict",
+        samesite="lax",
         max_age=session_service.settings.SESSION_LIFETIME_SECONDS,
+        path="/",
     )
     return response
 
@@ -136,8 +137,9 @@ async def register_post(request: Request, db: Session = Depends(get_db)):
         "session_id",
         session_id,
         httponly=True,
-        samesite="strict",
+        samesite="lax",
         max_age=session_service.settings.SESSION_LIFETIME_SECONDS,
+        path="/",
     )
     return response
 

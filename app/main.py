@@ -44,6 +44,18 @@ class SessionMiddleware(BaseHTTPMiddleware):
             refresh_session(session_id, session_data["user_id"])
 
         response = await call_next(request)
+
+        # Refresh the cookie expiry on each authenticated request (sliding window)
+        if session_data and session_id:
+            response.set_cookie(
+                "session_id",
+                session_id,
+                httponly=True,
+                samesite="lax",
+                max_age=settings.SESSION_LIFETIME_SECONDS,
+                path="/",
+            )
+
         return response
 
 
