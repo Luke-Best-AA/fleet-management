@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Fleet Management{% endblock %}
+{% block content %}
+<h2 class="mb-4">Dashboard</h2>
+
+{% if user.role == 'admin' %}
+{# Admin Dashboard #}
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card text-bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Total Vehicles</h5>
+                <p class="display-6">{{ total_vehicles }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Active</h5>
+                <p class="display-6">{{ active_vehicles }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-secondary">
+            <div class="card-body">
+                <h5 class="card-title">Retired</h5>
+                <p class="display-6">{{ retired_vehicles }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Pending Requests</h5>
+                <p class="display-6">{{ pending_retirement + pending_deletion }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Recent Mileage Entries</span>
+                <a href="/mileage" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-sm table-hover mb-0">
+                    <thead><tr><th>Vehicle</th><th>Reading</th><th>Date</th></tr></thead>
+                    <tbody>
+                    {% for rec in recent_mileage %}
+                    <tr>
+                        <td>{{ rec.vehicle.registration_number }}</td>
+                        <td>{{ "{:,}".format(rec.reading_value) }} mi</td>
+                        <td>{{ rec.recorded_at.strftime('%d %b %Y') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3" class="text-muted text-center">No records</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Recent Maintenance</span>
+                <a href="/maintenance" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-sm table-hover mb-0">
+                    <thead><tr><th>Vehicle</th><th>Category</th><th>Date</th></tr></thead>
+                    <tbody>
+                    {% for rec in recent_maintenance %}
+                    <tr>
+                        <td>{{ rec.vehicle.registration_number }}</td>
+                        <td>{{ rec.category.name }}</td>
+                        <td>{{ rec.maintenance_date.strftime('%d %b %Y') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3" class="text-muted text-center">No records</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+{# Standard User Dashboard #}
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">My Assigned Vehicles</div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead><tr><th>Registration</th><th>Type</th><th>Make/Model</th><th>Mileage</th><th>Status</th><th></th></tr></thead>
+                    <tbody>
+                    {% for v in vehicles %}
+                    <tr>
+                        <td><a href="/vehicles/{{ v.id }}">{{ v.registration_number }}</a></td>
+                        <td>{{ v.display_type }}</td>
+                        <td>{{ v.make }} {{ v.model }}</td>
+                        <td>{{ "{:,}".format(v.current_mileage) }} mi</td>
+                        <td><span class="badge badge-status-{{ v.status }}">{{ v.status.replace('_', ' ').title() }}</span></td>
+                        <td>
+                            {% if v.status == 'active' %}
+                            <a href="/mileage/create?vehicle_id={{ v.id }}" class="btn btn-sm btn-outline-primary">Log Mileage</a>
+                            <a href="/maintenance/create?vehicle_id={{ v.id }}" class="btn btn-sm btn-outline-secondary">Log Maintenance</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="6" class="text-muted text-center">No vehicles assigned to you</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">My Retirement Requests</div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <thead><tr><th>Vehicle</th><th>Status</th><th>Date</th></tr></thead>
+                    <tbody>
+                    {% for req in my_retirement_requests %}
+                    <tr>
+                        <td>{{ req.vehicle.registration_number }}</td>
+                        <td><span class="badge badge-status-{{ req.status }}">{{ req.status.title() }}</span></td>
+                        <td>{{ req.requested_at.strftime('%d %b %Y') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3" class="text-muted text-center">No requests</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">My Deletion Requests</div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <thead><tr><th>Type</th><th>Status</th><th>Date</th></tr></thead>
+                    <tbody>
+                    {% for req in my_deletion_requests %}
+                    <tr>
+                        <td>{{ req.target_type.replace('_', ' ').title() }}</td>
+                        <td><span class="badge badge-status-{{ req.status }}">{{ req.status.title() }}</span></td>
+                        <td>{{ req.requested_at.strftime('%d %b %Y') }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3" class="text-muted text-center">No requests</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
