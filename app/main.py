@@ -97,6 +97,7 @@ def create_app() -> FastAPI:
     from app.routes.web.mileage import router as mileage_router
     from app.routes.web.requests import router as requests_router
     from app.routes.web.admin import router as admin_router
+    from app.routes.api.inline import router as api_router
 
     app.include_router(auth_router)
     app.include_router(dashboard_router)
@@ -105,6 +106,7 @@ def create_app() -> FastAPI:
     app.include_router(mileage_router)
     app.include_router(requests_router)
     app.include_router(admin_router)
+    app.include_router(api_router)
 
     @app.get("/", response_class=HTMLResponse)
     async def root(request: Request):

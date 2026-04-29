@@ -48,10 +48,24 @@
                     {{ form_field("current_mileage", "Current Mileage", type="number", value=form_data.current_mileage if form_data else "0", errors=errors) }}
 
                     {% set loc_opts = [] %}{% for l in locations %}{% if loc_opts.append({"value": l.id, "label": l.name}) %}{% endif %}{% endfor %}
-                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, required=true, options=loc_opts) }}
+                    <div class="d-flex align-items-end gap-2 mb-3">
+                        <div class="flex-grow-1">
+                            {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, required=true, options=loc_opts) }}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addLocationModal" title="Quick add location">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
 
                     {% set drv_opts = [] %}{% for d in drivers %}{% if drv_opts.append({"value": d.id, "label": d.full_name ~ " (" ~ d.username ~ ")"}) %}{% endif %}{% endfor %}
-                    {{ form_field("primary_driver_user_id", "Primary Driver", value=form_data.primary_driver_user_id if form_data else "", errors=errors, options=drv_opts) }}
+                    <div class="d-flex align-items-end gap-2 mb-3">
+                        <div class="flex-grow-1">
+                            {{ form_field("primary_driver_user_id", "Primary Driver", value=form_data.primary_driver_user_id if form_data else "", errors=errors, options=drv_opts) }}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addDriverModal" title="Quick add driver">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
 
                     <div class="d-flex gap-2">
                         {{ submit_button("Create Vehicle", "primary") }}
@@ -62,4 +76,9 @@
         </div>
     </div>
 </div>
+
+{% include "partials/_quick_add_modals.html" %}
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/quick-add.js"></script>
 {% endblock %}
