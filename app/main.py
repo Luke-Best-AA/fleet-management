@@ -1,4 +1,5 @@
 import json
+import logging
 
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -23,11 +24,17 @@ from app.models.deletion_request import DeletionRequest  # noqa: F401
 
 class SessionMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
+        logger = logging.getLogger("fleet.session")
         session_id = request.cookies.get("session_id")
         session_data = None
 
         if session_id:
             session_data = get_session(session_id)
+            if not session_data:
+                logger.warning(
+                    "Session cookie present but Redis key missing: %s... (path=%s)",
+                    session_id[:8], request.url.path,
+                )
 
         request.state.session_id = session_id if session_data else None
         request.state.session = session_data or {}
@@ -55,6 +62,9 @@ class SessionMiddleware(BaseHTTPMiddleware):
                 max_age=settings.SESSION_LIFETIME_SECONDS,
                 path="/",
             )
+        elif session_id and not session_data:
+            # Cookie exists but session is gone — clear the stale cookie
+            response.delete_cookie("session_id", path="/")
 
         return response
 
