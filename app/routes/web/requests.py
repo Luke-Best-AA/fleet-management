@@ -81,14 +81,24 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
         })
 
     try:
-        retirement_service.create_request(
-            db,
-            vehicle_id=schema.vehicle_id,
-            requested_by_user_id=user["id"],
-            reason=schema.reason,
-            user_role=user["role"],
-            user_id=user["id"],
-        )
+        if user["role"] == "admin":
+            retirement_service.retire_vehicle_directly(
+                db,
+                vehicle_id=schema.vehicle_id,
+                reason=schema.reason,
+                admin_user_id=user["id"],
+            )
+            flash(request.state.session_id, "Vehicle retired successfully.", "success")
+        else:
+            retirement_service.create_request(
+                db,
+                vehicle_id=schema.vehicle_id,
+                requested_by_user_id=user["id"],
+                reason=schema.reason,
+                user_role=user["role"],
+                user_id=user["id"],
+            )
+            flash(request.state.session_id, "Retirement request submitted.", "success")
     except AppError as e:
         if user["role"] == "admin":
             vehicles = vehicle_service.get_all_vehicles(db)
@@ -99,7 +109,8 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
             "vehicles": vehicles, "form_data": form_data, "errors": {"_general": e.message},
         })
 
-    flash(request.state.session_id, "Retirement request submitted.", "success")
+    if user["role"] == "admin":
+        return RedirectResponse("/vehicles", status_code=303)
     return RedirectResponse("/requests/retirement", status_code=303)
 
 

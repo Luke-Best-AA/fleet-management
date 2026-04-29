@@ -115,3 +115,28 @@ def review_request(
     db.commit()
     db.refresh(req)
     return req
+
+
+def retire_vehicle_directly(
+    db: Session,
+    vehicle_id: int,
+    reason: str,
+    admin_user_id: int,
+) -> Vehicle:
+    """Admin can retire a vehicle directly without the request/review flow."""
+    vehicle = (
+        db.query(Vehicle)
+        .filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False)
+        .first()
+    )
+    if not vehicle:
+        raise BusinessRuleError("Vehicle not found or has been deleted")
+    if not vehicle.is_active_status:
+        raise BusinessRuleError("Vehicle must be active to retire")
+
+    vehicle.status = "retired"
+    vehicle.retirement_reason = reason
+
+    db.commit()
+    db.refresh(vehicle)
+    return vehicle

@@ -65,13 +65,18 @@ def create_record(
             )
         if reading_value < vehicle.current_mileage:
             raise BusinessRuleError(
-                f"Reading must be at least {vehicle.current_mileage} (current mileage)"
+                f"Reading must be at least {vehicle.current_mileage:,} (current mileage)"
             )
         is_admin_override = False
         override_reason = ""
 
-    if user_role == "admin" and is_admin_override:
-        if not override_reason.strip():
+    if user_role == "admin":
+        if reading_value < vehicle.current_mileage and not is_admin_override:
+            raise BusinessRuleError(
+                f"Reading is below current mileage ({vehicle.current_mileage:,}). "
+                "Use admin override to record a lower value."
+            )
+        if is_admin_override and not override_reason.strip():
             raise BusinessRuleError(
                 "Override reason is required for admin mileage overrides"
             )
@@ -87,6 +92,10 @@ def create_record(
 
     if reading_value > vehicle.current_mileage:
         vehicle.current_mileage = reading_value
+    elif is_admin_override:
+        # Admin override with lower value — recalculate from all records
+        db.flush()
+        _recalculate_vehicle_mileage(db, vehicle)
 
     db.commit()
     db.refresh(record)
