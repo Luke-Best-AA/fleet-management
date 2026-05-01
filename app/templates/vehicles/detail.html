@@ -101,7 +101,7 @@
             </div>
             <div class="card-body p-0">
                 <table class="table table-sm mb-0">
-                    <thead><tr><th>Reading</th><th>By</th><th>Date</th><th>Override</th>{% if user.role != 'admin' %}<th></th>{% endif %}</tr></thead>
+                    <thead><tr><th>Reading</th><th>By</th><th>Date</th><th>Override</th>{% if user.role != 'admin' %}<th>Actions</th>{% endif %}</tr></thead>
                     <tbody>
                     {% for rec in vehicle.mileage_records|selectattr("is_deleted", "false")|list|sort(attribute="recorded_at", reverse=true) %}
                     {% if not rec.is_deleted %}
@@ -131,7 +131,7 @@
             </div>
             <div class="card-body p-0">
                 <table class="table table-sm mb-0">
-                    <thead><tr><th>Category</th><th>Date</th><th>Cost</th><th>By</th>{% if user.role != 'admin' %}<th></th>{% endif %}</tr></thead>
+                    <thead><tr><th>Category</th><th>Date</th><th>Cost</th><th>By</th>{% if user.role != 'admin' %}<th>Actions</th>{% endif %}</tr></thead>
                     <tbody>
                     {% for rec in vehicle.maintenance_records|selectattr("is_deleted", "false")|list|sort(attribute="maintenance_date", reverse=true) %}
                     {% if not rec.is_deleted %}

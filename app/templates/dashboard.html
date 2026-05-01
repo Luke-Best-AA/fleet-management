@@ -155,16 +155,17 @@
             <div class="card-header">My Retirement Requests</div>
             <div class="card-body p-0">
                 <table class="table table-sm table-sortable mb-0">
-                    <thead><tr><th>Vehicle</th><th>Status</th><th>Date</th></tr></thead>
+                    <thead><tr><th>Vehicle</th><th>Status</th><th>Date</th><th></th></tr></thead>
                     <tbody>
                     {% for req in my_retirement_requests %}
                     <tr>
                         <td>{{ req.vehicle.registration_number }}</td>
                         <td><span class="badge badge-status-{{ req.status }}">{{ req.status.title() }}</span></td>
                         <td>{{ req.requested_at.strftime('%d %b %Y') }}</td>
+                        <td><a href="/requests/retirement/{{ req.id }}" class="btn btn-sm btn-outline-primary">View</a></td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="3" class="text-muted text-center">No requests</td></tr>
+                    <tr><td colspan="4" class="text-muted text-center">No requests</td></tr>
                     {% endfor %}
                     </tbody>
                 </table>
@@ -176,16 +177,17 @@
             <div class="card-header">My Deletion Requests</div>
             <div class="card-body p-0">
                 <table class="table table-sm table-sortable mb-0">
-                    <thead><tr><th>Type</th><th>Status</th><th>Date</th></tr></thead>
+                    <thead><tr><th>Type</th><th>Status</th><th>Date</th><th></th></tr></thead>
                     <tbody>
                     {% for req in my_deletion_requests %}
                     <tr>
                         <td>{{ req.target_type.replace('_', ' ').title() }}</td>
                         <td><span class="badge badge-status-{{ req.status }}">{{ req.status.title() }}</span></td>
                         <td>{{ req.requested_at.strftime('%d %b %Y') }}</td>
+                        <td><a href="/requests/deletion/{{ req.id }}" class="btn btn-sm btn-outline-primary">View</a></td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="3" class="text-muted text-center">No requests</td></tr>
+                    <tr><td colspan="4" class="text-muted text-center">No requests</td></tr>
                     {% endfor %}
                     </tbody>
                 </table>
