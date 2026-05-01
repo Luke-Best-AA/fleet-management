@@ -173,6 +173,26 @@
                 input.addEventListener('input', function () { applyFilters(container); });
                 input.addEventListener('change', function () { applyFilters(container); });
             });
+
+            // Pre-fill filters from URL query params (e.g. ?status=active)
+            var params = new URLSearchParams(window.location.search);
+            params.forEach(function (value, key) {
+                // Try to find a select with matching options
+                var selects = container.querySelectorAll('select[data-filter="select"]');
+                selects.forEach(function (sel) {
+                    Array.from(sel.options).forEach(function (opt) {
+                        if (opt.value.toLowerCase() === value.toLowerCase()) {
+                            sel.value = opt.value;
+                        }
+                    });
+                });
+                // Try to find a text search input
+                if (key === 'q' || key === 'search') {
+                    var searchInput = container.querySelector('[data-filter="search"]');
+                    if (searchInput) searchInput.value = value;
+                }
+            });
+            if (params.toString()) applyFilters(container);
         });
     });
 })();

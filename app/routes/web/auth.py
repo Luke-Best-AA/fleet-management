@@ -69,12 +69,15 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
 
     welcome_msg = f"Welcome back, {user.first_name}!"
     if user.role == "admin":
-        pending = (
-            db.query(RetirementRequest).filter(RetirementRequest.status == "pending").count()
-            + db.query(DeletionRequest).filter(DeletionRequest.status == "pending").count()
-        )
-        if pending > 0:
-            welcome_msg += f" You have {pending} pending request{'s' if pending != 1 else ''}."
+        pending_ret = db.query(RetirementRequest).filter(RetirementRequest.status == "pending").count()
+        pending_del = db.query(DeletionRequest).filter(DeletionRequest.status == "pending").count()
+        parts = []
+        if pending_ret > 0:
+            parts.append(f'<a href="/requests/retirement">{pending_ret} retirement</a>')
+        if pending_del > 0:
+            parts.append(f'<a href="/requests/deletion">{pending_del} deletion</a>')
+        if parts:
+            welcome_msg += f" You have {' and '.join(parts)} pending request{'s' if pending_ret + pending_del != 1 else ''}."
     flash(session_id, welcome_msg, "success")
     response = RedirectResponse("/dashboard", status_code=303)
     response.set_cookie(

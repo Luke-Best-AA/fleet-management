@@ -7,36 +7,45 @@
 {# Admin Dashboard #}
 <div class="row g-3 mb-4">
     <div class="col-md-3">
-        <a href="/vehicles" class="card text-bg-primary text-decoration-none">
+        <div class="card text-bg-primary">
             <div class="card-body">
                 <h5 class="card-title">Total Vehicles</h5>
-                <p class="display-6">{{ total_vehicles }}</p>
+                <p class="display-6"><a href="/vehicles" class="text-white text-decoration-none">{{ total_vehicles }}</a></p>
             </div>
-        </a>
+        </div>
     </div>
     <div class="col-md-3">
-        <a href="/vehicles" class="card text-bg-success text-decoration-none">
+        <div class="card text-bg-success">
             <div class="card-body">
                 <h5 class="card-title">Active / Retired</h5>
-                <p class="display-6">{{ active_vehicles }} <span class="fs-4 opacity-50">/</span> {{ retired_vehicles }}</p>
+                <p class="display-6">
+                    <a href="/vehicles?status=active" class="text-white text-decoration-none">{{ active_vehicles }}</a>
+                    <span class="fs-4 opacity-50">/</span>
+                    <a href="/vehicles?status=retired" class="text-white text-decoration-none">{{ retired_vehicles }}</a>
+                </p>
             </div>
-        </a>
+        </div>
     </div>
     <div class="col-md-3">
-        <a href="/admin/users" class="card text-bg-info text-decoration-none">
+        <div class="card text-bg-info">
             <div class="card-body">
                 <h5 class="card-title">Total Drivers</h5>
-                <p class="display-6">{{ total_drivers }}</p>
+                <p class="display-6"><a href="/admin/users" class="text-white text-decoration-none">{{ total_drivers }}</a></p>
             </div>
-        </a>
+        </div>
     </div>
     <div class="col-md-3">
-        <a href="/requests/retirement" class="card text-bg-warning text-decoration-none">
+        <div class="card text-bg-warning">
             <div class="card-body">
                 <h5 class="card-title">Pending Requests</h5>
-                <p class="display-6">{{ pending_retirement + pending_deletion }}</p>
+                <p class="display-6">
+                    <a href="/requests/retirement" class="text-dark text-decoration-none" title="Retirement">{{ pending_retirement }}</a>
+                    <span class="fs-4 opacity-50">/</span>
+                    <a href="/requests/deletion" class="text-dark text-decoration-none" title="Deletion">{{ pending_deletion }}</a>
+                </p>
+                <small class="opacity-75">Retirement / Deletion</small>
             </div>
-        </a>
+        </div>
     </div>
 </div>
 
