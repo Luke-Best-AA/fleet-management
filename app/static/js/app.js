@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var theme = this.checked ? 'dark' : 'light';
             localStorage.setItem('theme', theme);
             applyTheme(theme);
+            updateBrowserInfo();
         });
     }
 
@@ -44,6 +45,23 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('theme');
             var mq = window.matchMedia('(prefers-color-scheme: dark)');
             applyTheme(mq.matches ? 'dark' : 'light');
+            updateBrowserInfo();
         });
     }
+
+    // Show browser default on profile page
+    function updateBrowserInfo() {
+        var info = document.getElementById('browserThemeInfo');
+        if (info) {
+            var browserDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var stored = localStorage.getItem('theme');
+            var browserLabel = browserDark ? 'dark' : 'light';
+            if (stored) {
+                info.textContent = 'Using manual override (' + stored + '). Browser default is ' + browserLabel + '.';
+            } else {
+                info.textContent = 'Following browser default (' + browserLabel + ').';
+            }
+        }
+    }
+    updateBrowserInfo();
 });

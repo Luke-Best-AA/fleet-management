@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Apply theme before first paint to avoid flash
+        (function() {
+            var t = localStorage.getItem('theme');
+            if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-bs-theme', t);
+        })();
+    </script>
     <title>{% block title %}Fleet Management{% endblock %}</title>
     <link href="/static/vendor/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/vendor/css/bootstrap-icons.min.css" rel="stylesheet">

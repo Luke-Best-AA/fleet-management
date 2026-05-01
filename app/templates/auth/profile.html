@@ -28,9 +28,6 @@
                     <dd class="col-sm-7">{{ profile.location.name if profile.location else '-' }}</dd>
                 </dl>
             </div>
-            <div class="card-footer">
-                <a href="/auth/change-password" class="btn btn-sm btn-outline-secondary"><i class="bi bi-key"></i> Change Password</a>
-            </div>
         </div>
     </div>
 
@@ -50,6 +47,14 @@
                 <button type="button" id="themeReset" class="btn btn-sm btn-outline-secondary">
                     <i class="bi bi-arrow-counterclockwise"></i> Use browser default
                 </button>
+                <div class="text-muted small mt-2" id="browserThemeInfo"></div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">Account</div>
+            <div class="card-body d-grid gap-2">
+                <a href="/auth/change-password" class="btn btn-outline-secondary"><i class="bi bi-key me-2"></i>Change Password</a>
             </div>
         </div>
     </div>
