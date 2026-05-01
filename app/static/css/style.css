@@ -68,7 +68,7 @@ th {
 }
 
 .sortable-header::after {
-    content: '\F282';
+    content: '\F283';
     font-family: 'bootstrap-icons';
     position: absolute;
     right: 0.4em;
@@ -82,6 +82,6 @@ th {
 }
 
 .sortable-header.sort-desc::after {
-    content: '\F27F';
+    content: '\F282';
     opacity: 1;
 }
