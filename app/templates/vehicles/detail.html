@@ -101,7 +101,7 @@
             </div>
             <div class="card-body p-0">
                 <table class="table table-sm mb-0">
-                    <thead><tr><th>Reading</th><th>By</th><th>Date</th><th>Override</th></tr></thead>
+                    <thead><tr><th>Reading</th><th>By</th><th>Date</th><th>Override</th>{% if user.role != 'admin' %}<th></th>{% endif %}</tr></thead>
                     <tbody>
                     {% for rec in vehicle.mileage_records|selectattr("is_deleted", "false")|list|sort(attribute="recorded_at", reverse=true) %}
                     {% if not rec.is_deleted %}
@@ -110,6 +110,9 @@
                         <td>{{ rec.recorded_by.username }}</td>
                         <td>{{ rec.recorded_at.strftime('%d %b %Y') }}</td>
                         <td>{% if rec.is_admin_override %}<span class="badge bg-info">Override</span>{% else %}-{% endif %}</td>
+                        {% if user.role != 'admin' %}
+                        <td><a href="/requests/deletion/create?target_type=mileage_record&target_id={{ rec.id }}" class="btn btn-sm btn-outline-warning" title="Request deletion"><i class="bi bi-trash"></i></a></td>
+                        {% endif %}
                     </tr>
                     {% endif %}
                     {% endfor %}
@@ -128,7 +131,7 @@
             </div>
             <div class="card-body p-0">
                 <table class="table table-sm mb-0">
-                    <thead><tr><th>Category</th><th>Date</th><th>Cost</th><th>By</th></tr></thead>
+                    <thead><tr><th>Category</th><th>Date</th><th>Cost</th><th>By</th>{% if user.role != 'admin' %}<th></th>{% endif %}</tr></thead>
                     <tbody>
                     {% for rec in vehicle.maintenance_records|selectattr("is_deleted", "false")|list|sort(attribute="maintenance_date", reverse=true) %}
                     {% if not rec.is_deleted %}
@@ -137,6 +140,9 @@
                         <td>{{ rec.maintenance_date.strftime('%d %b %Y') }}</td>
                         <td>{{ "£{:,.2f}".format(rec.cost) if rec.cost else '-' }}</td>
                         <td>{{ rec.logged_by.username }}</td>
+                        {% if user.role != 'admin' %}
+                        <td><a href="/requests/deletion/create?target_type=maintenance_record&target_id={{ rec.id }}" class="btn btn-sm btn-outline-warning" title="Request deletion"><i class="bi bi-trash"></i></a></td>
+                        {% endif %}
                     </tr>
                     {% endif %}
                     {% endfor %}

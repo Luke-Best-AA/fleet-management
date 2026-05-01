@@ -29,7 +29,7 @@
                     <th>Date</th>
                     <th>Recorded By</th>
                     <th>Override</th>
-                    {% if user.role == 'admin' %}<th>Actions</th>{% endif %}
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,6 +51,10 @@
                             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                             <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this record?')">Delete</button>
                         </form>
+                    </td>
+                    {% else %}
+                    <td>
+                        <a href="/requests/deletion/create?target_type=mileage_record&target_id={{ rec.id }}" class="btn btn-sm btn-outline-warning"><i class="bi bi-trash"></i> Request Delete</a>
                     </td>
                     {% endif %}
                 </tr>
