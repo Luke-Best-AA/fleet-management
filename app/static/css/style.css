@@ -107,9 +107,9 @@ th {
     .table { font-size: 0.85rem; }
 }
 
-/* Larger date inputs on desktop */
+/* Larger date inputs on desktop (forms only, not filter bars) */
 @media (min-width: 992px) {
-    input[type="date"] {
+    input[type="date"]:not(.form-control-sm) {
         min-width: 14rem;
         padding: 0.5rem 0.75rem;
         font-size: 1rem;
