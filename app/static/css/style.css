@@ -58,3 +58,30 @@ th {
     print-color-adjust: exact;
     color-adjust: exact;
 }
+
+/* Sortable table headers */
+.sortable-header {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-right: 1.2em !important;
+}
+
+.sortable-header::after {
+    content: '\F282';
+    font-family: 'bootstrap-icons';
+    position: absolute;
+    right: 0.4em;
+    opacity: 0.3;
+    font-size: 0.75em;
+}
+
+.sortable-header.sort-asc::after {
+    content: '\F286';
+    opacity: 1;
+}
+
+.sortable-header.sort-desc::after {
+    content: '\F27F';
+    opacity: 1;
+}
