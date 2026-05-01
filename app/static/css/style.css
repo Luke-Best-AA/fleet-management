@@ -311,6 +311,10 @@ a {
 }
 a:hover {
     color: var(--bs-link-hover-color, #1d4ed8);
+}
+/* Underline only content links — not nav/buttons/dropdowns */
+.table a:not(.btn):hover,
+.card-body a:not(.btn):not(.dropdown-item):not(.text-decoration-none):hover {
     text-decoration: underline;
 }
 
