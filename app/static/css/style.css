@@ -85,3 +85,9 @@ th {
     content: '\F282';
     opacity: 1;
 }
+
+/* Dashboard scrollable sections */
+.dashboard-scroll {
+    max-height: 300px;
+    overflow-y: auto;
+}

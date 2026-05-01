@@ -57,14 +57,14 @@ async def dashboard(request: Request, db: Session = Depends(get_db)):
             db.query(MileageRecord)
             .filter(MileageRecord.is_deleted == False)
             .order_by(MileageRecord.recorded_at.desc())
-            .limit(5)
+            .limit(10)
             .all()
         )
         context["recent_maintenance"] = (
             db.query(MaintenanceRecord)
             .filter(MaintenanceRecord.is_deleted == False)
             .order_by(MaintenanceRecord.created_at.desc())
-            .limit(5)
+            .limit(10)
             .all()
         )
     else:

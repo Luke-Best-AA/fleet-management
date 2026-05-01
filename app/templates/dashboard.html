@@ -17,8 +17,8 @@
     <div class="col-md-3">
         <div class="card text-bg-success">
             <div class="card-body">
-                <h5 class="card-title">Active</h5>
-                <p class="display-6">{{ active_vehicles }}</p>
+                <h5 class="card-title">Active / Retired</h5>
+                <p class="display-6">{{ active_vehicles }} <span class="fs-4 opacity-50">/</span> {{ retired_vehicles }}</p>
             </div>
         </div>
     </div>
@@ -30,17 +30,6 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card text-bg-secondary">
-            <div class="card-body">
-                <h5 class="card-title">Retired</h5>
-                <p class="display-6">{{ retired_vehicles }}</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="card text-bg-warning">
             <div class="card-body">
@@ -54,8 +43,8 @@
 {% if location_stats %}
 <div class="card mb-4">
     <div class="card-header">Stats by Location</div>
-    <div class="card-body p-0">
-        <table class="table table-sm table-hover mb-0">
+    <div class="card-body p-0 dashboard-scroll">
+        <table class="table table-sm table-hover table-sortable mb-0">
             <thead>
                 <tr><th>Location</th><th>Code</th><th>Vehicles</th><th>Active</th><th>Drivers</th></tr>
             </thead>
@@ -82,8 +71,8 @@
                 <span>Recent Mileage Entries</span>
                 <a href="/mileage" class="btn btn-sm btn-outline-primary">View All</a>
             </div>
-            <div class="card-body p-0">
-                <table class="table table-sm table-hover mb-0">
+            <div class="card-body p-0 dashboard-scroll">
+                <table class="table table-sm table-hover table-sortable mb-0">
                     <thead><tr><th>Vehicle</th><th>Reading</th><th>Date</th></tr></thead>
                     <tbody>
                     {% for rec in recent_mileage %}
@@ -106,8 +95,8 @@
                 <span>Recent Maintenance</span>
                 <a href="/maintenance" class="btn btn-sm btn-outline-primary">View All</a>
             </div>
-            <div class="card-body p-0">
-                <table class="table table-sm table-hover mb-0">
+            <div class="card-body p-0 dashboard-scroll">
+                <table class="table table-sm table-hover table-sortable mb-0">
                     <thead><tr><th>Vehicle</th><th>Category</th><th>Date</th></tr></thead>
                     <tbody>
                     {% for rec in recent_maintenance %}
