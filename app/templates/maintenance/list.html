@@ -7,8 +7,26 @@
 </div>
 
 <div class="card">
+    <div class="card-body border-bottom" data-filter-target="maintenanceTable">
+        <div class="row g-2 align-items-end">
+            <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" placeholder="Search all fields..." data-filter="search">
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" data-filter="select" data-col="1" data-auto-populate="true">
+                    <option value="">All Categories</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" data-filter="date-min" data-col="2" title="Date from">
+            </div>
+            <div class="col-md-2">
+                <input type="date" class="form-control form-control-sm" data-filter="date-max" data-col="2" title="Date to">
+            </div>
+        </div>
+    </div>
     <div class="card-body p-0">
-        <table class="table table-hover table-sortable mb-0">
+        <table id="maintenanceTable" class="table table-hover table-sortable mb-0">
             <thead>
                 <tr>
                     <th>Vehicle</th>
