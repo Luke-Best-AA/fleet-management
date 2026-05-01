@@ -51,7 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Sync toggle with theme already applied by <head> script
-    applyTheme(getEffectiveTheme());
+    var initTheme = getEffectiveTheme();
+    applyTheme(initTheme);
 
     // Follow browser changes when no manual override
     browserPref.addEventListener('change', function() {
