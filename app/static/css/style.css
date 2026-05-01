@@ -61,7 +61,6 @@ th {
 ::after {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
-    color-adjust: exact;
 }
 
 /* Sortable table headers */
