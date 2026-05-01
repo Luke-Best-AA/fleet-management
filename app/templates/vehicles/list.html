@@ -70,10 +70,10 @@
                         {% if not v.is_retired and not v.is_deleted %}
                         <div class="btn-group btn-group-sm">
                             {% if user.role == 'admin' %}
-                            <a href="/vehicles/{{ v.id }}/edit" class="btn btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
+                            <a href="/vehicles/{{ v.id }}/edit" class="btn btn-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
                             {% endif %}
                             <div class="btn-group btn-group-sm" role="group">
-                                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Log actions for {{ v.registration_number }}">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Log actions for {{ v.registration_number }}">
                                     Log
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -82,7 +82,7 @@
                                 </ul>
                             </div>
                             {% if user.role == 'admin' %}
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ v.id }}" aria-label="Delete {{ v.registration_number }}"><i class="bi bi-trash"></i></button>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ v.id }}" aria-label="Delete {{ v.registration_number }}"><i class="bi bi-trash"></i></button>
                             {% endif %}
                         </div>
                         {% endif %}

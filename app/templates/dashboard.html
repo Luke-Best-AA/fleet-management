@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Dashboard - Fleet Management{% endblock %}
 {% block content %}
-<h2 class="mb-4"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
+<h2 class="mb-3"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
 
 {% if user.role == 'admin' %}
 {# Admin Dashboard #}
@@ -10,7 +10,7 @@
         <div class="card text-bg-primary h-100">
             <div class="card-body">
                 <h5 class="card-title"><i class="bi bi-truck me-1"></i>Total Vehicles</h5>
-                <p class="display-6"><a href="/vehicles" class="text-white text-decoration-none">{{ total_vehicles }}</a></p>
+                <p class="display-6"><a href="/vehicles" class="text-dark text-decoration-none">{{ total_vehicles }}</a></p>
                 <small class="opacity-75">Fleet inventory</small>
             </div>
         </div>
@@ -42,9 +42,9 @@
             <div class="card-body">
                 <h5 class="card-title"><i class="bi bi-clipboard-check me-1"></i>Pending Requests</h5>
                 <p class="display-6">
-                    <a href="/requests/retirement" class="text-dark text-decoration-none" title="Retirement">{{ pending_retirement }}</a>
+                    <a href="/requests/retirement" class="text-white text-decoration-none" title="Retirement">{{ pending_retirement }}</a>
                     <span class="fs-4 opacity-50">/</span>
-                    <a href="/requests/deletion" class="text-dark text-decoration-none" title="Deletion">{{ pending_deletion }}</a>
+                    <a href="/requests/deletion" class="text-white text-decoration-none" title="Deletion">{{ pending_deletion }}</a>
                 </p>
                 <small class="opacity-75">Retirement / Deletion</small>
             </div>

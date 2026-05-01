@@ -29,7 +29,7 @@
                     {{ form_field("reading_value", "Mileage Reading", type="number", value=form_data.reading_value if form_data else "", errors=errors, required=true) }}
 
                     {% if user.role == 'admin' %}
-                    <div class="card bg-light mb-3">
+                    <div class="card bg-body-secondary mb-3">
                         <div class="card-body">
                             <h6 class="card-title">Admin Override</h6>
                             {{ checkbox_field("is_admin_override", "This is an admin override", checked=form_data.is_admin_override if form_data else false) }}
