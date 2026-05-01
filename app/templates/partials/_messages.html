@@ -1,7 +1,7 @@
 {% if flashes %}
 <div id="flash-messages">
     {% for flash in flashes %}
-    <div class="alert alert-{{ flash.category }} alert-dismissible fade show" role="alert">
+    <div class="alert alert-{{ flash.category }} alert-dismissible fade show shadow-sm" role="alert">
         {{ flash.message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>

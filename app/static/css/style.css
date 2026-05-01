@@ -27,18 +27,34 @@ main {
     white-space: nowrap;
 }
 
+/* Flash messages overlay — no content shift */
+#flash-messages {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1080;
+    width: 100%;
+    max-width: 600px;
+    padding: 0 1rem;
+}
+
 /* Fix Bootstrap CSS compatibility warnings */
 html {
+    -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
 }
 
 th {
-    text-align: match-parent;
+    text-align: inherit;
     text-align: -webkit-match-parent;
+    text-align: match-parent;
 }
 
 *,
 ::before,
 ::after {
+    -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    color-adjust: exact;
 }
