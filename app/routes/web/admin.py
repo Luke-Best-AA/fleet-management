@@ -15,6 +15,7 @@ from app.security.csrf import validate_csrf_token
 from app.services import location as location_service
 from app.services import maintenance as maint_service
 from app.services import user as user_service
+from app.services import audit as audit_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int_or_none
 from app.utils.template import render
@@ -67,12 +68,14 @@ async def location_create_post(request: Request, db: Session = Depends(get_db)):
         })
 
     try:
-        location_service.create_location(db, **schema.model_dump())
+        loc = location_service.create_location(db, **schema.model_dump())
     except AppError as e:
         return render(request, "admin/locations/create.html", {
             "form_data": form_data, "errors": {"_general": e.message},
         })
 
+    admin = _require_admin(request)
+    audit_service.log_action(db, user_id=admin["id"], action="create", target_type="location", target_id=loc.id, target_label=loc.name)
     flash(request.state.session_id, "Location created.", "success")
     return RedirectResponse("/admin/locations", status_code=303)
 
@@ -135,6 +138,8 @@ async def location_edit_post(request: Request, location_id: int, db: Session = D
             "location": loc, "form_data": form_data, "errors": {"_general": e.message},
         })
 
+    admin = _require_admin(request)
+    audit_service.log_action(db, user_id=admin["id"], action="update", target_type="location", target_id=location_id, target_label=schema.name)
     flash(request.state.session_id, "Location updated.", "success")
     return RedirectResponse("/admin/locations", status_code=303)
 
@@ -155,6 +160,8 @@ async def location_delete_post(request: Request, location_id: int, db: Session =
         flash(request.state.session_id, e.message, "danger")
         return RedirectResponse("/admin/locations", status_code=303)
 
+    admin = _require_admin(request)
+    audit_service.log_action(db, user_id=admin["id"], action="delete", target_type="location", target_id=location_id)
     flash(request.state.session_id, "Location deleted.", "success")
     return RedirectResponse("/admin/locations", status_code=303)
 
@@ -198,12 +205,14 @@ async def category_create_post(request: Request, db: Session = Depends(get_db)):
         })
 
     try:
-        maint_service.create_category(db, **schema.model_dump())
+        cat = maint_service.create_category(db, **schema.model_dump())
     except AppError as e:
         return render(request, "admin/categories/create.html", {
             "form_data": form_data, "errors": {"_general": e.message},
         })
 
+    admin = _require_admin(request)
+    audit_service.log_action(db, user_id=admin["id"], action="create", target_type="category", target_id=cat.id, target_label=cat.name)
     flash(request.state.session_id, "Category created.", "success")
     return RedirectResponse("/admin/categories", status_code=303)
 
@@ -261,6 +270,8 @@ async def category_edit_post(request: Request, category_id: int, db: Session = D
             "category": cat, "form_data": form_data, "errors": {"_general": e.message},
         })
 
+    admin = _require_admin(request)
+    audit_service.log_action(db, user_id=admin["id"], action="update", target_type="category", target_id=category_id, target_label=schema.name)
     flash(request.state.session_id, "Category updated.", "success")
     return RedirectResponse("/admin/categories", status_code=303)
 
@@ -281,6 +292,8 @@ async def category_delete_post(request: Request, category_id: int, db: Session =
         flash(request.state.session_id, e.message, "danger")
         return RedirectResponse("/admin/categories", status_code=303)
 
+    admin = _require_admin(request)
+    audit_service.log_action(db, user_id=admin["id"], action="delete", target_type="category", target_id=category_id)
     flash(request.state.session_id, "Category deleted.", "success")
     return RedirectResponse("/admin/categories", status_code=303)
 
@@ -356,6 +369,8 @@ async def user_create_post(request: Request, db: Session = Depends(get_db)):
             "locations": locations, "form_data": form_data, "errors": {"_general": e.message},
         })
 
+    admin = _require_admin(request)
+    audit_service.log_action(db, user_id=admin["id"], action="create", target_type="user", target_label=schema.username)
     flash(request.state.session_id, "User created.", "success")
     return RedirectResponse("/admin/users", status_code=303)
 
@@ -439,5 +454,30 @@ async def user_edit_post(request: Request, user_id: int, db: Session = Depends(g
             "form_data": form_data, "errors": {"_general": e.message},
         })
 
+    admin = _require_admin(request)
+    audit_service.log_action(db, user_id=admin["id"], action="update", target_type="user", target_id=user_id, target_label=schema.email)
     flash(request.state.session_id, "User updated.", "success")
     return RedirectResponse("/admin/users", status_code=303)
+
+
+# --- Audit Log ---
+
+@router.get("/audit-log")
+async def audit_log_page(request: Request, db: Session = Depends(get_db)):
+    if not _require_admin(request):
+        return render(request, "errors/403.html", status_code=403)
+
+    page = int(request.query_params.get("page", 1))
+    per_page = 50
+    offset = (page - 1) * per_page
+
+    total = audit_service.count_audit_logs(db)
+    logs = audit_service.get_audit_logs(db, limit=per_page, offset=offset)
+    total_pages = (total + per_page - 1) // per_page
+
+    return render(request, "admin/audit_log.html", {
+        "logs": logs,
+        "page": page,
+        "total_pages": total_pages,
+        "total": total,
+    })

@@ -103,3 +103,24 @@ def update_user(
     db.commit()
     db.refresh(user)
     return user
+
+
+def update_profile(
+    db: Session,
+    user_id: int,
+    first_name: str,
+    last_name: str,
+    email: str,
+) -> User:
+    user = get_user_by_id(db, user_id)
+
+    existing = db.query(User).filter(User.email == email, User.id != user_id).first()
+    if existing:
+        raise ConflictError("Email already in use")
+
+    user.first_name = first_name
+    user.last_name = last_name
+    user.email = email
+    db.commit()
+    db.refresh(user)
+    return user

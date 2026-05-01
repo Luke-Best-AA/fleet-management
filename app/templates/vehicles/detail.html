@@ -147,6 +147,17 @@
                     {% endif %}
                     {% endfor %}
                     </tbody>
+                    {% set maint_records = vehicle.maintenance_records|selectattr("is_deleted", "false")|list %}
+                    {% set total_cost = maint_records|map(attribute="cost")|select("number")|sum %}
+                    {% if maint_records %}
+                    <tfoot>
+                        <tr>
+                            <td colspan="2" class="text-end fw-bold">Total</td>
+                            <td class="fw-bold">£{{ "{:,.2f}".format(total_cost) }}</td>
+                            <td{% if user.role != 'admin' %} colspan="2"{% endif %}></td>
+                        </tr>
+                    </tfoot>
+                    {% endif %}
                 </table>
             </div>
         </div>

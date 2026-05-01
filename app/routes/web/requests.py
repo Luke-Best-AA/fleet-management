@@ -17,6 +17,7 @@ from app.services import maintenance as maint_service
 from app.services import mileage as mileage_service
 from app.services import retirement as retirement_service
 from app.services import vehicle as vehicle_service
+from app.services import audit as audit_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int
 from app.utils.template import render
@@ -162,6 +163,7 @@ async def retirement_review_post(request: Request, request_id: int, db: Session 
         return RedirectResponse(f"/requests/retirement/{request_id}", status_code=303)
 
     action_label = "approved" if schema.action == "approve" else "rejected"
+    audit_service.log_action(db, user_id=user["id"], action=schema.action, target_type="retirement_request", target_id=request_id, details=schema.review_notes)
     flash(request.state.session_id, f"Retirement request {action_label}.", "success")
     return RedirectResponse("/requests/retirement", status_code=303)
 
@@ -322,5 +324,6 @@ async def deletion_review_post(request: Request, request_id: int, db: Session = 
         return RedirectResponse(f"/requests/deletion/{request_id}", status_code=303)
 
     action_label = "approved" if schema.action == "approve" else "rejected"
+    audit_service.log_action(db, user_id=user["id"], action=schema.action, target_type="deletion_request", target_id=request_id, details=schema.review_notes)
     flash(request.state.session_id, f"Deletion request {action_label}.", "success")
     return RedirectResponse("/requests/deletion", status_code=303)

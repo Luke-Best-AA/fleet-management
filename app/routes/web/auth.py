@@ -4,7 +4,7 @@ from pydantic import ValidationError as PydanticValidationError
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.exceptions import AuthenticationError, LockedOutError
+from app.exceptions import AuthenticationError, AppError, LockedOutError
 from app.models.deletion_request import DeletionRequest
 from app.models.retirement_request import RetirementRequest
 from app.schemas.auth import ChangePasswordSchema, LoginSchema, RegisterSchema
@@ -100,6 +100,67 @@ async def profile_page(request: Request, db: Session = Depends(get_db)):
 
     profile = user_service.get_user_by_id(db, user["id"])
     return render(request, "auth/profile.html", {"profile": profile})
+
+
+@router.get("/profile/edit")
+async def profile_edit_page(request: Request, db: Session = Depends(get_db)):
+    user = request.state.user
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+
+    profile = user_service.get_user_by_id(db, user["id"])
+    return render(request, "auth/profile_edit.html", {
+        "form_data": {
+            "first_name": profile.first_name,
+            "last_name": profile.last_name,
+            "email": profile.email,
+        },
+    })
+
+
+@router.post("/profile/edit")
+async def profile_edit_post(request: Request, db: Session = Depends(get_db)):
+    user = request.state.user
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+
+    form = await request.form()
+    form_data = dict(form)
+
+    if not validate_csrf_token(form_data.get("csrf_token", "")):
+        return render(request, "auth/profile_edit.html", {
+            "form_data": form_data,
+            "errors": {"_general": "Invalid request."},
+        })
+
+    first_name = form_data.get("first_name", "").strip()
+    last_name = form_data.get("last_name", "").strip()
+    email = form_data.get("email", "").strip()
+
+    errors = {}
+    if not first_name:
+        errors["first_name"] = "First name is required"
+    if not last_name:
+        errors["last_name"] = "Last name is required"
+    if not email:
+        errors["email"] = "Email is required"
+
+    if errors:
+        return render(request, "auth/profile_edit.html", {
+            "form_data": form_data,
+            "errors": errors,
+        })
+
+    try:
+        user_service.update_profile(db, user["id"], first_name, last_name, email)
+    except AppError as e:
+        return render(request, "auth/profile_edit.html", {
+            "form_data": form_data,
+            "errors": {"_general": e.message},
+        })
+
+    flash(request.state.session_id, "Profile updated.", "success")
+    return RedirectResponse("/auth/profile", status_code=303)
 
 
 @router.post("/logout")

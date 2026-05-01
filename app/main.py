@@ -19,6 +19,7 @@ from app.models.maintenance import MaintenanceCategory, MaintenanceRecord  # noq
 from app.models.mileage import MileageRecord  # noqa: F401
 from app.models.retirement_request import RetirementRequest  # noqa: F401
 from app.models.deletion_request import DeletionRequest  # noqa: F401
+from app.models.audit_log import AuditLog  # noqa: F401
 
 
 class SessionMiddleware(BaseHTTPMiddleware):
