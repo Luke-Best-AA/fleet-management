@@ -13,6 +13,8 @@ from app.schemas.requests import (
 )
 from app.security.csrf import validate_csrf_token
 from app.services import deletion as deletion_service
+from app.services import maintenance as maint_service
+from app.services import mileage as mileage_service
 from app.services import retirement as retirement_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
@@ -190,7 +192,25 @@ async def deletion_create_page(request: Request, db: Session = Depends(get_db)):
         "target_type": request.query_params.get("target_type", ""),
         "target_id": request.query_params.get("target_id", ""),
     }
-    return render(request, "requests/deletion_create.html", {"form_data": form_data})
+
+    if user["role"] == "admin":
+        mileage_records = mileage_service.get_all_records(db)
+        maintenance_records = maint_service.get_all_records(db)
+    else:
+        vehicles = vehicle_service.get_vehicles_for_user(db, user["id"])
+        mileage_records = []
+        maintenance_records = []
+        for v in vehicles:
+            mileage_records.extend(mileage_service.get_records_for_vehicle(db, v.id))
+            maintenance_records.extend(maint_service.get_records_for_vehicle(db, v.id))
+        mileage_records.sort(key=lambda r: r.recorded_at, reverse=True)
+        maintenance_records.sort(key=lambda r: r.maintenance_date, reverse=True)
+
+    return render(request, "requests/deletion_create.html", {
+        "form_data": form_data,
+        "mileage_records": mileage_records,
+        "maintenance_records": maintenance_records,
+    })
 
 
 @router.post("/deletion/create")
