@@ -96,3 +96,13 @@ th {
 [data-bs-theme="dark"] .badge-status-pending_retirement { color: #000; }
 [data-bs-theme="dark"] .badge-status-pending { color: #000; }
 [data-bs-theme="dark"] footer { color: rgba(255,255,255,.55) !important; }
+
+/* Responsive: horizontal scroll for tables inside cards */
+.card-body.p-0 { overflow-x: auto; }
+
+/* Mobile responsive adjustments */
+@media (max-width: 767.98px) {
+    .display-6 { font-size: 1.5rem; }
+    .btn-group { flex-wrap: wrap; }
+    .table { font-size: 0.85rem; }
+}
