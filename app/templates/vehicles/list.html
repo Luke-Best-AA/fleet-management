@@ -43,7 +43,7 @@
             <thead>
                 <tr>
                     <th>Registration</th>
-                    <th class="d-none d-sm-table-cell">Fleet Ref</th>
+                    <th class="d-none d-lg-table-cell">Fleet Ref</th>
                     <th class="d-none d-sm-table-cell">Type</th>
                     <th>Make/Model</th>
                     <th>Year</th>
@@ -58,7 +58,7 @@
                 {% for v in vehicles %}
                 <tr>
                     <td><a href="/vehicles/{{ v.id }}">{{ v.registration_number }}</a></td>
-                    <td class="d-none d-sm-table-cell">{{ v.fleet_reference }}</td>
+                    <td class="d-none d-lg-table-cell">{{ v.fleet_reference }}</td>
                     <td class="d-none d-sm-table-cell">{{ v.display_type }}</td>
                     <td>{{ v.make }} {{ v.model }}</td>
                     <td>{{ v.year }}</td>
