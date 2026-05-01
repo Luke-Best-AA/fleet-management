@@ -1,8 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Users - Fleet Management{% endblock %}
+{% block title %}{% if role_filter == 'standard' %}Drivers{% else %}Users{% endif %} - Fleet Management{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
+    {% if role_filter == 'standard' %}
+    <h2><i class="bi bi-people me-2"></i>Drivers</h2>
+    {% else %}
     <h2><i class="bi bi-people me-2"></i>Users</h2>
+    {% endif %}
     <a href="/admin/users/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add User</a>
 </div>
 
@@ -17,7 +21,11 @@
     <div class="card-body p-0">
         <table id="usersTable" class="table table-hover table-sm table-sortable mb-0">
             <thead>
-                <tr><th>Username</th><th>Name</th><th>Email</th><th>Role</th><th>Location</th><th>Active</th><th></th></tr>
+                <tr>
+                    <th>Username</th><th>Name</th><th>Email</th>
+                    {% if role_filter != 'standard' %}<th>Role</th>{% endif %}
+                    <th>Location</th><th>Active</th><th></th>
+                </tr>
             </thead>
             <tbody>
                 {% for u in users %}
@@ -25,6 +33,7 @@
                     <td><a href="/admin/users/{{ u.id }}">{{ u.username }}</a></td>
                     <td>{{ u.full_name }}</td>
                     <td>{{ u.email }}</td>
+                    {% if role_filter != 'standard' %}
                     <td>
                         {% if u.role == 'admin' %}
                         <span class="badge bg-warning text-dark">Admin</span>
@@ -32,6 +41,7 @@
                         <span class="badge bg-primary">Standard</span>
                         {% endif %}
                     </td>
+                    {% endif %}
                     <td>{{ u.location.name if u.location else '-' }}</td>
                     <td>
                         {% if u.is_active %}
@@ -45,7 +55,7 @@
                     </td>
                 </tr>
                 {% else %}
-                <tr><td colspan="7" class="text-muted text-center py-3">No users</td></tr>
+                <tr><td colspan="{% if role_filter == 'standard' %}6{% else %}7{% endif %}" class="text-muted text-center py-3">No {% if role_filter == 'standard' %}drivers{% else %}users{% endif %}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

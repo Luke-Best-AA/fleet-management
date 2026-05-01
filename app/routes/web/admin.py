@@ -291,8 +291,13 @@ async def category_delete_post(request: Request, category_id: int, db: Session =
 async def user_list(request: Request, db: Session = Depends(get_db)):
     if not _require_admin(request):
         return render(request, "errors/403.html", status_code=403)
-    users = user_service.get_all_users(db)
-    return render(request, "admin/users/list.html", {"users": users})
+    role = request.query_params.get("role")
+    if role == "standard":
+        users = user_service.get_standard_users(db, active_only=False)
+    else:
+        users = user_service.get_all_users(db)
+        role = None
+    return render(request, "admin/users/list.html", {"users": users, "role_filter": role})
 
 
 @router.get("/users/create")

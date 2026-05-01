@@ -176,6 +176,7 @@
 
             // Pre-fill filters from URL query params (e.g. ?status=active)
             var params = new URLSearchParams(window.location.search);
+            var hasParams = false;
             params.forEach(function (value, key) {
                 // Try to find a select with matching options
                 var selects = container.querySelectorAll('select[data-filter="select"]');
@@ -183,16 +184,40 @@
                     Array.from(sel.options).forEach(function (opt) {
                         if (opt.value.toLowerCase() === value.toLowerCase()) {
                             sel.value = opt.value;
+                            hasParams = true;
                         }
                     });
                 });
                 // Try to find a text search input
                 if (key === 'q' || key === 'search') {
                     var searchInput = container.querySelector('[data-filter="search"]');
-                    if (searchInput) searchInput.value = value;
+                    if (searchInput) { searchInput.value = value; hasParams = true; }
                 }
             });
-            if (params.toString()) applyFilters(container);
+            if (hasParams) applyFilters(container);
+
+            // Mobile: wrap filter row in a collapsible accordion
+            var filterRow = container.querySelector('.row');
+            if (filterRow) {
+                var collapseId = 'filterCollapse-' + tableId;
+
+                // Create toggle button (visible only on small screens)
+                var btn = document.createElement('button');
+                btn.className = 'btn btn-sm btn-outline-secondary d-md-none w-100';
+                btn.type = 'button';
+                btn.setAttribute('data-bs-toggle', 'collapse');
+                btn.setAttribute('data-bs-target', '#' + collapseId);
+                btn.setAttribute('aria-expanded', 'false');
+                btn.innerHTML = '<i class="bi bi-funnel me-1"></i>Filters';
+
+                // Wrap the row in a collapse div
+                var collapseDiv = document.createElement('div');
+                collapseDiv.id = collapseId;
+                collapseDiv.className = 'collapse d-md-block mt-2';
+                filterRow.parentNode.insertBefore(btn, filterRow);
+                filterRow.parentNode.insertBefore(collapseDiv, filterRow);
+                collapseDiv.appendChild(filterRow);
+            }
         });
     });
 })();
