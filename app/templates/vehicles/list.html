@@ -38,8 +38,24 @@
                     <td>{{ v.location.name if v.location else '-' }}</td>
                     <td>{{ v.primary_driver.full_name if v.primary_driver else '-' }}</td>
                     <td>
-                        {% if user.role == 'admin' and not v.is_retired %}
-                        <a href="/vehicles/{{ v.id }}/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        {% if not v.is_retired and not v.is_deleted %}
+                        <div class="btn-group btn-group-sm">
+                            {% if user.role == 'admin' %}
+                            <a href="/vehicles/{{ v.id }}/edit" class="btn btn-outline-secondary">Edit</a>
+                            {% endif %}
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Log actions for {{ v.registration_number }}">
+                                    Log
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="/mileage/create?vehicle_id={{ v.id }}&return_to=vehicles"><i class="bi bi-speedometer2 me-2"></i>Log Mileage</a></li>
+                                    <li><a class="dropdown-item" href="/maintenance/create?vehicle_id={{ v.id }}&return_to=vehicles"><i class="bi bi-wrench me-2"></i>Log Maintenance</a></li>
+                                </ul>
+                            </div>
+                            {% if user.role == 'admin' %}
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ v.id }}" aria-label="Delete {{ v.registration_number }}"><i class="bi bi-trash"></i></button>
+                            {% endif %}
+                        </div>
                         {% endif %}
                     </td>
                 </tr>
@@ -50,4 +66,32 @@
         </table>
     </div>
 </div>
+
+{% if user.role == 'admin' %}
+{% for v in vehicles %}
+{% if not v.is_retired and not v.is_deleted %}
+<div class="modal fade" id="deleteModal{{ v.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ v.registration_number }}</strong>?</p>
+                <p class="text-danger">This will soft-delete the vehicle. Associated mileage and maintenance records will be preserved.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/vehicles/{{ v.id }}/delete">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
 {% endblock %}

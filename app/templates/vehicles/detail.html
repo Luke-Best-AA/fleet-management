@@ -15,7 +15,36 @@
     {% if user.role == 'admin' and not vehicle.is_retired %}
     <div class="btn-group">
         <a href="/vehicles/{{ vehicle.id }}/edit" class="btn btn-outline-secondary">Edit</a>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Log actions">
+                Log
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/mileage/create?vehicle_id={{ vehicle.id }}&return_to=vehicle&return_id={{ vehicle.id }}"><i class="bi bi-speedometer2 me-2"></i>Log Mileage</a></li>
+                <li><a class="dropdown-item" href="/maintenance/create?vehicle_id={{ vehicle.id }}&return_to=vehicle&return_id={{ vehicle.id }}"><i class="bi bi-wrench me-2"></i>Log Maintenance</a></li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#retireModal">Retire</button>
         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button>
+    </div>
+    {% elif user.role == 'admin' and vehicle.is_retired %}
+    <div class="btn-group">
+        <form method="POST" action="/vehicles/{{ vehicle.id }}/unretire">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit" class="btn btn-outline-success">Unretire</button>
+        </form>
+    </div>
+    {% elif not vehicle.is_retired %}
+    <div class="btn-group">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Log actions">
+                Log
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/mileage/create?vehicle_id={{ vehicle.id }}&return_to=vehicle&return_id={{ vehicle.id }}"><i class="bi bi-speedometer2 me-2"></i>Log Mileage</a></li>
+                <li><a class="dropdown-item" href="/maintenance/create?vehicle_id={{ vehicle.id }}&return_to=vehicle&return_id={{ vehicle.id }}"><i class="bi bi-wrench me-2"></i>Log Maintenance</a></li>
+            </ul>
+        </div>
     </div>
     {% endif %}
 </div>
@@ -119,6 +148,31 @@
 </div>
 
 {% if user.role == 'admin' and not vehicle.is_retired %}
+<div class="modal fade" id="retireModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Retire Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="/vehicles/{{ vehicle.id }}/retire">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <div class="modal-body">
+                    <p>Are you sure you want to retire <strong>{{ vehicle.registration_number }}</strong>?</p>
+                    <div class="mb-3">
+                        <label for="retirement_reason" class="form-label">Reason for retirement</label>
+                        <textarea name="retirement_reason" id="retirement_reason" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Retire Vehicle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -128,7 +182,7 @@
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete <strong>{{ vehicle.registration_number }}</strong>?</p>
-                <p class="text-danger">This action cannot be undone.</p>
+                <p class="text-danger">This will soft-delete the vehicle. Associated mileage and maintenance records will be preserved.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

@@ -161,3 +161,25 @@ def soft_delete_vehicle(db: Session, vehicle_id: int) -> None:
     vehicle = get_vehicle_by_id(db, vehicle_id)
     vehicle.is_deleted = True
     db.commit()
+
+
+def retire_vehicle(db: Session, vehicle_id: int, reason: str) -> Vehicle:
+    vehicle = get_vehicle_by_id(db, vehicle_id)
+    if vehicle.is_retired:
+        raise BusinessRuleError("Vehicle is already retired")
+    vehicle.status = "retired"
+    vehicle.retirement_reason = reason
+    db.commit()
+    db.refresh(vehicle)
+    return vehicle
+
+
+def unretire_vehicle(db: Session, vehicle_id: int) -> Vehicle:
+    vehicle = get_vehicle_by_id(db, vehicle_id)
+    if not vehicle.is_retired:
+        raise BusinessRuleError("Vehicle is not retired")
+    vehicle.status = "active"
+    vehicle.retirement_reason = None
+    db.commit()
+    db.refresh(vehicle)
+    return vehicle

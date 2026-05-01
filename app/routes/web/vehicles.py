@@ -199,3 +199,50 @@ async def vehicle_delete_post(request: Request, vehicle_id: int, db: Session = D
 
     flash(request.state.session_id, "Vehicle deleted.", "success")
     return RedirectResponse("/vehicles", status_code=303)
+
+
+@router.post("/{vehicle_id}/retire")
+async def vehicle_retire_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
+    user = request.state.user
+    if not user or user["role"] != "admin":
+        return render(request, "errors/403.html", status_code=403)
+
+    form = await request.form()
+    if not validate_csrf_token(form.get("csrf_token", "")):
+        flash(request.state.session_id, "Invalid request.", "danger")
+        return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
+
+    retirement_reason = form.get("retirement_reason", "").strip()
+    if not retirement_reason:
+        flash(request.state.session_id, "Retirement reason is required.", "danger")
+        return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
+
+    try:
+        vehicle_service.retire_vehicle(db, vehicle_id, retirement_reason)
+    except AppError as e:
+        flash(request.state.session_id, e.message, "danger")
+        return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
+
+    flash(request.state.session_id, "Vehicle retired.", "success")
+    return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
+
+
+@router.post("/{vehicle_id}/unretire")
+async def vehicle_unretire_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
+    user = request.state.user
+    if not user or user["role"] != "admin":
+        return render(request, "errors/403.html", status_code=403)
+
+    form = await request.form()
+    if not validate_csrf_token(form.get("csrf_token", "")):
+        flash(request.state.session_id, "Invalid request.", "danger")
+        return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
+
+    try:
+        vehicle_service.unretire_vehicle(db, vehicle_id)
+    except AppError as e:
+        flash(request.state.session_id, e.message, "danger")
+        return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
+
+    flash(request.state.session_id, "Vehicle reactivated.", "success")
+    return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)

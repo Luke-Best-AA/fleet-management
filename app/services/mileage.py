@@ -161,4 +161,5 @@ def _recalculate_vehicle_mileage(db: Session, vehicle: Vehicle) -> None:
         )
         .scalar()
     )
-    vehicle.current_mileage = max_reading or 0
+    if max_reading is not None:
+        vehicle.current_mileage = max_reading

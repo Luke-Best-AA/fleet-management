@@ -49,8 +49,13 @@ async def mileage_create_page(request: Request, db: Session = Depends(get_db)):
         return RedirectResponse("/auth/login", status_code=302)
 
     vehicles = _form_vehicles(db, user)
+    return_to = request.query_params.get("return_to", "")
+    return_id = request.query_params.get("return_id", "")
     form_data = {"vehicle_id": request.query_params.get("vehicle_id", "")}
-    return render(request, "mileage/create.html", {"vehicles": vehicles, "form_data": form_data})
+    return render(request, "mileage/create.html", {
+        "vehicles": vehicles, "form_data": form_data,
+        "return_to": return_to, "return_id": return_id,
+    })
 
 
 @router.post("/create")
@@ -62,11 +67,15 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
     form = await request.form()
     form_data = dict(form)
 
+    return_to = form_data.get("return_to", "")
+    return_id = form_data.get("return_id", "")
+    return_ctx = {"return_to": return_to, "return_id": return_id}
+
     if not validate_csrf_token(form_data.get("csrf_token", "")):
         vehicles = _form_vehicles(db, user)
         return render(request, "mileage/create.html", {
             "vehicles": vehicles, "form_data": form_data,
-            "errors": {"_general": "Invalid request."},
+            "errors": {"_general": "Invalid request."}, **return_ctx,
         })
 
     form_data["vehicle_id"] = safe_int(form_data.get("vehicle_id", ""))
@@ -78,7 +87,7 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
     except PydanticValidationError as e:
         vehicles = _form_vehicles(db, user)
         return render(request, "mileage/create.html", {
-            "vehicles": vehicles, "form_data": form_data, "errors": parse_errors(e),
+            "vehicles": vehicles, "form_data": form_data, "errors": parse_errors(e), **return_ctx,
         })
 
     try:
@@ -95,10 +104,14 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
     except AppError as e:
         vehicles = _form_vehicles(db, user)
         return render(request, "mileage/create.html", {
-            "vehicles": vehicles, "form_data": form_data, "errors": {"_general": e.message},
+            "vehicles": vehicles, "form_data": form_data, "errors": {"_general": e.message}, **return_ctx,
         })
 
     flash(request.state.session_id, "Mileage record created.", "success")
+    if return_to == "vehicle" and return_id:
+        return RedirectResponse(f"/vehicles/{return_id}", status_code=303)
+    elif return_to == "vehicles":
+        return RedirectResponse("/vehicles", status_code=303)
     return RedirectResponse("/mileage", status_code=303)
 
 

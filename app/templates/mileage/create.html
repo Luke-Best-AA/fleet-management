@@ -20,6 +20,8 @@
 
                 <form method="POST" action="/mileage/create" novalidate>
                     {{ csrf_field(csrf_token) }}
+                    <input type="hidden" name="return_to" value="{{ return_to or '' }}">
+                    <input type="hidden" name="return_id" value="{{ return_id or '' }}">
 
                     {% set veh_opts = [] %}{% for v in vehicles %}{% if veh_opts.append({"value": v.id, "label": v.registration_number ~ " (current: " ~ v.current_mileage ~ " mi)"}) %}{% endif %}{% endfor %}
                     {{ form_field("vehicle_id", "Vehicle", value=form_data.vehicle_id if form_data else "", errors=errors, required=true, options=veh_opts) }}
@@ -38,7 +40,13 @@
 
                     <div class="d-flex gap-2">
                         {{ submit_button("Record Mileage", "primary") }}
+                        {% if return_to == 'vehicle' and return_id %}
+                        <a href="/vehicles/{{ return_id }}" class="btn btn-secondary">Cancel</a>
+                        {% elif return_to == 'vehicles' %}
+                        <a href="/vehicles" class="btn btn-secondary">Cancel</a>
+                        {% else %}
                         <a href="/mileage" class="btn btn-secondary">Cancel</a>
+                        {% endif %}
                     </div>
                 </form>
             </div>

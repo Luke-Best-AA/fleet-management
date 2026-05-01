@@ -61,6 +61,8 @@ async def maintenance_create_page(request: Request, db: Session = Depends(get_db
         "vehicle_id": request.query_params.get("vehicle_id", ""),
         "maintenance_date": str(date.today()),
     }
+    context["return_to"] = request.query_params.get("return_to", "")
+    context["return_id"] = request.query_params.get("return_id", "")
     return render(request, "maintenance/create.html", context)
 
 
@@ -73,9 +75,13 @@ async def maintenance_create_post(request: Request, db: Session = Depends(get_db
     form = await request.form()
     form_data = dict(form)
 
+    return_to = form_data.get("return_to", "")
+    return_id = form_data.get("return_id", "")
+    return_ctx = {"return_to": return_to, "return_id": return_id}
+
     if not validate_csrf_token(form_data.get("csrf_token", "")):
         context = _record_form_context(db, user)
-        context.update({"form_data": form_data, "errors": {"_general": "Invalid request."}})
+        context.update({"form_data": form_data, "errors": {"_general": "Invalid request."}, **return_ctx})
         return render(request, "maintenance/create.html", context)
 
     form_data["vehicle_id"] = safe_int(form_data.get("vehicle_id", ""))
@@ -88,7 +94,7 @@ async def maintenance_create_post(request: Request, db: Session = Depends(get_db
         schema = MaintenanceRecordCreateSchema(**form_data)
     except PydanticValidationError as e:
         context = _record_form_context(db, user)
-        context.update({"form_data": form_data, "errors": parse_errors(e)})
+        context.update({"form_data": form_data, "errors": parse_errors(e), **return_ctx})
         return render(request, "maintenance/create.html", context)
 
     try:
@@ -106,10 +112,17 @@ async def maintenance_create_post(request: Request, db: Session = Depends(get_db
         )
     except AppError as e:
         context = _record_form_context(db, user)
-        context.update({"form_data": form_data, "errors": {"_general": e.message}})
+        context.update({"form_data": form_data, "errors": {"_general": e.message}, **return_ctx})
         return render(request, "maintenance/create.html", context)
 
     flash(request.state.session_id, "Maintenance record created.", "success")
+
+    return_to = form_data.get("return_to", "")
+    return_id = form_data.get("return_id", "")
+    if return_to == "vehicle" and return_id:
+        return RedirectResponse(f"/vehicles/{return_id}", status_code=303)
+    elif return_to == "vehicles":
+        return RedirectResponse("/vehicles", status_code=303)
     return RedirectResponse("/maintenance", status_code=303)
 
 
