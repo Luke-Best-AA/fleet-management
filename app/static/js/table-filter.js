@@ -194,10 +194,60 @@
                     if (searchInput) { searchInput.value = value; hasParams = true; }
                 }
             });
+
+            // Apply data-default values when no URL params override them
+            if (!hasParams) {
+                var defaultSelects = container.querySelectorAll('select[data-default]');
+                defaultSelects.forEach(function (sel) {
+                    var def = sel.getAttribute('data-default');
+                    Array.from(sel.options).forEach(function (opt) {
+                        if (opt.value.toLowerCase() === def.toLowerCase()) {
+                            sel.value = opt.value;
+                            hasParams = true;
+                        }
+                    });
+                });
+            }
+
             if (hasParams) applyFilters(container);
 
-            // Mobile: wrap filter row in a collapsible accordion
+            // Clear filters button
+            var clearBtn = document.createElement('button');
+            clearBtn.type = 'button';
+            clearBtn.className = 'btn btn-sm btn-outline-secondary';
+            clearBtn.innerHTML = '<i class="bi bi-x-lg me-1"></i>Clear';
+            clearBtn.style.display = 'none';
+            clearBtn.addEventListener('click', function () {
+                container.querySelectorAll('input').forEach(function (i) { i.value = ''; });
+                container.querySelectorAll('select').forEach(function (s) { s.selectedIndex = 0; });
+                clearBtn.style.display = 'none';
+                applyFilters(container);
+            });
+
+            // Insert clear button
             var filterRow = container.querySelector('.row');
+            if (filterRow) {
+                var clearCol = document.createElement('div');
+                clearCol.className = 'col-auto';
+                clearCol.appendChild(clearBtn);
+                filterRow.appendChild(clearCol);
+            }
+
+            // Show/hide clear button based on filter state
+            function updateClearBtn() {
+                var hasValue = false;
+                container.querySelectorAll('input').forEach(function (i) { if (i.value) hasValue = true; });
+                container.querySelectorAll('select').forEach(function (s) { if (s.selectedIndex > 0) hasValue = true; });
+                clearBtn.style.display = hasValue ? '' : 'none';
+            }
+            inputs.forEach(function (input) {
+                input.addEventListener('input', updateClearBtn);
+                input.addEventListener('change', updateClearBtn);
+            });
+            updateClearBtn();
+
+            // Mobile: wrap filter row in a collapsible accordion
+            filterRow = container.querySelector('.row');
             if (filterRow) {
                 var collapseId = 'filterCollapse-' + tableId;
 

@@ -7,7 +7,7 @@
     {% else %}
     <h2><i class="bi bi-people me-2"></i>Users</h2>
     {% endif %}
-    <a href="/admin/users/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add User</a>
+    <a href="/admin/users/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add {% if role_filter == 'standard' %}Driver{% else %}User{% endif %}</a>
 </div>
 
 <div class="card">
@@ -24,7 +24,7 @@
                 <tr>
                     <th>Username</th><th>Name</th><th>Email</th>
                     {% if role_filter != 'standard' %}<th>Role</th>{% endif %}
-                    <th>Location</th><th>Active</th><th></th>
+                    <th>Location</th><th>Active</th><th class="no-sort">Actions</th>
                 </tr>
             </thead>
             <tbody>
