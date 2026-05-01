@@ -42,6 +42,20 @@ async def mileage_list(request: Request, db: Session = Depends(get_db)):
     return render(request, "mileage/list.html", {"records": records})
 
 
+@router.get("/{record_id}")
+async def mileage_detail_page(request: Request, record_id: int, db: Session = Depends(get_db)):
+    user = request.state.user
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+
+    try:
+        record = mileage_service.get_record_by_id(db, record_id)
+    except AppError:
+        return render(request, "errors/404.html", status_code=404)
+
+    return render(request, "mileage/detail.html", {"record": record})
+
+
 @router.get("/create")
 async def mileage_create_page(request: Request, db: Session = Depends(get_db)):
     user = request.state.user

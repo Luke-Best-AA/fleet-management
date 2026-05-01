@@ -35,20 +35,20 @@
                     <th>Mileage</th>
                     <th>Cost</th>
                     <th>Logged By</th>
-                    <th>Actions</th>
+                    <th class="d-none d-md-table-cell">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for rec in records %}
                 <tr>
                     <td><a href="/vehicles/{{ rec.vehicle.id }}">{{ rec.vehicle.registration_number }}</a></td>
-                    <td>{{ rec.category.name }}</td>
+                    <td><a href="/maintenance/{{ rec.id }}" class="text-decoration-none">{{ rec.category.name }}</a></td>
                     <td>{{ rec.maintenance_date.strftime('%d %b %Y') }}</td>
                     <td>{{ "{:,}".format(rec.mileage_at_time) }}</td>
                     <td>{{ "£{:,.2f}".format(rec.cost) if rec.cost else '-' }}</td>
                     <td>{{ rec.logged_by.username }}</td>
                     {% if user.role == 'admin' %}
-                    <td>
+                    <td class="d-none d-md-table-cell">
                         <a href="/maintenance/{{ rec.id }}/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
                         <form method="POST" action="/maintenance/{{ rec.id }}/delete" class="d-inline">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
@@ -56,7 +56,7 @@
                         </form>
                     </td>
                     {% else %}
-                    <td>
+                    <td class="d-none d-md-table-cell">
                         <a href="/requests/deletion/create?target_type=maintenance_record&target_id={{ rec.id }}&return_to=maintenance" class="btn btn-sm btn-outline-warning"><i class="bi bi-trash"></i> Request Delete</a>
                     </td>
                     {% endif %}

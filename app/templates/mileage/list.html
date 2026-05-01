@@ -29,14 +29,14 @@
                     <th>Date</th>
                     <th>Recorded By</th>
                     <th>Override</th>
-                    <th>Actions</th>
+                    <th class="d-none d-md-table-cell">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for rec in records %}
                 <tr>
                     <td><a href="/vehicles/{{ rec.vehicle.id }}">{{ rec.vehicle.registration_number }}</a></td>
-                    <td>{{ "{:,}".format(rec.reading_value) }} mi</td>
+                    <td><a href="/mileage/{{ rec.id }}" class="text-decoration-none">{{ "{:,}".format(rec.reading_value) }} mi</a></td>
                     <td>{{ rec.recorded_at.strftime('%d %b %Y %H:%M') }}</td>
                     <td>{{ rec.recorded_by.username }}</td>
                     <td>
@@ -45,7 +45,7 @@
                         {% else %}-{% endif %}
                     </td>
                     {% if user.role == 'admin' %}
-                    <td>
+                    <td class="d-none d-md-table-cell">
                         <a href="/mileage/{{ rec.id }}/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
                         <form method="POST" action="/mileage/{{ rec.id }}/delete" class="d-inline">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
@@ -53,7 +53,7 @@
                         </form>
                     </td>
                     {% else %}
-                    <td>
+                    <td class="d-none d-md-table-cell">
                         <a href="/requests/deletion/create?target_type=mileage_record&target_id={{ rec.id }}&return_to=mileage" class="btn btn-sm btn-outline-warning"><i class="bi bi-trash"></i> Request Delete</a>
                     </td>
                     {% endif %}
