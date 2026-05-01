@@ -58,3 +58,28 @@
     </div>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var vehicleMileage = { {% for v in vehicles %}{{ v.id }}: {{ v.current_mileage }}{% if not loop.last %}, {% endif %}{% endfor %} };
+    var vehicleSelect = document.getElementById('vehicle_id');
+    var mileageInput = document.getElementById('mileage_at_time');
+    if (vehicleSelect && mileageInput) {
+        function prefillMileage() {
+            var vid = parseInt(vehicleSelect.value, 10);
+            if (vid && vehicleMileage[vid] !== undefined && !mileageInput.value) {
+                mileageInput.value = vehicleMileage[vid];
+            }
+        }
+        vehicleSelect.addEventListener('change', function() {
+            var vid = parseInt(this.value, 10);
+            if (vid && vehicleMileage[vid] !== undefined) {
+                mileageInput.value = vehicleMileage[vid];
+            }
+        });
+        prefillMileage();
+    }
+});
+</script>
+{% endblock %}

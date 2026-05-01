@@ -54,7 +54,7 @@ def create_record(
         .first()
     )
     if not vehicle:
-        raise BusinessRuleError("Vehicle not found or has been deleted")
+        raise BusinessRuleError("Please select a vehicle")
     if vehicle.is_retired:
         raise BusinessRuleError("Cannot add mileage to a retired vehicle")
 

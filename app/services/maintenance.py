@@ -22,7 +22,7 @@ def get_category_by_id(db: Session, category_id: int) -> MaintenanceCategory:
         .first()
     )
     if not cat:
-        raise NotFoundError("Maintenance category not found")
+        raise NotFoundError("Please select a valid maintenance category")
     return cat
 
 
@@ -135,12 +135,17 @@ def create_record(
         .first()
     )
     if not vehicle:
-        raise BusinessRuleError("Vehicle not found or has been deleted")
+        raise BusinessRuleError("Please select a vehicle")
     if vehicle.is_retired:
         raise BusinessRuleError("Cannot add maintenance to a retired vehicle")
 
     if user_role == "standard" and vehicle.primary_driver_user_id != user_vehicle_id:
         raise AuthorisationError("You can only add maintenance for your assigned vehicle")
+
+    if mileage_at_time < vehicle.current_mileage:
+        raise BusinessRuleError(
+            f"Mileage at time of service must be at least {vehicle.current_mileage:,} (current mileage)"
+        )
 
     category = get_category_by_id(db, category_id)
     if not category.is_active:

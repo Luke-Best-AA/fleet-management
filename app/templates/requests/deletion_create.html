@@ -124,6 +124,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     typeSelect.addEventListener('change', showSection);
 
+    // Lock target_type if pre-filled (e.g. from mileage/maintenance list)
+    if (typeSelect.value) {
+        typeSelect.disabled = true;
+        // Disabled selects don't submit — add hidden input
+        var hiddenType = document.createElement('input');
+        hiddenType.type = 'hidden';
+        hiddenType.name = 'target_type';
+        hiddenType.value = typeSelect.value;
+        typeSelect.form.appendChild(hiddenType);
+    }
+
     function filterRows(query) {
         const q = query.toLowerCase();
         document.querySelectorAll('.record-row').forEach(function(row) {
