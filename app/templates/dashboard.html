@@ -7,36 +7,36 @@
 {# Admin Dashboard #}
 <div class="row g-3 mb-4">
     <div class="col-md-3">
-        <div class="card text-bg-primary">
+        <a href="/vehicles" class="card text-bg-primary text-decoration-none">
             <div class="card-body">
                 <h5 class="card-title">Total Vehicles</h5>
                 <p class="display-6">{{ total_vehicles }}</p>
             </div>
-        </div>
+        </a>
     </div>
     <div class="col-md-3">
-        <div class="card text-bg-success">
+        <a href="/vehicles" class="card text-bg-success text-decoration-none">
             <div class="card-body">
                 <h5 class="card-title">Active / Retired</h5>
                 <p class="display-6">{{ active_vehicles }} <span class="fs-4 opacity-50">/</span> {{ retired_vehicles }}</p>
             </div>
-        </div>
+        </a>
     </div>
     <div class="col-md-3">
-        <div class="card text-bg-info">
+        <a href="/admin/users" class="card text-bg-info text-decoration-none">
             <div class="card-body">
                 <h5 class="card-title">Total Drivers</h5>
                 <p class="display-6">{{ total_drivers }}</p>
             </div>
-        </div>
+        </a>
     </div>
     <div class="col-md-3">
-        <div class="card text-bg-warning">
+        <a href="/requests/retirement" class="card text-bg-warning text-decoration-none">
             <div class="card-body">
                 <h5 class="card-title">Pending Requests</h5>
                 <p class="display-6">{{ pending_retirement + pending_deletion }}</p>
             </div>
-        </div>
+        </a>
     </div>
 </div>
 
@@ -122,8 +122,8 @@
         <div class="card">
             <div class="card-header">My Assigned Vehicles</div>
             <div class="card-body p-0">
-                <table class="table table-hover mb-0">
-                    <thead><tr><th>Registration</th><th>Type</th><th>Make/Model</th><th>Mileage</th><th>Status</th><th></th></tr></thead>
+                <table class="table table-hover table-sortable mb-0">
+                    <thead><tr><th>Registration</th><th>Type</th><th>Make/Model</th><th>Mileage</th><th>Status</th><th>Log</th></tr></thead>
                     <tbody>
                     {% for v in vehicles %}
                     <tr>
@@ -154,7 +154,7 @@
         <div class="card">
             <div class="card-header">My Retirement Requests</div>
             <div class="card-body p-0">
-                <table class="table table-sm mb-0">
+                <table class="table table-sm table-sortable mb-0">
                     <thead><tr><th>Vehicle</th><th>Status</th><th>Date</th></tr></thead>
                     <tbody>
                     {% for req in my_retirement_requests %}
@@ -175,7 +175,7 @@
         <div class="card">
             <div class="card-header">My Deletion Requests</div>
             <div class="card-body p-0">
-                <table class="table table-sm mb-0">
+                <table class="table table-sm table-sortable mb-0">
                     <thead><tr><th>Type</th><th>Status</th><th>Date</th></tr></thead>
                     <tbody>
                     {% for req in my_deletion_requests %}
