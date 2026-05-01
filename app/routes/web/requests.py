@@ -168,6 +168,19 @@ async def retirement_review_post(request: Request, request_id: int, db: Session 
 
 # --- Deletion Requests ---
 
+_RETURN_ROUTES = {
+    "mileage": "/mileage",
+    "maintenance": "/maintenance",
+    "vehicles": "/vehicles",
+}
+
+
+def _build_cancel_url(return_to: str, return_id: str) -> str:
+    base = _RETURN_ROUTES.get(return_to, "/requests/deletion")
+    if return_to == "vehicles" and return_id:
+        return f"{base}/{return_id}"
+    return base
+
 @router.get("/deletion")
 async def deletion_list(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
@@ -206,10 +219,17 @@ async def deletion_create_page(request: Request, db: Session = Depends(get_db)):
         mileage_records.sort(key=lambda r: r.recorded_at, reverse=True)
         maintenance_records.sort(key=lambda r: r.maintenance_date, reverse=True)
 
+    return_to = request.query_params.get("return_to", "")
+    return_id = request.query_params.get("return_id", "")
+    cancel_url = _build_cancel_url(return_to, return_id)
+
     return render(request, "requests/deletion_create.html", {
         "form_data": form_data,
         "mileage_records": mileage_records,
         "maintenance_records": maintenance_records,
+        "cancel_url": cancel_url,
+        "return_to": return_to,
+        "return_id": return_id,
     })
 
 
@@ -250,7 +270,10 @@ async def deletion_create_post(request: Request, db: Session = Depends(get_db)):
         })
 
     flash(request.state.session_id, "Deletion request submitted.", "success")
-    return RedirectResponse("/requests/deletion", status_code=303)
+    return_to = form_data.get("return_to", "")
+    return_id = form_data.get("return_id", "")
+    redirect_url = _build_cancel_url(return_to, return_id)
+    return RedirectResponse(redirect_url, status_code=303)
 
 
 @router.get("/deletion/{request_id}")

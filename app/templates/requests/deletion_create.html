@@ -20,6 +20,8 @@
 
                 <form method="POST" action="/requests/deletion/create" novalidate>
                     {{ csrf_field(csrf_token) }}
+                    {% if return_to %}<input type="hidden" name="return_to" value="{{ return_to }}">{% endif %}
+                    {% if return_id %}<input type="hidden" name="return_id" value="{{ return_id }}">{% endif %}
 
                     {{ form_field("target_type", "Record Type", value=form_data.target_type if form_data else "", errors=errors, required=true, options=[
                         {"value": "maintenance_record", "label": "Maintenance Record"},
@@ -40,7 +42,7 @@
 
                     <div class="d-flex gap-2">
                         {{ submit_button("Submit Request", "warning") }}
-                        <a href="/requests/deletion" class="btn btn-secondary">Cancel</a>
+                        <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

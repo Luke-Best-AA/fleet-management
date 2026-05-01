@@ -111,7 +111,7 @@
                         <td>{{ rec.recorded_at.strftime('%d %b %Y') }}</td>
                         <td>{% if rec.is_admin_override %}<span class="badge bg-info">Override</span>{% else %}-{% endif %}</td>
                         {% if user.role != 'admin' %}
-                        <td><a href="/requests/deletion/create?target_type=mileage_record&target_id={{ rec.id }}" class="btn btn-sm btn-outline-warning" title="Request deletion"><i class="bi bi-trash"></i></a></td>
+                        <td><a href="/requests/deletion/create?target_type=mileage_record&target_id={{ rec.id }}&return_to=vehicles&return_id={{ vehicle.id }}" class="btn btn-sm btn-outline-warning" title="Request deletion"><i class="bi bi-trash"></i></a></td>
                         {% endif %}
                     </tr>
                     {% endif %}
@@ -141,7 +141,7 @@
                         <td>{{ "£{:,.2f}".format(rec.cost) if rec.cost else '-' }}</td>
                         <td>{{ rec.logged_by.username }}</td>
                         {% if user.role != 'admin' %}
-                        <td><a href="/requests/deletion/create?target_type=maintenance_record&target_id={{ rec.id }}" class="btn btn-sm btn-outline-warning" title="Request deletion"><i class="bi bi-trash"></i></a></td>
+                        <td><a href="/requests/deletion/create?target_type=maintenance_record&target_id={{ rec.id }}&return_to=vehicles&return_id={{ vehicle.id }}" class="btn btn-sm btn-outline-warning" title="Request deletion"><i class="bi bi-trash"></i></a></td>
                         {% endif %}
                     </tr>
                     {% endif %}
