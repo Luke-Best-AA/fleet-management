@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.exceptions import AuthenticationError, LockedOutError
+from app.models.deletion_request import DeletionRequest
+from app.models.retirement_request import RetirementRequest
 from app.schemas.auth import ChangePasswordSchema, LoginSchema, RegisterSchema
 from app.security.csrf import validate_csrf_token
 from app.services import auth as auth_service
@@ -65,7 +67,15 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
             {"form_data": form_data, "errors": {"_general": e.message}},
         )
 
-    flash(session_id, f"Welcome back, {user.first_name}!", "success")
+    welcome_msg = f"Welcome back, {user.first_name}!"
+    if user.role == "admin":
+        pending = (
+            db.query(RetirementRequest).filter(RetirementRequest.status == "pending").count()
+            + db.query(DeletionRequest).filter(DeletionRequest.status == "pending").count()
+        )
+        if pending > 0:
+            welcome_msg += f" You have {pending} pending request{'s' if pending != 1 else ''}."
+    flash(session_id, welcome_msg, "success")
     response = RedirectResponse("/dashboard", status_code=303)
     response.set_cookie(
         "session_id",
