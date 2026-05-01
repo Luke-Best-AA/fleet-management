@@ -7,4 +7,12 @@ document.addEventListener('DOMContentLoaded', function() {
             bsAlert.close();
         }, 5000);
     });
+
+    // Dark mode: follow browser preference
+    function applyTheme(dark) {
+        document.documentElement.setAttribute('data-bs-theme', dark ? 'dark' : 'light');
+    }
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    applyTheme(mq.matches);
+    mq.addEventListener('change', function(e) { applyTheme(e.matches); });
 });

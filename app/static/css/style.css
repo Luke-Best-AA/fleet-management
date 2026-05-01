@@ -91,3 +91,8 @@ th {
     max-height: 300px;
     overflow-y: auto;
 }
+
+/* Dark mode overrides for custom badge colours */
+[data-bs-theme="dark"] .badge-status-pending_retirement { color: #000; }
+[data-bs-theme="dark"] .badge-status-pending { color: #000; }
+[data-bs-theme="dark"] footer { color: rgba(255,255,255,.55) !important; }
