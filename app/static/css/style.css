@@ -2,11 +2,16 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    font-size: 0.9rem;
 }
 
 main {
     flex: 1;
 }
+
+/* Slightly smaller nav text to fit all items */
+.navbar { font-size: 0.85rem; }
+.navbar-brand { font-size: 1rem; }
 
 .table th {
     white-space: nowrap;
