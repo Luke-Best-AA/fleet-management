@@ -43,30 +43,30 @@
             <thead>
                 <tr>
                     <th>Registration</th>
-                    <th class="d-none d-md-table-cell">Fleet Ref</th>
-                    <th class="d-none d-md-table-cell">Type</th>
+                    <th class="d-none d-sm-table-cell">Fleet Ref</th>
+                    <th class="d-none d-sm-table-cell">Type</th>
                     <th>Make/Model</th>
                     <th>Year</th>
-                    <th class="d-none d-md-table-cell">Mileage</th>
+                    <th class="d-none d-sm-table-cell">Mileage</th>
                     <th>Status</th>
-                    <th class="d-none d-lg-table-cell">Location</th>
-                    <th class="d-none d-lg-table-cell">Driver</th>
-                    <th class="d-none d-md-table-cell">Actions</th>
+                    <th class="d-none d-md-table-cell">Location</th>
+                    <th class="d-none d-md-table-cell">Driver</th>
+                    <th class="d-none d-lg-table-cell">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for v in vehicles %}
                 <tr>
                     <td><a href="/vehicles/{{ v.id }}">{{ v.registration_number }}</a></td>
-                    <td class="d-none d-md-table-cell">{{ v.fleet_reference }}</td>
-                    <td class="d-none d-md-table-cell">{{ v.display_type }}</td>
+                    <td class="d-none d-sm-table-cell">{{ v.fleet_reference }}</td>
+                    <td class="d-none d-sm-table-cell">{{ v.display_type }}</td>
                     <td>{{ v.make }} {{ v.model }}</td>
                     <td>{{ v.year }}</td>
-                    <td class="d-none d-md-table-cell">{{ "{:,}".format(v.current_mileage) }}</td>
+                    <td class="d-none d-sm-table-cell">{{ "{:,}".format(v.current_mileage) }}</td>
                     <td><span class="badge badge-status-{{ v.status }}">{{ v.status.replace('_', ' ').title() }}</span></td>
-                    <td class="d-none d-lg-table-cell">{{ v.location.name if v.location else '-' }}</td>
-                    <td class="d-none d-lg-table-cell">{{ v.primary_driver.full_name if v.primary_driver else '-' }}</td>
-                    <td class="d-none d-md-table-cell">
+                    <td class="d-none d-md-table-cell">{{ v.location.name if v.location else '-' }}</td>
+                    <td class="d-none d-md-table-cell">{{ v.primary_driver.full_name if v.primary_driver else '-' }}</td>
+                    <td class="d-none d-lg-table-cell">
                         {% if not v.is_retired and not v.is_deleted %}
                         <div class="btn-group btn-group-sm">
                             {% if user.role == 'admin' %}
