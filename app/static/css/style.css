@@ -26,3 +26,19 @@ main {
 .card .card-title {
     white-space: nowrap;
 }
+
+/* Fix Bootstrap CSS compatibility warnings */
+html {
+    text-size-adjust: 100%;
+}
+
+th {
+    text-align: match-parent;
+    text-align: -webkit-match-parent;
+}
+
+*,
+::before,
+::after {
+    print-color-adjust: exact;
+}
