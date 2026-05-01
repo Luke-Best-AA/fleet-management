@@ -1,31 +1,49 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-dismiss flash messages after 5 seconds
+    // Auto-dismiss flash messages after 5 seconds (pause on hover)
     const alerts = document.querySelectorAll('#flash-messages .alert');
     alerts.forEach(function(alert) {
-        setTimeout(function() {
+        var remaining = 5000;
+        var start = Date.now();
+        var timer = setTimeout(function dismiss() {
             const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
             bsAlert.close();
-        }, 5000);
+        }, remaining);
+
+        alert.addEventListener('mouseenter', function() {
+            clearTimeout(timer);
+            remaining -= (Date.now() - start);
+        });
+        alert.addEventListener('mouseleave', function() {
+            start = Date.now();
+            timer = setTimeout(function() {
+                const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                bsAlert.close();
+            }, remaining);
+        });
     });
 
-    // Theme: localStorage preference > browser preference
+    // Theme management
+    var browserPref = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function getEffectiveTheme() {
+        var stored = localStorage.getItem('theme');
+        if (stored) return stored;
+        return browserPref.matches ? 'dark' : 'light';
+    }
+
     function applyTheme(theme) {
         document.documentElement.setAttribute('data-bs-theme', theme);
-        // Keep any toggle switch in sync
         var toggle = document.getElementById('themeToggle');
         if (toggle) toggle.checked = (theme === 'dark');
     }
 
-    var stored = localStorage.getItem('theme');
-    if (stored) {
-        applyTheme(stored);
-    } else {
-        var mq = window.matchMedia('(prefers-color-scheme: dark)');
-        applyTheme(mq.matches ? 'dark' : 'light');
-        mq.addEventListener('change', function(e) {
-            if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
-        });
-    }
+    // Sync toggle with theme already applied by <head> script
+    applyTheme(getEffectiveTheme());
+
+    // Follow browser changes when no manual override
+    browserPref.addEventListener('change', function() {
+        if (!localStorage.getItem('theme')) applyTheme(getEffectiveTheme());
+    });
 
     // Theme toggle on profile page
     var toggle = document.getElementById('themeToggle');
@@ -43,8 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (resetBtn) {
         resetBtn.addEventListener('click', function() {
             localStorage.removeItem('theme');
-            var mq = window.matchMedia('(prefers-color-scheme: dark)');
-            applyTheme(mq.matches ? 'dark' : 'light');
+            applyTheme(getEffectiveTheme());
             updateBrowserInfo();
         });
     }
@@ -53,9 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateBrowserInfo() {
         var info = document.getElementById('browserThemeInfo');
         if (info) {
-            var browserDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             var stored = localStorage.getItem('theme');
-            var browserLabel = browserDark ? 'dark' : 'light';
+            var browserLabel = browserPref.matches ? 'dark' : 'light';
             if (stored) {
                 info.textContent = 'Using manual override (' + stored + '). Browser default is ' + browserLabel + '.';
             } else {

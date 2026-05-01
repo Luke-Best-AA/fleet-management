@@ -13,7 +13,7 @@
     <div class="col-md-8">
         <div class="card mb-4">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Retirement Request #{{ req.id }}</span>
+                <span><i class="bi bi-clock-history me-1"></i>Retirement Request #{{ req.id }}</span>
                 <span class="badge badge-status-{{ req.status }}">{{ req.status.title() }}</span>
             </div>
             <div class="card-body">
@@ -48,15 +48,15 @@
 
         {% if user.role == 'admin' and req.status == 'pending' %}
         <div class="card">
-            <div class="card-header">Review</div>
+            <div class="card-header"><i class="bi bi-clipboard-check me-1"></i>Review</div>
             <div class="card-body">
                 <form method="POST" action="/requests/retirement/{{ req.id }}/review" novalidate>
                     {{ csrf_field(csrf_token) }}
                     {{ form_field("review_notes", "Review Notes", textarea=true, help_text="Optional notes for this decision") }}
 
                     <div class="d-flex gap-2">
-                        <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
-                        <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                        <button type="submit" name="action" value="approve" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Approve</button>
+                        <button type="submit" name="action" value="reject" class="btn btn-danger"><i class="bi bi-x-lg me-1"></i>Reject</button>
                     </div>
                 </form>
             </div>

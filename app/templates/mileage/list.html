@@ -2,7 +2,7 @@
 {% block title %}Mileage Records - Fleet Management{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Mileage Records</h2>
+    <h2><i class="bi bi-speedometer me-2"></i>Mileage Records</h2>
     <a href="/mileage/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Record</a>
 </div>
 
@@ -46,10 +46,10 @@
                     </td>
                     {% if user.role == 'admin' %}
                     <td class="d-none d-md-table-cell">
-                        <a href="/mileage/{{ rec.id }}/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="/mileage/{{ rec.id }}/edit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
                         <form method="POST" action="/mileage/{{ rec.id }}/delete" class="d-inline">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this record?')">Delete</button>
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this record?')"><i class="bi bi-trash me-1"></i>Delete</button>
                         </form>
                     </td>
                     {% else %}

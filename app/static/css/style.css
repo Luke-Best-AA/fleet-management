@@ -97,6 +97,44 @@ th {
 [data-bs-theme="dark"] .badge-status-pending { color: #000; }
 [data-bs-theme="dark"] footer { color: rgba(255,255,255,.55) !important; }
 
+/* Dark mode: outline buttons → solid for better visibility */
+[data-bs-theme="dark"] .btn-outline-primary {
+    background-color: var(--bs-primary);
+    color: #fff;
+    border-color: var(--bs-primary);
+}
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+[data-bs-theme="dark"] .btn-outline-secondary {
+    background-color: var(--bs-secondary);
+    color: #fff;
+    border-color: var(--bs-secondary);
+}
+[data-bs-theme="dark"] .btn-outline-secondary:hover {
+    background-color: #5c636a;
+    border-color: #565e64;
+}
+[data-bs-theme="dark"] .btn-outline-danger {
+    background-color: var(--bs-danger);
+    color: #fff;
+    border-color: var(--bs-danger);
+}
+[data-bs-theme="dark"] .btn-outline-danger:hover {
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+}
+[data-bs-theme="dark"] .btn-outline-warning {
+    background-color: var(--bs-warning);
+    color: #000;
+    border-color: var(--bs-warning);
+}
+[data-bs-theme="dark"] .btn-outline-warning:hover {
+    background-color: #ffca2c;
+    border-color: #ffc720;
+}
+
 /* Responsive: horizontal scroll for tables inside cards */
 .card-body.p-0 { overflow-x: auto; }
 

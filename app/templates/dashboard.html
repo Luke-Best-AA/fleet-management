@@ -1,43 +1,46 @@
 {% extends "base.html" %}
 {% block title %}Dashboard - Fleet Management{% endblock %}
 {% block content %}
-<h2 class="mb-4">Dashboard</h2>
+<h2 class="mb-4"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
 
 {% if user.role == 'admin' %}
 {# Admin Dashboard #}
 <div class="row g-3 mb-4">
     <div class="col-md-3">
-        <div class="card text-bg-primary">
+        <div class="card text-bg-primary h-100">
             <div class="card-body">
-                <h5 class="card-title">Total Vehicles</h5>
+                <h5 class="card-title"><i class="bi bi-truck me-1"></i>Total Vehicles</h5>
                 <p class="display-6"><a href="/vehicles" class="text-white text-decoration-none">{{ total_vehicles }}</a></p>
+                <small class="opacity-75">Fleet inventory</small>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-bg-success">
+        <div class="card text-bg-success h-100">
             <div class="card-body">
-                <h5 class="card-title">Active / Retired</h5>
+                <h5 class="card-title"><i class="bi bi-check-circle me-1"></i>Active / Retired</h5>
                 <p class="display-6">
                     <a href="/vehicles?status=active" class="text-white text-decoration-none">{{ active_vehicles }}</a>
                     <span class="fs-4 opacity-50">/</span>
                     <a href="/vehicles?status=retired" class="text-white text-decoration-none">{{ retired_vehicles }}</a>
                 </p>
+                <small class="opacity-75">In service / stood down</small>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-bg-info">
+        <div class="card text-bg-info h-100">
             <div class="card-body">
-                <h5 class="card-title">Total Drivers</h5>
+                <h5 class="card-title"><i class="bi bi-people me-1"></i>Total Drivers</h5>
                 <p class="display-6"><a href="/admin/users" class="text-white text-decoration-none">{{ total_drivers }}</a></p>
+                <small class="opacity-75">Registered drivers</small>
             </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card text-bg-warning">
+        <div class="card text-bg-warning h-100">
             <div class="card-body">
-                <h5 class="card-title">Pending Requests</h5>
+                <h5 class="card-title"><i class="bi bi-clipboard-check me-1"></i>Pending Requests</h5>
                 <p class="display-6">
                     <a href="/requests/retirement" class="text-dark text-decoration-none" title="Retirement">{{ pending_retirement }}</a>
                     <span class="fs-4 opacity-50">/</span>
@@ -51,7 +54,7 @@
 
 {% if location_stats %}
 <div class="card mb-4">
-    <div class="card-header">Stats by Location</div>
+    <div class="card-header"><i class="bi bi-geo-alt me-1"></i>Stats by Location</div>
     <div class="card-body p-0 dashboard-scroll">
         <table class="table table-sm table-hover table-sortable mb-0">
             <thead>
@@ -77,8 +80,8 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Recent Mileage Entries</span>
-                <a href="/mileage" class="btn btn-sm btn-outline-primary">View All</a>
+                <span><i class="bi bi-speedometer me-1"></i>Recent Mileage Entries</span>
+                <a href="/mileage" class="btn btn-sm btn-outline-primary"><i class="bi bi-list me-1"></i>View All</a>
             </div>
             <div class="card-body p-0 dashboard-scroll">
                 <table class="table table-sm table-hover table-sortable mb-0">
@@ -101,8 +104,8 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Recent Maintenance</span>
-                <a href="/maintenance" class="btn btn-sm btn-outline-primary">View All</a>
+                <span><i class="bi bi-wrench me-1"></i>Recent Maintenance</span>
+                <a href="/maintenance" class="btn btn-sm btn-outline-primary"><i class="bi bi-list me-1"></i>View All</a>
             </div>
             <div class="card-body p-0 dashboard-scroll">
                 <table class="table table-sm table-hover table-sortable mb-0">
@@ -129,7 +132,7 @@
 <div class="row g-3 mb-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">My Assigned Vehicles</div>
+            <div class="card-header"><i class="bi bi-truck me-1"></i>My Assigned Vehicles</div>
             <div class="card-body p-0">
                 <table class="table table-hover table-sortable mb-0">
                     <thead><tr><th>Registration</th><th>Type</th><th>Make/Model</th><th>Mileage</th><th>Status</th><th>Log</th></tr></thead>
@@ -143,8 +146,8 @@
                         <td><span class="badge badge-status-{{ v.status }}">{{ v.status.replace('_', ' ').title() }}</span></td>
                         <td>
                             {% if v.status == 'active' %}
-                            <a href="/mileage/create?vehicle_id={{ v.id }}" class="btn btn-sm btn-outline-primary">Log Mileage</a>
-                            <a href="/maintenance/create?vehicle_id={{ v.id }}" class="btn btn-sm btn-outline-secondary">Log Maintenance</a>
+                            <a href="/mileage/create?vehicle_id={{ v.id }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-speedometer me-1"></i>Log Mileage</a>
+                            <a href="/maintenance/create?vehicle_id={{ v.id }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-wrench me-1"></i>Log Maintenance</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -161,7 +164,7 @@
 <div class="row g-3">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">My Retirement Requests</div>
+            <div class="card-header"><i class="bi bi-clock-history me-1"></i>My Retirement Requests</div>
             <div class="card-body p-0">
                 <table class="table table-sm table-sortable mb-0">
                     <thead><tr><th>Vehicle</th><th>Status</th><th>Date</th><th></th></tr></thead>
@@ -171,7 +174,7 @@
                         <td>{{ req.vehicle.registration_number }}</td>
                         <td><span class="badge badge-status-{{ req.status }}">{{ req.status.title() }}</span></td>
                         <td>{{ req.requested_at.strftime('%d %b %Y') }}</td>
-                        <td><a href="/requests/retirement/{{ req.id }}" class="btn btn-sm btn-outline-primary">View</a></td>
+                        <td><a href="/requests/retirement/{{ req.id }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i>View</a></td>
                     </tr>
                     {% else %}
                     <tr><td colspan="4" class="text-muted text-center">No requests</td></tr>
@@ -183,7 +186,7 @@
     </div>
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header">My Deletion Requests</div>
+            <div class="card-header"><i class="bi bi-trash me-1"></i>My Deletion Requests</div>
             <div class="card-body p-0">
                 <table class="table table-sm table-sortable mb-0">
                     <thead><tr><th>Type</th><th>Status</th><th>Date</th><th></th></tr></thead>
@@ -193,7 +196,7 @@
                         <td>{{ req.target_type.replace('_', ' ').title() }}</td>
                         <td><span class="badge badge-status-{{ req.status }}">{{ req.status.title() }}</span></td>
                         <td>{{ req.requested_at.strftime('%d %b %Y') }}</td>
-                        <td><a href="/requests/deletion/{{ req.id }}" class="btn btn-sm btn-outline-primary">View</a></td>
+                        <td><a href="/requests/deletion/{{ req.id }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i>View</a></td>
                     </tr>
                     {% else %}
                     <tr><td colspan="4" class="text-muted text-center">No requests</td></tr>
