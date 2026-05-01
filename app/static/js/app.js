@@ -8,11 +8,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
 
-    // Dark mode: follow browser preference
-    function applyTheme(dark) {
-        document.documentElement.setAttribute('data-bs-theme', dark ? 'dark' : 'light');
+    // Theme: localStorage preference > browser preference
+    function applyTheme(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        // Keep any toggle switch in sync
+        var toggle = document.getElementById('themeToggle');
+        if (toggle) toggle.checked = (theme === 'dark');
     }
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    applyTheme(mq.matches);
-    mq.addEventListener('change', function(e) { applyTheme(e.matches); });
+
+    var stored = localStorage.getItem('theme');
+    if (stored) {
+        applyTheme(stored);
+    } else {
+        var mq = window.matchMedia('(prefers-color-scheme: dark)');
+        applyTheme(mq.matches ? 'dark' : 'light');
+        mq.addEventListener('change', function(e) {
+            if (!localStorage.getItem('theme')) applyTheme(e.matches ? 'dark' : 'light');
+        });
+    }
+
+    // Theme toggle on profile page
+    var toggle = document.getElementById('themeToggle');
+    if (toggle) {
+        toggle.addEventListener('change', function() {
+            var theme = this.checked ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            applyTheme(theme);
+        });
+    }
+
+    // Reset-to-browser button
+    var resetBtn = document.getElementById('themeReset');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            localStorage.removeItem('theme');
+            var mq = window.matchMedia('(prefers-color-scheme: dark)');
+            applyTheme(mq.matches ? 'dark' : 'light');
+        });
+    }
 });

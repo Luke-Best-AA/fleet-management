@@ -89,6 +89,16 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
     return response
 
 
+@router.get("/profile")
+async def profile_page(request: Request, db: Session = Depends(get_db)):
+    user = request.state.user
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+
+    profile = user_service.get_user_by_id(db, user["id"])
+    return render(request, "auth/profile.html", {"profile": profile})
+
+
 @router.post("/logout")
 async def logout_post(request: Request):
     session_id = request.state.session_id
