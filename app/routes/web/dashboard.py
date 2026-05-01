@@ -45,6 +45,7 @@ async def dashboard(request: Request, db: Session = Depends(get_db)):
                 User.location_id == loc.id, User.role == "standard", User.is_active == True
             ).count()
             location_stats.append({
+                "id": loc.id,
                 "name": loc.name,
                 "code": loc.code,
                 "vehicles": vehicle_count,

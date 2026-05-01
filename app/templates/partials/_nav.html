@@ -7,8 +7,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            {% if user %}
             {% set path = request.url.path %}
+            {% if user %}
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link{{ ' active' if path == '/dashboard' }}" href="/dashboard"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a>
@@ -68,10 +68,10 @@
             {% else %}
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/auth/login">Login</a>
+                    <a class="nav-link{{ ' active' if path == '/auth/login' }}" href="/auth/login"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/auth/register">Register</a>
+                    <a class="nav-link{{ ' active' if path == '/auth/register' }}" href="/auth/register"><i class="bi bi-person-plus me-1"></i>Register</a>
                 </li>
             </ul>
             {% endif %}
