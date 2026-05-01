@@ -42,7 +42,7 @@
                     <td>
                         {% if rec.is_admin_override %}
                         <span class="badge bg-info" title="{{ rec.override_reason }}">Override</span>
-                        {% endif %}
+                        {% else %}-{% endif %}
                     </td>
                     {% if user.role == 'admin' %}
                     <td>

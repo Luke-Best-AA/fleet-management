@@ -109,7 +109,7 @@
                         <td>{{ "{:,}".format(rec.reading_value) }}</td>
                         <td>{{ rec.recorded_by.username }}</td>
                         <td>{{ rec.recorded_at.strftime('%d %b %Y') }}</td>
-                        <td>{% if rec.is_admin_override %}<span class="badge bg-info">Override</span>{% endif %}</td>
+                        <td>{% if rec.is_admin_override %}<span class="badge bg-info">Override</span>{% else %}-{% endif %}</td>
                     </tr>
                     {% endif %}
                     {% endfor %}
