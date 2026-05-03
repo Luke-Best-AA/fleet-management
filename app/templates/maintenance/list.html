@@ -13,7 +13,7 @@
                 <input type="text" class="form-control form-control-sm" placeholder="Search all fields..." data-filter="search">
             </div>
             <div class="col-md-2">
-                <select class="form-select form-select-sm" data-filter="select" data-col="1" data-auto-populate="true">
+                <select class="form-select form-select-sm" data-filter="select" data-col="1" data-auto-populate="true" id="categoryFilter">
                     <option value="">All Categories</option>
                 </select>
             </div>
@@ -25,39 +25,69 @@
             </div>
         </div>
     </div>
-    <div class="card-body p-0">
+    <div class="card-body p-0" style="overflow: visible;">
         <table id="maintenanceTable" class="table table-hover table-sortable mb-0">
             <thead>
                 <tr>
                     <th>Vehicle</th>
                     <th>Category</th>
                     <th>Date</th>
-                    <th>Mileage</th>
-                    <th>Cost</th>
-                    <th>Logged By</th>
-                    <th class="d-none d-md-table-cell no-sort">Actions</th>
+                    <th class="d-none d-lg-table-cell">Mileage</th>
+                    <th class="d-none d-lg-table-cell">Cost</th>
+                    <th class="d-none d-xl-table-cell">Logged By</th>
+                    <th class="no-sort">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for rec in records %}
                 <tr>
                     <td><a href="/vehicles/{{ rec.vehicle.id }}">{{ rec.vehicle.registration_number }}</a></td>
-                    <td><a href="/maintenance/{{ rec.id }}" class="text-decoration-none">{{ rec.category.name }}</a></td>
+                    <td><a href="#" class="text-decoration-none category-filter-link" data-category="{{ rec.category.name }}" title="Filter by {{ rec.category.name }}">{{ rec.category.name }}</a></td>
                     <td>{{ rec.maintenance_date.strftime('%d %b %Y') }}</td>
-                    <td>{{ "{:,}".format(rec.mileage_at_time) }}</td>
-                    <td>{{ "£{:,.2f}".format(rec.cost) if rec.cost else '-' }}</td>
-                    <td>{{ rec.logged_by.username }}</td>
+                    <td class="d-none d-lg-table-cell">{{ "{:,}".format(rec.mileage_at_time) }}</td>
+                    <td class="d-none d-lg-table-cell">{{ "£{:,.2f}".format(rec.cost) if rec.cost else '-' }}</td>
+                    <td class="d-none d-xl-table-cell">{{ rec.logged_by.username }}</td>
                     {% if user.role == 'admin' %}
-                    <td class="d-none d-md-table-cell">
-                        <a href="/maintenance/{{ rec.id }}/edit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
-                        <form method="POST" action="/maintenance/{{ rec.id }}/delete" class="d-inline">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this record?')"><i class="bi bi-trash me-1"></i>Delete</button>
-                        </form>
+                    <td>
+                        <div class="btn-group btn-group-sm d-none d-md-inline-flex">
+                            <a href="/maintenance/{{ rec.id }}" class="btn btn-outline-primary"><i class="bi bi-eye me-1"></i>View</a>
+                            <a href="/maintenance/{{ rec.id }}/edit" class="btn btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
+                            <form method="POST" action="/maintenance/{{ rec.id }}/delete" class="d-inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Delete this record?')"><i class="bi bi-trash me-1"></i>Delete</button>
+                            </form>
+                        </div>
+                        <div class="dropdown d-md-none">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Actions">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/maintenance/{{ rec.id }}"><i class="bi bi-eye me-2"></i>View</a></li>
+                                <li><a class="dropdown-item" href="/maintenance/{{ rec.id }}/edit"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                                <li>
+                                    <form method="POST" action="/maintenance/{{ rec.id }}/delete">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                                        <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Delete this record?')"><i class="bi bi-trash me-2"></i>Delete</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
                     </td>
                     {% else %}
-                    <td class="d-none d-md-table-cell">
-                        <a href="/requests/deletion/create?target_type=maintenance_record&target_id={{ rec.id }}&return_to=maintenance" class="btn btn-sm btn-outline-warning"><i class="bi bi-trash"></i> Request Delete</a>
+                    <td>
+                        <div class="d-none d-md-inline-flex btn-group btn-group-sm">
+                            <a href="/maintenance/{{ rec.id }}" class="btn btn-outline-primary"><i class="bi bi-eye me-1"></i>View</a>
+                            <a href="/requests/deletion/create?target_type=maintenance_record&target_id={{ rec.id }}&return_to=maintenance" class="btn btn-outline-warning"><i class="bi bi-trash me-1"></i>Request Delete</a>
+                        </div>
+                        <div class="dropdown d-md-none">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Actions">
+                                <i class="bi bi-three-dots"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/maintenance/{{ rec.id }}"><i class="bi bi-eye me-2"></i>View</a></li>
+                                <li><a class="dropdown-item" href="/requests/deletion/create?target_type=maintenance_record&target_id={{ rec.id }}&return_to=maintenance"><i class="bi bi-trash me-2"></i>Request Delete</a></li>
+                            </ul>
+                        </div>
                     </td>
                     {% endif %}
                 </tr>
@@ -68,4 +98,29 @@
         </table>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.category-filter-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var category = this.getAttribute('data-category');
+            var select = document.getElementById('categoryFilter');
+            if (select) {
+                // Find or create the matching option
+                var found = false;
+                Array.from(select.options).forEach(function(opt) {
+                    if (opt.value === category) { found = true; }
+                });
+                if (found) {
+                    select.value = category;
+                } else {
+                    select.value = '';
+                }
+                select.dispatchEvent(new Event('change'));
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

@@ -125,8 +125,8 @@ def review_request(
         record = _get_target_record(db, req.target_type, req.target_id)
         if record:
             record.is_deleted = True
-            # Recalculate vehicle mileage if deleting a mileage record
-            if req.target_type == "mileage_record":
+            # Recalculate vehicle mileage if deleting a mileage or maintenance record
+            if req.target_type in ("mileage_record", "maintenance_record"):
                 vehicle = (
                     db.query(Vehicle)
                     .filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False)

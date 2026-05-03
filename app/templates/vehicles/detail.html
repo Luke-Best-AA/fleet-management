@@ -66,7 +66,18 @@
                     <dt class="col-sm-5">Year</dt>
                     <dd class="col-sm-7">{{ vehicle.year }}</dd>
                     <dt class="col-sm-5">Current Mileage</dt>
-                    <dd class="col-sm-7">{{ "{:,}".format(vehicle.current_mileage) }} mi</dd>
+                    <dd class="col-sm-7">
+                        {% set source = vehicle.mileage_source %}
+                        {% if source %}
+                            {% if source.type == 'mileage_record' %}
+                            <a href="/mileage/{{ source.id }}?return_to=vehicle&return_id={{ vehicle.id }}">{{ "{:,}".format(vehicle.current_mileage) }} mi</a>
+                            {% elif source.type == 'maintenance_record' %}
+                            <a href="/maintenance/{{ source.id }}?return_to=vehicle&return_id={{ vehicle.id }}">{{ "{:,}".format(vehicle.current_mileage) }} mi</a>
+                            {% endif %}
+                        {% else %}
+                            {{ "{:,}".format(vehicle.current_mileage) }} mi
+                        {% endif %}
+                    </dd>
                 </dl>
             </div>
         </div>
@@ -106,7 +117,7 @@
                     {% for rec in vehicle.mileage_records|selectattr("is_deleted", "false")|list|sort(attribute="recorded_at", reverse=true) %}
                     {% if not rec.is_deleted %}
                     <tr>
-                        <td>{{ "{:,}".format(rec.reading_value) }}</td>
+                        <td><a href="/mileage/{{ rec.id }}?return_to=vehicle&return_id={{ vehicle.id }}">{{ "{:,}".format(rec.reading_value) }}</a></td>
                         <td>{{ rec.recorded_by.username }}</td>
                         <td>{{ rec.recorded_at.strftime('%d %b %Y') }}</td>
                         <td>{% if rec.is_admin_override %}<span class="badge bg-info">Override</span>{% else %}-{% endif %}</td>
@@ -136,7 +147,7 @@
                     {% for rec in vehicle.maintenance_records|selectattr("is_deleted", "false")|list|sort(attribute="maintenance_date", reverse=true) %}
                     {% if not rec.is_deleted %}
                     <tr>
-                        <td>{{ rec.category.name }}</td>
+                        <td><a href="/maintenance/{{ rec.id }}?return_to=vehicle&return_id={{ vehicle.id }}">{{ rec.category.name }}</a></td>
                         <td>{{ rec.maintenance_date.strftime('%d %b %Y') }}</td>
                         <td>{{ "£{:,.2f}".format(rec.cost) if rec.cost else '-' }}</td>
                         <td>{{ rec.logged_by.username }}</td>

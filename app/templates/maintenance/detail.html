@@ -48,7 +48,15 @@
                 {% else %}
                 <a href="/requests/deletion/create?target_type=maintenance_record&target_id={{ record.id }}&return_to=maintenance" class="btn btn-sm btn-outline-warning"><i class="bi bi-trash"></i> Request Delete</a>
                 {% endif %}
+                {% if return_to == 'vehicle' and return_id %}
+                <a href="/vehicles/{{ return_id }}" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Vehicle</a>
+                {% elif return_to == 'vehicles' %}
+                <a href="/vehicles" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Vehicles</a>
+                {% elif return_to == 'dashboard' %}
+                <a href="/dashboard" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+                {% else %}
                 <a href="/maintenance" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to List</a>
+                {% endif %}
             </div>
         </div>
     </div>

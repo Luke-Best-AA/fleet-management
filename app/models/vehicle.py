@@ -82,5 +82,21 @@ class Vehicle(Base, TimestampMixin, SoftDeleteMixin):
     def display_type(self) -> str:
         return self.vehicle_type.replace("_", " ").title()
 
+    @property
+    def mileage_source(self) -> dict | None:
+        """Return the record that set current_mileage, computed from relationships."""
+        if self.current_mileage == 0:
+            return None
+        best = None
+        for rec in self.mileage_records:
+            if not rec.is_deleted and rec.reading_value == self.current_mileage:
+                if best is None or rec.reading_value > best["value"]:
+                    best = {"type": "mileage_record", "id": rec.id, "value": rec.reading_value}
+        for rec in self.maintenance_records:
+            if not rec.is_deleted and rec.mileage_at_time == self.current_mileage:
+                if best is None or rec.mileage_at_time > best["value"]:
+                    best = {"type": "maintenance_record", "id": rec.id, "value": rec.mileage_at_time}
+        return best
+
     def __repr__(self) -> str:
         return f"<Vehicle {self.registration_number} ({self.status})>"

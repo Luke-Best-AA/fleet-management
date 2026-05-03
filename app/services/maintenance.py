@@ -11,6 +11,7 @@ from app.exceptions import (
 )
 from app.models.maintenance import MaintenanceCategory, MaintenanceRecord
 from app.models.vehicle import Vehicle
+from app.services.mileage import _recalculate_vehicle_mileage
 
 
 # --- Categories ---
@@ -163,6 +164,13 @@ def create_record(
         cost=cost,
     )
     db.add(record)
+    db.flush()
+
+    if mileage_at_time > vehicle.current_mileage:
+        vehicle.current_mileage = mileage_at_time
+        vehicle.mileage_source_type = "maintenance_record"
+        vehicle.mileage_source_id = record.id
+
     db.commit()
     db.refresh(record)
     return record
@@ -198,6 +206,8 @@ def update_record(
     record.mileage_at_time = mileage_at_time
     record.notes = notes.strip() or None
     record.cost = cost
+
+    _recalculate_vehicle_mileage(db, vehicle)
     db.commit()
     db.refresh(record)
     return record
@@ -206,4 +216,14 @@ def update_record(
 def soft_delete_record(db: Session, record_id: int) -> None:
     record = get_record_by_id(db, record_id)
     record.is_deleted = True
+
+    vehicle = (
+        db.query(Vehicle)
+        .filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False)
+        .first()
+    )
+    if vehicle:
+        db.flush()
+        _recalculate_vehicle_mileage(db, vehicle)
+
     db.commit()

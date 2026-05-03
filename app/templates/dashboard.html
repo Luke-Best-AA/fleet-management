@@ -90,7 +90,7 @@
                     {% for rec in recent_mileage %}
                     <tr>
                     <td><a href="/vehicles/{{ rec.vehicle.id }}">{{ rec.vehicle.registration_number }}</a></td>
-                        <td>{{ "{:,}".format(rec.reading_value) }} mi</td>
+                        <td><a href="/mileage/{{ rec.id }}?return_to=dashboard" class="text-decoration-none">{{ "{:,}".format(rec.reading_value) }} mi</a></td>
                         <td>{{ rec.recorded_at.strftime('%d %b %Y') }}</td>
                     </tr>
                     {% else %}

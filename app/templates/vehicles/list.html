@@ -62,7 +62,18 @@
                     <td class="d-none d-sm-table-cell">{{ v.display_type }}</td>
                     <td>{{ v.make }} {{ v.model }}</td>
                     <td>{{ v.year }}</td>
-                    <td class="d-none d-sm-table-cell">{{ "{:,}".format(v.current_mileage) }}</td>
+                    <td class="d-none d-sm-table-cell">
+                        {% set source = v.mileage_source %}
+                        {% if source %}
+                            {% if source.type == 'mileage_record' %}
+                            <a href="/mileage/{{ source.id }}?return_to=vehicles">{{ "{:,}".format(v.current_mileage) }}</a>
+                            {% elif source.type == 'maintenance_record' %}
+                            <a href="/maintenance/{{ source.id }}?return_to=vehicles">{{ "{:,}".format(v.current_mileage) }}</a>
+                            {% endif %}
+                        {% else %}
+                            {{ "{:,}".format(v.current_mileage) }}
+                        {% endif %}
+                    </td>
                     <td><span class="badge badge-status-{{ v.status }}">{{ v.status.replace('_', ' ').title() }}</span></td>
                     <td class="d-none d-md-table-cell">{{ v.location.name if v.location else '-' }}</td>
                     <td class="d-none d-md-table-cell">{{ v.primary_driver.full_name if v.primary_driver else '-' }}</td>

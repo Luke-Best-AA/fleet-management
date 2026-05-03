@@ -2,6 +2,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.exceptions import AuthorisationError, BusinessRuleError, NotFoundError
+from app.models.maintenance import MaintenanceRecord
 from app.models.mileage import MileageRecord
 from app.models.vehicle import Vehicle
 
@@ -153,7 +154,7 @@ def soft_delete_record(db: Session, record_id: int) -> None:
 
 
 def _recalculate_vehicle_mileage(db: Session, vehicle: Vehicle) -> None:
-    max_reading = (
+    max_mileage = (
         db.query(func.max(MileageRecord.reading_value))
         .filter(
             MileageRecord.vehicle_id == vehicle.id,
@@ -161,5 +162,15 @@ def _recalculate_vehicle_mileage(db: Session, vehicle: Vehicle) -> None:
         )
         .scalar()
     )
-    if max_reading is not None:
-        vehicle.current_mileage = max_reading
+    max_maintenance = (
+        db.query(func.max(MaintenanceRecord.mileage_at_time))
+        .filter(
+            MaintenanceRecord.vehicle_id == vehicle.id,
+            MaintenanceRecord.is_deleted == False,
+        )
+        .scalar()
+    )
+
+    candidates = [v for v in (max_mileage, max_maintenance) if v is not None]
+    if candidates:
+        vehicle.current_mileage = max(candidates)

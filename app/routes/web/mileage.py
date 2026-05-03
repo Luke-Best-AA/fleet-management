@@ -126,7 +126,11 @@ async def mileage_detail_page(request: Request, record_id: int, db: Session = De
     except AppError:
         return render(request, "errors/404.html", status_code=404)
 
-    return render(request, "mileage/detail.html", {"record": record})
+    return_to = request.query_params.get("return_to", "")
+    return_id = request.query_params.get("return_id", "")
+    return render(request, "mileage/detail.html", {
+        "record": record, "return_to": return_to, "return_id": return_id,
+    })
 
 
 @router.get("/{record_id}/edit")
