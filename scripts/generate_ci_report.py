@@ -283,7 +283,7 @@ def generate_html() -> str:
 """
 
     # --- Ruff Lint ---
-    ruff_link = '<a class="detail-link" href="ruff-detail.html" target="_blank">View Full Report &rarr;</a>'
+    ruff_link = '<a class="detail-link" href="ruff-detail.html">View Full Report &rarr;</a>'
     html += f"""
 <div class="section">
   <h2>Ruff Lint {_status_badge(ruff["status"])} {ruff_link}</h2>"""
@@ -315,7 +315,7 @@ def generate_html() -> str:
 """
 
     # --- Bandit ---
-    bandit_link = '<a class="detail-link" href="bandit-detail.html" target="_blank">View Full Report &rarr;</a>'
+    bandit_link = '<a class="detail-link" href="bandit-detail.html">View Full Report &rarr;</a>'
     html += f"""
 <div class="section">
   <h2>Bandit Security Scan {_status_badge(bandit["status"])} {bandit_link}</h2>
@@ -341,7 +341,7 @@ def generate_html() -> str:
     html += "\n</div>\n"
 
     # --- pip-audit ---
-    pip_link = '<a class="detail-link" href="pip-audit-detail.html" target="_blank">View Full Report &rarr;</a>'
+    pip_link = '<a class="detail-link" href="pip-audit-detail.html">View Full Report &rarr;</a>'
     html += f"""
 <div class="section">
   <h2>pip-audit Dependency Scan {_status_badge(pip_audit["status"])} {pip_link}</h2>
@@ -401,7 +401,7 @@ def generate_html() -> str:
         '<a class="detail-link" href="zap-report.html"'
         ' target="_blank">Full HTML Report &rarr;</a> '
         '<a class="detail-link" href="zap-detail.html"'
-        ' target="_blank">JSON &rarr;</a>'
+        ">JSON &rarr;</a>"
     )
     html += f"""
 <div class="section">
@@ -428,9 +428,9 @@ def generate_html() -> str:
     return html
 
 
-def _json_viewer_html(title: str, json_data) -> str:
-    """Generate a standalone HTML page that displays JSON data nicely."""
-    json_str = json.dumps(json_data, indent=2, default=str) if json_data else "{}"
+def _detail_page(title: str, html_content: str, json_data) -> str:
+    """Generate a detail page with HTML view and JSON toggle."""
+    json_str = json.dumps(json_data, indent=2, default=str)
     escaped_json = _esc(json_str)
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -439,44 +439,306 @@ def _json_viewer_html(title: str, json_data) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{_esc(title)} — CI Detail Report</title>
 <style>
-  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-         background: #1e1e1e; color: #d4d4d4; padding: 2rem; margin: 0; }}
-  h1 {{ color: #fff; margin-bottom: 0.5rem; font-size: 1.4rem; }}
-  .back {{ color: #58a6ff; text-decoration: none; display: inline-block; margin-bottom: 1rem; }}
+  :root {{ --bg: #f8f9fa; --card: #fff; --border: #dee2e6;
+           --text: #212529; --muted: #6c757d; }}
+  * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, sans-serif; background: var(--bg); color: var(--text);
+          line-height: 1.6; padding: 2rem; }}
+  .container {{ max-width: 960px; margin: 0 auto; }}
+  .back {{ color: #0969da; text-decoration: none; }}
   .back:hover {{ text-decoration: underline; }}
-  pre {{ background: #252526; border: 1px solid #3c3c3c; border-radius: 8px;
-         padding: 1.5rem; overflow-x: auto; font-size: 0.85em; line-height: 1.5;
-         white-space: pre-wrap; word-break: break-word; }}
+  h1 {{ margin: 0.5rem 0 1rem; font-size: 1.4rem; }}
+  .toggle {{ display: flex; gap: 0; margin-bottom: 1.5rem; }}
+  .toggle button {{ padding: 0.4rem 1.2rem; border: 1px solid var(--border);
+                    background: var(--card); cursor: pointer;
+                    font-size: 0.9em; color: var(--muted); }}
+  .toggle button:first-child {{ border-radius: 6px 0 0 6px; }}
+  .toggle button:last-child {{ border-radius: 0 6px 6px 0;
+                               border-left: none; }}
+  .toggle button.active {{ background: #0969da; color: #fff;
+                           border-color: #0969da; }}
+  #html-view {{ }}
+  #json-view {{ display: none; }}
+  table {{ width: 100%; border-collapse: collapse; font-size: 0.9em; }}
+  th, td {{ text-align: left; padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border); }}
+  th {{ background: var(--bg); font-weight: 600; }}
+  .card {{ background: var(--card); border: 1px solid var(--border);
+           border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }}
+  .stat {{ font-size: 2rem; font-weight: 700; }}
+  .stat-label {{ font-size: 0.8em; color: var(--muted);
+                 text-transform: uppercase; }}
+  .stats {{ display: flex; gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 1.5rem; }}
+  .stats .card {{ flex: 1; min-width: 100px; text-align: center; }}
+  .empty {{ color: var(--muted); font-style: italic; }}
+  .severity-high {{ color: #dc3545; font-weight: 600; }}
+  .severity-medium {{ color: #fd7e14; font-weight: 600; }}
+  .severity-low {{ color: #ffc107; font-weight: 600; }}
+  a.rule-link {{ color: #0969da; text-decoration: none; }}
+  a.rule-link:hover {{ text-decoration: underline; }}
+  pre {{ background: #1e1e1e; color: #d4d4d4; border-radius: 8px;
+         padding: 1.5rem; overflow-x: auto; font-size: 0.85em;
+         line-height: 1.5; white-space: pre-wrap;
+         word-break: break-word; }}
   .key {{ color: #9cdcfe; }}
   .string {{ color: #ce9178; }}
   .number {{ color: #b5cea8; }}
-  .boolean {{ color: #569cd6; }}
-  .null {{ color: #569cd6; }}
+  .bool {{ color: #569cd6; }}
 </style>
 </head>
 <body>
+<div class="container">
 <a class="back" href="ci-report.html">&larr; Back to CI Report</a>
 <h1>{_esc(title)}</h1>
-<pre id="json">{escaped_json}</pre>
+<div class="toggle">
+  <button class="active" onclick="show('html')">Report</button>
+  <button onclick="show('json')">JSON</button>
+</div>
+<div id="html-view">
+{html_content}
+</div>
+<div id="json-view">
+<pre id="json-pre">{escaped_json}</pre>
+</div>
+</div>
 <script>
+function show(view) {{
+  document.getElementById('html-view').style.display =
+    view === 'html' ? '' : 'none';
+  document.getElementById('json-view').style.display =
+    view === 'json' ? '' : 'none';
+  document.querySelectorAll('.toggle button').forEach(
+    function(b) {{ b.classList.remove('active'); }});
+  event.target.classList.add('active');
+}}
 (function() {{
-  const el = document.getElementById('json');
-  const raw = el.textContent;
+  var el = document.getElementById('json-pre');
+  var raw = el.textContent;
   try {{
-    const obj = JSON.parse(raw);
-    const highlighted = JSON.stringify(obj, null, 2)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"([^"]+)"(?=\\s*:)/g, '<span class="key">"$1"</span>')
-      .replace(/:\\s*"([^"]*)"/g, ': <span class="string">"$1"</span>')
-      .replace(/:\\s*(\\d+\\.?\\d*)/g, ': <span class="number">$1</span>')
-      .replace(/:\\s*(true|false)/g, ': <span class="boolean">$1</span>')
-      .replace(/:\\s*(null)/g, ': <span class="null">$1</span>');
-    el.innerHTML = highlighted;
+    var obj = JSON.parse(raw);
+    var h = JSON.stringify(obj, null, 2)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"([^"]+)"(?=\\s*:)/g,
+        '<span class="key">"$1"</span>')
+      .replace(/:\\s*"([^"]*)"/g,
+        ': <span class="string">"$1"</span>')
+      .replace(/:\\s*(\\d+\\.?\\d*)/g,
+        ': <span class="number">$1</span>')
+      .replace(/:\\s*(true|false)/g,
+        ': <span class="bool">$1</span>')
+      .replace(/:\\s*(null)/g,
+        ': <span class="bool">$1</span>');
+    el.innerHTML = h;
   }} catch(e) {{}}
 }})();
 </script>
 </body>
 </html>"""
+
+
+def _render_ruff_html(data: list | None) -> str:
+    """Build HTML content for ruff report."""
+    if not data:
+        return '<p class="empty">No lint issues found.</p>'
+    html = f"""<div class="stats">
+  <div class="card">
+    <div class="stat">{len(data)}</div>
+    <div class="stat-label">Issues</div>
+  </div>
+</div>
+<table>
+<tr><th>File</th><th>Line</th><th>Rule</th><th>Message</th></tr>"""
+    for item in data:
+        f = _esc(item.get("filename", ""))
+        row = item.get("location", {}).get("row", "")
+        code = item.get("code", "")
+        url = item.get("url", "")
+        msg = _esc(item.get("message", ""))
+        if url:
+            code_cell = f'<a class="rule-link" href="{_esc(url)}" target="_blank">{_esc(code)}</a>'
+        else:
+            code_cell = _esc(code)
+        html += f"\n<tr><td>{f}</td><td>{row}</td><td>{code_cell}</td><td>{msg}</td></tr>"
+    html += "\n</table>"
+    return html
+
+
+def _render_bandit_html(data: dict | None) -> str:
+    """Build HTML content for bandit report."""
+    if not data:
+        return '<p class="empty">No data available.</p>'
+    results = data.get("results", [])
+    metrics = data.get("metrics", {}).get("_totals", {})
+    loc = metrics.get("loc", 0)
+    high = metrics.get("SEVERITY.HIGH", 0)
+    medium = metrics.get("SEVERITY.MEDIUM", 0)
+    low = metrics.get("SEVERITY.LOW", 0)
+    nosec = metrics.get("nosec", 0)
+    generated = data.get("generated_at", "")
+
+    html = f"""<div class="stats">
+  <div class="card">
+    <div class="stat">{loc:,}</div>
+    <div class="stat-label">Lines of Code</div>
+  </div>
+  <div class="card">
+    <div class="stat">{len(results)}</div>
+    <div class="stat-label">Issues Found</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-high">{high}</div>
+    <div class="stat-label">High Severity</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-medium">{medium}</div>
+    <div class="stat-label">Medium Severity</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-low">{low}</div>
+    <div class="stat-label">Low Severity</div>
+  </div>
+</div>"""
+    if generated:
+        html += f'<p style="color:var(--muted);font-size:0.85em;">Scanned at {_esc(generated)}</p>'
+    if nosec:
+        html += f'<p style="color:var(--muted);font-size:0.85em;">{nosec} nosec suppression(s)</p>'
+
+    if results:
+        html += """
+<table>
+<tr><th>File</th><th>Line</th><th>Severity</th><th>Confidence</th><th>Test ID</th><th>Issue</th></tr>"""
+        for r in results:
+            sev = r.get("issue_severity", "")
+            sev_cls = f"severity-{sev.lower()}" if sev else ""
+            html += (
+                f"\n<tr><td>{_esc(r.get('filename', ''))}</td>"
+                f"<td>{r.get('line_number', '')}</td>"
+                f'<td class="{sev_cls}">{_esc(sev)}</td>'
+                f"<td>{_esc(r.get('issue_confidence', ''))}</td>"
+                f"<td>{_esc(r.get('test_id', ''))}</td>"
+                f"<td>{_esc(r.get('issue_text', ''))}</td></tr>"
+            )
+        html += "\n</table>"
+    else:
+        html += '\n<p class="empty">No security issues found.</p>'
+    return html
+
+
+def _render_pip_audit_html(data: dict | list | None) -> str:
+    """Build HTML content for pip-audit report."""
+    if data is None:
+        return '<p class="empty">No data available.</p>'
+    deps = data if isinstance(data, list) else data.get("dependencies", [])
+    total_vulns = sum(len(d.get("vulns", [])) for d in deps)
+
+    html = f"""<div class="stats">
+  <div class="card">
+    <div class="stat">{len(deps)}</div>
+    <div class="stat-label">Packages Scanned</div>
+  </div>
+  <div class="card">
+    <div class="stat{" severity-high" if total_vulns else ""}">{total_vulns}</div>
+    <div class="stat-label">Vulnerabilities</div>
+  </div>
+</div>"""
+
+    if total_vulns:
+        html += """
+<table>
+<tr><th>Package</th><th>Version</th><th>Vulnerability</th><th>Fix Versions</th><th>Description</th></tr>"""
+        for dep in deps:
+            for v in dep.get("vulns", []):
+                fix = ", ".join(v.get("fix_versions", [])) or "—"
+                desc = _esc(v.get("description", "")[:200])
+                html += (
+                    f"\n<tr><td>{_esc(dep.get('name', ''))}</td>"
+                    f"<td>{_esc(dep.get('version', ''))}</td>"
+                    f"<td>{_esc(v.get('id', ''))}</td>"
+                    f"<td>{_esc(fix)}</td>"
+                    f"<td>{desc}</td></tr>"
+                )
+        html += "\n</table>"
+    else:
+        html += '\n<p class="empty">No known vulnerabilities found.</p>'
+    return html
+
+
+def _render_zap_html(data: dict | None) -> str:
+    """Build HTML content for ZAP report."""
+    if not data:
+        return '<p class="empty">No data available.</p>'
+    sites = data.get("site", [])
+    if isinstance(sites, dict):
+        sites = [sites]
+    alerts = []
+    for site in sites:
+        for alert in site.get("alerts", []):
+            alerts.append(alert)
+
+    high = sum(1 for a in alerts if a.get("riskdesc", "").lower().startswith("high"))
+    medium = sum(1 for a in alerts if a.get("riskdesc", "").lower().startswith("medium"))
+    low = sum(1 for a in alerts if a.get("riskdesc", "").lower().startswith("low"))
+    info = sum(1 for a in alerts if a.get("riskdesc", "").lower().startswith("info"))
+
+    html = f"""<div class="stats">
+  <div class="card">
+    <div class="stat">{len(alerts)}</div>
+    <div class="stat-label">Total Alerts</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-high">{high}</div>
+    <div class="stat-label">High</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-medium">{medium}</div>
+    <div class="stat-label">Medium</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-low">{low}</div>
+    <div class="stat-label">Low</div>
+  </div>
+  <div class="card">
+    <div class="stat">{info}</div>
+    <div class="stat-label">Informational</div>
+  </div>
+</div>"""
+
+    if alerts:
+        html += """
+<table>
+<tr><th>Alert</th><th>Risk</th><th>Confidence</th><th>Instances</th><th>Description</th></tr>"""
+        for a in alerts:
+            risk = a.get("riskdesc", "")
+            risk_word = risk.split()[0].lower() if risk else ""
+            risk_cls = ""
+            if risk_word == "high":
+                risk_cls = "severity-high"
+            elif risk_word == "medium":
+                risk_cls = "severity-medium"
+            elif risk_word == "low":
+                risk_cls = "severity-low"
+            desc = _esc(a.get("desc", "").replace("<p>", "").replace("</p>", " ")[:150])
+            html += (
+                f"\n<tr><td>{_esc(a.get('name', ''))}</td>"
+                f'<td class="{risk_cls}">{_esc(risk)}</td>'
+                f"<td>{_esc(a.get('confidence', ''))}</td>"
+                f"<td>{a.get('count', '')}</td>"
+                f"<td>{desc}</td></tr>"
+            )
+        html += "\n</table>"
+    else:
+        html += '\n<p class="empty">No alerts raised.</p>'
+
+    html += (
+        '\n<p style="margin-top:1rem;">'
+        '<a class="rule-link" href="zap-report.html" '
+        'target="_blank">View full ZAP HTML report &rarr;</a></p>'
+    )
+    return html
 
 
 def generate_detail_pages():
@@ -485,19 +747,45 @@ def generate_detail_pages():
 
     detail_dir = REPORTS_DIR
 
-    # JSON-based detail pages
-    json_reports = [
-        ("ruff.json", "Ruff Lint Report", "ruff-detail.html"),
-        ("bandit.json", "Bandit Security Report", "bandit-detail.html"),
-        ("pip-audit.json", "pip-audit Vulnerability Report", "pip-audit-detail.html"),
-        ("zap.json", "OWASP ZAP Scan Report", "zap-detail.html"),
-    ]
-    for filename, title, output_name in json_reports:
-        data = _load_json(filename)
-        if data is not None:
-            page = _json_viewer_html(title, data)
-            (detail_dir / output_name).write_text(page)
-            print(f"  Detail page: {output_name}")
+    # Ruff
+    ruff_data = _load_json("ruff.json")
+    if ruff_data is not None:
+        page = _detail_page("Ruff Lint Report", _render_ruff_html(ruff_data), ruff_data)
+        (detail_dir / "ruff-detail.html").write_text(page)
+        print("  Detail page: ruff-detail.html")
+
+    # Bandit
+    bandit_data = _load_json("bandit.json")
+    if bandit_data is not None:
+        page = _detail_page(
+            "Bandit Security Report",
+            _render_bandit_html(bandit_data),
+            bandit_data,
+        )
+        (detail_dir / "bandit-detail.html").write_text(page)
+        print("  Detail page: bandit-detail.html")
+
+    # pip-audit
+    pip_data = _load_json("pip-audit.json")
+    if pip_data is not None:
+        page = _detail_page(
+            "pip-audit Vulnerability Report",
+            _render_pip_audit_html(pip_data),
+            pip_data,
+        )
+        (detail_dir / "pip-audit-detail.html").write_text(page)
+        print("  Detail page: pip-audit-detail.html")
+
+    # ZAP
+    zap_data = _load_json("zap.json")
+    if zap_data is not None:
+        page = _detail_page(
+            "OWASP ZAP Scan Report",
+            _render_zap_html(zap_data),
+            zap_data,
+        )
+        (detail_dir / "zap-detail.html").write_text(page)
+        print("  Detail page: zap-detail.html")
 
     # Copy ZAP HTML report if it exists (produced by ZAP action)
     zap_html_src = Path("report_html.html")
