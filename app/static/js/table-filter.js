@@ -211,6 +211,18 @@
 
             if (hasParams) applyFilters(container);
 
+            // Clean filter params from URL bar after applying them
+            if (hasParams && window.location.search) {
+                var cleanUrl = new URL(window.location.href);
+                // Keep only 'page' param if present, strip all filter hints
+                var keepParams = new URLSearchParams();
+                if (cleanUrl.searchParams.has('page')) {
+                    keepParams.set('page', cleanUrl.searchParams.get('page'));
+                }
+                var newUrl = cleanUrl.pathname + (keepParams.toString() ? '?' + keepParams.toString() : '');
+                history.replaceState(null, '', newUrl);
+            }
+
             // Clear filters button
             var clearBtn = document.createElement('button');
             clearBtn.type = 'button';

@@ -1,4 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Clean navigation-only params from URL bar (keep filter params visible)
+    (function() {
+        var url = new URL(location.href);
+        var dirty = false;
+        ['return_to', 'return_id'].forEach(function(p) {
+            if (url.searchParams.has(p)) { url.searchParams.delete(p); dirty = true; }
+        });
+        if (dirty) history.replaceState(null, '', url.toString());
+    })();
+
     // Auto-dismiss flash messages after 5 seconds (pause while hovering)
     var flashContainer = document.getElementById('flash-messages');
     if (flashContainer) {
