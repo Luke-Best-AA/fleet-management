@@ -19,3 +19,4 @@ bandit
 pip-audit
 pytest-playwright
 playwright
+pre-commit

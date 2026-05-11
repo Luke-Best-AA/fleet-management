@@ -31,7 +31,7 @@ def app_server():
         "SECURE_COOKIES": "false",
     }
 
-    proc = subprocess.Popen(
+    proc = subprocess.Popen(  # noqa: S603
         [
             sys.executable,
             "-m",
