@@ -292,7 +292,7 @@ The application will be available at `http://localhost:8000`.
 |---|---|---|
 | `DATABASE_URL` | PostgreSQL connection string | `postgresql://localhost/fleet_management` |
 | `REDIS_URL` | Redis connection string | `redis://localhost:6379/0` |
-| `SECRET_KEY` | CSRF token signing and session security | `change-me-in-production` |
+| `SECRET_KEY` | CSRF token HMAC signing key | `change-me-in-production` |
 | `SESSION_LIFETIME_SECONDS` | Session TTL in seconds | `3600` |
 | `MAX_LOGIN_ATTEMPTS` | Failed logins before lockout | `5` |
 | `LOCKOUT_DURATION_SECONDS` | Lockout cooldown period | `900` |
@@ -350,11 +350,12 @@ The test suite contains **17 test files** covering:
 
 | OWASP Risk | Attack Example | Protection Implemented |
 |---|---|---|
-| **A03: Injection** | SQL injection via search/login forms | SQLAlchemy ORM with parameterised queries; Pydantic input validation |
-| **A01: Broken Access Control** | Standard user accessing `/admin/*` routes | Role checks enforced at route level; direct URL access blocked |
-| **A07: Cross-Site Scripting (XSS)** | Script tag entered into form fields | Jinja2 auto-escaping enabled by default; input sanitisation |
-| **A05: Security Misconfiguration** | CSRF forged form submission | HMAC-signed CSRF tokens on all state-changing forms with time-based expiry |
-| **A07: Identification and Authentication Failures** | Brute-force password guessing | bcrypt password hashing; account lockout after 5 failed attempts; 15-minute cooldown |
+| **A01:2025 — Broken Access Control** | Standard user accessing `/admin/*` routes | Role checks enforced at route level; direct URL access blocked |
+| **A02:2025 — Security Misconfiguration** | CSRF forged form submission | HMAC-signed CSRF tokens on all state-changing forms with time-based expiry |
+| **A05:2025 — Injection** | SQL injection via search/login forms | SQLAlchemy ORM with parameterised queries; Pydantic input validation; Jinja2 auto-escaping prevents XSS |
+| **A07:2025 — Authentication Failures** | Brute-force password guessing | bcrypt password hashing; account lockout after 5 failed attempts; 15-minute cooldown |
+| **A09:2025 — Security Logging and Alerting Failures** | Undetected unauthorised activity | Audit log records all admin actions; page visit tracking for usage analytics |
+| **A10:2025 — Mishandling of Exceptional Conditions** | Unhandled error leaking stack trace | Custom 404/500 error pages; field-level validation errors; graceful database constraint handling |
 | **Session hijacking** | Stolen session cookie reuse | Redis-backed sessions; client fingerprinting (IP + User-Agent); HttpOnly + Secure + SameSite=Strict cookies; single session per user |
 | **Session fixation** | Attacker sets session ID | Server-generated UUIDs only; previous sessions invalidated on login |
 
@@ -528,7 +529,7 @@ On each push to main:
 - [SQLAlchemy 2.0 Documentation](https://docs.sqlalchemy.org/en/20/)
 - [Pydantic v2 Documentation](https://docs.pydantic.dev/latest/)
 - [Bootstrap 5 Documentation](https://getbootstrap.com/docs/5.3/)
-- [OWASP Top 10 (2021)](https://owasp.org/www-project-top-ten/)
+- [OWASP Top 10 (2025)](https://owasp.org/Top10/)
 - [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
 - [OWASP CSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
 - [Redis Documentation](https://redis.io/docs/)
