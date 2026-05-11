@@ -192,6 +192,38 @@ def _parse_zap(data: dict | None) -> dict:
     }
 
 
+def _parse_lighthouse(data: dict | None) -> dict:
+    if data is None:
+        return {"status": "skipped", "scores": {}, "audits": []}
+    categories = data.get("categories", {})
+    scores = {}
+    for key, cat in categories.items():
+        scores[cat.get("title", key)] = round((cat.get("score", 0) or 0) * 100)
+
+    # Gather failed audits
+    audits_data = data.get("audits", {})
+    failed_audits = []
+    for audit_id, audit in audits_data.items():
+        score = audit.get("score")
+        if score is not None and score < 1 and audit.get("scoreDisplayMode") != "informative":
+            failed_audits.append(
+                {
+                    "id": audit_id,
+                    "title": audit.get("title", ""),
+                    "score": round((score or 0) * 100),
+                    "description": audit.get("description", "")[:200],
+                }
+            )
+    failed_audits.sort(key=lambda a: a["score"])
+
+    all_pass = all(s >= 90 for s in scores.values()) if scores else False
+    return {
+        "status": "pass" if all_pass else ("fail" if scores else "skipped"),
+        "scores": scores,
+        "audits": failed_audits[:20],
+    }
+
+
 def _status_badge(status: str) -> str:
     colours = {
         "pass": "#28a745",
@@ -218,6 +250,7 @@ def generate_html() -> str:
     tests = _parse_pytest_xml("pytest.xml")
     e2e = _parse_pytest_xml("e2e.xml")
     zap = _parse_zap(_load_json("zap.json"))
+    lighthouse = _parse_lighthouse(_load_json("lighthouse.json"))
 
     now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
 
@@ -229,6 +262,7 @@ def generate_html() -> str:
         "Unit Tests": tests["status"],
         "E2E Tests": e2e["status"],
         "OWASP ZAP": zap["status"],
+        "Lighthouse": lighthouse["status"],
     }
     overall = "pass" if all(s == "pass" for s in sections.values()) else "fail"
 
@@ -417,6 +451,25 @@ def generate_html() -> str:
         html += "\n  </table>"
     else:
         html += '\n  <p class="empty">No alerts raised.</p>'
+    html += "\n</div>\n"
+
+    # --- Lighthouse ---
+    lh_link = '<a class="detail-link" href="lighthouse-detail.html">View Full Report &rarr;</a>'
+    html += f"""
+<div class="section">
+  <h2>Lighthouse Audit {_status_badge(lighthouse["status"])} {lh_link}</h2>"""
+    if lighthouse["scores"]:
+        html += '\n  <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.5rem;">'
+        for category, score in lighthouse["scores"].items():
+            color = "#28a745" if score >= 90 else "#fd7e14" if score >= 50 else "#dc3545"
+            html += (
+                f'\n  <div style="text-align:center;">'
+                f'<div style="font-size:1.8rem;font-weight:700;color:{color}">{score}</div>'
+                f'<div style="font-size:0.8em;color:var(--muted)">{_esc(category)}</div></div>'
+            )
+        html += "\n  </div>"
+    else:
+        html += '\n  <p class="empty">No Lighthouse data available.</p>'
     html += "\n</div>\n"
 
     html += """
@@ -739,6 +792,53 @@ def _render_zap_html(data: dict | None) -> str:
     return html
 
 
+def _render_lighthouse_html(data: dict | None) -> str:
+    """Build HTML content for Lighthouse report."""
+    if not data:
+        return '<p class="empty">No data available.</p>'
+    categories = data.get("categories", {})
+    audits_data = data.get("audits", {})
+
+    # Score circles
+    html = '<div class="stats">'
+    for _key, cat in categories.items():
+        score = round((cat.get("score", 0) or 0) * 100)
+        color = "#28a745" if score >= 90 else "#fd7e14" if score >= 50 else "#dc3545"
+        title = _esc(cat.get("title", _key))
+        html += f"""
+  <div class="card" style="text-align:center;">
+    <div class="stat" style="color:{color}">{score}</div>
+    <div class="stat-label">{title}</div>
+  </div>"""
+    html += "\n</div>"
+
+    # Failed audits table
+    failed = []
+    for audit_id, audit in audits_data.items():
+        score = audit.get("score")
+        if score is not None and score < 1 and audit.get("scoreDisplayMode") != "informative":
+            failed.append((audit_id, audit))
+    failed.sort(key=lambda x: x[1].get("score") or 0)
+
+    if failed:
+        html += f"""
+<h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;">Opportunities &amp; Diagnostics ({len(failed)} items)</h3>
+<table>
+<tr><th>Audit</th><th>Score</th><th>Description</th></tr>"""
+        for audit_id, audit in failed[:30]:
+            s = round((audit.get("score") or 0) * 100)
+            color = "#28a745" if s >= 90 else "#fd7e14" if s >= 50 else "#dc3545"
+            desc = _esc(audit.get("title", ""))
+            html += (
+                f'\n<tr><td>{_esc(audit_id)}</td><td style="color:{color};font-weight:600">{s}</td><td>{desc}</td></tr>'
+            )
+        html += "\n</table>"
+    else:
+        html += '\n<p class="empty">All audits passed.</p>'
+
+    return html
+
+
 def _render_ruff_format_html(text: str | None) -> str:
     """Build HTML content for ruff format report."""
     if text is None:
@@ -934,6 +1034,17 @@ def generate_detail_pages():
         )
         (detail_dir / "e2e-detail.html").write_text(page)
         print("  Detail page: e2e-detail.html")
+
+    # Lighthouse
+    lh_data = _load_json("lighthouse.json")
+    if lh_data is not None:
+        page = _detail_page(
+            "Lighthouse Audit",
+            _render_lighthouse_html(lh_data),
+            lh_data,
+        )
+        (detail_dir / "lighthouse-detail.html").write_text(page)
+        print("  Detail page: lighthouse-detail.html")
 
 
 if __name__ == "__main__":

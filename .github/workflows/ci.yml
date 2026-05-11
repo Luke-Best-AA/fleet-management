@@ -191,11 +191,60 @@ jobs:
           name: report-zap
           path: reports/
 
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Seed database and start app
+        run: |
+          python seed.py
+          python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 5
+          curl -f http://localhost:8000/auth/login || exit 1
+        env:
+          DATABASE_URL: sqlite:///./lighthouse_test.db
+          REDIS_URL: redis://localhost:6379/0
+          SECRET_KEY: lighthouse-ci-secret-key
+          SECURE_COOKIES: "false"
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            http://localhost:8000/auth/login
+          uploadArtifacts: false
+          temporaryPublicStorage: false
+          configPath: .lighthouserc.json
+      - name: Copy Lighthouse results
+        if: always()
+        run: |
+          mkdir -p reports
+          cp .lighthouseci/lhr-*.json reports/lighthouse.json 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-lighthouse
+          path: reports/
+
   report:
     name: CI Report
     runs-on: ubuntu-latest
     if: always()
-    needs: [lint, security, test, e2e, zap]
+    needs: [lint, security, test, e2e, zap, lighthouse]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -217,10 +266,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ci-report
-          path: |
-            reports/ci-report.html
-            reports/ruff-detail.html
-            reports/bandit-detail.html
-            reports/pip-audit-detail.html
-            reports/zap-detail.html
-            reports/zap-report.html
+          path: reports/*
