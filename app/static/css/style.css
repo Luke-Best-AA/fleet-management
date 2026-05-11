@@ -331,6 +331,7 @@ a:hover {
 .form-control, .form-select {
     border-radius: var(--fm-radius);
     font-size: 0.84rem;
+    border: 1px solid var(--bs-border-color);
 }
 
 /* Remove left accent border on select boxes in filter bars */
