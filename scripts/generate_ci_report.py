@@ -430,7 +430,7 @@ def generate_html() -> str:
 
     tests_link = '<a class="detail-link" href="tests-detail.html">View Full Report &rarr;</a>'
     e2e_link = '<a class="detail-link" href="e2e-detail.html">View Full Report &rarr;</a>'
-    html += _test_section("Unit &amp; Integration Tests", tests, tests_link)
+    html += _test_section("Unit & Integration Tests", tests, tests_link)
     html += _test_section("E2E Tests (Playwright)", e2e, e2e_link)
 
     # --- ZAP ---
@@ -857,13 +857,18 @@ def _render_ruff_format_html(text: str | None) -> str:
     return html
 
 
-def _render_pytest_html(data: dict, coverage: dict | None = None) -> str:
+def _render_pytest_html(data: dict, coverage: dict | None = None, source_files: tuple | None = None) -> str:
     """Build HTML content for pytest report."""
     tests = data.get("tests", 0)
     passed = data.get("passed", 0)
     failed = data.get("failed", 0)
     errors = data.get("errors", 0)
     time_s = data.get("time", "")
+    if time_s:
+        try:
+            time_s = f"{float(time_s):.1f}"
+        except (ValueError, TypeError):
+            pass
 
     cov_pct = ""
     if coverage:
@@ -946,6 +951,13 @@ def _render_pytest_html(data: dict, coverage: dict | None = None) -> str:
             html += f"\n<tr><td>{_esc(c['name'])}</td><td>{_esc(c['classname'])}</td><td>{c.get('time', '')}s</td></tr>"
         html += "\n</table>"
 
+    if source_files:
+        html += '\n<p style="margin-top:1.5rem;">'
+        for sf in source_files:
+            if (REPORTS_DIR / sf).exists():
+                html += f'<a class="rule-link" href="{_esc(sf)}" target="_blank">{_esc(sf)}</a> &nbsp; '
+        html += "</p>"
+
     return html
 
 
@@ -1017,8 +1029,8 @@ def generate_detail_pages():
     if tests_data["status"] != "skipped":
         coverage_data = _load_json("coverage.json")
         page = _detail_page(
-            "Unit &amp; Integration Tests",
-            _render_pytest_html(tests_data, coverage_data),
+            "Unit & Integration Tests",
+            _render_pytest_html(tests_data, coverage_data, source_files=("pytest.xml", "coverage.json")),
             {"tests": tests_data, "coverage_summary": coverage_data.get("totals") if coverage_data else None},
         )
         (detail_dir / "tests-detail.html").write_text(page)
@@ -1029,7 +1041,7 @@ def generate_detail_pages():
     if e2e_data["status"] != "skipped":
         page = _detail_page(
             "E2E Tests (Playwright)",
-            _render_pytest_html(e2e_data),
+            _render_pytest_html(e2e_data, source_files=("e2e.xml",)),
             {"tests": e2e_data},
         )
         (detail_dir / "e2e-detail.html").write_text(page)
