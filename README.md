@@ -464,20 +464,15 @@ The test suite contains **17 test files** covering:
 
 ## CI/CD Pipeline
 
-*To be configured — planned workflow:*
+A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every pull request to `main`. All three jobs must pass before merging is allowed.
 
-```
-On each push to main:
-1. Install dependencies
-2. Run linting (ruff check .)
-3. Run format check (ruff format --check .)
-4. Run unit tests (pytest --cov=app)
-5. Run security scan (bandit -r app/)
-6. Run dependency audit (pip-audit)
-7. Deploy to live environment
-```
+| Job | Tool | What it Checks |
+|---|---|---|
+| **Lint & Format** | Ruff | Code style, import ordering, formatting consistency |
+| **Security Scan** | Bandit, pip-audit | Static security analysis + dependency vulnerabilities |
+| **Tests** | pytest | Full test suite with Redis service container |
 
-*GitHub Actions workflow file to be added at `.github/workflows/`.*
+Branch protection rules on `main` enforce that all CI checks pass before a pull request can be merged.
 
 ## Code Quality
 
