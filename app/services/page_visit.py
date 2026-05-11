@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 
-from sqlalchemy import func
+from sqlalchemy import Date, cast, func
 from sqlalchemy.orm import Session
 
 from app.models.page_visit import PageVisit
@@ -68,3 +68,38 @@ def get_active_users(db: Session, *, days: int = 30, limit: int = 20) -> list[tu
         .limit(limit)
         .all()
     )
+
+
+def get_daily_visits(
+    db: Session, *, days: int = 30, user_id: int | None = None
+) -> list[tuple[str, int]]:
+    """Returns list of (date_string, count) for each day in the period."""
+    since = datetime.now() - timedelta(days=days)
+    q = (
+        db.query(
+            cast(PageVisit.visited_at, Date).label("day"),
+            func.count(PageVisit.id).label("visits"),
+        )
+        .filter(PageVisit.visited_at >= since)
+    )
+    if user_id:
+        q = q.filter(PageVisit.user_id == user_id)
+    rows = q.group_by("day").order_by("day").all()
+    return [(row.day.strftime("%d %b"), row.visits) for row in rows]
+
+
+def get_hourly_distribution(
+    db: Session, *, days: int = 30, user_id: int | None = None
+) -> list[tuple[int, int]]:
+    """Returns list of (hour_0_to_23, count) for visit distribution by hour."""
+    since = datetime.now() - timedelta(days=days)
+    hour_expr = func.extract("hour", PageVisit.visited_at)
+    q = (
+        db.query(hour_expr.label("hour"), func.count(PageVisit.id).label("visits"))
+        .filter(PageVisit.visited_at >= since)
+    )
+    if user_id:
+        q = q.filter(PageVisit.user_id == user_id)
+    rows = q.group_by("hour").order_by("hour").all()
+    result = {int(r.hour): r.visits for r in rows}
+    return [(h, result.get(h, 0)) for h in range(24)]

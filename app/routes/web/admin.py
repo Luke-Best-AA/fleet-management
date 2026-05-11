@@ -493,7 +493,7 @@ async def page_visits_page(request: Request, db: Session = Depends(get_db)):
 
     page = int(request.query_params.get("page", 1))
     user_id = safe_int_or_none(request.query_params.get("user_id"))
-    days = int(request.query_params.get("days", 30))
+    days = int(request.query_params.get("days", 7))
     per_page = 50
     offset = (page - 1) * per_page
 
@@ -503,6 +503,11 @@ async def page_visits_page(request: Request, db: Session = Depends(get_db)):
 
     popular_pages = page_visit_service.get_popular_pages(db, days=days)
     active_users = page_visit_service.get_active_users(db, days=days)
+    daily_visits = page_visit_service.get_daily_visits(db, days=days, user_id=user_id)
+    hourly_dist = page_visit_service.get_hourly_distribution(db, days=days, user_id=user_id)
+
+    # Non-admin users for filter dropdown
+    standard_users = user_service.get_standard_users(db, active_only=False)
 
     return render(request, "admin/page_visits.html", {
         "visits": visits,
@@ -511,6 +516,9 @@ async def page_visits_page(request: Request, db: Session = Depends(get_db)):
         "total": total,
         "popular_pages": popular_pages,
         "active_users": active_users,
+        "daily_visits": daily_visits,
+        "hourly_dist": hourly_dist,
+        "standard_users": standard_users,
         "filter_user_id": user_id,
         "filter_days": days,
     })

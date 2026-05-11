@@ -3,7 +3,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0"><i class="bi bi-graph-up me-2"></i>Page Visits</h2>
-    <span class="text-muted">{{ total }} visits (last {{ filter_days }} days)</span>
+    <span class="text-muted">{{ total }} visits (last {{ filter_days }} day{{ 's' if filter_days != 1 }})</span>
 </div>
 
 <!-- Filters -->
@@ -13,21 +13,50 @@
             <div class="col-auto">
                 <label class="form-label mb-0 small">Period</label>
                 <select name="days" class="form-select form-select-sm">
+                    <option value="1" {% if filter_days == 1 %}selected{% endif %}>Today</option>
+                    <option value="3" {% if filter_days == 3 %}selected{% endif %}>Last 3 days</option>
                     <option value="7" {% if filter_days == 7 %}selected{% endif %}>Last 7 days</option>
+                    <option value="14" {% if filter_days == 14 %}selected{% endif %}>Last 14 days</option>
                     <option value="30" {% if filter_days == 30 %}selected{% endif %}>Last 30 days</option>
                     <option value="90" {% if filter_days == 90 %}selected{% endif %}>Last 90 days</option>
                 </select>
             </div>
-            {% if filter_user_id %}
-            <input type="hidden" name="user_id" value="{{ filter_user_id }}">
-            {% endif %}
+            <div class="col-auto">
+                <label class="form-label mb-0 small">User</label>
+                <select name="user_id" class="form-select form-select-sm">
+                    <option value="">All users</option>
+                    {% for u in standard_users %}
+                    <option value="{{ u.id }}" {% if filter_user_id == u.id %}selected{% endif %}>{{ u.username }} ({{ u.first_name }} {{ u.last_name }})</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-sm btn-secondary">Filter</button>
                 {% if filter_user_id %}
-                <a href="/admin/page-visits?days={{ filter_days }}" class="btn btn-sm btn-outline-secondary">Clear user filter</a>
+                <a href="/admin/page-visits?days={{ filter_days }}" class="btn btn-sm btn-outline-secondary">Clear</a>
                 {% endif %}
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">Visits Over Time</div>
+            <div class="card-body">
+                <canvas id="dailyChart" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Activity by Hour</div>
+            <div class="card-body">
+                <canvas id="hourlyChart" height="200"></canvas>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -36,9 +65,9 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">Most Visited Pages</div>
-            <div class="card-body p-0">
+            <div class="card-body p-0" style="max-height: 320px; overflow-y: auto;">
                 <table class="table table-sm mb-0">
-                    <thead>
+                    <thead class="sticky-top bg-body">
                         <tr>
                             <th>Page</th>
                             <th class="text-end">Visits</th>
@@ -63,9 +92,9 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">Most Active Users</div>
-            <div class="card-body p-0">
+            <div class="card-body p-0" style="max-height: 320px; overflow-y: auto;">
                 <table class="table table-sm mb-0">
-                    <thead>
+                    <thead class="sticky-top bg-body">
                         <tr>
                             <th>User</th>
                             <th class="text-end">Visits</th>
@@ -92,9 +121,9 @@
 <!-- Recent Visits Log -->
 <div class="card">
     <div class="card-header">Recent Visits{% if filter_user_id %} (filtered by user){% endif %}</div>
-    <div class="card-body p-0">
+    <div class="card-body p-0" style="max-height: 500px; overflow-y: auto;">
         <table class="table table-sm table-hover mb-0">
-            <thead>
+            <thead class="sticky-top bg-body">
                 <tr>
                     <th>Date</th>
                     <th>User</th>
@@ -105,7 +134,9 @@
             {% for visit in visits %}
             <tr>
                 <td class="text-nowrap">{{ visit.visited_at.strftime('%d %b %Y %H:%M') }}</td>
-                <td>{{ visit.user.username }}</td>
+                <td>
+                    <a href="/admin/page-visits?user_id={{ visit.user_id }}&days={{ filter_days }}" class="text-decoration-none">{{ visit.user.username }}</a>
+                </td>
                 <td class="text-truncate" style="max-width: 400px;">{{ visit.path }}</td>
             </tr>
             {% else %}
@@ -133,4 +164,81 @@
     </ul>
 </nav>
 {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+    const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+    const textColor = isDark ? 'rgba(255,255,255,.7)' : 'rgba(0,0,0,.6)';
+    const gridColor = isDark ? 'rgba(255,255,255,.08)' : 'rgba(0,0,0,.06)';
+    const accentColor = '#3b82f6';
+    const accentBg = isDark ? 'rgba(59,130,246,.25)' : 'rgba(59,130,246,.15)';
+
+    Chart.defaults.color = textColor;
+    Chart.defaults.borderColor = gridColor;
+
+    // Daily visits line chart
+    const dailyLabels = {{ daily_visits | map(attribute=0) | list | tojson }};
+    const dailyData = {{ daily_visits | map(attribute=1) | list | tojson }};
+
+    new Chart(document.getElementById('dailyChart'), {
+        type: 'line',
+        data: {
+            labels: dailyLabels,
+            datasets: [{
+                label: 'Page visits',
+                data: dailyData,
+                borderColor: accentColor,
+                backgroundColor: accentBg,
+                fill: true,
+                tension: 0.3,
+                pointRadius: dailyLabels.length > 30 ? 0 : 3,
+                pointHoverRadius: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+
+    // Hourly distribution bar chart
+    const hourlyLabels = {{ hourly_dist | map(attribute=0) | list | tojson }};
+    const hourlyData = {{ hourly_dist | map(attribute=1) | list | tojson }};
+    const hourLabelsFormatted = hourlyLabels.map(h => String(h).padStart(2, '0') + ':00');
+
+    new Chart(document.getElementById('hourlyChart'), {
+        type: 'bar',
+        data: {
+            labels: hourLabelsFormatted,
+            datasets: [{
+                label: 'Visits',
+                data: hourlyData,
+                backgroundColor: accentBg,
+                borderColor: accentColor,
+                borderWidth: 1,
+                borderRadius: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false }, ticks: {
+                    callback: function(val, i) { return i % 3 === 0 ? this.getLabelForValue(val) : ''; }
+                }},
+                y: { beginAtZero: true, ticks: { precision: 0 } }
+            }
+        }
+    });
+})();
+</script>
 {% endblock %}
