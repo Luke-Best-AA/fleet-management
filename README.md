@@ -464,7 +464,7 @@ The test suite contains **17 test files** covering:
 
 ## CI/CD Pipeline
 
-A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every pull request to `main`. All four jobs must pass before merging is allowed.
+A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every pull request to `main`. All five jobs must pass before merging is allowed.
 
 | Job | Tool | What it Checks |
 |---|---|---|
@@ -472,6 +472,7 @@ A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on eve
 | **Security Scan** | Bandit, pip-audit | Static security analysis + dependency vulnerabilities |
 | **Tests** | pytest | Full unit/integration test suite with Redis + PostgreSQL |
 | **E2E Tests** | Playwright | Browser-based end-to-end tests (login, navigation, access control) |
+| **OWASP ZAP Scan** | ZAP | Dynamic Application Security Testing (DAST) — baseline scan for common web vulnerabilities |
 
 Branch protection rules on `main` enforce that all CI checks pass before a pull request can be merged.
 
@@ -488,6 +489,7 @@ Branch protection rules on `main` enforce that all CI checks pass before a pull 
 - **Bandit static security analysis** — scans application code for common security issues (CWE-mapped); zero findings on 4,236 lines
 - **pip-audit dependency scanning** — checks installed packages against known vulnerability databases (PyPI, OSV)
 - **Playwright E2E testing** — browser-based tests for login, logout, navigation and role-based access control; runs in CI via headless Chromium
+- **OWASP ZAP baseline scan** — automated DAST scan against the running application; HTML report uploaded as a CI artifact
 
 ## Deployment
 
@@ -544,6 +546,7 @@ Branch protection rules on `main` enforce that all CI checks pass before a pull 
 - [Bandit Documentation](https://bandit.readthedocs.io/)
 - [pip-audit Documentation](https://github.com/pypa/pip-audit)
 - [Playwright Documentation](https://playwright.dev/python/)
+- [OWASP ZAP Documentation](https://www.zaproxy.org/docs/)
 
 ## Licence
 
