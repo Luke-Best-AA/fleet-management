@@ -209,8 +209,9 @@ async def register_post(request: Request, db: Session = Depends(get_db)):
             password=schema.password,
             first_name=schema.first_name,
             last_name=schema.last_name,
-            role="standard",
+            role=schema.role,
             employee_number=schema.employee_number,
+            requesting_user_role="self_register",
         )
     except Exception as e:
         return render(

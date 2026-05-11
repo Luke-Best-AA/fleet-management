@@ -28,6 +28,14 @@ class RegisterSchema(BaseModel):
     first_name: str
     last_name: str
     employee_number: str = ""
+    role: str = "standard"
+
+    @field_validator("role")
+    @classmethod
+    def role_valid(cls, v: str) -> str:
+        if v not in ("standard", "admin"):
+            raise ValueError("Role must be standard or admin")
+        return v
 
     @field_validator("username")
     @classmethod

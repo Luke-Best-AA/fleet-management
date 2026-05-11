@@ -25,6 +25,7 @@
                     {{ form_field("username", "Username", value=form_data.username if form_data else "", errors=errors, required=true) }}
                     {{ form_field("email", "Email", type="email", value=form_data.email if form_data else "", errors=errors, required=true) }}
                     {{ form_field("employee_number", "Employee Number", value=form_data.employee_number if form_data else "", errors=errors, help_text="Optional") }}
+                    {{ form_field("role", "Role", options=[{"value": "standard", "label": "Standard"}, {"value": "admin", "label": "Admin"}], value=form_data.role if form_data else "standard", errors=errors) }}
                     {{ form_field("password", "Password", type="password", errors=errors, required=true, help_text="Minimum 8 characters") }}
                     {{ form_field("password_confirm", "Confirm Password", type="password", errors=errors, required=true) }}
                     <div class="d-grid">

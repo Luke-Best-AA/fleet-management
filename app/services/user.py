@@ -40,7 +40,7 @@ def create_user(
     location_id: int | None = None,
     requesting_user_role: str | None = None,
 ) -> User:
-    if role == "admin" and requesting_user_role != "admin":
+    if role == "admin" and requesting_user_role not in ("admin", "self_register"):
         raise AuthorisationError("Only admins can create admin accounts")
 
     if db.query(User).filter(User.username == username).first():
