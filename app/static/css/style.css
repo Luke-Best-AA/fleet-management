@@ -339,6 +339,15 @@ a:hover {
     background-position: right 0.5rem center;
 }
 
+/* Match clear button height to filter inputs */
+[data-filter-target] .btn-sm {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    line-height: 1.5;
+    font-size: 0.75rem;
+    min-height: calc(1.5em + 0.5rem + calc(var(--bs-border-width) * 2));
+}
+
 .form-select,
 input[type="date"] {
     cursor: pointer;
