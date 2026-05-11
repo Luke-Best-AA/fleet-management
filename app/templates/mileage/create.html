@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, checkbox_field, csrf_field, submit_button %}
+{% block title %}Add Mileage - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/mileage">Mileage</a></li>
+        <li class="breadcrumb-item active">Add Record</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-plus-lg me-1"></i>Add Mileage Record</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/mileage/create" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    <input type="hidden" name="return_to" value="{{ return_to or '' }}">
+                    <input type="hidden" name="return_id" value="{{ return_id or '' }}">
+
+                    {% set veh_opts = [] %}{% for v in vehicles %}{% if veh_opts.append({"value": v.id, "label": v.registration_number ~ " (current: " ~ v.current_mileage ~ " mi)"}) %}{% endif %}{% endfor %}
+                    {{ form_field("vehicle_id", "Vehicle", value=form_data.vehicle_id if form_data else "", errors=errors, required=true, options=veh_opts) }}
+
+                    {{ form_field("reading_value", "Mileage Reading", type="number", value=form_data.reading_value if form_data else "", errors=errors, required=true) }}
+
+                    {% if user.role == 'admin' %}
+                    <div class="card bg-body-secondary mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Admin Override</h6>
+                            {{ checkbox_field("is_admin_override", "This is an admin override", checked=form_data.is_admin_override if form_data else false) }}
+                            {{ form_field("override_reason", "Override Reason", value=form_data.override_reason if form_data else "", errors=errors, textarea=true, help_text="Required when override is checked") }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Record Mileage", "primary") }}
+                        {% if return_to == 'vehicle' and return_id %}
+                        <a href="/vehicles/{{ return_id }}" class="btn btn-secondary">Cancel</a>
+                        {% elif return_to == 'vehicles' %}
+                        <a href="/vehicles" class="btn btn-secondary">Cancel</a>
+                        {% else %}
+                        <a href="/mileage" class="btn btn-secondary">Cancel</a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

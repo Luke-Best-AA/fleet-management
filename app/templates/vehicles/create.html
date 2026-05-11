@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}Add Vehicle - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/vehicles">Vehicles</a></li>
+        <li class="breadcrumb-item active">Add Vehicle</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-plus-lg me-1"></i>Add Vehicle</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/vehicles/create" novalidate>
+                    {{ csrf_field(csrf_token) }}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_field("registration_number", "Registration Number", value=form_data.registration_number if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_field("fleet_reference", "Fleet Reference", value=form_data.fleet_reference if form_data else "", errors=errors, required=true) }}
+                        </div>
+                    </div>
+
+                    {% set type_opts = [] %}{% for t in vehicle_types %}{% if type_opts.append({"value": t.value, "label": t.label}) %}{% endif %}{% endfor %}
+                    {{ form_field("vehicle_type", "Vehicle Type", value=form_data.vehicle_type if form_data else "", errors=errors, required=true, options=type_opts) }}
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form_field("make", "Make", value=form_data.make if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form_field("model", "Model", value=form_data.model if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form_field("year", "Year", type="number", value=form_data.year if form_data else "", errors=errors, required=true) }}
+                        </div>
+                    </div>
+
+                    {{ form_field("current_mileage", "Current Mileage", type="number", value=form_data.current_mileage if form_data else "0", errors=errors) }}
+
+                    {% set loc_opts = [] %}{% for l in locations %}{% if loc_opts.append({"value": l.id, "label": l.name}) %}{% endif %}{% endfor %}
+                    <div class="d-flex align-items-end gap-2 mb-3">
+                        <div class="flex-grow-1">
+                            {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, required=true, options=loc_opts) }}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addLocationModal" title="Quick add location">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+
+                    {% set drv_opts = [] %}{% for d in drivers %}{% if drv_opts.append({"value": d.id, "label": d.full_name ~ " (" ~ d.username ~ ")"}) %}{% endif %}{% endfor %}
+                    <div class="d-flex align-items-end gap-2 mb-3">
+                        <div class="flex-grow-1">
+                            {{ form_field("primary_driver_user_id", "Primary Driver", value=form_data.primary_driver_user_id if form_data else "", errors=errors, options=drv_opts) }}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addDriverModal" title="Quick add driver">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Create Vehicle", "primary") }}
+                        <a href="/vehicles" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "partials/_quick_add_modals.html" %}
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/quick-add.js"></script>
+{% endblock %}

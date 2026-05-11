@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Vehicles - Fleet Management{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-truck me-2"></i>Vehicles</h2>
+    {% if user.role == 'admin' %}
+    <a href="/vehicles/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Vehicle</a>
+    {% endif %}
+</div>
+
+<div class="card">
+    <div class="card-body border-bottom" data-filter-target="vehiclesTable">
+        <div class="row g-2 align-items-end">
+            <div class="col-md-2">
+                <input type="text" class="form-control form-control-sm" placeholder="Search all fields..." data-filter="search">
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" data-filter="select" data-col="6">
+                    <option value="">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="pending retirement">Pending Retirement</option>
+                    <option value="retired">Retired</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-select form-select-sm" data-filter="select" data-col="7" data-auto-populate="true">
+                    <option value="">All Locations</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <input type="number" class="form-control form-control-sm" placeholder="Year from" data-filter="min" data-col="4">
+            </div>
+            <div class="col-md-1">
+                <input type="number" class="form-control form-control-sm" placeholder="Year to" data-filter="max" data-col="4">
+            </div>
+            <div class="col-md-2">
+                <input type="number" class="form-control form-control-sm" placeholder="Mileage max" data-filter="max" data-col="5">
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table id="vehiclesTable" class="table table-hover table-sortable mb-0">
+            <thead>
+                <tr>
+                    <th>Registration</th>
+                    <th class="d-none d-lg-table-cell">Fleet Ref</th>
+                    <th class="d-none d-sm-table-cell">Type</th>
+                    <th>Make/Model</th>
+                    <th>Year</th>
+                    <th class="d-none d-sm-table-cell">Mileage</th>
+                    <th>Status</th>
+                    <th class="d-none d-md-table-cell">Location</th>
+                    <th class="d-none d-md-table-cell">Driver</th>
+                    <th class="d-none d-lg-table-cell no-sort">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in vehicles %}
+                <tr>
+                    <td><a href="/vehicles/{{ v.id }}">{{ v.registration_number }}</a></td>
+                    <td class="d-none d-lg-table-cell">{{ v.fleet_reference }}</td>
+                    <td class="d-none d-sm-table-cell">{{ v.display_type }}</td>
+                    <td>{{ v.make }} {{ v.model }}</td>
+                    <td>{{ v.year }}</td>
+                    <td class="d-none d-sm-table-cell">
+                        {% set source = v.mileage_source %}
+                        {% if source %}
+                            {% if source.type == 'mileage_record' %}
+                            <a href="/mileage/{{ source.id }}?return_to=vehicles">{{ "{:,}".format(v.current_mileage) }}</a>
+                            {% elif source.type == 'maintenance_record' %}
+                            <a href="/maintenance/{{ source.id }}?return_to=vehicles">{{ "{:,}".format(v.current_mileage) }}</a>
+                            {% endif %}
+                        {% else %}
+                            {{ "{:,}".format(v.current_mileage) }}
+                        {% endif %}
+                    </td>
+                    <td><span class="badge badge-status-{{ v.status }}">{{ v.status.replace('_', ' ').title() }}</span></td>
+                    <td class="d-none d-md-table-cell">{{ v.location.name if v.location else '-' }}</td>
+                    <td class="d-none d-md-table-cell">{{ v.primary_driver.full_name if v.primary_driver else '-' }}</td>
+                    <td class="d-none d-lg-table-cell">
+                        {% if not v.is_retired and not v.is_deleted %}
+                        <div class="btn-group btn-group-sm">
+                            {% if user.role == 'admin' %}
+                            <a href="/vehicles/{{ v.id }}/edit" class="btn btn-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
+                            {% endif %}
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Log actions for {{ v.registration_number }}">
+                                    Log
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="/mileage/create?vehicle_id={{ v.id }}&return_to=vehicles"><i class="bi bi-speedometer2 me-2"></i>Log Mileage</a></li>
+                                    <li><a class="dropdown-item" href="/maintenance/create?vehicle_id={{ v.id }}&return_to=vehicles"><i class="bi bi-wrench me-2"></i>Log Maintenance</a></li>
+                                </ul>
+                            </div>
+                            {% if user.role == 'admin' %}
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ v.id }}" aria-label="Delete {{ v.registration_number }}"><i class="bi bi-trash"></i></button>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="10" class="text-muted text-center py-3">No vehicles found</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if user.role == 'admin' %}
+{% for v in vehicles %}
+{% if not v.is_retired and not v.is_deleted %}
+<div class="modal fade" id="deleteModal{{ v.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Vehicle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ v.registration_number }}</strong>?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="/vehicles/{{ v.id }}/delete">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-danger"><i class="bi bi-trash me-1"></i>Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endblock %}

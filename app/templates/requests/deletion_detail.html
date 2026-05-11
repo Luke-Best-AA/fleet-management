@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field %}
+{% block title %}Deletion Request #{{ req.id }} - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/requests/deletion">Deletion Requests</a></li>
+        <li class="breadcrumb-item active">Request #{{ req.id }}</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-trash me-1"></i>Deletion Request #{{ req.id }}</span>
+                <span class="badge badge-status-{{ req.status }}">{{ req.status.title() }}</span>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Target Type</dt>
+                    <dd class="col-sm-8">{{ req.target_type.replace('_', ' ').title() }}</dd>
+
+                    <dt class="col-sm-4">Target ID</dt>
+                    <dd class="col-sm-8">#{{ req.target_id }}</dd>
+
+                    <dt class="col-sm-4">Requested By</dt>
+                    <dd class="col-sm-8">{{ req.requested_by.full_name }} ({{ req.requested_by.username }})</dd>
+
+                    <dt class="col-sm-4">Requested At</dt>
+                    <dd class="col-sm-8">{{ req.requested_at.strftime('%d %b %Y %H:%M') }}</dd>
+
+                    <dt class="col-sm-4">Reason</dt>
+                    <dd class="col-sm-8">{{ req.reason }}</dd>
+
+                    {% if req.reviewed_by %}
+                    <dt class="col-sm-4">Reviewed By</dt>
+                    <dd class="col-sm-8">{{ req.reviewed_by.full_name }}</dd>
+
+                    <dt class="col-sm-4">Reviewed At</dt>
+                    <dd class="col-sm-8">{{ req.reviewed_at.strftime('%d %b %Y %H:%M') if req.reviewed_at else '-' }}</dd>
+
+                    {% if req.review_notes %}
+                    <dt class="col-sm-4">Review Notes</dt>
+                    <dd class="col-sm-8">{{ req.review_notes }}</dd>
+                    {% endif %}
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+
+        {% if user.role == 'admin' and req.status == 'pending' %}
+        <div class="card">
+            <div class="card-header"><i class="bi bi-clipboard-check me-1"></i>Review</div>
+            <div class="card-body">
+                <form method="POST" action="/requests/deletion/{{ req.id }}/review" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    {{ form_field("review_notes", "Review Notes", textarea=true, help_text="Optional notes for this decision") }}
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" name="action" value="approve" class="btn btn-success"><i class="bi bi-check-lg me-1"></i>Approve</button>
+                        <button type="submit" name="action" value="reject" class="btn btn-danger"><i class="bi bi-x-lg me-1"></i>Reject</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, checkbox_field, csrf_field, submit_button %}
+{% block title %}Edit User - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/users">Users</a></li>
+        <li class="breadcrumb-item"><a href="/admin/users/{{ target_user.id }}">{{ target_user.username }}</a></li>
+        <li class="breadcrumb-item active">Edit</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-pencil me-1"></i>Edit User — {{ target_user.username }}
+                {% if target_user.role == 'admin' %}
+                <span class="badge bg-warning">Admin</span>
+                {% else %}
+                <span class="badge bg-primary">Standard</span>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/admin/users/{{ target_user.id }}/edit" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    <div class="row">
+                        <div class="col-md-6">{{ form_field("first_name", "First Name", value=form_data.first_name if form_data else "", errors=errors, required=true) }}</div>
+                        <div class="col-md-6">{{ form_field("last_name", "Last Name", value=form_data.last_name if form_data else "", errors=errors, required=true) }}</div>
+                    </div>
+                    {{ form_field("email", "Email", type="email", value=form_data.email if form_data else "", errors=errors, required=true) }}
+                    {{ form_field("employee_number", "Employee Number", value=form_data.employee_number if form_data else "", errors=errors) }}
+                    {% set loc_opts = [] %}{% for l in locations %}{% if loc_opts.append({"value": l.id, "label": l.name}) %}{% endif %}{% endfor %}
+                    {{ form_field("location_id", "Location", value=form_data.location_id if form_data else "", errors=errors, options=loc_opts) }}
+                    {{ checkbox_field("is_active", "Active", checked=form_data.is_active if form_data else true) }}
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Save Changes", "primary") }}
+                        <a href="/admin/users" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

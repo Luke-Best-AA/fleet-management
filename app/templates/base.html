@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Apply theme before first paint to avoid flash
+        (function() {
+            var stored = localStorage.getItem('theme');
+            var browserDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var t = stored || (browserDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-bs-theme', t);
+        })();
+    </script>
+    <title>{% block title %}Fleet Management{% endblock %}</title>
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <link href="/static/vendor/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/vendor/css/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    {% include "partials/_nav.html" %}
+
+    <main class="container-xl">
+        {% include "partials/_messages.html" %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-body-secondary py-3 mt-auto border-top">
+        <div class="container-xl text-center">
+            <small>&copy; 2026 Fleet Management</small>
+            <br><small class="opacity-50">Usage analytics are collected to improve this application.</small>
+        </div>
+    </footer>
+
+    <script src="/static/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/table-sort.js"></script>
+    <script src="/static/js/table-filter.js"></script>
+    <script src="/static/js/form-guard.js"></script>
+    <script src="/static/js/app.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

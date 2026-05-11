@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, checkbox_field, csrf_field, submit_button %}
+{% block title %}Edit Mileage - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/mileage">Mileage</a></li>
+        <li class="breadcrumb-item"><a href="/vehicles/{{ record.vehicle.id }}">{{ record.vehicle.registration_number }}</a></li>
+        <li class="breadcrumb-item active">Edit Record #{{ record.id }}</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-pencil me-1"></i>Edit Mileage Record</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <div class="alert alert-info">
+                    Vehicle: <strong>{{ record.vehicle.registration_number }}</strong>
+                </div>
+
+                <form method="POST" action="/mileage/{{ record.id }}/edit" novalidate>
+                    {{ csrf_field(csrf_token) }}
+
+                    {{ form_field("reading_value", "Mileage Reading", type="number", value=form_data.reading_value if form_data else "", errors=errors, required=true) }}
+
+                    <div class="card bg-body-secondary mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Admin Override</h6>
+                            {{ checkbox_field("is_admin_override", "This is an admin override", checked=form_data.is_admin_override if form_data else false) }}
+                            {{ form_field("override_reason", "Override Reason", value=form_data.override_reason if form_data else "", errors=errors, textarea=true) }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Save Changes", "primary") }}
+                        <a href="/mileage" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

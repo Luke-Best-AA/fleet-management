@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}New Retirement Request - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/requests/retirement">Retirement Requests</a></li>
+        <li class="breadcrumb-item active">New Request</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-clock-history me-1"></i>{% if user.role == 'admin' %}Retire Vehicle{% else %}Request Vehicle Retirement{% endif %}</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                {% if user.role == 'admin' %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> As an admin, this will retire the vehicle immediately without a review step.
+                </div>
+                {% endif %}
+
+                <form method="POST" action="/requests/retirement/create" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    {% set veh_opts = [] %}{% for v in vehicles %}{% if veh_opts.append({"value": v.id, "label": v.registration_number ~ " - " ~ v.make ~ " " ~ v.model}) %}{% endif %}{% endfor %}
+                    {{ form_field("vehicle_id", "Vehicle", value=form_data.vehicle_id if form_data else "", errors=errors, required=true, options=veh_opts) }}
+                    {{ form_field("reason", "Reason for Retirement", value=form_data.reason if form_data else "", errors=errors, required=true, textarea=true, help_text="Minimum 10 characters") }}
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Retire Vehicle" if user.role == 'admin' else "Submit Request", "warning") }}
+                        <a href="{% if user.role == 'admin' %}/vehicles{% else %}/requests/retirement{% endif %}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

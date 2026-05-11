@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}Add Maintenance - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/maintenance">Maintenance</a></li>
+        <li class="breadcrumb-item active">Add Record</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-plus-lg me-1"></i>Add Maintenance Record</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/maintenance/create" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    <input type="hidden" name="return_to" value="{{ return_to or '' }}">
+                    <input type="hidden" name="return_id" value="{{ return_id or '' }}">
+
+                    {% set veh_opts = [] %}{% for v in vehicles %}{% if veh_opts.append({"value": v.id, "label": v.registration_number ~ " - " ~ v.make ~ " " ~ v.model}) %}{% endif %}{% endfor %}
+                    {{ form_field("vehicle_id", "Vehicle", value=form_data.vehicle_id if form_data else "", errors=errors, required=true, options=veh_opts) }}
+
+                    {% set cat_opts = [] %}{% for c in categories %}{% if cat_opts.append({"value": c.id, "label": c.name ~ (" *" if c.requires_notes else "")}) %}{% endif %}{% endfor %}
+                    {{ form_field("category_id", "Category", value=form_data.category_id if form_data else "", errors=errors, required=true, options=cat_opts) }}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_field("maintenance_date", "Date", type="date", value=form_data.maintenance_date if form_data else "", errors=errors, required=true) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_field("mileage_at_time", "Mileage at Time", type="number", value=form_data.mileage_at_time if form_data else "", errors=errors, required=true) }}
+                        </div>
+                    </div>
+
+                    {{ form_field("notes", "Notes", value=form_data.notes if form_data else "", errors=errors, textarea=true, help_text="Required for categories marked with *") }}
+
+                    {{ form_field("cost", "Cost (£)", type="number", value=form_data.cost if form_data else "", errors=errors, step="0.01", placeholder="0.00") }}
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Create Record", "primary") }}
+                        {% if return_to == 'vehicle' and return_id %}
+                        <a href="/vehicles/{{ return_id }}" class="btn btn-secondary">Cancel</a>
+                        {% elif return_to == 'vehicles' %}
+                        <a href="/vehicles" class="btn btn-secondary">Cancel</a>
+                        {% else %}
+                        <a href="/maintenance" class="btn btn-secondary">Cancel</a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var vehicleMileage = { {% for v in vehicles %}{{ v.id }}: {{ v.current_mileage }}{% if not loop.last %}, {% endif %}{% endfor %} };
+    var vehicleSelect = document.getElementById('vehicle_id');
+    var mileageInput = document.getElementById('mileage_at_time');
+    if (vehicleSelect && mileageInput) {
+        function prefillMileage() {
+            var vid = parseInt(vehicleSelect.value, 10);
+            if (vid && vehicleMileage[vid] !== undefined && !mileageInput.value) {
+                mileageInput.value = vehicleMileage[vid];
+            }
+        }
+        vehicleSelect.addEventListener('change', function() {
+            var vid = parseInt(this.value, 10);
+            if (vid && vehicleMileage[vid] !== undefined) {
+                mileageInput.value = vehicleMileage[vid];
+            }
+        });
+        prefillMileage();
+    }
+});
+</script>
+{% endblock %}

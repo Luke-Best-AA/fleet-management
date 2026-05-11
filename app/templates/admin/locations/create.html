@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}Add Location - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/locations">Locations</a></li>
+        <li class="breadcrumb-item active">Add Location</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-plus-lg me-1"></i>Add Location</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/admin/locations/create" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    <div class="row">
+                        <div class="col-md-8">{{ form_field("name", "Name", value=form_data.name if form_data else "", errors=errors, required=true) }}</div>
+                        <div class="col-md-4">{{ form_field("code", "Code", value=form_data.code if form_data else "", errors=errors, required=true) }}</div>
+                    </div>
+                    {{ form_field("region", "Region", value=form_data.region if form_data else "", errors=errors) }}
+                    {{ form_field("address_line_1", "Address Line 1", value=form_data.address_line_1 if form_data else "", errors=errors) }}
+                    {{ form_field("address_line_2", "Address Line 2", value=form_data.address_line_2 if form_data else "", errors=errors) }}
+                    <div class="row">
+                        <div class="col-md-8">{{ form_field("city", "City", value=form_data.city if form_data else "", errors=errors) }}</div>
+                        <div class="col-md-4">{{ form_field("postcode", "Postcode", value=form_data.postcode if form_data else "", errors=errors) }}</div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Create Location", "primary") }}
+                        <a href="/admin/locations" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

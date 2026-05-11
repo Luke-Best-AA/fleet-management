@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% from "partials/_form_helpers.html" import form_field, csrf_field, submit_button %}
+{% block title %}New Deletion Request - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/requests/deletion">Deletion Requests</a></li>
+        <li class="breadcrumb-item active">New Request</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-trash me-1"></i>Request Record Deletion</div>
+            <div class="card-body">
+                {% if errors and errors._general %}
+                <div class="alert alert-danger">{{ errors._general }}</div>
+                {% endif %}
+
+                <form method="POST" action="/requests/deletion/create" novalidate>
+                    {{ csrf_field(csrf_token) }}
+                    {% if return_to %}<input type="hidden" name="return_to" value="{{ return_to }}">{% endif %}
+                    {% if return_id %}<input type="hidden" name="return_id" value="{{ return_id }}">{% endif %}
+
+                    {{ form_field("target_type", "Record Type", value=form_data.target_type if form_data else "", errors=errors, required=true, options=[
+                        {"value": "maintenance_record", "label": "Maintenance Record"},
+                        {"value": "mileage_record", "label": "Mileage Record"},
+                    ]) }}
+
+                    <div class="mb-3">
+                        <label for="target_id" class="form-label">Record <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="text" id="record_display" class="form-control" readonly placeholder="Click to select a record…">
+                            <input type="hidden" name="target_id" id="target_id" value="{{ form_data.target_id if form_data else '' }}">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#recordPickerModal"><i class="bi bi-search"></i></button>
+                        </div>
+                        {% if errors and errors.target_id %}<div class="invalid-feedback d-block">{{ errors.target_id }}</div>{% endif %}
+                    </div>
+
+                    {{ form_field("reason", "Reason for Deletion", value=form_data.reason if form_data else "", errors=errors, required=true, textarea=true) }}
+
+                    <div class="d-flex gap-2">
+                        {{ submit_button("Submit Request", "warning") }}
+                        <a href="{{ cancel_url }}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="recordPickerModal" tabindex="-1" aria-labelledby="recordPickerLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="recordPickerLabel">Select a Record</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="recordSearch" class="form-control mb-3" placeholder="Search records…">
+
+                <div id="mileageRecordsSection" style="display:none;">
+                    <table class="table table-sm table-hover">
+                        <thead><tr><th>ID</th><th>Vehicle</th><th>Reading</th><th>Date</th><th>By</th><th></th></tr></thead>
+                        <tbody id="mileageRecordsBody">
+                        {% for rec in mileage_records %}
+                        <tr class="record-row" data-id="{{ rec.id }}" data-type="mileage_record" data-search="{{ rec.vehicle.registration_number|lower }} {{ rec.reading_value }} {{ rec.recorded_at.strftime('%d %b %Y') }} {{ rec.recorded_by.username|lower }}">
+                            <td>{{ rec.id }}</td>
+                            <td>{{ rec.vehicle.registration_number }}</td>
+                            <td>{{ "{:,}".format(rec.reading_value) }} mi</td>
+                            <td>{{ rec.recorded_at.strftime('%d %b %Y') }}</td>
+                            <td>{{ rec.recorded_by.username }}</td>
+                            <td><button type="button" class="btn btn-sm btn-outline-primary select-record-btn">Select</button></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="maintenanceRecordsSection" style="display:none;">
+                    <table class="table table-sm table-hover">
+                        <thead><tr><th>ID</th><th>Vehicle</th><th>Category</th><th>Date</th><th>Cost</th><th>By</th><th></th></tr></thead>
+                        <tbody id="maintenanceRecordsBody">
+                        {% for rec in maintenance_records %}
+                        <tr class="record-row" data-id="{{ rec.id }}" data-type="maintenance_record" data-search="{{ rec.vehicle.registration_number|lower }} {{ rec.category.name|lower }} {{ rec.maintenance_date.strftime('%d %b %Y') }} {{ rec.logged_by.username|lower }}">
+                            <td>{{ rec.id }}</td>
+                            <td>{{ rec.vehicle.registration_number }}</td>
+                            <td>{{ rec.category.name }}</td>
+                            <td>{{ rec.maintenance_date.strftime('%d %b %Y') }}</td>
+                            <td>{{ "£{:,.2f}".format(rec.cost) if rec.cost else '-' }}</td>
+                            <td>{{ rec.logged_by.username }}</td>
+                            <td><button type="button" class="btn btn-sm btn-outline-primary select-record-btn">Select</button></td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <p id="noTypeSelected" class="text-muted text-center py-3">Select a Record Type first, then pick a record here.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const typeSelect = document.getElementById('target_type');
+    const targetIdInput = document.getElementById('target_id');
+    const displayInput = document.getElementById('record_display');
+    const mileageSection = document.getElementById('mileageRecordsSection');
+    const maintenanceSection = document.getElementById('maintenanceRecordsSection');
+    const noTypeMsg = document.getElementById('noTypeSelected');
+    const searchInput = document.getElementById('recordSearch');
+
+    function showSection() {
+        const val = typeSelect.value;
+        mileageSection.style.display = val === 'mileage_record' ? '' : 'none';
+        maintenanceSection.style.display = val === 'maintenance_record' ? '' : 'none';
+        noTypeMsg.style.display = val ? 'none' : '';
+        searchInput.value = '';
+        filterRows('');
+    }
+
+    typeSelect.addEventListener('change', showSection);
+
+    // Lock target_type if pre-filled (e.g. from mileage/maintenance list)
+    if (typeSelect.value) {
+        typeSelect.disabled = true;
+        // Disabled selects don't submit — add hidden input
+        var hiddenType = document.createElement('input');
+        hiddenType.type = 'hidden';
+        hiddenType.name = 'target_type';
+        hiddenType.value = typeSelect.value;
+        typeSelect.form.appendChild(hiddenType);
+    }
+
+    function filterRows(query) {
+        const q = query.toLowerCase();
+        document.querySelectorAll('.record-row').forEach(function(row) {
+            const match = !q || row.dataset.search.includes(q);
+            row.style.display = match ? '' : 'none';
+        });
+    }
+
+    searchInput.addEventListener('input', function() {
+        filterRows(this.value);
+    });
+
+    document.querySelectorAll('.select-record-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const row = this.closest('tr');
+            const id = row.dataset.id;
+            const type = row.dataset.type;
+            const cells = row.querySelectorAll('td');
+            const desc = cells[1].textContent + ' — ' + cells[2].textContent + ' (' + cells[3].textContent + ')';
+
+            typeSelect.value = type;
+            targetIdInput.value = id;
+            displayInput.value = '#' + id + ': ' + desc;
+
+            bootstrap.Modal.getInstance(document.getElementById('recordPickerModal')).hide();
+        });
+    });
+
+    // Pre-populate display if target_id is already set
+    if (targetIdInput.value) {
+        const row = document.querySelector('.record-row[data-id="' + targetIdInput.value + '"][data-type="' + typeSelect.value + '"]');
+        if (row) {
+            const cells = row.querySelectorAll('td');
+            displayInput.value = '#' + targetIdInput.value + ': ' + cells[1].textContent + ' — ' + cells[2].textContent + ' (' + cells[3].textContent + ')';
+        } else {
+            displayInput.value = 'Record #' + targetIdInput.value;
+        }
+    }
+
+    showSection();
+});
+</script>
+{% endblock %}

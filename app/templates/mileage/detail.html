@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Mileage Record #{{ record.id }} - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/mileage">Mileage Records</a></li>
+        <li class="breadcrumb-item active">Record #{{ record.id }}</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-speedometer me-1"></i>Mileage Record #{{ record.id }}</span>
+                {% if record.is_admin_override %}
+                <span class="badge bg-info">Override</span>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Vehicle</dt>
+                    <dd class="col-sm-8"><a href="/vehicles/{{ record.vehicle.id }}">{{ record.vehicle.registration_number }}</a></dd>
+
+                    <dt class="col-sm-4">Reading</dt>
+                    <dd class="col-sm-8">{{ "{:,}".format(record.reading_value) }} mi</dd>
+
+                    <dt class="col-sm-4">Date</dt>
+                    <dd class="col-sm-8">{{ record.recorded_at.strftime('%d %b %Y %H:%M') }}</dd>
+
+                    <dt class="col-sm-4">Recorded By</dt>
+                    <dd class="col-sm-8">{{ record.recorded_by.username }}</dd>
+
+                    {% if record.is_admin_override and record.override_reason %}
+                    <dt class="col-sm-4">Override Reason</dt>
+                    <dd class="col-sm-8">{{ record.override_reason }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                {% if user.role == 'admin' %}
+                <a href="/mileage/{{ record.id }}/edit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
+                <form method="POST" action="/mileage/{{ record.id }}/delete" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this record?')"><i class="bi bi-trash me-1"></i>Delete</button>
+                </form>
+                {% else %}
+                <a href="/requests/deletion/create?target_type=mileage_record&target_id={{ record.id }}&return_to=mileage" class="btn btn-sm btn-outline-warning"><i class="bi bi-trash"></i> Request Delete</a>
+                {% endif %}
+                {% if return_to == 'vehicle' and return_id %}
+                <a href="/vehicles/{{ return_id }}" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Vehicle</a>
+                {% elif return_to == 'vehicles' %}
+                <a href="/vehicles" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Vehicles</a>
+                {% elif return_to == 'dashboard' %}
+                <a href="/dashboard" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+                {% else %}
+                <a href="/mileage" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to List</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

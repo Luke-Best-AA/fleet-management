@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}My Profile - Fleet Management{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-person-circle me-2"></i>My Profile</h2>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-person me-1"></i>Account Details</span>
+                <a href="/auth/profile/edit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">Name</dt>
+                    <dd class="col-sm-7">{{ profile.first_name }} {{ profile.last_name }}</dd>
+
+                    <dt class="col-sm-5">Username</dt>
+                    <dd class="col-sm-7">{{ profile.username }}</dd>
+
+                    <dt class="col-sm-5">Email</dt>
+                    <dd class="col-sm-7">{{ profile.email }}</dd>
+
+                    <dt class="col-sm-5">Employee Number</dt>
+                    <dd class="col-sm-7">{{ profile.employee_number or '-' }}</dd>
+
+                    <dt class="col-sm-5">Role</dt>
+                    <dd class="col-sm-7"><span class="badge bg-{{ 'warning' if profile.role == 'admin' else 'secondary' }}">{{ profile.role.title() }}</span></dd>
+
+                    <dt class="col-sm-5">Location</dt>
+                    <dd class="col-sm-7">{{ profile.location.name if profile.location else '-' }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-palette me-1"></i>Appearance</div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <strong>Dark Mode</strong>
+                        <div class="text-muted small">Toggle between light and dark theme</div>
+                    </div>
+                    <div class="form-check form-switch mb-0">
+                        <input class="form-check-input" type="checkbox" role="switch" id="themeToggle">
+                    </div>
+                </div>
+                <button type="button" id="themeReset" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-arrow-counterclockwise"></i> Use browser default
+                </button>
+                <div class="text-muted small mt-2" id="browserThemeInfo"></div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header"><i class="bi bi-shield-lock me-1"></i>Account</div>
+            <div class="card-body d-grid gap-2">
+                <a href="/auth/change-password" class="btn btn-outline-secondary"><i class="bi bi-key me-2"></i>Change Password</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Maintenance Record #{{ record.id }} - Fleet Management{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/maintenance">Maintenance Records</a></li>
+        <li class="breadcrumb-item active">Record #{{ record.id }}</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-wrench me-1"></i>Maintenance Record #{{ record.id }}</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Vehicle</dt>
+                    <dd class="col-sm-8"><a href="/vehicles/{{ record.vehicle.id }}">{{ record.vehicle.registration_number }}</a></dd>
+
+                    <dt class="col-sm-4">Category</dt>
+                    <dd class="col-sm-8">{{ record.category.name }}</dd>
+
+                    <dt class="col-sm-4">Date</dt>
+                    <dd class="col-sm-8">{{ record.maintenance_date.strftime('%d %b %Y') }}</dd>
+
+                    <dt class="col-sm-4">Mileage at Time</dt>
+                    <dd class="col-sm-8">{{ "{:,}".format(record.mileage_at_time) }} mi</dd>
+
+                    <dt class="col-sm-4">Cost</dt>
+                    <dd class="col-sm-8">{{ "£{:,.2f}".format(record.cost) if record.cost else '-' }}</dd>
+
+                    <dt class="col-sm-4">Logged By</dt>
+                    <dd class="col-sm-8">{{ record.logged_by.username }}</dd>
+
+                    {% if record.notes %}
+                    <dt class="col-sm-4">Notes</dt>
+                    <dd class="col-sm-8">{{ record.notes }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                {% if user.role == 'admin' %}
+                <a href="/maintenance/{{ record.id }}/edit" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Edit</a>
+                <form method="POST" action="/maintenance/{{ record.id }}/delete" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this record?')"><i class="bi bi-trash me-1"></i>Delete</button>
+                </form>
+                {% else %}
+                <a href="/requests/deletion/create?target_type=maintenance_record&target_id={{ record.id }}&return_to=maintenance" class="btn btn-sm btn-outline-warning"><i class="bi bi-trash"></i> Request Delete</a>
+                {% endif %}
+                {% if return_to == 'vehicle' and return_id %}
+                <a href="/vehicles/{{ return_id }}" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Vehicle</a>
+                {% elif return_to == 'vehicles' %}
+                <a href="/vehicles" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Vehicles</a>
+                {% elif return_to == 'dashboard' %}
+                <a href="/dashboard" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+                {% else %}
+                <a href="/maintenance" class="btn btn-sm btn-secondary ms-auto"><i class="bi bi-arrow-left me-1"></i>Back to List</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
