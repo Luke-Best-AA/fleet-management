@@ -109,7 +109,7 @@ class PageVisitMiddleware(BaseHTTPMiddleware):
                     record_visit(db, user_id=request.state.user["id"], path=request.url.path)
                 finally:
                     db.close()
-            except Exception:  # noqa: S110
+            except Exception:  # noqa: S110  # nosec B110
                 pass  # Never break page loads for analytics
 
         return response

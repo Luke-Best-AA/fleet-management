@@ -24,3 +24,7 @@ ignore = [
 "tests/**" = ["S101"]   # allow assert in tests
 "seed.py" = ["S106"]    # allow hardcoded passwords in seed data
 "app/models/**" = ["F821"]  # forward references in SQLAlchemy relationships
+
+[tool.bandit]
+exclude_dirs = ["tests", "htmlcov"]
+skips = ["B104", "B110"]

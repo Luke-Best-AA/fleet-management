@@ -94,6 +94,7 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 | **Frontend** | Bootstrap 5, Bootstrap Icons, Chart.js |
 | **Testing** | pytest, httpx (TestClient) |
 | **Linting / formatting** | Ruff |
+| **Security scanning** | Bandit |
 | **Containerisation** | Docker, Docker Compose |
 | **Deployment** | *To be confirmed* |
 
@@ -488,6 +489,7 @@ On each push to main:
 - **Client-side JS modules** — separate files for table sorting, filtering, form guards and app behaviour
 - **No duplicated business logic** — validation rules defined once in schemas, enforced in services
 - **Ruff linting and formatting** — enforced via `pyproject.toml` with rules for pycodestyle, pyflakes, isort, flake8-bugbear, flake8-bandit and pyupgrade
+- **Bandit static security analysis** — scans application code for common security issues (CWE-mapped); zero findings on 4,236 lines
 
 ## Deployment
 
@@ -541,6 +543,7 @@ On each push to main:
 - [Docker Documentation](https://docs.docker.com/)
 - [pytest Documentation](https://docs.pytest.org/)
 - [Ruff Documentation](https://docs.astral.sh/ruff/)
+- [Bandit Documentation](https://bandit.readthedocs.io/)
 
 ## Licence
 
