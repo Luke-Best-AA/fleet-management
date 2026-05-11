@@ -57,7 +57,7 @@ class TestLogout:
         expect(page).to_have_url(re.compile("/dashboard"))
 
         # Log out via POST (open profile dropdown, then click logout)
-        page.locator('.nav-item.dropdown a.dropdown-toggle').last.click()
+        page.locator(".nav-item.dropdown a.dropdown-toggle").last.click()
         page.locator('form[action="/auth/logout"] button').click()
         expect(page).to_have_url(re.compile("/auth/login"))
 
@@ -70,7 +70,7 @@ class TestLogout:
         expect(page).to_have_url(re.compile("/dashboard"))
 
         # Log out via POST
-        page.locator('.nav-item.dropdown a.dropdown-toggle').last.click()
+        page.locator(".nav-item.dropdown a.dropdown-toggle").last.click()
         page.locator('form[action="/auth/logout"] button').click()
         expect(page).to_have_url(re.compile("/auth/login"))
 
