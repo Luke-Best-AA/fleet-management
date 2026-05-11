@@ -537,6 +537,12 @@ def _detail_page(title: str, html_content: str, json_data) -> str:
   .string {{ color: #ce9178; }}
   .number {{ color: #b5cea8; }}
   .bool {{ color: #569cd6; }}
+  .copy-btn {{ position: absolute; top: 0.75rem; right: 0.75rem;
+               background: #3c3c3c; color: #d4d4d4; border: 1px solid #555;
+               border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer;
+               font-size: 0.8em; }}
+  .copy-btn:hover {{ background: #505050; }}
+  .json-wrap {{ position: relative; }}
 </style>
 </head>
 <body>
@@ -551,7 +557,10 @@ def _detail_page(title: str, html_content: str, json_data) -> str:
 {html_content}
 </div>
 <div id="json-view">
+<div class="json-wrap">
+<button class="copy-btn" onclick="copyJson()">Copy</button>
 <pre id="json-pre">{escaped_json}</pre>
+</div>
 </div>
 </div>
 <script>
@@ -563,6 +572,14 @@ function show(view) {{
   document.querySelectorAll('.toggle button').forEach(
     function(b) {{ b.classList.remove('active'); }});
   event.target.classList.add('active');
+}}
+function copyJson() {{
+  var text = document.getElementById('json-pre').textContent;
+  navigator.clipboard.writeText(text).then(function() {{
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(function() {{ btn.textContent = 'Copy'; }}, 2000);
+  }});
 }}
 (function() {{
   var el = document.getElementById('json-pre');
