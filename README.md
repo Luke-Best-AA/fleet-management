@@ -92,7 +92,7 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 | **Validation** | Pydantic v2 |
 | **Password hashing** | bcrypt via passlib |
 | **Frontend** | Bootstrap 5, Bootstrap Icons, Chart.js |
-| **Testing** | pytest, httpx (TestClient) |
+| **Testing** | pytest, httpx (TestClient), Playwright |
 | **Linting / formatting** | Ruff |
 | **Security scanning** | Bandit, pip-audit |
 | **Containerisation** | Docker, Docker Compose |
@@ -464,13 +464,14 @@ The test suite contains **17 test files** covering:
 
 ## CI/CD Pipeline
 
-A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every pull request to `main`. All three jobs must pass before merging is allowed.
+A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every pull request to `main`. All four jobs must pass before merging is allowed.
 
 | Job | Tool | What it Checks |
 |---|---|---|
 | **Lint & Format** | Ruff | Code style, import ordering, formatting consistency |
 | **Security Scan** | Bandit, pip-audit | Static security analysis + dependency vulnerabilities |
-| **Tests** | pytest | Full test suite with Redis service container |
+| **Tests** | pytest | Full unit/integration test suite with Redis + PostgreSQL |
+| **E2E Tests** | Playwright | Browser-based end-to-end tests (login, navigation, access control) |
 
 Branch protection rules on `main` enforce that all CI checks pass before a pull request can be merged.
 
@@ -486,6 +487,7 @@ Branch protection rules on `main` enforce that all CI checks pass before a pull 
 - **Ruff linting and formatting** — enforced via `pyproject.toml` with rules for pycodestyle, pyflakes, isort, flake8-bugbear, flake8-bandit and pyupgrade
 - **Bandit static security analysis** — scans application code for common security issues (CWE-mapped); zero findings on 4,236 lines
 - **pip-audit dependency scanning** — checks installed packages against known vulnerability databases (PyPI, OSV)
+- **Playwright E2E testing** — browser-based tests for login, logout, navigation and role-based access control; runs in CI via headless Chromium
 
 ## Deployment
 
@@ -519,7 +521,7 @@ Branch protection rules on `main` enforce that all CI checks pass before a pull 
 - Add GitHub Actions CI/CD pipeline
 - Add staging and production environments
 - Add automated database backup scheduling
-- Add end-to-end tests with Playwright
+- ~~Add end-to-end tests with Playwright~~
 - Add email notifications for request status changes
 - Add vehicle document/image uploads
 - Add scheduled maintenance reminders
@@ -541,6 +543,7 @@ Branch protection rules on `main` enforce that all CI checks pass before a pull 
 - [Ruff Documentation](https://docs.astral.sh/ruff/)
 - [Bandit Documentation](https://bandit.readthedocs.io/)
 - [pip-audit Documentation](https://github.com/pypa/pip-audit)
+- [Playwright Documentation](https://playwright.dev/python/)
 
 ## Licence
 
