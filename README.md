@@ -94,7 +94,7 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 | **Frontend** | Bootstrap 5, Bootstrap Icons, Chart.js |
 | **Testing** | pytest, httpx (TestClient) |
 | **Linting / formatting** | Ruff |
-| **Security scanning** | Bandit |
+| **Security scanning** | Bandit, pip-audit |
 | **Containerisation** | Docker, Docker Compose |
 | **Deployment** | *To be confirmed* |
 
@@ -490,6 +490,7 @@ On each push to main:
 - **No duplicated business logic** — validation rules defined once in schemas, enforced in services
 - **Ruff linting and formatting** — enforced via `pyproject.toml` with rules for pycodestyle, pyflakes, isort, flake8-bugbear, flake8-bandit and pyupgrade
 - **Bandit static security analysis** — scans application code for common security issues (CWE-mapped); zero findings on 4,236 lines
+- **pip-audit dependency scanning** — checks installed packages against known vulnerability databases (PyPI, OSV)
 
 ## Deployment
 
@@ -544,6 +545,7 @@ On each push to main:
 - [pytest Documentation](https://docs.pytest.org/)
 - [Ruff Documentation](https://docs.astral.sh/ruff/)
 - [Bandit Documentation](https://bandit.readthedocs.io/)
+- [pip-audit Documentation](https://github.com/pypa/pip-audit)
 
 ## Licence
 
