@@ -236,21 +236,34 @@
                 applyFilters(container);
             });
 
-            // Insert clear button
+            // Desktop: insert clear button inline in the filter row
             var filterRow = container.querySelector('.row');
+            var desktopClearCol = document.createElement('div');
+            desktopClearCol.className = 'col-auto d-none d-md-block';
+            desktopClearCol.appendChild(clearBtn);
             if (filterRow) {
-                var clearCol = document.createElement('div');
-                clearCol.className = 'col-auto';
-                clearCol.appendChild(clearBtn);
-                filterRow.appendChild(clearCol);
+                filterRow.appendChild(desktopClearCol);
             }
 
-            // Show/hide clear button based on filter state
+            // Mobile: standalone clear button (full width, outside accordion)
+            var mobileClearBtn = clearBtn.cloneNode(true);
+            mobileClearBtn.className = 'btn btn-sm btn-outline-secondary d-md-none w-100 mt-2';
+            mobileClearBtn.style.display = 'none';
+            mobileClearBtn.addEventListener('click', function () {
+                container.querySelectorAll('input').forEach(function (i) { i.value = ''; });
+                container.querySelectorAll('select').forEach(function (s) { s.selectedIndex = 0; });
+                mobileClearBtn.style.display = 'none';
+                clearBtn.style.display = 'none';
+                applyFilters(container);
+            });
+
+            // Show/hide clear buttons based on filter state
             function updateClearBtn() {
                 var hasValue = false;
                 container.querySelectorAll('input').forEach(function (i) { if (i.value) hasValue = true; });
                 container.querySelectorAll('select').forEach(function (s) { if (s.selectedIndex > 0) hasValue = true; });
                 clearBtn.style.display = hasValue ? '' : 'none';
+                mobileClearBtn.style.display = hasValue ? '' : 'none';
             }
             inputs.forEach(function (input) {
                 input.addEventListener('input', updateClearBtn);
@@ -279,6 +292,9 @@
                 filterRow.parentNode.insertBefore(btn, filterRow);
                 filterRow.parentNode.insertBefore(collapseDiv, filterRow);
                 collapseDiv.appendChild(filterRow);
+
+                // Insert mobile clear button after the collapse div (outside accordion)
+                collapseDiv.parentNode.insertBefore(mobileClearBtn, collapseDiv.nextSibling);
             }
         });
     });
