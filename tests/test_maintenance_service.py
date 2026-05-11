@@ -20,7 +20,7 @@ class TestGetCategoryById:
         assert result.name == "Test Category"
 
     def test_raises_not_found(self, db):
-        with pytest.raises(NotFoundError, match="category not found"):
+        with pytest.raises(NotFoundError, match="Please select a valid maintenance category"):
             maint_service.get_category_by_id(db, 9999)
 
     def test_raises_not_found_for_deleted(self, db, category):
