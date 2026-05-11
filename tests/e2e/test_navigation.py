@@ -60,4 +60,4 @@ class TestDriverNavigation:
     def test_driver_cannot_access_admin(self, page, base_url, driver_creds):
         _login(page, base_url, **driver_creds)
         page.goto(f"{base_url}/admin/locations")
-        expect(page.locator("text=403, text=Forbidden, text=not authorised").first).to_be_visible()
+        expect(page.locator("text=403")).to_be_visible()

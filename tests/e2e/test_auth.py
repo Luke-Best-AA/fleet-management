@@ -56,8 +56,8 @@ class TestLogout:
         page.click('button[type="submit"]')
         expect(page).to_have_url(re.compile("/dashboard"))
 
-        # Log out
-        page.goto(f"{base_url}/auth/logout")
+        # Log out via POST (click the logout link/button)
+        page.locator('a[href="/auth/logout"], form[action="/auth/logout"] button').first.click()
         expect(page).to_have_url(re.compile("/auth/login"))
 
     def test_cannot_access_dashboard_after_logout(self, page, base_url, admin_creds):
@@ -68,8 +68,9 @@ class TestLogout:
         page.click('button[type="submit"]')
         expect(page).to_have_url(re.compile("/dashboard"))
 
-        # Log out
-        page.goto(f"{base_url}/auth/logout")
+        # Log out via POST
+        page.locator('a[href="/auth/logout"], form[action="/auth/logout"] button').first.click()
+        expect(page).to_have_url(re.compile("/auth/login"))
 
         # Try to access dashboard
         page.goto(f"{base_url}/dashboard")
