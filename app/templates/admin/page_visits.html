@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Page Visits - Fleet Management{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0"><i class="bi bi-graph-up me-2"></i>Page Visits</h2>
+    <span class="text-muted">{{ total }} visits (last {{ filter_days }} days)</span>
+</div>
+
+<!-- Filters -->
+<div class="card mb-3">
+    <div class="card-body py-2">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-auto">
+                <label class="form-label mb-0 small">Period</label>
+                <select name="days" class="form-select form-select-sm">
+                    <option value="7" {% if filter_days == 7 %}selected{% endif %}>Last 7 days</option>
+                    <option value="30" {% if filter_days == 30 %}selected{% endif %}>Last 30 days</option>
+                    <option value="90" {% if filter_days == 90 %}selected{% endif %}>Last 90 days</option>
+                </select>
+            </div>
+            {% if filter_user_id %}
+            <input type="hidden" name="user_id" value="{{ filter_user_id }}">
+            {% endif %}
+            <div class="col-auto">
+                <button type="submit" class="btn btn-sm btn-secondary">Filter</button>
+                {% if filter_user_id %}
+                <a href="/admin/page-visits?days={{ filter_days }}" class="btn btn-sm btn-outline-secondary">Clear user filter</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Popular Pages -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Most Visited Pages</div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <thead>
+                        <tr>
+                            <th>Page</th>
+                            <th class="text-end">Visits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for path, count in popular_pages %}
+                    <tr>
+                        <td class="text-truncate" style="max-width: 300px;">{{ path }}</td>
+                        <td class="text-end">{{ count }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="2" class="text-center text-muted py-3">No data yet.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Most Active Users -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Most Active Users</div>
+            <div class="card-body p-0">
+                <table class="table table-sm mb-0">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th class="text-end">Visits</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user_id, username, count in active_users %}
+                    <tr>
+                        <td>{{ username }}</td>
+                        <td class="text-end">{{ count }}</td>
+                        <td><a href="/admin/page-visits?user_id={{ user_id }}&days={{ filter_days }}" class="btn btn-sm btn-outline-info">View</a></td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3" class="text-center text-muted py-3">No data yet.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Visits Log -->
+<div class="card">
+    <div class="card-header">Recent Visits{% if filter_user_id %} (filtered by user){% endif %}</div>
+    <div class="card-body p-0">
+        <table class="table table-sm table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Page</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for visit in visits %}
+            <tr>
+                <td class="text-nowrap">{{ visit.visited_at.strftime('%d %b %Y %H:%M') }}</td>
+                <td>{{ visit.user.username }}</td>
+                <td class="text-truncate" style="max-width: 400px;">{{ visit.path }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-center text-muted py-3">No page visits recorded yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if total_pages > 1 %}
+<nav class="mt-3">
+    <ul class="pagination justify-content-center mb-0">
+        <li class="page-item{% if page <= 1 %} disabled{% endif %}">
+            <a class="page-link" href="?page={{ page - 1 }}&days={{ filter_days }}{% if filter_user_id %}&user_id={{ filter_user_id }}{% endif %}">Previous</a>
+        </li>
+        {% for p in range(1, total_pages + 1) %}
+        <li class="page-item{% if p == page %} active{% endif %}">
+            <a class="page-link" href="?page={{ p }}&days={{ filter_days }}{% if filter_user_id %}&user_id={{ filter_user_id }}{% endif %}">{{ p }}</a>
+        </li>
+        {% endfor %}
+        <li class="page-item{% if page >= total_pages %} disabled{% endif %}">
+            <a class="page-link" href="?page={{ page + 1 }}&days={{ filter_days }}{% if filter_user_id %}&user_id={{ filter_user_id }}{% endif %}">Next</a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

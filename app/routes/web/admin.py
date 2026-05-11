@@ -16,6 +16,7 @@ from app.services import location as location_service
 from app.services import maintenance as maint_service
 from app.services import user as user_service
 from app.services import audit as audit_service
+from app.services import page_visit as page_visit_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int_or_none
 from app.utils.template import render
@@ -480,4 +481,36 @@ async def audit_log_page(request: Request, db: Session = Depends(get_db)):
         "page": page,
         "total_pages": total_pages,
         "total": total,
+    })
+
+
+# --- Page Visits ---
+
+@router.get("/page-visits")
+async def page_visits_page(request: Request, db: Session = Depends(get_db)):
+    if not _require_admin(request):
+        return render(request, "errors/403.html", status_code=403)
+
+    page = int(request.query_params.get("page", 1))
+    user_id = safe_int_or_none(request.query_params.get("user_id"))
+    days = int(request.query_params.get("days", 30))
+    per_page = 50
+    offset = (page - 1) * per_page
+
+    total = page_visit_service.count_visits(db, user_id=user_id, days=days)
+    visits = page_visit_service.get_visits(db, limit=per_page, offset=offset, user_id=user_id, days=days)
+    total_pages = (total + per_page - 1) // per_page
+
+    popular_pages = page_visit_service.get_popular_pages(db, days=days)
+    active_users = page_visit_service.get_active_users(db, days=days)
+
+    return render(request, "admin/page_visits.html", {
+        "visits": visits,
+        "page": page,
+        "total_pages": total_pages,
+        "total": total,
+        "popular_pages": popular_pages,
+        "active_users": active_users,
+        "filter_user_id": user_id,
+        "filter_days": days,
     })

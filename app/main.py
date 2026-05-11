@@ -20,6 +20,7 @@ from app.models.mileage import MileageRecord  # noqa: F401
 from app.models.retirement_request import RetirementRequest  # noqa: F401
 from app.models.deletion_request import DeletionRequest  # noqa: F401
 from app.models.audit_log import AuditLog  # noqa: F401
+from app.models.page_visit import PageVisit  # noqa: F401
 
 
 class SessionMiddleware(BaseHTTPMiddleware):
@@ -81,10 +82,44 @@ class SessionMiddleware(BaseHTTPMiddleware):
         return response
 
 
+# Paths excluded from page-visit tracking
+_VISIT_SKIP_PREFIXES = ("/static", "/api", "/auth", "/favicon")
+
+
+class PageVisitMiddleware(BaseHTTPMiddleware):
+    """Records page visits for authenticated non-admin users."""
+
+    async def dispatch(self, request: Request, call_next):
+        response = await call_next(request)
+
+        # Only track successful GET page loads for non-admin users
+        if (
+            request.method == "GET"
+            and request.state.user
+            and request.state.user.get("role") != "admin"
+            and response.status_code == 200
+            and not request.url.path.startswith(_VISIT_SKIP_PREFIXES)
+        ):
+            try:
+                from app.db.session import SessionLocal
+                from app.services.page_visit import record_visit
+
+                db = SessionLocal()
+                try:
+                    record_visit(db, user_id=request.state.user["id"], path=request.url.path)
+                finally:
+                    db.close()
+            except Exception:
+                pass  # Never break page loads for analytics
+
+        return response
+
+
 def create_app() -> FastAPI:
     app = FastAPI(title=settings.APP_NAME, docs_url=None, redoc_url=None)
 
     app.mount("/static", StaticFiles(directory="app/static"), name="static")
+    app.add_middleware(PageVisitMiddleware)
     app.add_middleware(SessionMiddleware)
 
     # Create tables
