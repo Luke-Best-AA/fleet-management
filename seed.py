@@ -1,16 +1,16 @@
 """Seed the database with initial data: an admin user, locations, categories."""
+
 import sys
 
-from app.config import settings
 from app.db.base import Base
 from app.db.session import SessionLocal, engine
+from app.models.deletion_request import DeletionRequest  # noqa: F401
 from app.models.location import Location
-from app.models.user import User
-from app.models.vehicle import Vehicle
 from app.models.maintenance import MaintenanceCategory, MaintenanceRecord  # noqa: F401
 from app.models.mileage import MileageRecord  # noqa: F401
 from app.models.retirement_request import RetirementRequest  # noqa: F401
-from app.models.deletion_request import DeletionRequest  # noqa: F401
+from app.models.user import User
+from app.models.vehicle import Vehicle
 from app.security.password import hash_password
 
 
@@ -23,8 +23,12 @@ def seed():
         if not db.query(Location).first():
             locations = [
                 Location(name="London Depot", code="LON", region="South East", city="London", postcode="SW1A 1AA"),
-                Location(name="Manchester Depot", code="MAN", region="North West", city="Manchester", postcode="M1 1AA"),
-                Location(name="Birmingham Depot", code="BHM", region="West Midlands", city="Birmingham", postcode="B1 1AA"),
+                Location(
+                    name="Manchester Depot", code="MAN", region="North West", city="Manchester", postcode="M1 1AA"
+                ),
+                Location(
+                    name="Birmingham Depot", code="BHM", region="West Midlands", city="Birmingham", postcode="B1 1AA"
+                ),
             ]
             db.add_all(locations)
             db.flush()

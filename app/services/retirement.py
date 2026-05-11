@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy.orm import Session
 
@@ -38,11 +38,7 @@ def create_request(
     user_role: str = "standard",
     user_id: int | None = None,
 ) -> RetirementRequest:
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False).first()
     if not vehicle:
         raise BusinessRuleError("Vehicle not found or has been deleted")
 
@@ -50,9 +46,7 @@ def create_request(
         raise BusinessRuleError("Vehicle must be active to request retirement")
 
     if user_role == "standard" and vehicle.primary_driver_user_id != user_id:
-        raise AuthorisationError(
-            "You can only request retirement for your assigned vehicle"
-        )
+        raise AuthorisationError("You can only request retirement for your assigned vehicle")
 
     pending = (
         db.query(RetirementRequest)
@@ -63,9 +57,7 @@ def create_request(
         .first()
     )
     if pending:
-        raise BusinessRuleError(
-            "A pending retirement request already exists for this vehicle"
-        )
+        raise BusinessRuleError("A pending retirement request already exists for this vehicle")
 
     vehicle.status = "pending_retirement"
 
@@ -92,15 +84,11 @@ def review_request(
     if req.status != "pending":
         raise BusinessRuleError("This request has already been reviewed")
 
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == req.vehicle_id)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == req.vehicle_id).first()
 
     req.reviewed_by_user_id = reviewed_by_user_id
     req.review_notes = review_notes.strip() or None
-    req.reviewed_at = datetime.now(timezone.utc)
+    req.reviewed_at = datetime.now(UTC)
 
     if action == "approve":
         req.status = "approved"
@@ -124,11 +112,7 @@ def retire_vehicle_directly(
     admin_user_id: int,
 ) -> Vehicle:
     """Admin can retire a vehicle directly without the request/review flow."""
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False).first()
     if not vehicle:
         raise BusinessRuleError("Vehicle not found or has been deleted")
     if not vehicle.is_active_status:

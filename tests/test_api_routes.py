@@ -1,5 +1,5 @@
 """Tests for API routes (inline AJAX endpoints)."""
-import pytest
+
 from app.security.csrf import generate_csrf_token
 
 

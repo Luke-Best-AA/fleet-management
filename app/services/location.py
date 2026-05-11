@@ -5,11 +5,7 @@ from app.models.location import Location
 
 
 def get_location_by_id(db: Session, location_id: int) -> Location:
-    loc = (
-        db.query(Location)
-        .filter(Location.id == location_id, Location.is_deleted == False)
-        .first()
-    )
+    loc = db.query(Location).filter(Location.id == location_id, Location.is_deleted == False).first()
     if not loc:
         raise NotFoundError("Location not found")
     return loc
@@ -66,11 +62,19 @@ def update_location(
 ) -> Location:
     loc = get_location_by_id(db, location_id)
 
-    existing = db.query(Location).filter(Location.name == name, Location.id != location_id, Location.is_deleted == False).first()
+    existing = (
+        db.query(Location)
+        .filter(Location.name == name, Location.id != location_id, Location.is_deleted == False)
+        .first()
+    )
     if existing:
         raise ConflictError("Location name already in use")
 
-    existing = db.query(Location).filter(Location.code == code, Location.id != location_id, Location.is_deleted == False).first()
+    existing = (
+        db.query(Location)
+        .filter(Location.code == code, Location.id != location_id, Location.is_deleted == False)
+        .first()
+    )
     if existing:
         raise ConflictError("Location code already in use")
 

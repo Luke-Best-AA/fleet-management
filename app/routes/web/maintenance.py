@@ -15,7 +15,7 @@ from app.security.csrf import validate_csrf_token
 from app.services import maintenance as maint_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
-from app.utils.forms import parse_errors, safe_int, safe_date, safe_decimal
+from app.utils.forms import parse_errors, safe_date, safe_decimal, safe_int
 from app.utils.template import render
 
 router = APIRouter(prefix="/maintenance", tags=["maintenance"])
@@ -139,9 +139,15 @@ async def maintenance_detail_page(request: Request, record_id: int, db: Session 
 
     return_to = request.query_params.get("return_to", "")
     return_id = request.query_params.get("return_id", "")
-    return render(request, "maintenance/detail.html", {
-        "record": record, "return_to": return_to, "return_id": return_id,
-    })
+    return render(
+        request,
+        "maintenance/detail.html",
+        {
+            "record": record,
+            "return_to": return_to,
+            "return_id": return_id,
+        },
+    )
 
 
 @router.get("/{record_id}/edit")

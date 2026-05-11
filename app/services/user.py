@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 
 from app.exceptions import (
     AuthorisationError,
-    BusinessRuleError,
     ConflictError,
     NotFoundError,
 )
@@ -86,11 +85,7 @@ def update_user(
         raise ConflictError("Email already in use")
 
     if employee_number:
-        existing = (
-            db.query(User)
-            .filter(User.employee_number == employee_number, User.id != user_id)
-            .first()
-        )
+        existing = db.query(User).filter(User.employee_number == employee_number, User.id != user_id).first()
         if existing:
             raise ConflictError("Employee number already in use")
 

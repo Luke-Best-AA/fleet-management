@@ -93,6 +93,7 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 | **Password hashing** | bcrypt via passlib |
 | **Frontend** | Bootstrap 5, Bootstrap Icons, Chart.js |
 | **Testing** | pytest, httpx (TestClient) |
+| **Linting / formatting** | Ruff |
 | **Containerisation** | Docker, Docker Compose |
 | **Deployment** | *To be confirmed* |
 
@@ -467,10 +468,12 @@ The test suite contains **17 test files** covering:
 ```
 On each push to main:
 1. Install dependencies
-2. Run linting
-3. Run unit tests
-4. Run security tests
-5. Deploy to live environment
+2. Run linting (ruff check .)
+3. Run format check (ruff format --check .)
+4. Run unit tests (pytest --cov=app)
+5. Run security scan (bandit -r app/)
+6. Run dependency audit (pip-audit)
+7. Deploy to live environment
 ```
 
 *GitHub Actions workflow file to be added at `.github/workflows/`.*
@@ -484,6 +487,7 @@ On each push to main:
 - **Reusable template macros** — `form_field`, `csrf_field`, `submit_button` helpers
 - **Client-side JS modules** — separate files for table sorting, filtering, form guards and app behaviour
 - **No duplicated business logic** — validation rules defined once in schemas, enforced in services
+- **Ruff linting and formatting** — enforced via `pyproject.toml` with rules for pycodestyle, pyflakes, isort, flake8-bugbear, flake8-bandit and pyupgrade
 
 ## Deployment
 
@@ -536,6 +540,7 @@ On each push to main:
 - [Chart.js Documentation](https://www.chartjs.org/docs/)
 - [Docker Documentation](https://docs.docker.com/)
 - [pytest Documentation](https://docs.pytest.org/)
+- [Ruff Documentation](https://docs.astral.sh/ruff/)
 
 ## Licence
 

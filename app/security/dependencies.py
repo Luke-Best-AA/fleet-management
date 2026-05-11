@@ -1,12 +1,5 @@
-from functools import wraps
-from typing import Any
+from fastapi import Request
 
-from fastapi import Depends, Request
-from fastapi.responses import RedirectResponse
-from sqlalchemy.orm import Session
-
-from app.db.session import get_db
-from app.exceptions import AuthorisationError
 from app.security.csrf import validate_csrf_token
 
 

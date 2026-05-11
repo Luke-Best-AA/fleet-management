@@ -4,11 +4,11 @@ from pydantic import ValidationError as PydanticValidationError
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.schemas.user import UserCreateSchema
 from app.schemas.location import LocationCreateSchema
+from app.schemas.user import UserCreateSchema
 from app.security.csrf import validate_csrf_token
-from app.services import user as user_service
 from app.services import location as location_service
+from app.services import user as user_service
 
 router = APIRouter(prefix="/api", tags=["api"])
 
@@ -49,10 +49,12 @@ async def create_driver(request: Request, db: Session = Depends(get_db)):
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=422)
 
-    return JSONResponse({
-        "id": new_user.id,
-        "label": f"{new_user.first_name} {new_user.last_name} ({new_user.username})",
-    })
+    return JSONResponse(
+        {
+            "id": new_user.id,
+            "label": f"{new_user.first_name} {new_user.last_name} ({new_user.username})",
+        }
+    )
 
 
 @router.post("/locations")
@@ -90,7 +92,9 @@ async def create_location(request: Request, db: Session = Depends(get_db)):
     except Exception as e:
         return JSONResponse({"error": str(e)}, status_code=422)
 
-    return JSONResponse({
-        "id": new_loc.id,
-        "label": f"{new_loc.name} ({new_loc.code})",
-    })
+    return JSONResponse(
+        {
+            "id": new_loc.id,
+            "label": f"{new_loc.name} ({new_loc.code})",
+        }
+    )

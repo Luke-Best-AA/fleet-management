@@ -52,10 +52,16 @@ async def mileage_create_page(request: Request, db: Session = Depends(get_db)):
     return_to = request.query_params.get("return_to", "")
     return_id = request.query_params.get("return_id", "")
     form_data = {"vehicle_id": request.query_params.get("vehicle_id", "")}
-    return render(request, "mileage/create.html", {
-        "vehicles": vehicles, "form_data": form_data,
-        "return_to": return_to, "return_id": return_id,
-    })
+    return render(
+        request,
+        "mileage/create.html",
+        {
+            "vehicles": vehicles,
+            "form_data": form_data,
+            "return_to": return_to,
+            "return_id": return_id,
+        },
+    )
 
 
 @router.post("/create")
@@ -73,10 +79,16 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
 
     if not validate_csrf_token(form_data.get("csrf_token", "")):
         vehicles = _form_vehicles(db, user)
-        return render(request, "mileage/create.html", {
-            "vehicles": vehicles, "form_data": form_data,
-            "errors": {"_general": "Invalid request."}, **return_ctx,
-        })
+        return render(
+            request,
+            "mileage/create.html",
+            {
+                "vehicles": vehicles,
+                "form_data": form_data,
+                "errors": {"_general": "Invalid request."},
+                **return_ctx,
+            },
+        )
 
     form_data["vehicle_id"] = safe_int(form_data.get("vehicle_id", ""))
     form_data["reading_value"] = safe_int(form_data.get("reading_value", ""))
@@ -86,9 +98,16 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
         schema = MileageCreateSchema(**form_data)
     except PydanticValidationError as e:
         vehicles = _form_vehicles(db, user)
-        return render(request, "mileage/create.html", {
-            "vehicles": vehicles, "form_data": form_data, "errors": parse_errors(e), **return_ctx,
-        })
+        return render(
+            request,
+            "mileage/create.html",
+            {
+                "vehicles": vehicles,
+                "form_data": form_data,
+                "errors": parse_errors(e),
+                **return_ctx,
+            },
+        )
 
     try:
         mileage_service.create_record(
@@ -103,9 +122,16 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
         )
     except AppError as e:
         vehicles = _form_vehicles(db, user)
-        return render(request, "mileage/create.html", {
-            "vehicles": vehicles, "form_data": form_data, "errors": {"_general": e.message}, **return_ctx,
-        })
+        return render(
+            request,
+            "mileage/create.html",
+            {
+                "vehicles": vehicles,
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+                **return_ctx,
+            },
+        )
 
     flash(request.state.session_id, "Mileage record created.", "success")
     if return_to == "vehicle" and return_id:
@@ -128,9 +154,15 @@ async def mileage_detail_page(request: Request, record_id: int, db: Session = De
 
     return_to = request.query_params.get("return_to", "")
     return_id = request.query_params.get("return_id", "")
-    return render(request, "mileage/detail.html", {
-        "record": record, "return_to": return_to, "return_id": return_id,
-    })
+    return render(
+        request,
+        "mileage/detail.html",
+        {
+            "record": record,
+            "return_to": return_to,
+            "return_id": return_id,
+        },
+    )
 
 
 @router.get("/{record_id}/edit")
@@ -175,9 +207,15 @@ async def mileage_edit_post(request: Request, record_id: int, db: Session = Depe
             record = mileage_service.get_record_by_id(db, record_id)
         except AppError:
             return render(request, "errors/404.html", status_code=404)
-        return render(request, "mileage/edit.html", {
-            "record": record, "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "mileage/edit.html",
+            {
+                "record": record,
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         mileage_service.update_record(
@@ -192,9 +230,15 @@ async def mileage_edit_post(request: Request, record_id: int, db: Session = Depe
             record = mileage_service.get_record_by_id(db, record_id)
         except AppError:
             return render(request, "errors/404.html", status_code=404)
-        return render(request, "mileage/edit.html", {
-            "record": record, "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "mileage/edit.html",
+            {
+                "record": record,
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     flash(request.state.session_id, "Mileage record updated.", "success")
     return RedirectResponse("/mileage", status_code=303)

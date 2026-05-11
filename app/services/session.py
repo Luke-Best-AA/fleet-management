@@ -1,6 +1,5 @@
 import hashlib
 import json
-import secrets
 import uuid
 
 import redis
@@ -88,6 +87,7 @@ def invalidate_user_sessions(user_id: int) -> None:
 
 # Flash messages
 
+
 def add_flash(session_id: str, message: str, category: str = "info") -> None:
     if not session_id:
         return
@@ -111,6 +111,7 @@ def get_flashes(session_id: str) -> list[dict]:
 
 
 # Lockout
+
 
 def record_failed_login(username: str) -> int:
     key = f"{LOGIN_ATTEMPTS_PREFIX}{username}"

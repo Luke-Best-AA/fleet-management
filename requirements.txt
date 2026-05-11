@@ -14,3 +14,4 @@ itsdangerous
 pytest
 pytest-asyncio
 httpx
+ruff

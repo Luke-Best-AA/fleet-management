@@ -1,22 +1,22 @@
 """Tests for Pydantic schemas."""
+
 import pytest
 from pydantic import ValidationError
 
-from app.schemas.vehicle import VehicleCreateSchema, VehicleUpdateSchema
-from app.schemas.auth import LoginSchema, RegisterSchema, ChangePasswordSchema
-from app.schemas.location import LocationCreateSchema, LocationUpdateSchema
+from app.schemas.auth import RegisterSchema
+from app.schemas.location import LocationCreateSchema
 from app.schemas.maintenance import (
     MaintenanceCategoryCreateSchema,
     MaintenanceRecordCreateSchema,
 )
 from app.schemas.mileage import MileageCreateSchema
 from app.schemas.requests import (
-    RetirementRequestCreateSchema,
     DeletionRequestCreateSchema,
+    RetirementRequestCreateSchema,
     RetirementRequestReviewSchema,
-    DeletionRequestReviewSchema,
 )
 from app.schemas.user import UserCreateSchema
+from app.schemas.vehicle import VehicleCreateSchema
 
 
 class TestVehicleSchema:
@@ -212,6 +212,7 @@ class TestMaintenanceSchemas:
 
     def test_valid_record(self):
         from datetime import date
+
         s = MaintenanceRecordCreateSchema(
             vehicle_id=1,
             category_id=1,
@@ -222,6 +223,7 @@ class TestMaintenanceSchemas:
 
     def test_negative_mileage_fails(self):
         from datetime import date
+
         with pytest.raises(ValidationError):
             MaintenanceRecordCreateSchema(
                 vehicle_id=1,
@@ -244,7 +246,8 @@ class TestMileageSchema:
 class TestRequestSchemas:
     def test_valid_retirement_request(self):
         s = RetirementRequestCreateSchema(
-            vehicle_id=1, reason="Vehicle is too old to keep running",
+            vehicle_id=1,
+            reason="Vehicle is too old to keep running",
         )
         assert s.vehicle_id == 1
 
@@ -262,14 +265,18 @@ class TestRequestSchemas:
 
     def test_valid_deletion_request(self):
         s = DeletionRequestCreateSchema(
-            target_type="maintenance_record", target_id=1, reason="Wrong entry",
+            target_type="maintenance_record",
+            target_id=1,
+            reason="Wrong entry",
         )
         assert s.target_type == "maintenance_record"
 
     def test_invalid_deletion_target_type(self):
         with pytest.raises(ValidationError):
             DeletionRequestCreateSchema(
-                target_type="invalid_type", target_id=1, reason="Delete",
+                target_type="invalid_type",
+                target_id=1,
+                reason="Delete",
             )
 
 

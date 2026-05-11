@@ -12,12 +12,12 @@ from app.schemas.requests import (
     RetirementRequestReviewSchema,
 )
 from app.security.csrf import validate_csrf_token
+from app.services import audit as audit_service
 from app.services import deletion as deletion_service
 from app.services import maintenance as maint_service
 from app.services import mileage as mileage_service
 from app.services import retirement as retirement_service
 from app.services import vehicle as vehicle_service
-from app.services import audit as audit_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int
 from app.utils.template import render
@@ -26,6 +26,7 @@ router = APIRouter(prefix="/requests", tags=["requests"])
 
 
 # --- Retirement Requests ---
+
 
 @router.get("/retirement")
 async def retirement_list(request: Request, db: Session = Depends(get_db)):
@@ -79,9 +80,15 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
         else:
             vehicles = vehicle_service.get_vehicles_for_user(db, user["id"])
         vehicles = [v for v in vehicles if v.is_active_status]
-        return render(request, "requests/retirement_create.html", {
-            "vehicles": vehicles, "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "requests/retirement_create.html",
+            {
+                "vehicles": vehicles,
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         if user["role"] == "admin":
@@ -108,9 +115,15 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
         else:
             vehicles = vehicle_service.get_vehicles_for_user(db, user["id"])
         vehicles = [v for v in vehicles if v.is_active_status]
-        return render(request, "requests/retirement_create.html", {
-            "vehicles": vehicles, "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "requests/retirement_create.html",
+            {
+                "vehicles": vehicles,
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     if user["role"] == "admin":
         return RedirectResponse("/vehicles", status_code=303)
@@ -146,7 +159,7 @@ async def retirement_review_post(request: Request, request_id: int, db: Session 
 
     try:
         schema = RetirementRequestReviewSchema(**form_data)
-    except PydanticValidationError as e:
+    except PydanticValidationError:
         flash(request.state.session_id, "Invalid review data.", "danger")
         return RedirectResponse(f"/requests/retirement/{request_id}", status_code=303)
 
@@ -163,7 +176,14 @@ async def retirement_review_post(request: Request, request_id: int, db: Session 
         return RedirectResponse(f"/requests/retirement/{request_id}", status_code=303)
 
     action_label = "approved" if schema.action == "approve" else "rejected"
-    audit_service.log_action(db, user_id=user["id"], action=schema.action, target_type="retirement_request", target_id=request_id, details=schema.review_notes)
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action=schema.action,
+        target_type="retirement_request",
+        target_id=request_id,
+        details=schema.review_notes,
+    )
     flash(request.state.session_id, f"Retirement request {action_label}.", "success")
     return RedirectResponse("/requests/retirement", status_code=303)
 
@@ -182,6 +202,7 @@ def _build_cancel_url(return_to: str, return_id: str) -> str:
     if return_to == "vehicles" and return_id:
         return f"{base}/{return_id}"
     return base
+
 
 @router.get("/deletion")
 async def deletion_list(request: Request, db: Session = Depends(get_db)):
@@ -225,14 +246,18 @@ async def deletion_create_page(request: Request, db: Session = Depends(get_db)):
     return_id = request.query_params.get("return_id", "")
     cancel_url = _build_cancel_url(return_to, return_id)
 
-    return render(request, "requests/deletion_create.html", {
-        "form_data": form_data,
-        "mileage_records": mileage_records,
-        "maintenance_records": maintenance_records,
-        "cancel_url": cancel_url,
-        "return_to": return_to,
-        "return_id": return_id,
-    })
+    return render(
+        request,
+        "requests/deletion_create.html",
+        {
+            "form_data": form_data,
+            "mileage_records": mileage_records,
+            "maintenance_records": maintenance_records,
+            "cancel_url": cancel_url,
+            "return_to": return_to,
+            "return_id": return_id,
+        },
+    )
 
 
 @router.post("/deletion/create")
@@ -252,9 +277,14 @@ async def deletion_create_post(request: Request, db: Session = Depends(get_db)):
     try:
         schema = DeletionRequestCreateSchema(**form_data)
     except PydanticValidationError as e:
-        return render(request, "requests/deletion_create.html", {
-            "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "requests/deletion_create.html",
+            {
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         deletion_service.create_request(
@@ -267,9 +297,14 @@ async def deletion_create_post(request: Request, db: Session = Depends(get_db)):
             user_id=user["id"],
         )
     except AppError as e:
-        return render(request, "requests/deletion_create.html", {
-            "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "requests/deletion_create.html",
+            {
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     flash(request.state.session_id, "Deletion request submitted.", "success")
     return_to = form_data.get("return_to", "")
@@ -307,7 +342,7 @@ async def deletion_review_post(request: Request, request_id: int, db: Session = 
 
     try:
         schema = DeletionRequestReviewSchema(**form_data)
-    except PydanticValidationError as e:
+    except PydanticValidationError:
         flash(request.state.session_id, "Invalid review data.", "danger")
         return RedirectResponse(f"/requests/deletion/{request_id}", status_code=303)
 
@@ -324,6 +359,13 @@ async def deletion_review_post(request: Request, request_id: int, db: Session = 
         return RedirectResponse(f"/requests/deletion/{request_id}", status_code=303)
 
     action_label = "approved" if schema.action == "approve" else "rejected"
-    audit_service.log_action(db, user_id=user["id"], action=schema.action, target_type="deletion_request", target_id=request_id, details=schema.review_notes)
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action=schema.action,
+        target_type="deletion_request",
+        target_id=request_id,
+        details=schema.review_notes,
+    )
     flash(request.state.session_id, f"Deletion request {action_label}.", "success")
     return RedirectResponse("/requests/deletion", status_code=303)

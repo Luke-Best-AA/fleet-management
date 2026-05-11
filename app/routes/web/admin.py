@@ -12,11 +12,11 @@ from app.schemas.maintenance import (
 )
 from app.schemas.user import UserCreateSchema, UserUpdateSchema
 from app.security.csrf import validate_csrf_token
+from app.services import audit as audit_service
 from app.services import location as location_service
 from app.services import maintenance as maint_service
-from app.services import user as user_service
-from app.services import audit as audit_service
 from app.services import page_visit as page_visit_service
+from app.services import user as user_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int_or_none
 from app.utils.template import render
@@ -32,6 +32,7 @@ def _require_admin(request: Request):
 
 
 # --- Locations ---
+
 
 @router.get("/locations")
 async def location_list(request: Request, db: Session = Depends(get_db)):
@@ -57,26 +58,43 @@ async def location_create_post(request: Request, db: Session = Depends(get_db)):
     form_data = dict(form)
 
     if not validate_csrf_token(form_data.get("csrf_token", "")):
-        return render(request, "admin/locations/create.html", {
-            "form_data": form_data, "errors": {"_general": "Invalid request."},
-        })
+        return render(
+            request,
+            "admin/locations/create.html",
+            {
+                "form_data": form_data,
+                "errors": {"_general": "Invalid request."},
+            },
+        )
 
     try:
         schema = LocationCreateSchema(**form_data)
     except PydanticValidationError as e:
-        return render(request, "admin/locations/create.html", {
-            "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "admin/locations/create.html",
+            {
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         loc = location_service.create_location(db, **schema.model_dump())
     except AppError as e:
-        return render(request, "admin/locations/create.html", {
-            "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "admin/locations/create.html",
+            {
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     admin = _require_admin(request)
-    audit_service.log_action(db, user_id=admin["id"], action="create", target_type="location", target_id=loc.id, target_label=loc.name)
+    audit_service.log_action(
+        db, user_id=admin["id"], action="create", target_type="location", target_id=loc.id, target_label=loc.name
+    )
     flash(request.state.session_id, "Location created.", "success")
     return RedirectResponse("/admin/locations", status_code=303)
 
@@ -92,9 +110,14 @@ async def location_edit_page(request: Request, location_id: int, db: Session = D
         return render(request, "errors/404.html", status_code=404)
 
     form_data = {
-        "name": loc.name, "code": loc.code, "region": loc.region or "",
-        "address_line_1": loc.address_line_1 or "", "address_line_2": loc.address_line_2 or "",
-        "city": loc.city or "", "postcode": loc.postcode or "", "is_active": loc.is_active,
+        "name": loc.name,
+        "code": loc.code,
+        "region": loc.region or "",
+        "address_line_1": loc.address_line_1 or "",
+        "address_line_2": loc.address_line_2 or "",
+        "city": loc.city or "",
+        "postcode": loc.postcode or "",
+        "is_active": loc.is_active,
     }
     return render(request, "admin/locations/edit.html", {"location": loc, "form_data": form_data})
 
@@ -113,9 +136,15 @@ async def location_edit_post(request: Request, location_id: int, db: Session = D
             loc = location_service.get_location_by_id(db, location_id)
         except AppError:
             return render(request, "errors/404.html", status_code=404)
-        return render(request, "admin/locations/edit.html", {
-            "location": loc, "form_data": form_data, "errors": {"_general": "Invalid request."},
-        })
+        return render(
+            request,
+            "admin/locations/edit.html",
+            {
+                "location": loc,
+                "form_data": form_data,
+                "errors": {"_general": "Invalid request."},
+            },
+        )
 
     try:
         schema = LocationUpdateSchema(**form_data)
@@ -124,9 +153,15 @@ async def location_edit_post(request: Request, location_id: int, db: Session = D
             loc = location_service.get_location_by_id(db, location_id)
         except AppError:
             return render(request, "errors/404.html", status_code=404)
-        return render(request, "admin/locations/edit.html", {
-            "location": loc, "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "admin/locations/edit.html",
+            {
+                "location": loc,
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         location_service.update_location(db, location_id, **schema.model_dump())
@@ -135,12 +170,25 @@ async def location_edit_post(request: Request, location_id: int, db: Session = D
             loc = location_service.get_location_by_id(db, location_id)
         except AppError:
             return render(request, "errors/404.html", status_code=404)
-        return render(request, "admin/locations/edit.html", {
-            "location": loc, "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "admin/locations/edit.html",
+            {
+                "location": loc,
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     admin = _require_admin(request)
-    audit_service.log_action(db, user_id=admin["id"], action="update", target_type="location", target_id=location_id, target_label=schema.name)
+    audit_service.log_action(
+        db,
+        user_id=admin["id"],
+        action="update",
+        target_type="location",
+        target_id=location_id,
+        target_label=schema.name,
+    )
     flash(request.state.session_id, "Location updated.", "success")
     return RedirectResponse("/admin/locations", status_code=303)
 
@@ -169,6 +217,7 @@ async def location_delete_post(request: Request, location_id: int, db: Session =
 
 # --- Maintenance Categories ---
 
+
 @router.get("/categories")
 async def category_list(request: Request, db: Session = Depends(get_db)):
     if not _require_admin(request):
@@ -194,26 +243,43 @@ async def category_create_post(request: Request, db: Session = Depends(get_db)):
     form_data["requires_notes"] = form_data.get("requires_notes") == "true"
 
     if not validate_csrf_token(form_data.get("csrf_token", "")):
-        return render(request, "admin/categories/create.html", {
-            "form_data": form_data, "errors": {"_general": "Invalid request."},
-        })
+        return render(
+            request,
+            "admin/categories/create.html",
+            {
+                "form_data": form_data,
+                "errors": {"_general": "Invalid request."},
+            },
+        )
 
     try:
         schema = MaintenanceCategoryCreateSchema(**form_data)
     except PydanticValidationError as e:
-        return render(request, "admin/categories/create.html", {
-            "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "admin/categories/create.html",
+            {
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         cat = maint_service.create_category(db, **schema.model_dump())
     except AppError as e:
-        return render(request, "admin/categories/create.html", {
-            "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "admin/categories/create.html",
+            {
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     admin = _require_admin(request)
-    audit_service.log_action(db, user_id=admin["id"], action="create", target_type="category", target_id=cat.id, target_label=cat.name)
+    audit_service.log_action(
+        db, user_id=admin["id"], action="create", target_type="category", target_id=cat.id, target_label=cat.name
+    )
     flash(request.state.session_id, "Category created.", "success")
     return RedirectResponse("/admin/categories", status_code=303)
 
@@ -229,8 +295,10 @@ async def category_edit_page(request: Request, category_id: int, db: Session = D
         return render(request, "errors/404.html", status_code=404)
 
     form_data = {
-        "name": cat.name, "description": cat.description or "",
-        "requires_notes": cat.requires_notes, "is_active": cat.is_active,
+        "name": cat.name,
+        "description": cat.description or "",
+        "requires_notes": cat.requires_notes,
+        "is_active": cat.is_active,
     }
     return render(request, "admin/categories/edit.html", {"category": cat, "form_data": form_data})
 
@@ -256,9 +324,15 @@ async def category_edit_post(request: Request, category_id: int, db: Session = D
             cat = maint_service.get_category_by_id(db, category_id)
         except AppError:
             return render(request, "errors/404.html", status_code=404)
-        return render(request, "admin/categories/edit.html", {
-            "category": cat, "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "admin/categories/edit.html",
+            {
+                "category": cat,
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         maint_service.update_category(db, category_id, **schema.model_dump())
@@ -267,12 +341,25 @@ async def category_edit_post(request: Request, category_id: int, db: Session = D
             cat = maint_service.get_category_by_id(db, category_id)
         except AppError:
             return render(request, "errors/404.html", status_code=404)
-        return render(request, "admin/categories/edit.html", {
-            "category": cat, "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "admin/categories/edit.html",
+            {
+                "category": cat,
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     admin = _require_admin(request)
-    audit_service.log_action(db, user_id=admin["id"], action="update", target_type="category", target_id=category_id, target_label=schema.name)
+    audit_service.log_action(
+        db,
+        user_id=admin["id"],
+        action="update",
+        target_type="category",
+        target_id=category_id,
+        target_label=schema.name,
+    )
     flash(request.state.session_id, "Category updated.", "success")
     return RedirectResponse("/admin/categories", status_code=303)
 
@@ -300,6 +387,7 @@ async def category_delete_post(request: Request, category_id: int, db: Session =
 
 
 # --- Users ---
+
 
 @router.get("/users")
 async def user_list(request: Request, db: Session = Depends(get_db)):
@@ -333,9 +421,15 @@ async def user_create_post(request: Request, db: Session = Depends(get_db)):
 
     if not validate_csrf_token(form_data.get("csrf_token", "")):
         locations = location_service.get_all_locations(db, active_only=True)
-        return render(request, "admin/users/create.html", {
-            "locations": locations, "form_data": form_data, "errors": {"_general": "Invalid request."},
-        })
+        return render(
+            request,
+            "admin/users/create.html",
+            {
+                "locations": locations,
+                "form_data": form_data,
+                "errors": {"_general": "Invalid request."},
+            },
+        )
 
     try:
         loc_id = form_data.get("location_id", "")
@@ -347,9 +441,15 @@ async def user_create_post(request: Request, db: Session = Depends(get_db)):
         schema = UserCreateSchema(**form_data)
     except PydanticValidationError as e:
         locations = location_service.get_all_locations(db, active_only=True)
-        return render(request, "admin/users/create.html", {
-            "locations": locations, "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "admin/users/create.html",
+            {
+                "locations": locations,
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         user_service.create_user(
@@ -366,9 +466,15 @@ async def user_create_post(request: Request, db: Session = Depends(get_db)):
         )
     except AppError as e:
         locations = location_service.get_all_locations(db, active_only=True)
-        return render(request, "admin/users/create.html", {
-            "locations": locations, "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "admin/users/create.html",
+            {
+                "locations": locations,
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     admin = _require_admin(request)
     audit_service.log_action(db, user_id=admin["id"], action="create", target_type="user", target_label=schema.username)
@@ -401,13 +507,22 @@ async def user_edit_page(request: Request, user_id: int, db: Session = Depends(g
 
     locations = location_service.get_all_locations(db, active_only=True)
     form_data = {
-        "first_name": target_user.first_name, "last_name": target_user.last_name,
-        "email": target_user.email, "employee_number": target_user.employee_number or "",
-        "location_id": target_user.location_id or "", "is_active": target_user.is_active,
+        "first_name": target_user.first_name,
+        "last_name": target_user.last_name,
+        "email": target_user.email,
+        "employee_number": target_user.employee_number or "",
+        "location_id": target_user.location_id or "",
+        "is_active": target_user.is_active,
     }
-    return render(request, "admin/users/edit.html", {
-        "target_user": target_user, "locations": locations, "form_data": form_data,
-    })
+    return render(
+        request,
+        "admin/users/edit.html",
+        {
+            "target_user": target_user,
+            "locations": locations,
+            "form_data": form_data,
+        },
+    )
 
 
 @router.post("/users/{user_id}/edit")
@@ -437,10 +552,16 @@ async def user_edit_post(request: Request, user_id: int, db: Session = Depends(g
         except AppError:
             return render(request, "errors/404.html", status_code=404)
         locations = location_service.get_all_locations(db, active_only=True)
-        return render(request, "admin/users/edit.html", {
-            "target_user": target_user, "locations": locations,
-            "form_data": form_data, "errors": parse_errors(e),
-        })
+        return render(
+            request,
+            "admin/users/edit.html",
+            {
+                "target_user": target_user,
+                "locations": locations,
+                "form_data": form_data,
+                "errors": parse_errors(e),
+            },
+        )
 
     try:
         user_service.update_user(db, user_id, **schema.model_dump())
@@ -450,18 +571,27 @@ async def user_edit_post(request: Request, user_id: int, db: Session = Depends(g
         except AppError:
             return render(request, "errors/404.html", status_code=404)
         locations = location_service.get_all_locations(db, active_only=True)
-        return render(request, "admin/users/edit.html", {
-            "target_user": target_user, "locations": locations,
-            "form_data": form_data, "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "admin/users/edit.html",
+            {
+                "target_user": target_user,
+                "locations": locations,
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     admin = _require_admin(request)
-    audit_service.log_action(db, user_id=admin["id"], action="update", target_type="user", target_id=user_id, target_label=schema.email)
+    audit_service.log_action(
+        db, user_id=admin["id"], action="update", target_type="user", target_id=user_id, target_label=schema.email
+    )
     flash(request.state.session_id, "User updated.", "success")
     return RedirectResponse("/admin/users", status_code=303)
 
 
 # --- Audit Log ---
+
 
 @router.get("/audit-log")
 async def audit_log_page(request: Request, db: Session = Depends(get_db)):
@@ -476,15 +606,20 @@ async def audit_log_page(request: Request, db: Session = Depends(get_db)):
     logs = audit_service.get_audit_logs(db, limit=per_page, offset=offset)
     total_pages = (total + per_page - 1) // per_page
 
-    return render(request, "admin/audit_log.html", {
-        "logs": logs,
-        "page": page,
-        "total_pages": total_pages,
-        "total": total,
-    })
+    return render(
+        request,
+        "admin/audit_log.html",
+        {
+            "logs": logs,
+            "page": page,
+            "total_pages": total_pages,
+            "total": total,
+        },
+    )
 
 
 # --- Page Visits ---
+
 
 @router.get("/page-visits")
 async def page_visits_page(request: Request, db: Session = Depends(get_db)):
@@ -509,16 +644,20 @@ async def page_visits_page(request: Request, db: Session = Depends(get_db)):
     # Non-admin users for filter dropdown
     standard_users = user_service.get_standard_users(db, active_only=False)
 
-    return render(request, "admin/page_visits.html", {
-        "visits": visits,
-        "page": page,
-        "total_pages": total_pages,
-        "total": total,
-        "popular_pages": popular_pages,
-        "active_users": active_users,
-        "daily_visits": daily_visits,
-        "hourly_dist": hourly_dist,
-        "standard_users": standard_users,
-        "filter_user_id": user_id,
-        "filter_days": days,
-    })
+    return render(
+        request,
+        "admin/page_visits.html",
+        {
+            "visits": visits,
+            "page": page,
+            "total_pages": total_pages,
+            "total": total,
+            "popular_pages": popular_pages,
+            "active_users": active_users,
+            "daily_visits": daily_visits,
+            "hourly_dist": hourly_dist,
+            "standard_users": standard_users,
+            "filter_user_id": user_id,
+            "filter_days": days,
+        },
+    )

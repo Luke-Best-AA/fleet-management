@@ -7,10 +7,10 @@ from app.db.session import get_db
 from app.exceptions import AppError
 from app.schemas.vehicle import VehicleCreateSchema, VehicleUpdateSchema
 from app.security.csrf import validate_csrf_token
+from app.services import audit as audit_service
 from app.services import location as location_service
 from app.services import user as user_service
 from app.services import vehicle as vehicle_service
-from app.services import audit as audit_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int, safe_int_or_none
 from app.utils.template import render
@@ -225,7 +225,9 @@ async def vehicle_retire_post(request: Request, vehicle_id: int, db: Session = D
         flash(request.state.session_id, e.message, "danger")
         return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
 
-    audit_service.log_action(db, user_id=user["id"], action="retire", target_type="vehicle", target_id=vehicle_id, details=retirement_reason)
+    audit_service.log_action(
+        db, user_id=user["id"], action="retire", target_type="vehicle", target_id=vehicle_id, details=retirement_reason
+    )
     flash(request.state.session_id, "Vehicle retired.", "success")
     return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
 

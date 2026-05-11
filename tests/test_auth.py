@@ -1,15 +1,15 @@
 """Tests for authentication flows and session behaviour."""
-import pytest
+
 from app.security.csrf import generate_csrf_token
 from app.security.password import hash_password, verify_password
 from app.services.session import (
-    create_session,
-    get_session,
-    destroy_session,
-    invalidate_user_sessions,
-    record_failed_login,
-    is_locked_out,
     clear_login_attempts,
+    create_session,
+    destroy_session,
+    get_session,
+    invalidate_user_sessions,
+    is_locked_out,
+    record_failed_login,
     redis_client,
 )
 
@@ -29,11 +29,13 @@ class TestPasswordHashing:
 class TestCSRF:
     def test_generate_and_validate(self):
         from app.security.csrf import validate_csrf_token
+
         token = generate_csrf_token()
         assert validate_csrf_token(token)
 
     def test_invalid_token(self):
         from app.security.csrf import validate_csrf_token
+
         assert not validate_csrf_token("")
         assert not validate_csrf_token("invalid")
         assert not validate_csrf_token("a:b:c")

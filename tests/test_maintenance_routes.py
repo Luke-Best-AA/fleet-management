@@ -1,5 +1,5 @@
 """Tests for maintenance routes."""
-import pytest
+
 from datetime import date
 
 from app.security.csrf import generate_csrf_token
@@ -118,8 +118,13 @@ class TestMaintenanceEditRoutes:
 
     def test_edit_page_admin(self, client, admin_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            user_role="admin",
         )
         self._login(client, "testadmin")
         resp = client.get(f"/maintenance/{rec.id}/edit")
@@ -127,8 +132,14 @@ class TestMaintenanceEditRoutes:
 
     def test_edit_page_standard_forbidden(self, client, standard_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         self._login(client, "testdriver")
         resp = client.get(f"/maintenance/{rec.id}/edit")
@@ -136,8 +147,13 @@ class TestMaintenanceEditRoutes:
 
     def test_edit_record_admin(self, client, admin_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            user_role="admin",
         )
         self._login(client, "testadmin")
         token = generate_csrf_token()
@@ -169,8 +185,13 @@ class TestMaintenanceDeleteRoutes:
 
     def test_delete_admin(self, client, admin_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            user_role="admin",
         )
         self._login(client, "testadmin")
         token = generate_csrf_token()
@@ -183,8 +204,14 @@ class TestMaintenanceDeleteRoutes:
 
     def test_delete_standard_forbidden(self, client, standard_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         self._login(client, "testdriver")
         token = generate_csrf_token()

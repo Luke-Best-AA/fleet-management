@@ -1,7 +1,9 @@
 """Tests for maintenance service layer."""
-import pytest
+
 from datetime import date
 from decimal import Decimal
+
+import pytest
 
 from app.exceptions import (
     AuthorisationError,
@@ -104,8 +106,14 @@ class TestSoftDeleteCategory:
 class TestGetMaintenanceRecordById:
     def test_returns_record(self, db, vehicle, standard_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         result = maint_service.get_record_by_id(db, rec.id)
         assert result.vehicle_id == vehicle.id
@@ -118,8 +126,14 @@ class TestGetMaintenanceRecordById:
 class TestCreateMaintenanceRecord:
     def test_create_basic(self, db, vehicle, standard_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         assert rec.id is not None
         assert rec.vehicle_id == vehicle.id
@@ -127,16 +141,27 @@ class TestCreateMaintenanceRecord:
 
     def test_create_with_notes(self, db, vehicle, standard_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, notes="Changed oil and filter",
-            user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            notes="Changed oil and filter",
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         assert rec.notes == "Changed oil and filter"
 
     def test_create_with_cost(self, db, vehicle, admin_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, cost=Decimal("150.50"),
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            cost=Decimal("150.50"),
             user_role="admin",
         )
         assert rec.cost == Decimal("150.50")
@@ -144,16 +169,28 @@ class TestCreateMaintenanceRecord:
     def test_notes_required_enforced(self, db, vehicle, standard_user, category_with_notes):
         with pytest.raises(BusinessRuleError, match="Notes are required"):
             maint_service.create_record(
-                db, vehicle.id, category_with_notes.id, standard_user.id,
-                date.today(), 10000, notes="",
-                user_role="standard", user_vehicle_id=standard_user.id,
+                db,
+                vehicle.id,
+                category_with_notes.id,
+                standard_user.id,
+                date.today(),
+                10000,
+                notes="",
+                user_role="standard",
+                user_vehicle_id=standard_user.id,
             )
 
     def test_notes_required_with_notes_succeeds(self, db, vehicle, standard_user, category_with_notes):
         rec = maint_service.create_record(
-            db, vehicle.id, category_with_notes.id, standard_user.id,
-            date.today(), 10000, notes="Detailed inspection notes",
-            user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category_with_notes.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            notes="Detailed inspection notes",
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         assert rec.notes == "Detailed inspection notes"
 
@@ -162,8 +199,13 @@ class TestCreateMaintenanceRecord:
         db.commit()
         with pytest.raises(BusinessRuleError, match="retired"):
             maint_service.create_record(
-                db, vehicle.id, category.id, admin_user.id,
-                date.today(), 10000, user_role="admin",
+                db,
+                vehicle.id,
+                category.id,
+                admin_user.id,
+                date.today(),
+                10000,
+                user_role="admin",
             )
 
     def test_deleted_vehicle_fails(self, db, vehicle, admin_user, category):
@@ -171,8 +213,13 @@ class TestCreateMaintenanceRecord:
         db.commit()
         with pytest.raises(BusinessRuleError, match="not found"):
             maint_service.create_record(
-                db, vehicle.id, category.id, admin_user.id,
-                date.today(), 10000, user_role="admin",
+                db,
+                vehicle.id,
+                category.id,
+                admin_user.id,
+                date.today(),
+                10000,
+                user_role="admin",
             )
 
     def test_inactive_category_fails(self, db, vehicle, admin_user, category):
@@ -180,43 +227,73 @@ class TestCreateMaintenanceRecord:
         db.commit()
         with pytest.raises(BusinessRuleError, match="not active"):
             maint_service.create_record(
-                db, vehicle.id, category.id, admin_user.id,
-                date.today(), 10000, user_role="admin",
+                db,
+                vehicle.id,
+                category.id,
+                admin_user.id,
+                date.today(),
+                10000,
+                user_role="admin",
             )
 
     def test_standard_user_unassigned_vehicle_fails(self, db, vehicle, location, category):
         from app.services import user as user_service
+
         other = user_service.create_user(
-            db, username="other_maint", email="othermaint@test.com",
-            password="password123", first_name="Other", last_name="Driver",
+            db,
+            username="other_maint",
+            email="othermaint@test.com",
+            password="password123",
+            first_name="Other",
+            last_name="Driver",
             location_id=location.id,
         )
         with pytest.raises(AuthorisationError, match="assigned vehicle"):
             maint_service.create_record(
-                db, vehicle.id, category.id, other.id,
-                date.today(), 10000,
-                user_role="standard", user_vehicle_id=other.id,
+                db,
+                vehicle.id,
+                category.id,
+                other.id,
+                date.today(),
+                10000,
+                user_role="standard",
+                user_vehicle_id=other.id,
             )
 
     def test_admin_can_log_any_vehicle(self, db, vehicle, admin_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            user_role="admin",
         )
         assert rec.id is not None
 
     def test_notes_whitespace_stripped(self, db, vehicle, admin_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, notes="  spaced  ",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            notes="  spaced  ",
             user_role="admin",
         )
         assert rec.notes == "spaced"
 
     def test_empty_notes_stored_as_none(self, db, vehicle, admin_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, notes="",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            notes="",
             user_role="admin",
         )
         assert rec.notes is None
@@ -225,56 +302,100 @@ class TestCreateMaintenanceRecord:
 class TestUpdateMaintenanceRecord:
     def test_update_record(self, db, vehicle, admin_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            user_role="admin",
         )
         updated = maint_service.update_record(
-            db, rec.id, category.id, date(2025, 1, 15), 12000, notes="Updated",
+            db,
+            rec.id,
+            category.id,
+            date(2025, 1, 15),
+            12000,
+            notes="Updated",
         )
         assert updated.mileage_at_time == 12000
         assert updated.notes == "Updated"
 
     def test_update_notes_required_enforced(self, db, vehicle, admin_user, category_with_notes):
         rec = maint_service.create_record(
-            db, vehicle.id, category_with_notes.id, admin_user.id,
-            date.today(), 10000, notes="Initial notes",
+            db,
+            vehicle.id,
+            category_with_notes.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            notes="Initial notes",
             user_role="admin",
         )
         with pytest.raises(BusinessRuleError, match="Notes are required"):
             maint_service.update_record(
-                db, rec.id, category_with_notes.id, date.today(), 12000, notes="",
+                db,
+                rec.id,
+                category_with_notes.id,
+                date.today(),
+                12000,
+                notes="",
             )
 
     def test_update_retired_vehicle_fails(self, db, vehicle, admin_user, category):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            user_role="admin",
         )
         vehicle.status = "retired"
         db.commit()
         with pytest.raises(BusinessRuleError, match="retired"):
             maint_service.update_record(
-                db, rec.id, category.id, date.today(), 12000,
+                db,
+                rec.id,
+                category.id,
+                date.today(),
+                12000,
             )
 
 
 class TestGetMaintenanceRecords:
     def test_get_records_for_vehicle(self, db, vehicle, admin_user, category):
         maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            user_role="admin",
         )
         maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 12000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            12000,
+            user_role="admin",
         )
         records = maint_service.get_records_for_vehicle(db, vehicle.id)
         assert len(records) == 2
 
     def test_get_all_records(self, db, vehicle, admin_user, category):
         maint_service.create_record(
-            db, vehicle.id, category.id, admin_user.id,
-            date.today(), 10000, user_role="admin",
+            db,
+            vehicle.id,
+            category.id,
+            admin_user.id,
+            date.today(),
+            10000,
+            user_role="admin",
         )
         records = maint_service.get_all_records(db)
         assert len(records) == 1

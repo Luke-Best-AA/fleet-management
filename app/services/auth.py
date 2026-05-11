@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy.orm import Session
 
@@ -11,9 +11,7 @@ from app.services import session as session_service
 def authenticate(db: Session, username: str, password: str) -> User:
     if session_service.is_locked_out(username):
         remaining = session_service.get_lockout_remaining(username)
-        raise LockedOutError(
-            f"Account locked. Try again in {remaining // 60 + 1} minute(s)."
-        )
+        raise LockedOutError(f"Account locked. Try again in {remaining // 60 + 1} minute(s).")
 
     user = db.query(User).filter(User.username == username).first()
     if not user or not verify_password(password, user.password_hash):
@@ -48,9 +46,7 @@ def logout(session_id: str) -> None:
     session_service.destroy_session(session_id)
 
 
-def change_password(
-    db: Session, user_id: int, current_password: str, new_password: str
-) -> None:
+def change_password(db: Session, user_id: int, current_password: str, new_password: str) -> None:
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise AuthenticationError("User not found")
@@ -59,7 +55,7 @@ def change_password(
         raise AuthenticationError("Current password is incorrect")
 
     user.password_hash = hash_password(new_password)
-    user.last_password_change_at = datetime.now(timezone.utc)
+    user.last_password_change_at = datetime.now(UTC)
     db.commit()
 
     session_service.invalidate_user_sessions(user_id)

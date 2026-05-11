@@ -1,5 +1,5 @@
 """Tests for mileage routes."""
-import pytest
+
 from app.security.csrf import generate_csrf_token
 from app.services import mileage as mileage_service
 
@@ -106,8 +106,12 @@ class TestMileageEditRoutes:
 
     def test_edit_page_admin(self, client, admin_user, vehicle, db):
         rec = mileage_service.create_record(
-            db, vehicle.id, admin_user.id, 15000,
-            user_role="admin", user_id=admin_user.id,
+            db,
+            vehicle.id,
+            admin_user.id,
+            15000,
+            user_role="admin",
+            user_id=admin_user.id,
         )
         self._login(client, "testadmin")
         resp = client.get(f"/mileage/{rec.id}/edit")
@@ -115,8 +119,12 @@ class TestMileageEditRoutes:
 
     def test_edit_page_standard_forbidden(self, client, standard_user, vehicle, db):
         rec = mileage_service.create_record(
-            db, vehicle.id, standard_user.id, 15000,
-            user_role="standard", user_id=standard_user.id,
+            db,
+            vehicle.id,
+            standard_user.id,
+            15000,
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testdriver")
         resp = client.get(f"/mileage/{rec.id}/edit")
@@ -124,8 +132,12 @@ class TestMileageEditRoutes:
 
     def test_edit_mileage_admin(self, client, admin_user, vehicle, db):
         rec = mileage_service.create_record(
-            db, vehicle.id, admin_user.id, 15000,
-            user_role="admin", user_id=admin_user.id,
+            db,
+            vehicle.id,
+            admin_user.id,
+            15000,
+            user_role="admin",
+            user_id=admin_user.id,
         )
         self._login(client, "testadmin")
         token = generate_csrf_token()
@@ -155,8 +167,12 @@ class TestMileageDeleteRoutes:
 
     def test_delete_admin(self, client, admin_user, vehicle, db):
         rec = mileage_service.create_record(
-            db, vehicle.id, admin_user.id, 15000,
-            user_role="admin", user_id=admin_user.id,
+            db,
+            vehicle.id,
+            admin_user.id,
+            15000,
+            user_role="admin",
+            user_id=admin_user.id,
         )
         self._login(client, "testadmin")
         token = generate_csrf_token()
@@ -169,8 +185,12 @@ class TestMileageDeleteRoutes:
 
     def test_delete_standard_forbidden(self, client, standard_user, vehicle, db):
         rec = mileage_service.create_record(
-            db, vehicle.id, standard_user.id, 15000,
-            user_role="standard", user_id=standard_user.id,
+            db,
+            vehicle.id,
+            standard_user.id,
+            15000,
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testdriver")
         token = generate_csrf_token()

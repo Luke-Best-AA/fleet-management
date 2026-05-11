@@ -1,9 +1,9 @@
 """Shared helpers for parsing form data and formatting validation errors."""
+
 from datetime import date
 from decimal import Decimal, InvalidOperation
 
 from pydantic import ValidationError as PydanticValidationError
-
 
 # Map Pydantic's internal error types to user-friendly messages
 _FRIENDLY_MESSAGES = {
@@ -41,7 +41,7 @@ def parse_errors(e: PydanticValidationError) -> dict:
             # Strip Pydantic prefixes
             for prefix in ("Value error, ", "Input should be ", "String should have "):
                 if msg.startswith(prefix):
-                    msg = msg[len(prefix):]
+                    msg = msg[len(prefix) :]
                     break
 
         errors[field] = msg

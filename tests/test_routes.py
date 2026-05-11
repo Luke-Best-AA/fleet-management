@@ -1,5 +1,5 @@
 """Tests for route access control."""
-import pytest
+
 from app.security.csrf import generate_csrf_token
 
 

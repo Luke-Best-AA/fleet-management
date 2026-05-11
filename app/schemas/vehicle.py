@@ -2,20 +2,19 @@ import re
 
 from pydantic import BaseModel, field_validator
 
-
 VEHICLE_TYPES = ("roadside_van", "flat_loader_lorry", "patrol_van")
 VEHICLE_STATUSES = ("active", "pending_retirement", "retired")
 
 UK_PLATE_PATTERN = re.compile(
-    r"(^[A-Z]{2}[0-9]{2}\s?[A-Z]{3}$)|"       # Current (AB51 ABC)
-    r"(^[A-Z][0-9]{1,3}\s?[A-Z]{3}$)|"         # Prefix (A123 ABC)
-    r"(^[A-Z]{3}\s?[0-9]{1,3}[A-Z]$)|"         # Suffix (ABC 123A)
-    r"(^[0-9]{1,4}\s?[A-Z]{1,2}$)|"            # Dateless Long Number Prefix
-    r"(^[0-9]{1,3}\s?[A-Z]{1,3}$)|"            # Dateless Short Number Prefix
-    r"(^[A-Z]{1,2}\s?[0-9]{1,4}$)|"            # Dateless Long Number Suffix
-    r"(^[A-Z]{1,3}\s?[0-9]{1,3}$)|"            # Dateless Short Number Suffix
-    r"(^[A-Z]{1,3}\s?[0-9]{1,4}$)|"            # Northern Ireland
-    r"(^[0-9]{3}\s?[DX]{1}\s?[0-9]{3}$)",      # Diplomatic
+    r"(^[A-Z]{2}[0-9]{2}\s?[A-Z]{3}$)|"  # Current (AB51 ABC)
+    r"(^[A-Z][0-9]{1,3}\s?[A-Z]{3}$)|"  # Prefix (A123 ABC)
+    r"(^[A-Z]{3}\s?[0-9]{1,3}[A-Z]$)|"  # Suffix (ABC 123A)
+    r"(^[0-9]{1,4}\s?[A-Z]{1,2}$)|"  # Dateless Long Number Prefix
+    r"(^[0-9]{1,3}\s?[A-Z]{1,3}$)|"  # Dateless Short Number Prefix
+    r"(^[A-Z]{1,2}\s?[0-9]{1,4}$)|"  # Dateless Long Number Suffix
+    r"(^[A-Z]{1,3}\s?[0-9]{1,3}$)|"  # Dateless Short Number Suffix
+    r"(^[A-Z]{1,3}\s?[0-9]{1,4}$)|"  # Northern Ireland
+    r"(^[0-9]{3}\s?[DX]{1}\s?[0-9]{3}$)",  # Diplomatic
     re.IGNORECASE,
 )
 
