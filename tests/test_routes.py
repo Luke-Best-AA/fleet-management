@@ -54,7 +54,7 @@ class TestRoleRestrictions:
         assert resp.status_code == 200
         assert "My Assigned Vehicles" in resp.text
         assert 'action="/auth/logout"' in resp.text
-        assert 'class="nav-link btn btn-link border-0"' in resp.text
+        assert "Logout" in resp.text
 
     def test_dashboard_shows_for_admin(self, client, admin_user):
         self._login(client, "testadmin")
