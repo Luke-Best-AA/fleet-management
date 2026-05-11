@@ -90,7 +90,7 @@ jobs:
       - name: Run tests
         run: |
           mkdir -p reports
-          pytest tests/ --ignore=tests/e2e -v --tb=short --junitxml=reports/pytest.xml
+          pytest tests/ --ignore=tests/e2e -v --tb=short --junitxml=reports/pytest.xml --cov=app --cov-report=json:reports/coverage.json
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/fleet_management_test
           REDIS_URL: redis://localhost:6379/0

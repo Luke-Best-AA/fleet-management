@@ -307,9 +307,10 @@ def generate_html() -> str:
     html += "\n</div>\n"
 
     # --- Ruff Format ---
+    ruff_fmt_link = '<a class="detail-link" href="ruff-format-detail.html">View Full Report &rarr;</a>'
     html += f"""
 <div class="section">
-  <h2>Ruff Format {_status_badge(ruff_fmt["status"])}</h2>
+  <h2>Ruff Format {_status_badge(ruff_fmt["status"])} {ruff_fmt_link}</h2>
   <p>{_esc(ruff_fmt["message"])}</p>
 </div>
 """
@@ -367,10 +368,10 @@ def generate_html() -> str:
     html += "\n</div>\n"
 
     # --- Test results helper ---
-    def _test_section(title: str, data: dict) -> str:
+    def _test_section(title: str, data: dict, detail_link: str = "") -> str:
         s = f"""
 <div class="section">
-  <h2>{title} {_status_badge(data["status"])}</h2>
+  <h2>{title} {_status_badge(data["status"])} {detail_link}</h2>
   <p>{data["tests"]} tests — {data["passed"]} passed, {data["failed"]} failed, {data["errors"]} errors"""
         if data.get("time"):
             s += f" ({data['time']}s)"
@@ -393,19 +394,16 @@ def generate_html() -> str:
         s += "\n</div>\n"
         return s
 
-    html += _test_section("Unit &amp; Integration Tests", tests)
-    html += _test_section("E2E Tests (Playwright)", e2e)
+    tests_link = '<a class="detail-link" href="tests-detail.html">View Full Report &rarr;</a>'
+    e2e_link = '<a class="detail-link" href="e2e-detail.html">View Full Report &rarr;</a>'
+    html += _test_section("Unit &amp; Integration Tests", tests, tests_link)
+    html += _test_section("E2E Tests (Playwright)", e2e, e2e_link)
 
     # --- ZAP ---
-    zap_links = (
-        '<a class="detail-link" href="zap-report.html"'
-        ' target="_blank">Full HTML Report &rarr;</a> '
-        '<a class="detail-link" href="zap-detail.html"'
-        ">JSON &rarr;</a>"
-    )
+    zap_link = '<a class="detail-link" href="zap-detail.html">View Full Report &rarr;</a>'
     html += f"""
 <div class="section">
-  <h2>OWASP ZAP Baseline Scan {_status_badge(zap["status"])} {zap_links}</h2>
+  <h2>OWASP ZAP Baseline Scan {_status_badge(zap["status"])} {zap_link}</h2>
   <p>{zap["count"]} alert(s) found ({zap.get("high_risk", 0)} high risk)</p>"""
     if zap["alerts"]:
         html += """
@@ -506,9 +504,9 @@ def _detail_page(title: str, html_content: str, json_data) -> str:
 <script>
 function show(view) {{
   document.getElementById('html-view').style.display =
-    view === 'html' ? '' : 'none';
+    view === 'html' ? 'block' : 'none';
   document.getElementById('json-view').style.display =
-    view === 'json' ? '' : 'none';
+    view === 'json' ? 'block' : 'none';
   document.querySelectorAll('.toggle button').forEach(
     function(b) {{ b.classList.remove('active'); }});
   event.target.classList.add('active');
@@ -741,6 +739,116 @@ def _render_zap_html(data: dict | None) -> str:
     return html
 
 
+def _render_ruff_format_html(text: str | None) -> str:
+    """Build HTML content for ruff format report."""
+    if text is None:
+        return '<p class="empty">No data available.</p>'
+    passed = "would be reformatted" not in text.lower()
+    status_label = "All files formatted correctly" if passed else "Formatting issues found"
+    html = f"""<div class="stats">
+  <div class="card">
+    <div class="stat">{"✓" if passed else "✗"}</div>
+    <div class="stat-label">{status_label}</div>
+  </div>
+</div>
+<div class="card">
+  <pre style="background:var(--bg);color:var(--text);padding:1rem;margin:0;border:none;">{_esc(text)}</pre>
+</div>"""
+    return html
+
+
+def _render_pytest_html(data: dict, coverage: dict | None = None) -> str:
+    """Build HTML content for pytest report."""
+    tests = data.get("tests", 0)
+    passed = data.get("passed", 0)
+    failed = data.get("failed", 0)
+    errors = data.get("errors", 0)
+    time_s = data.get("time", "")
+
+    cov_pct = ""
+    if coverage:
+        totals = coverage.get("totals", {})
+        cov_pct = totals.get("percent_covered_display", "")
+
+    html = '<div class="stats">'
+    html += f"""
+  <div class="card">
+    <div class="stat">{tests}</div>
+    <div class="stat-label">Total Tests</div>
+  </div>
+  <div class="card">
+    <div class="stat" style="color:#28a745">{passed}</div>
+    <div class="stat-label">Passed</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-high">{failed}</div>
+    <div class="stat-label">Failed</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-medium">{errors}</div>
+    <div class="stat-label">Errors</div>
+  </div>"""
+    if time_s:
+        html += f"""
+  <div class="card">
+    <div class="stat">{time_s}s</div>
+    <div class="stat-label">Duration</div>
+  </div>"""
+    if cov_pct:
+        html += f"""
+  <div class="card">
+    <div class="stat">{_esc(cov_pct)}%</div>
+    <div class="stat-label">Coverage</div>
+  </div>"""
+    html += "\n</div>"
+
+    # Coverage breakdown by file
+    if coverage and coverage.get("files"):
+        html += """
+<h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;">Coverage by File</h3>
+<table>
+<tr><th>File</th><th>Statements</th><th>Missing</th><th>Coverage</th></tr>"""
+        files = coverage.get("files", {})
+        for filepath, info in sorted(files.items()):
+            summary = info.get("summary", {})
+            stmts = summary.get("num_statements", 0)
+            missing = summary.get("missing_lines", 0)
+            pct = summary.get("percent_covered_display", "?")
+            html += f"\n<tr><td>{_esc(filepath)}</td><td>{stmts}</td><td>{missing}</td><td>{_esc(pct)}%</td></tr>"
+        html += "\n</table>"
+
+    # Test cases list
+    cases = data.get("cases", [])
+    if cases:
+        failed_cases = [c for c in cases if c["result"] in ("failed", "error")]
+        passed_cases = [c for c in cases if c["result"] == "passed"]
+
+        if failed_cases:
+            html += """
+<h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;color:#dc3545;">Failed Tests</h3>
+<table>
+<tr><th>Test</th><th>Result</th><th>Detail</th></tr>"""
+            for c in failed_cases:
+                test_name = f"{_esc(c['classname'])}.{_esc(c['name'])}"
+                detail = _esc(c.get("detail", "")[:200])
+                html += (
+                    f'\n<tr class="fail-row"><td>{test_name}</td>'
+                    f"<td>{'FAILED' if c['result'] == 'failed' else 'ERROR'}</td>"
+                    f'<td class="detail">{detail}</td></tr>'
+                )
+            html += "\n</table>"
+
+        html += f"""
+<h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;color:#28a745;">Passed Tests ({len(passed_cases)})</h3>
+<table>
+<tr><th>Test</th><th>Class</th><th>Time</th></tr>"""
+        for c in passed_cases:
+            html += f"\n<tr><td>{_esc(c['name'])}</td><td>{_esc(c['classname'])}</td><td>{c.get('time', '')}s</td></tr>"
+        html += "\n</table>"
+
+    return html
+
+
 def generate_detail_pages():
     """Generate individual HTML detail pages for each report source."""
     import shutil
@@ -792,6 +900,40 @@ def generate_detail_pages():
     if zap_html_src.exists():
         shutil.copy(zap_html_src, detail_dir / "zap-report.html")
         print("  Copied: zap-report.html")
+
+    # Ruff Format
+    ruff_fmt_text = _load_text("ruff-format.txt")
+    if ruff_fmt_text is not None:
+        page = _detail_page(
+            "Ruff Format Report",
+            _render_ruff_format_html(ruff_fmt_text),
+            {"output": ruff_fmt_text},
+        )
+        (detail_dir / "ruff-format-detail.html").write_text(page)
+        print("  Detail page: ruff-format-detail.html")
+
+    # Unit & Integration Tests
+    tests_data = _parse_pytest_xml("pytest.xml")
+    if tests_data["status"] != "skipped":
+        coverage_data = _load_json("coverage.json")
+        page = _detail_page(
+            "Unit &amp; Integration Tests",
+            _render_pytest_html(tests_data, coverage_data),
+            {"tests": tests_data, "coverage_summary": coverage_data.get("totals") if coverage_data else None},
+        )
+        (detail_dir / "tests-detail.html").write_text(page)
+        print("  Detail page: tests-detail.html")
+
+    # E2E Tests
+    e2e_data = _parse_pytest_xml("e2e.xml")
+    if e2e_data["status"] != "skipped":
+        page = _detail_page(
+            "E2E Tests (Playwright)",
+            _render_pytest_html(e2e_data),
+            {"tests": e2e_data},
+        )
+        (detail_dir / "e2e-detail.html").write_text(page)
+        print("  Detail page: e2e-detail.html")
 
 
 if __name__ == "__main__":
