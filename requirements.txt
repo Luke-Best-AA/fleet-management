@@ -17,3 +17,6 @@ httpx
 ruff
 bandit
 pip-audit
+pytest-playwright
+playwright
+pre-commit

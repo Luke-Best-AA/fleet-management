@@ -28,3 +28,8 @@ ignore = [
 [tool.bandit]
 exclude_dirs = ["tests", "htmlcov"]
 skips = ["B104", "B110"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["e2e: end-to-end browser tests (requires Playwright)"]
+addopts = "--ignore=tests/e2e"

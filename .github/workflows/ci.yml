@@ -70,3 +70,75 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/fleet_management_test
           REDIS_URL: redis://localhost:6379/0
+
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Install Playwright browsers
+        run: playwright install --with-deps chromium
+      - name: Run E2E tests
+        run: pytest tests/e2e/ -v --tb=short
+        env:
+          DATABASE_URL: sqlite:///./test_e2e.db
+          REDIS_URL: redis://localhost:6379/0
+
+  zap:
+    name: OWASP ZAP Scan
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Seed database and start app
+        run: |
+          python seed.py
+          python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 5
+          curl -f http://localhost:8000/auth/login || exit 1
+        env:
+          DATABASE_URL: sqlite:///./zap_test.db
+          REDIS_URL: redis://localhost:6379/0
+          SECRET_KEY: zap-ci-secret-key
+          SECURE_COOKIES: "false"
+      - name: Run ZAP baseline scan
+        uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: http://localhost:8000
+          cmd_options: "-I"
+          allow_issue_writing: false
+        env:
+          ZAP_AUTH_HEADER_VALUE: ""
+      - name: Upload ZAP HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: report_html.html
