@@ -186,7 +186,7 @@ class TestCreateMileageRecord:
     def test_deleted_vehicle_fails(self, db, vehicle, admin_user):
         vehicle.is_deleted = True
         db.commit()
-        with pytest.raises(BusinessRuleError, match="not found"):
+        with pytest.raises(BusinessRuleError, match="Please select a vehicle"):
             mileage_service.create_record(
                 db,
                 vehicle.id,

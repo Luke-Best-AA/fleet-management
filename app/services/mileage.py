@@ -148,5 +148,4 @@ def _recalculate_vehicle_mileage(db: Session, vehicle: Vehicle) -> None:
     )
 
     candidates = [v for v in (max_mileage, max_maintenance) if v is not None]
-    if candidates:
-        vehicle.current_mileage = max(candidates)
+    vehicle.current_mileage = max(candidates) if candidates else 0
