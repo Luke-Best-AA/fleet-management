@@ -1,0 +1,30 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort (import sorting)
+    "B",      # flake8-bugbear
+    "S",      # flake8-bandit (security)
+    "UP",     # pyupgrade
+]
+ignore = [
+    "S105",   # hardcoded password (false positives on field names)
+    "S106",   # hardcoded password argument
+    "S107",   # hardcoded password default
+    "B008",   # function call in default arg (FastAPI Depends() pattern)
+    "E712",   # comparison to True/False (required by SQLAlchemy filters)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]   # allow assert in tests
+"seed.py" = ["S106"]    # allow hardcoded passwords in seed data
+"app/models/**" = ["F821"]  # forward references in SQLAlchemy relationships
+
+[tool.bandit]
+exclude_dirs = ["tests", "htmlcov"]
+skips = ["B104", "B110"]

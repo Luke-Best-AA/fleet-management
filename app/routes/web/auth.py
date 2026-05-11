@@ -4,7 +4,7 @@ from pydantic import ValidationError as PydanticValidationError
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.exceptions import AuthenticationError, AppError, LockedOutError
+from app.exceptions import AppError, AuthenticationError, LockedOutError
 from app.models.deletion_request import DeletionRequest
 from app.models.retirement_request import RetirementRequest
 from app.schemas.auth import ChangePasswordSchema, LoginSchema, RegisterSchema
@@ -48,9 +48,7 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
             {"form_data": form_data, "errors": parse_errors(e)},
         )
 
-    fingerprint = make_client_fingerprint(
-        request.client.host, request.headers.get("user-agent", "")
-    )
+    fingerprint = make_client_fingerprint(request.client.host, request.headers.get("user-agent", ""))
 
     try:
         session_id, user = auth_service.login(db, schema.username, schema.password, fingerprint=fingerprint)
@@ -77,7 +75,9 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
         if pending_del > 0:
             parts.append(f'<a href="/requests/deletion">{pending_del} deletion</a>')
         if parts:
-            welcome_msg += f" You have {' and '.join(parts)} pending request{'s' if pending_ret + pending_del != 1 else ''}."
+            welcome_msg += (
+                f" You have {' and '.join(parts)} pending request{'s' if pending_ret + pending_del != 1 else ''}."
+            )
     flash(session_id, welcome_msg, "success")
     response = RedirectResponse("/dashboard", status_code=303)
     response.set_cookie(
@@ -109,13 +109,17 @@ async def profile_edit_page(request: Request, db: Session = Depends(get_db)):
         return RedirectResponse("/auth/login", status_code=302)
 
     profile = user_service.get_user_by_id(db, user["id"])
-    return render(request, "auth/profile_edit.html", {
-        "form_data": {
-            "first_name": profile.first_name,
-            "last_name": profile.last_name,
-            "email": profile.email,
+    return render(
+        request,
+        "auth/profile_edit.html",
+        {
+            "form_data": {
+                "first_name": profile.first_name,
+                "last_name": profile.last_name,
+                "email": profile.email,
+            },
         },
-    })
+    )
 
 
 @router.post("/profile/edit")
@@ -128,10 +132,14 @@ async def profile_edit_post(request: Request, db: Session = Depends(get_db)):
     form_data = dict(form)
 
     if not validate_csrf_token(form_data.get("csrf_token", "")):
-        return render(request, "auth/profile_edit.html", {
-            "form_data": form_data,
-            "errors": {"_general": "Invalid request."},
-        })
+        return render(
+            request,
+            "auth/profile_edit.html",
+            {
+                "form_data": form_data,
+                "errors": {"_general": "Invalid request."},
+            },
+        )
 
     first_name = form_data.get("first_name", "").strip()
     last_name = form_data.get("last_name", "").strip()
@@ -146,18 +154,26 @@ async def profile_edit_post(request: Request, db: Session = Depends(get_db)):
         errors["email"] = "Email is required"
 
     if errors:
-        return render(request, "auth/profile_edit.html", {
-            "form_data": form_data,
-            "errors": errors,
-        })
+        return render(
+            request,
+            "auth/profile_edit.html",
+            {
+                "form_data": form_data,
+                "errors": errors,
+            },
+        )
 
     try:
         user_service.update_profile(db, user["id"], first_name, last_name, email)
     except AppError as e:
-        return render(request, "auth/profile_edit.html", {
-            "form_data": form_data,
-            "errors": {"_general": e.message},
-        })
+        return render(
+            request,
+            "auth/profile_edit.html",
+            {
+                "form_data": form_data,
+                "errors": {"_general": e.message},
+            },
+        )
 
     flash(request.state.session_id, "Profile updated.", "success")
     return RedirectResponse("/auth/profile", status_code=303)
@@ -221,9 +237,7 @@ async def register_post(request: Request, db: Session = Depends(get_db)):
         )
 
     # Log the user in automatically
-    fingerprint = make_client_fingerprint(
-        request.client.host, request.headers.get("user-agent", "")
-    )
+    fingerprint = make_client_fingerprint(request.client.host, request.headers.get("user-agent", ""))
     session_id, user = auth_service.login(db, schema.username, schema.password, fingerprint=fingerprint)
     flash(session_id, "Registration successful! Welcome.", "success")
     response = RedirectResponse("/dashboard", status_code=303)
@@ -271,9 +285,7 @@ async def change_password_post(request: Request, db: Session = Depends(get_db)):
         )
 
     try:
-        auth_service.change_password(
-            db, request.state.user["id"], schema.current_password, schema.new_password
-        )
+        auth_service.change_password(db, request.state.user["id"], schema.current_password, schema.new_password)
     except AuthenticationError as e:
         return render(
             request,

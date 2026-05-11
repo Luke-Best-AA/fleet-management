@@ -1,18 +1,16 @@
 import pytest
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from fastapi.testclient import TestClient
 
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
-from app.security.password import hash_password
 from app.models.location import Location
+from app.models.maintenance import MaintenanceCategory
 from app.models.user import User
 from app.models.vehicle import Vehicle
-from app.models.maintenance import MaintenanceCategory, MaintenanceRecord
-from app.models.mileage import MileageRecord
-
+from app.security.password import hash_password
 
 # Use SQLite for tests
 TEST_DATABASE_URL = "sqlite:///./test.db"
@@ -131,13 +129,9 @@ def category_with_notes(db):
 
 def login_user(client, username="testadmin", password="password123"):
     """Helper to log in and get the session cookie."""
-    from app.security.csrf import generate_csrf_token
-    from app.services.session import create_session
 
     # Create session directly for testing
-    from app.models.user import User as UserModel
-    from sqlalchemy import create_engine as ce
-    from sqlalchemy.orm import Session
+    from app.security.csrf import generate_csrf_token
 
     # Use the test client's login flow
     response = client.post(

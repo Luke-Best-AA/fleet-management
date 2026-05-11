@@ -1,5 +1,5 @@
 """Tests for admin routes (locations, categories, users)."""
-import pytest
+
 from app.security.csrf import generate_csrf_token
 
 

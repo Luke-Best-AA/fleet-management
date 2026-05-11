@@ -8,11 +8,7 @@ from app.models.vehicle import Vehicle
 
 
 def get_record_by_id(db: Session, record_id: int) -> MileageRecord:
-    record = (
-        db.query(MileageRecord)
-        .filter(MileageRecord.id == record_id, MileageRecord.is_deleted == False)
-        .first()
-    )
+    record = db.query(MileageRecord).filter(MileageRecord.id == record_id, MileageRecord.is_deleted == False).first()
     if not record:
         raise NotFoundError("Mileage record not found")
     return record
@@ -49,11 +45,7 @@ def create_record(
     user_role: str = "standard",
     user_id: int | None = None,
 ) -> MileageRecord:
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False).first()
     if not vehicle:
         raise BusinessRuleError("Please select a vehicle")
     if vehicle.is_retired:
@@ -61,13 +53,9 @@ def create_record(
 
     if user_role == "standard":
         if vehicle.primary_driver_user_id != user_id:
-            raise AuthorisationError(
-                "You can only record mileage for your assigned vehicle"
-            )
+            raise AuthorisationError("You can only record mileage for your assigned vehicle")
         if reading_value < vehicle.current_mileage:
-            raise BusinessRuleError(
-                f"Reading must be at least {vehicle.current_mileage:,} (current mileage)"
-            )
+            raise BusinessRuleError(f"Reading must be at least {vehicle.current_mileage:,} (current mileage)")
         is_admin_override = False
         override_reason = ""
 
@@ -78,9 +66,7 @@ def create_record(
                 "Use admin override to record a lower value."
             )
         if is_admin_override and not override_reason.strip():
-            raise BusinessRuleError(
-                "Override reason is required for admin mileage overrides"
-            )
+            raise BusinessRuleError("Override reason is required for admin mileage overrides")
 
     record = MileageRecord(
         vehicle_id=vehicle_id,
@@ -112,20 +98,14 @@ def update_record(
 ) -> MileageRecord:
     record = get_record_by_id(db, record_id)
 
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False).first()
     if not vehicle:
         raise BusinessRuleError("Vehicle not found or has been deleted")
     if vehicle.is_retired:
         raise BusinessRuleError("Cannot edit mileage for a retired vehicle")
 
     if is_admin_override and not override_reason.strip():
-        raise BusinessRuleError(
-            "Override reason is required for admin mileage overrides"
-        )
+        raise BusinessRuleError("Override reason is required for admin mileage overrides")
 
     record.reading_value = reading_value
     record.is_admin_override = is_admin_override
@@ -141,11 +121,7 @@ def soft_delete_record(db: Session, record_id: int) -> None:
     record = get_record_by_id(db, record_id)
     record.is_deleted = True
 
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False).first()
     if vehicle:
         db.flush()
         _recalculate_vehicle_mileage(db, vehicle)
@@ -172,5 +148,4 @@ def _recalculate_vehicle_mileage(db: Session, vehicle: Vehicle) -> None:
     )
 
     candidates = [v for v in (max_mileage, max_maintenance) if v is not None]
-    if candidates:
-        vehicle.current_mileage = max(candidates)
+    vehicle.current_mileage = max(candidates) if candidates else 0

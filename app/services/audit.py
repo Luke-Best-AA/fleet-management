@@ -27,13 +27,7 @@ def log_action(
 
 
 def get_audit_logs(db: Session, limit: int = 200, offset: int = 0) -> list[AuditLog]:
-    return (
-        db.query(AuditLog)
-        .order_by(AuditLog.created_at.desc())
-        .limit(limit)
-        .offset(offset)
-        .all()
-    )
+    return db.query(AuditLog).order_by(AuditLog.created_at.desc()).limit(limit).offset(offset).all()
 
 
 def count_audit_logs(db: Session) -> int:

@@ -6,15 +6,15 @@ from sqlalchemy.orm import Session
 from app.exceptions import (
     AuthorisationError,
     BusinessRuleError,
-    NotFoundError,
     ConflictError,
+    NotFoundError,
 )
 from app.models.maintenance import MaintenanceCategory, MaintenanceRecord
 from app.models.vehicle import Vehicle
 from app.services.mileage import _recalculate_vehicle_mileage
 
-
 # --- Categories ---
+
 
 def get_category_by_id(db: Session, category_id: int) -> MaintenanceCategory:
     cat = (
@@ -34,10 +34,12 @@ def get_all_categories(db: Session, active_only: bool = False) -> list[Maintenan
     return q.order_by(MaintenanceCategory.name).all()
 
 
-def create_category(
-    db: Session, name: str, description: str = "", requires_notes: bool = False
-) -> MaintenanceCategory:
-    if db.query(MaintenanceCategory).filter(MaintenanceCategory.name == name, MaintenanceCategory.is_deleted == False).first():
+def create_category(db: Session, name: str, description: str = "", requires_notes: bool = False) -> MaintenanceCategory:
+    if (
+        db.query(MaintenanceCategory)
+        .filter(MaintenanceCategory.name == name, MaintenanceCategory.is_deleted == False)
+        .first()
+    ):
         raise ConflictError("Category name already in use")
 
     cat = MaintenanceCategory(
@@ -63,7 +65,11 @@ def update_category(
 
     existing = (
         db.query(MaintenanceCategory)
-        .filter(MaintenanceCategory.name == name, MaintenanceCategory.id != category_id, MaintenanceCategory.is_deleted == False)
+        .filter(
+            MaintenanceCategory.name == name,
+            MaintenanceCategory.id != category_id,
+            MaintenanceCategory.is_deleted == False,
+        )
         .first()
     )
     if existing:
@@ -85,6 +91,7 @@ def soft_delete_category(db: Session, category_id: int) -> None:
 
 
 # --- Maintenance Records ---
+
 
 def get_record_by_id(db: Session, record_id: int) -> MaintenanceRecord:
     record = (
@@ -130,11 +137,7 @@ def create_record(
     user_role: str = "standard",
     user_vehicle_id: int | None = None,
 ) -> MaintenanceRecord:
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False).first()
     if not vehicle:
         raise BusinessRuleError("Please select a vehicle")
     if vehicle.is_retired:
@@ -187,11 +190,7 @@ def update_record(
 ) -> MaintenanceRecord:
     record = get_record_by_id(db, record_id)
 
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False).first()
     if not vehicle:
         raise BusinessRuleError("Vehicle not found or has been deleted")
     if vehicle.is_retired:
@@ -217,11 +216,7 @@ def soft_delete_record(db: Session, record_id: int) -> None:
     record = get_record_by_id(db, record_id)
     record.is_deleted = True
 
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False).first()
     if vehicle:
         db.flush()
         _recalculate_vehicle_mileage(db, vehicle)

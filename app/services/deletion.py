@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy.orm import Session
 
@@ -17,9 +17,7 @@ def get_request_by_id(db: Session, request_id: int) -> DeletionRequest:
     return req
 
 
-def get_all_requests(
-    db: Session, status: str | None = None
-) -> list[DeletionRequest]:
+def get_all_requests(db: Session, status: str | None = None) -> list[DeletionRequest]:
     q = db.query(DeletionRequest)
     if status:
         q = q.filter(DeletionRequest.status == status)
@@ -44,9 +42,7 @@ def _get_target_record(db: Session, target_type: str, target_id: int):
         )
     elif target_type == "mileage_record":
         record = (
-            db.query(MileageRecord)
-            .filter(MileageRecord.id == target_id, MileageRecord.is_deleted == False)
-            .first()
+            db.query(MileageRecord).filter(MileageRecord.id == target_id, MileageRecord.is_deleted == False).first()
         )
     else:
         record = None
@@ -68,15 +64,9 @@ def create_request(
 
     # Check that standard user owns the vehicle this record belongs to
     if user_role == "standard":
-        vehicle = (
-            db.query(Vehicle)
-            .filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False)
-            .first()
-        )
+        vehicle = db.query(Vehicle).filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False).first()
         if not vehicle or vehicle.primary_driver_user_id != user_id:
-            raise AuthorisationError(
-                "You can only request deletion for records tied to your assigned vehicle"
-            )
+            raise AuthorisationError("You can only request deletion for records tied to your assigned vehicle")
 
     pending = (
         db.query(DeletionRequest)
@@ -88,9 +78,7 @@ def create_request(
         .first()
     )
     if pending:
-        raise BusinessRuleError(
-            "A pending deletion request already exists for this record"
-        )
+        raise BusinessRuleError("A pending deletion request already exists for this record")
 
     req = DeletionRequest(
         target_type=target_type,
@@ -118,7 +106,7 @@ def review_request(
 
     req.reviewed_by_user_id = reviewed_by_user_id
     req.review_notes = review_notes.strip() or None
-    req.reviewed_at = datetime.now(timezone.utc)
+    req.reviewed_at = datetime.now(UTC)
 
     if action == "approve":
         req.status = "approved"
@@ -127,11 +115,7 @@ def review_request(
             record.is_deleted = True
             # Recalculate vehicle mileage if deleting a mileage or maintenance record
             if req.target_type in ("mileage_record", "maintenance_record"):
-                vehicle = (
-                    db.query(Vehicle)
-                    .filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False)
-                    .first()
-                )
+                vehicle = db.query(Vehicle).filter(Vehicle.id == record.vehicle_id, Vehicle.is_deleted == False).first()
                 if vehicle:
                     db.flush()
                     _recalculate_vehicle_mileage(db, vehicle)

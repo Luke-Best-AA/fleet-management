@@ -8,19 +8,19 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from app.config import settings
 from app.db.base import Base
 from app.db.session import engine
-from app.services.session import get_session, make_client_fingerprint, redis_client, refresh_session
-from app.utils.template import render
+from app.models.audit_log import AuditLog  # noqa: F401
+from app.models.deletion_request import DeletionRequest  # noqa: F401
 
 # Import all models so Base.metadata sees them
 from app.models.location import Location  # noqa: F401
-from app.models.user import User  # noqa: F401
-from app.models.vehicle import Vehicle  # noqa: F401
 from app.models.maintenance import MaintenanceCategory, MaintenanceRecord  # noqa: F401
 from app.models.mileage import MileageRecord  # noqa: F401
-from app.models.retirement_request import RetirementRequest  # noqa: F401
-from app.models.deletion_request import DeletionRequest  # noqa: F401
-from app.models.audit_log import AuditLog  # noqa: F401
 from app.models.page_visit import PageVisit  # noqa: F401
+from app.models.retirement_request import RetirementRequest  # noqa: F401
+from app.models.user import User  # noqa: F401
+from app.models.vehicle import Vehicle  # noqa: F401
+from app.services.session import get_session, make_client_fingerprint, refresh_session
+from app.utils.template import render
 
 
 class SessionMiddleware(BaseHTTPMiddleware):
@@ -34,17 +34,17 @@ class SessionMiddleware(BaseHTTPMiddleware):
             if not session_data:
                 logger.warning(
                     "Session cookie present but Redis key missing: %s... (path=%s)",
-                    session_id[:8], request.url.path,
+                    session_id[:8],
+                    request.url.path,
                 )
             elif session_data.get("fingerprint"):
                 expected = session_data["fingerprint"]
-                actual = make_client_fingerprint(
-                    request.client.host, request.headers.get("user-agent", "")
-                )
+                actual = make_client_fingerprint(request.client.host, request.headers.get("user-agent", ""))
                 if actual != expected:
                     logger.warning(
                         "Session fingerprint mismatch for %s... (path=%s)",
-                        session_id[:8], request.url.path,
+                        session_id[:8],
+                        request.url.path,
                     )
                     session_data = None
 
@@ -109,7 +109,7 @@ class PageVisitMiddleware(BaseHTTPMiddleware):
                     record_visit(db, user_id=request.state.user["id"], path=request.url.path)
                 finally:
                     db.close()
-            except Exception:
+            except Exception:  # noqa: S110  # nosec B110
                 pass  # Never break page loads for analytics
 
         return response
@@ -126,14 +126,14 @@ def create_app() -> FastAPI:
     Base.metadata.create_all(bind=engine)
 
     # Import and include routers
+    from app.routes.api.inline import router as api_router
+    from app.routes.web.admin import router as admin_router
     from app.routes.web.auth import router as auth_router
     from app.routes.web.dashboard import router as dashboard_router
-    from app.routes.web.vehicles import router as vehicles_router
     from app.routes.web.maintenance import router as maintenance_router
     from app.routes.web.mileage import router as mileage_router
     from app.routes.web.requests import router as requests_router
-    from app.routes.web.admin import router as admin_router
-    from app.routes.api.inline import router as api_router
+    from app.routes.web.vehicles import router as vehicles_router
 
     app.include_router(auth_router)
     app.include_router(dashboard_router)

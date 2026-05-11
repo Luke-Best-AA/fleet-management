@@ -15,8 +15,6 @@ class PageVisit(Base):
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
     path: Mapped[str] = mapped_column(String(500), nullable=False)
     method: Mapped[str] = mapped_column(String(10), nullable=False, default="GET")
-    visited_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), nullable=False, server_default=func.now()
-    )
+    visited_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
 
     user = relationship("User")

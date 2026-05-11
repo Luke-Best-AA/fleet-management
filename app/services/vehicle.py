@@ -12,23 +12,14 @@ from app.models.vehicle import Vehicle
 
 
 def get_vehicle_by_id(db: Session, vehicle_id: int) -> Vehicle:
-    vehicle = (
-        db.query(Vehicle)
-        .filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False)
-        .first()
-    )
+    vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id, Vehicle.is_deleted == False).first()
     if not vehicle:
         raise NotFoundError("Vehicle not found")
     return vehicle
 
 
 def get_all_vehicles(db: Session) -> list[Vehicle]:
-    return (
-        db.query(Vehicle)
-        .filter(Vehicle.is_deleted == False)
-        .order_by(Vehicle.registration_number)
-        .all()
-    )
+    return db.query(Vehicle).filter(Vehicle.is_deleted == False).order_by(Vehicle.registration_number).all()
 
 
 def get_vehicles_for_user(db: Session, user_id: int) -> list[Vehicle]:
@@ -66,7 +57,11 @@ def create_vehicle(
     if not loc:
         raise BusinessRuleError("Location not found or has been deleted")
 
-    if db.query(Vehicle).filter(Vehicle.registration_number == registration_number, Vehicle.is_deleted == False).first():
+    if (
+        db.query(Vehicle)
+        .filter(Vehicle.registration_number == registration_number, Vehicle.is_deleted == False)
+        .first()
+    ):
         raise ConflictError("Registration number already in use")
 
     if db.query(Vehicle).filter(Vehicle.fleet_reference == fleet_reference, Vehicle.is_deleted == False).first():
@@ -121,7 +116,9 @@ def update_vehicle(
 
     existing = (
         db.query(Vehicle)
-        .filter(Vehicle.registration_number == registration_number, Vehicle.id != vehicle_id, Vehicle.is_deleted == False)
+        .filter(
+            Vehicle.registration_number == registration_number, Vehicle.id != vehicle_id, Vehicle.is_deleted == False
+        )
         .first()
     )
     if existing:

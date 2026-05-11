@@ -14,3 +14,6 @@ itsdangerous
 pytest
 pytest-asyncio
 httpx
+ruff
+bandit
+pip-audit

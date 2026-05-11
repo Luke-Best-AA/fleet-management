@@ -1,5 +1,5 @@
 """Tests for vehicle routes."""
-import pytest
+
 from app.security.csrf import generate_csrf_token
 
 
@@ -42,8 +42,16 @@ class TestVehicleRoutes:
 
     def test_vehicle_detail_standard_user_unassigned(self, client, db, standard_user, location):
         from app.services import vehicle as vehicle_service
+
         other_v = vehicle_service.create_vehicle(
-            db, "AB12 CDE", "FLT-OTHER", "patrol_van", "Ford", "Transit", 2023, location.id,
+            db,
+            "AB12 CDE",
+            "FLT-OTHER",
+            "patrol_van",
+            "Ford",
+            "Transit",
+            2023,
+            location.id,
         )
         self._login(client, "testdriver")
         resp = client.get(f"/vehicles/{other_v.id}")

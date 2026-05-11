@@ -1,4 +1,5 @@
 """Tests for location service layer."""
+
 import pytest
 
 from app.exceptions import ConflictError, NotFoundError
@@ -24,7 +25,7 @@ class TestGetLocationById:
 
 class TestGetAllLocations:
     def test_returns_all(self, db, location):
-        loc2 = location_service.create_location(db, "Depot B", "DPB", city="CityB")
+        location_service.create_location(db, "Depot B", "DPB", city="CityB")
         locations = location_service.get_all_locations(db)
         assert len(locations) == 2
 
@@ -59,9 +60,14 @@ class TestCreateLocation:
 
     def test_create_full(self, db):
         loc = location_service.create_location(
-            db, "Full Depot", "FUL",
-            region="North", address_line_1="123 Street",
-            address_line_2="Unit 4", city="London", postcode="SW1A 1AA",
+            db,
+            "Full Depot",
+            "FUL",
+            region="North",
+            address_line_1="123 Street",
+            address_line_2="Unit 4",
+            city="London",
+            postcode="SW1A 1AA",
         )
         assert loc.region == "North"
         assert loc.city == "London"
@@ -84,7 +90,10 @@ class TestCreateLocation:
 class TestUpdateLocation:
     def test_update_name(self, db, location):
         updated = location_service.update_location(
-            db, location.id, "Renamed Depot", "TST",
+            db,
+            location.id,
+            "Renamed Depot",
+            "TST",
         )
         assert updated.name == "Renamed Depot"
 
@@ -100,13 +109,20 @@ class TestUpdateLocation:
 
     def test_update_same_name_ok(self, db, location):
         updated = location_service.update_location(
-            db, location.id, "Test Depot", "TST",
+            db,
+            location.id,
+            "Test Depot",
+            "TST",
         )
         assert updated.name == "Test Depot"
 
     def test_update_is_active(self, db, location):
         updated = location_service.update_location(
-            db, location.id, "Test Depot", "TST", is_active=False,
+            db,
+            location.id,
+            "Test Depot",
+            "TST",
+            is_active=False,
         )
         assert updated.is_active is False
 

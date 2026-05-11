@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional
 
 from sqlalchemy import (
     CheckConstraint,
@@ -27,33 +26,21 @@ class RetirementRequest(Base, TimestampMixin):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    vehicle_id: Mapped[int] = mapped_column(
-        ForeignKey("vehicles.id"), nullable=False
-    )
-    requested_by_user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id"), nullable=False
-    )
+    vehicle_id: Mapped[int] = mapped_column(ForeignKey("vehicles.id"), nullable=False)
+    requested_by_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     reason: Mapped[str] = mapped_column(Text, nullable=False)
-    status: Mapped[str] = mapped_column(
-        String(20), nullable=False, default="pending", server_default="pending"
-    )
-    reviewed_by_user_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("users.id"), nullable=True
-    )
-    review_notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    requested_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), nullable=False, server_default=func.now()
-    )
-    reviewed_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime(timezone=True), nullable=True
-    )
+    status: Mapped[str] = mapped_column(String(20), nullable=False, default="pending", server_default="pending")
+    reviewed_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), nullable=True)
+    review_notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    requested_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, server_default=func.now())
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
-    vehicle: Mapped["Vehicle"] = relationship(back_populates="retirement_requests")
-    requested_by: Mapped["User"] = relationship(
+    vehicle: Mapped[Vehicle] = relationship(back_populates="retirement_requests")
+    requested_by: Mapped[User] = relationship(
         back_populates="requested_retirement_requests",
         foreign_keys=[requested_by_user_id],
     )
-    reviewed_by: Mapped[Optional["User"]] = relationship(
+    reviewed_by: Mapped[User | None] = relationship(
         back_populates="reviewed_retirement_requests",
         foreign_keys=[reviewed_by_user_id],
     )

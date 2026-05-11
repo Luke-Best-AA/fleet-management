@@ -1,12 +1,11 @@
 """Tests for retirement and deletion request routes."""
-import pytest
+
 from datetime import date
 
 from app.security.csrf import generate_csrf_token
-from app.services import retirement as retirement_service
 from app.services import deletion as deletion_service
 from app.services import maintenance as maint_service
-from app.services import mileage as mileage_service
+from app.services import retirement as retirement_service
 
 
 class _RequestTestBase:
@@ -71,8 +70,12 @@ class TestRetirementRequestRoutes(_RequestTestBase):
 
     def test_retirement_detail_page(self, client, admin_user, vehicle, standard_user, db):
         req = retirement_service.create_request(
-            db, vehicle.id, standard_user.id, "Too old",
-            user_role="standard", user_id=standard_user.id,
+            db,
+            vehicle.id,
+            standard_user.id,
+            "Too old",
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testadmin")
         resp = client.get(f"/requests/retirement/{req.id}")
@@ -80,8 +83,12 @@ class TestRetirementRequestRoutes(_RequestTestBase):
 
     def test_approve_retirement(self, client, admin_user, vehicle, standard_user, db):
         req = retirement_service.create_request(
-            db, vehicle.id, standard_user.id, "Old vehicle",
-            user_role="standard", user_id=standard_user.id,
+            db,
+            vehicle.id,
+            standard_user.id,
+            "Old vehicle",
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testadmin")
         token = generate_csrf_token()
@@ -98,8 +105,12 @@ class TestRetirementRequestRoutes(_RequestTestBase):
 
     def test_reject_retirement(self, client, admin_user, vehicle, standard_user, db):
         req = retirement_service.create_request(
-            db, vehicle.id, standard_user.id, "Want to retire",
-            user_role="standard", user_id=standard_user.id,
+            db,
+            vehicle.id,
+            standard_user.id,
+            "Want to retire",
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testadmin")
         token = generate_csrf_token()
@@ -116,8 +127,12 @@ class TestRetirementRequestRoutes(_RequestTestBase):
 
     def test_review_standard_forbidden(self, client, standard_user, vehicle, db):
         req = retirement_service.create_request(
-            db, vehicle.id, standard_user.id, "Retire",
-            user_role="standard", user_id=standard_user.id,
+            db,
+            vehicle.id,
+            standard_user.id,
+            "Retire",
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testdriver")
         token = generate_csrf_token()
@@ -154,8 +169,14 @@ class TestDeletionRequestRoutes(_RequestTestBase):
 
     def test_create_deletion_request(self, client, standard_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         self._login(client, "testdriver")
         token = generate_csrf_token()
@@ -173,12 +194,23 @@ class TestDeletionRequestRoutes(_RequestTestBase):
 
     def test_deletion_detail_page(self, client, admin_user, standard_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         req = deletion_service.create_request(
-            db, "maintenance_record", rec.id, standard_user.id,
-            "Delete", user_role="standard", user_id=standard_user.id,
+            db,
+            "maintenance_record",
+            rec.id,
+            standard_user.id,
+            "Delete",
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testadmin")
         resp = client.get(f"/requests/deletion/{req.id}")
@@ -186,12 +218,23 @@ class TestDeletionRequestRoutes(_RequestTestBase):
 
     def test_approve_deletion(self, client, admin_user, standard_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         req = deletion_service.create_request(
-            db, "maintenance_record", rec.id, standard_user.id,
-            "Delete", user_role="standard", user_id=standard_user.id,
+            db,
+            "maintenance_record",
+            rec.id,
+            standard_user.id,
+            "Delete",
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testadmin")
         token = generate_csrf_token()
@@ -208,12 +251,23 @@ class TestDeletionRequestRoutes(_RequestTestBase):
 
     def test_reject_deletion(self, client, admin_user, standard_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         req = deletion_service.create_request(
-            db, "maintenance_record", rec.id, standard_user.id,
-            "Delete", user_role="standard", user_id=standard_user.id,
+            db,
+            "maintenance_record",
+            rec.id,
+            standard_user.id,
+            "Delete",
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testadmin")
         token = generate_csrf_token()
@@ -230,12 +284,23 @@ class TestDeletionRequestRoutes(_RequestTestBase):
 
     def test_review_standard_forbidden(self, client, standard_user, vehicle, category, db):
         rec = maint_service.create_record(
-            db, vehicle.id, category.id, standard_user.id,
-            date.today(), 10000, user_role="standard", user_vehicle_id=standard_user.id,
+            db,
+            vehicle.id,
+            category.id,
+            standard_user.id,
+            date.today(),
+            10000,
+            user_role="standard",
+            user_vehicle_id=standard_user.id,
         )
         req = deletion_service.create_request(
-            db, "maintenance_record", rec.id, standard_user.id,
-            "Delete", user_role="standard", user_id=standard_user.id,
+            db,
+            "maintenance_record",
+            rec.id,
+            standard_user.id,
+            "Delete",
+            user_role="standard",
+            user_id=standard_user.id,
         )
         self._login(client, "testdriver")
         token = generate_csrf_token()
