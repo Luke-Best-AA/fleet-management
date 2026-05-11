@@ -183,7 +183,7 @@ def _parse_zap(data: dict | None) -> dict:
                     "count": alert.get("count", ""),
                 }
             )
-    high_risks = sum(1 for a in alerts if "high" in a.get("risk", "").lower())
+    high_risks = sum(1 for a in alerts if a.get("risk", "").lower().startswith("high"))
     return {
         "status": "pass" if high_risks == 0 else "fail",
         "count": len(alerts),
@@ -260,6 +260,8 @@ def generate_html() -> str:
   .fail-row {{ background: #fff5f5; }}
   .detail {{ color: var(--muted); font-size: 0.85em; }}
   .empty {{ color: var(--muted); font-style: italic; }}
+  .detail-link {{ font-size: 0.8em; margin-left: auto; color: #0969da; text-decoration: none; }}
+  .detail-link:hover {{ text-decoration: underline; }}
 </style>
 </head>
 <body>
@@ -281,9 +283,10 @@ def generate_html() -> str:
 """
 
     # --- Ruff Lint ---
+    ruff_link = '<a class="detail-link" href="ruff-detail.html" target="_blank">View Full Report &rarr;</a>'
     html += f"""
 <div class="section">
-  <h2>Ruff Lint {_status_badge(ruff["status"])}</h2>"""
+  <h2>Ruff Lint {_status_badge(ruff["status"])} {ruff_link}</h2>"""
     if ruff["issues"]:
         html += f"""
   <p>{ruff["count"]} issue(s) found</p>
@@ -312,9 +315,10 @@ def generate_html() -> str:
 """
 
     # --- Bandit ---
+    bandit_link = '<a class="detail-link" href="bandit-detail.html" target="_blank">View Full Report &rarr;</a>'
     html += f"""
 <div class="section">
-  <h2>Bandit Security Scan {_status_badge(bandit["status"])}</h2>
+  <h2>Bandit Security Scan {_status_badge(bandit["status"])} {bandit_link}</h2>
   <p>Scanned {bandit.get("loc", "?")} lines of code</p>"""
     if bandit["issues"]:
         html += f"""
@@ -337,9 +341,10 @@ def generate_html() -> str:
     html += "\n</div>\n"
 
     # --- pip-audit ---
+    pip_link = '<a class="detail-link" href="pip-audit-detail.html" target="_blank">View Full Report &rarr;</a>'
     html += f"""
 <div class="section">
-  <h2>pip-audit Dependency Scan {_status_badge(pip_audit["status"])}</h2>
+  <h2>pip-audit Dependency Scan {_status_badge(pip_audit["status"])} {pip_link}</h2>
   <p>Scanned {pip_audit.get("scanned", "?")} packages</p>"""
     if pip_audit["vulnerabilities"]:
         html += f"""
@@ -392,25 +397,29 @@ def generate_html() -> str:
     html += _test_section("E2E Tests (Playwright)", e2e)
 
     # --- ZAP ---
+    zap_links = (
+        '<a class="detail-link" href="zap-report.html"'
+        ' target="_blank">Full HTML Report &rarr;</a> '
+        '<a class="detail-link" href="zap-detail.html"'
+        ' target="_blank">JSON &rarr;</a>'
+    )
     html += f"""
 <div class="section">
-  <h2>OWASP ZAP Baseline Scan {_status_badge(zap["status"])}</h2>
+  <h2>OWASP ZAP Baseline Scan {_status_badge(zap["status"])} {zap_links}</h2>
   <p>{zap["count"]} alert(s) found ({zap.get("high_risk", 0)} high risk)</p>"""
     if zap["alerts"]:
         html += """
   <table>
     <tr><th>Alert</th><th>Risk</th><th>Instances</th></tr>"""
         for a in zap["alerts"]:
-            row_class = "fail-row" if "high" in a.get("risk", "").lower() else ""
+            is_high = a.get("risk", "").lower().startswith("high")
+            row_class = "fail-row" if is_high else ""
             html += f"""
     <tr class="{row_class}"><td>{_esc(a["name"])}</td><td>{_esc(a["risk"])}</td><td>{a["count"]}</td></tr>"""
         html += "\n  </table>"
     else:
         html += '\n  <p class="empty">No alerts raised.</p>'
-    html += """
-  <p class="detail" style="margin-top:0.75rem;">Full ZAP HTML report available as separate artifact (zap-report).</p>
-</div>
-"""
+    html += "\n</div>\n"
 
     html += """
 </div>
@@ -419,9 +428,88 @@ def generate_html() -> str:
     return html
 
 
+def _json_viewer_html(title: str, json_data) -> str:
+    """Generate a standalone HTML page that displays JSON data nicely."""
+    json_str = json.dumps(json_data, indent=2, default=str) if json_data else "{}"
+    escaped_json = _esc(json_str)
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{_esc(title)} — CI Detail Report</title>
+<style>
+  body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: #1e1e1e; color: #d4d4d4; padding: 2rem; margin: 0; }}
+  h1 {{ color: #fff; margin-bottom: 0.5rem; font-size: 1.4rem; }}
+  .back {{ color: #58a6ff; text-decoration: none; display: inline-block; margin-bottom: 1rem; }}
+  .back:hover {{ text-decoration: underline; }}
+  pre {{ background: #252526; border: 1px solid #3c3c3c; border-radius: 8px;
+         padding: 1.5rem; overflow-x: auto; font-size: 0.85em; line-height: 1.5;
+         white-space: pre-wrap; word-break: break-word; }}
+  .key {{ color: #9cdcfe; }}
+  .string {{ color: #ce9178; }}
+  .number {{ color: #b5cea8; }}
+  .boolean {{ color: #569cd6; }}
+  .null {{ color: #569cd6; }}
+</style>
+</head>
+<body>
+<a class="back" href="ci-report.html">&larr; Back to CI Report</a>
+<h1>{_esc(title)}</h1>
+<pre id="json">{escaped_json}</pre>
+<script>
+(function() {{
+  const el = document.getElementById('json');
+  const raw = el.textContent;
+  try {{
+    const obj = JSON.parse(raw);
+    const highlighted = JSON.stringify(obj, null, 2)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"([^"]+)"(?=\\s*:)/g, '<span class="key">"$1"</span>')
+      .replace(/:\\s*"([^"]*)"/g, ': <span class="string">"$1"</span>')
+      .replace(/:\\s*(\\d+\\.?\\d*)/g, ': <span class="number">$1</span>')
+      .replace(/:\\s*(true|false)/g, ': <span class="boolean">$1</span>')
+      .replace(/:\\s*(null)/g, ': <span class="null">$1</span>');
+    el.innerHTML = highlighted;
+  }} catch(e) {{}}
+}})();
+</script>
+</body>
+</html>"""
+
+
+def generate_detail_pages():
+    """Generate individual HTML detail pages for each report source."""
+    import shutil
+
+    detail_dir = REPORTS_DIR
+
+    # JSON-based detail pages
+    json_reports = [
+        ("ruff.json", "Ruff Lint Report", "ruff-detail.html"),
+        ("bandit.json", "Bandit Security Report", "bandit-detail.html"),
+        ("pip-audit.json", "pip-audit Vulnerability Report", "pip-audit-detail.html"),
+        ("zap.json", "OWASP ZAP Scan Report", "zap-detail.html"),
+    ]
+    for filename, title, output_name in json_reports:
+        data = _load_json(filename)
+        if data is not None:
+            page = _json_viewer_html(title, data)
+            (detail_dir / output_name).write_text(page)
+            print(f"  Detail page: {output_name}")
+
+    # Copy ZAP HTML report if it exists (produced by ZAP action)
+    zap_html_src = Path("report_html.html")
+    if zap_html_src.exists():
+        shutil.copy(zap_html_src, detail_dir / "zap-report.html")
+        print("  Copied: zap-report.html")
+
+
 if __name__ == "__main__":
     REPORTS_DIR.mkdir(exist_ok=True)
     report = generate_html()
     output = REPORTS_DIR / "ci-report.html"
     output.write_text(report)
+    generate_detail_pages()
     print(f"Report generated: {output}")
