@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bandit Security Report — CI Detail Report</title>
+<style>
+  :root { --bg: #f8f9fa; --card: #fff; --border: #dee2e6;
+           --text: #212529; --muted: #6c757d; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, sans-serif; background: var(--bg); color: var(--text);
+          line-height: 1.6; padding: 2rem; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .back { color: #0969da; text-decoration: none; }
+  .back:hover { text-decoration: underline; }
+  h1 { margin: 0.5rem 0 1rem; font-size: 1.4rem; }
+  .toggle { display: flex; gap: 0; margin-bottom: 1.5rem; }
+  .toggle button { padding: 0.4rem 1.2rem; border: 1px solid var(--border);
+                    background: var(--card); cursor: pointer;
+                    font-size: 0.9em; color: var(--muted); }
+  .toggle button:first-child { border-radius: 6px 0 0 6px; }
+  .toggle button:last-child { border-radius: 0 6px 6px 0;
+                               border-left: none; }
+  .toggle button.active { background: #0969da; color: #fff;
+                           border-color: #0969da; }
+  #html-view { }
+  #json-view { display: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+  th, td { text-align: left; padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border); }
+  th { background: var(--bg); font-weight: 600; }
+  .card { background: var(--card); border: 1px solid var(--border);
+           border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .stat { font-size: 2rem; font-weight: 700; }
+  .stat-label { font-size: 0.8em; color: var(--muted);
+                 text-transform: uppercase; }
+  .stats { display: flex; gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 1.5rem; }
+  .stats .card { flex: 1; min-width: 100px; text-align: center; }
+  .empty { color: var(--muted); font-style: italic; }
+  .severity-high { color: #dc3545; font-weight: 600; }
+  .severity-medium { color: #fd7e14; font-weight: 600; }
+  .severity-low { color: #ffc107; font-weight: 600; }
+  a.rule-link { color: #0969da; text-decoration: none; }
+  a.rule-link:hover { text-decoration: underline; }
+  pre { background: #1e1e1e; color: #d4d4d4; border-radius: 8px;
+         padding: 1.5rem; overflow-x: auto; font-size: 0.85em;
+         line-height: 1.5; white-space: pre-wrap;
+         word-break: break-word; }
+  .key { color: #9cdcfe; }
+  .string { color: #ce9178; }
+  .number { color: #b5cea8; }
+  .bool { color: #569cd6; }
+  .copy-btn { position: absolute; top: 0.75rem; right: 0.75rem;
+               background: #3c3c3c; color: #d4d4d4; border: 1px solid #555;
+               border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer;
+               font-size: 0.8em; }
+  .copy-btn:hover { background: #505050; }
+  .json-wrap { position: relative; }
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="ci-report.html">&larr; Back to CI Report</a>
+<h1>Bandit Security Report</h1>
+<div class="toggle">
+  <button class="active" onclick="show('html')">Report</button>
+  <button onclick="show('json')">JSON</button>
+</div>
+<div id="html-view">
+<div class="stats">
+  <div class="card">
+    <div class="stat">4,270</div>
+    <div class="stat-label">Lines of Code</div>
+  </div>
+  <div class="card">
+    <div class="stat">0</div>
+    <div class="stat-label">Issues Found</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-high">0</div>
+    <div class="stat-label">High Severity</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-medium">0</div>
+    <div class="stat-label">Medium Severity</div>
+  </div>
+  <div class="card">
+    <div class="stat severity-low">0</div>
+    <div class="stat-label">Low Severity</div>
+  </div>
+</div><p style="color:var(--muted);font-size:0.85em;">Scanned at 2026-05-12T10:22:55Z</p>
+<p class="empty">No security issues found.</p>
+</div>
+<div id="json-view">
+<div class="json-wrap">
+<button class="copy-btn" onclick="copyJson()">Copy</button>
+<pre id="json-pre">{
+  &quot;errors&quot;: [],
+  &quot;generated_at&quot;: &quot;2026-05-12T10:22:55Z&quot;,
+  &quot;metrics&quot;: {
+    &quot;./run.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 3,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 1
+    },
+    &quot;./seed.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 95,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;_totals&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 4270,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 2
+    },
+    &quot;app/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/config.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 12,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/db/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/db/base.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 15,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/db/session.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 12,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/exceptions/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 27,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/main.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 149,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 1
+    },
+    &quot;app/models/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/audit_log.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 16,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/deletion_request.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 45,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/location.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 19,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/maintenance.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 49,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/mileage.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 37,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/page_visit.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 13,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/retirement_request.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 41,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/user.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 69,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/models/vehicle.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 73,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/api/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/api/inline.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 84,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/web/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/web/admin.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 549,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/web/auth.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 252,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/web/dashboard.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 96,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/web/maintenance.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 202,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/web/mileage.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 224,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/web/requests.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 304,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/routes/web/vehicles.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 201,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/schemas/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/schemas/auth.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 99,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/schemas/location.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 36,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/schemas/maintenance.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 55,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/schemas/mileage.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 26,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/schemas/requests.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 53,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/schemas/user.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 44,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/schemas/vehicle.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 117,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/security/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/security/csrf.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 35,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/security/dependencies.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 20,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/security/password.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 6,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/audit.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 27,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/auth.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 45,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/deletion.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 104,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/location.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 82,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/maintenance.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 180,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/mileage.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 123,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/page_visit.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 79,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/retirement.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 100,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/session.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 104,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/user.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 99,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/services/vehicle.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 153,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/utils/__init__.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 0,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/utils/flash.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 3,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/utils/forms.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 69,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    },
+    &quot;app/utils/template.py&quot;: {
+      &quot;CONFIDENCE.HIGH&quot;: 0,
+      &quot;CONFIDENCE.LOW&quot;: 0,
+      &quot;CONFIDENCE.MEDIUM&quot;: 0,
+      &quot;CONFIDENCE.UNDEFINED&quot;: 0,
+      &quot;SEVERITY.HIGH&quot;: 0,
+      &quot;SEVERITY.LOW&quot;: 0,
+      &quot;SEVERITY.MEDIUM&quot;: 0,
+      &quot;SEVERITY.UNDEFINED&quot;: 0,
+      &quot;loc&quot;: 24,
+      &quot;nosec&quot;: 0,
+      &quot;skipped_tests&quot;: 0
+    }
+  },
+  &quot;results&quot;: []
+}</pre>
+</div>
+</div>
+</div>
+<script>
+function show(view) {
+  document.getElementById('html-view').style.display =
+    view === 'html' ? 'block' : 'none';
+  document.getElementById('json-view').style.display =
+    view === 'json' ? 'block' : 'none';
+  document.querySelectorAll('.toggle button').forEach(
+    function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+}
+function copyJson() {
+  var text = document.getElementById('json-pre').textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+(function() {
+  var el = document.getElementById('json-pre');
+  var raw = el.textContent;
+  try {
+    var obj = JSON.parse(raw);
+    var h = JSON.stringify(obj, null, 2)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"([^"]+)"(?=\s*:)/g,
+        '<span class="key">"$1"</span>')
+      .replace(/:\s*"([^"]*)"/g,
+        ': <span class="string">"$1"</span>')
+      .replace(/:\s*(\d+\.?\d*)/g,
+        ': <span class="number">$1</span>')
+      .replace(/:\s*(true|false)/g,
+        ': <span class="bool">$1</span>')
+      .replace(/:\s*(null)/g,
+        ': <span class="bool">$1</span>');
+    el.innerHTML = h;
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
