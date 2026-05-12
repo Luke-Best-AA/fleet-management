@@ -296,6 +296,6 @@ async def change_password_post(request: Request, db: Session = Depends(get_db)):
             {"errors": {"current_password": e.message}},
         )
 
-    response = RedirectResponse("/auth/login", status_code=303)
+    response = RedirectResponse("/auth/login?password_changed=1", status_code=303)
     response.delete_cookie("session_id")
     return response
