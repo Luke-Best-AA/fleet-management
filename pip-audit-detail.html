@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pip-audit Vulnerability Report — CI Detail Report</title>
+<style>
+  :root { --bg: #f8f9fa; --card: #fff; --border: #dee2e6;
+           --text: #212529; --muted: #6c757d; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, sans-serif; background: var(--bg); color: var(--text);
+          line-height: 1.6; padding: 2rem; }
+  .container { max-width: 960px; margin: 0 auto; }
+  .back { color: #0969da; text-decoration: none; }
+  .back:hover { text-decoration: underline; }
+  h1 { margin: 0.5rem 0 1rem; font-size: 1.4rem; }
+  .toggle { display: flex; gap: 0; margin-bottom: 1.5rem; }
+  .toggle button { padding: 0.4rem 1.2rem; border: 1px solid var(--border);
+                    background: var(--card); cursor: pointer;
+                    font-size: 0.9em; color: var(--muted); }
+  .toggle button:first-child { border-radius: 6px 0 0 6px; }
+  .toggle button:last-child { border-radius: 0 6px 6px 0;
+                               border-left: none; }
+  .toggle button.active { background: #0969da; color: #fff;
+                           border-color: #0969da; }
+  #html-view { }
+  #json-view { display: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+  th, td { text-align: left; padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border); }
+  th { background: var(--bg); font-weight: 600; }
+  .card { background: var(--card); border: 1px solid var(--border);
+           border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+  .stat { font-size: 2rem; font-weight: 700; }
+  .stat-label { font-size: 0.8em; color: var(--muted);
+                 text-transform: uppercase; }
+  .stats { display: flex; gap: 1rem; flex-wrap: wrap;
+            margin-bottom: 1.5rem; }
+  .stats .card { flex: 1; min-width: 100px; text-align: center; }
+  .empty { color: var(--muted); font-style: italic; }
+  .severity-high { color: #dc3545; font-weight: 600; }
+  .severity-medium { color: #fd7e14; font-weight: 600; }
+  .severity-low { color: #ffc107; font-weight: 600; }
+  a.rule-link { color: #0969da; text-decoration: none; }
+  a.rule-link:hover { text-decoration: underline; }
+  pre { background: #1e1e1e; color: #d4d4d4; border-radius: 8px;
+         padding: 1.5rem; overflow-x: auto; font-size: 0.85em;
+         line-height: 1.5; white-space: pre-wrap;
+         word-break: break-word; }
+  .key { color: #9cdcfe; }
+  .string { color: #ce9178; }
+  .number { color: #b5cea8; }
+  .bool { color: #569cd6; }
+  .copy-btn { position: absolute; top: 0.75rem; right: 0.75rem;
+               background: #3c3c3c; color: #d4d4d4; border: 1px solid #555;
+               border-radius: 4px; padding: 0.3rem 0.7rem; cursor: pointer;
+               font-size: 0.8em; }
+  .copy-btn:hover { background: #505050; }
+  .json-wrap { position: relative; }
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="ci-report.html">&larr; Back to CI Report</a>
+<h1>pip-audit Vulnerability Report</h1>
+<div class="toggle">
+  <button class="active" onclick="show('html')">Report</button>
+  <button onclick="show('json')">JSON</button>
+</div>
+<div id="html-view">
+<div class="stats">
+  <div class="card">
+    <div class="stat">83</div>
+    <div class="stat-label">Packages Scanned</div>
+  </div>
+  <div class="card">
+    <div class="stat">0</div>
+    <div class="stat-label">Vulnerabilities</div>
+  </div>
+</div>
+<p class="empty">No known vulnerabilities found.</p>
+</div>
+<div id="json-view">
+<div class="json-wrap">
+<button class="copy-btn" onclick="copyJson()">Copy</button>
+<pre id="json-pre">{
+  &quot;dependencies&quot;: [
+    {
+      &quot;name&quot;: &quot;annotated-doc&quot;,
+      &quot;version&quot;: &quot;0.0.4&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;annotated-types&quot;,
+      &quot;version&quot;: &quot;0.7.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;anyio&quot;,
+      &quot;version&quot;: &quot;4.13.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;bandit&quot;,
+      &quot;version&quot;: &quot;1.9.4&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;bcrypt&quot;,
+      &quot;version&quot;: &quot;4.0.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;boolean-py&quot;,
+      &quot;version&quot;: &quot;5.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;cachecontrol&quot;,
+      &quot;version&quot;: &quot;0.14.4&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;certifi&quot;,
+      &quot;version&quot;: &quot;2026.4.22&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;cfgv&quot;,
+      &quot;version&quot;: &quot;3.5.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;charset-normalizer&quot;,
+      &quot;version&quot;: &quot;3.4.7&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;click&quot;,
+      &quot;version&quot;: &quot;8.3.3&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;coverage&quot;,
+      &quot;version&quot;: &quot;7.14.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;cyclonedx-python-lib&quot;,
+      &quot;version&quot;: &quot;11.7.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;defusedxml&quot;,
+      &quot;version&quot;: &quot;0.7.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;distlib&quot;,
+      &quot;version&quot;: &quot;0.4.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;dnspython&quot;,
+      &quot;version&quot;: &quot;2.8.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;email-validator&quot;,
+      &quot;version&quot;: &quot;2.3.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;fastapi&quot;,
+      &quot;version&quot;: &quot;0.136.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;filelock&quot;,
+      &quot;version&quot;: &quot;3.29.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;greenlet&quot;,
+      &quot;version&quot;: &quot;3.5.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;h11&quot;,
+      &quot;version&quot;: &quot;0.16.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;httpcore&quot;,
+      &quot;version&quot;: &quot;1.0.9&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;httptools&quot;,
+      &quot;version&quot;: &quot;0.7.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;httpx&quot;,
+      &quot;version&quot;: &quot;0.28.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;identify&quot;,
+      &quot;version&quot;: &quot;2.6.19&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;idna&quot;,
+      &quot;version&quot;: &quot;3.14&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;iniconfig&quot;,
+      &quot;version&quot;: &quot;2.3.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;itsdangerous&quot;,
+      &quot;version&quot;: &quot;2.2.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;jinja2&quot;,
+      &quot;version&quot;: &quot;3.1.6&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;license-expression&quot;,
+      &quot;version&quot;: &quot;30.4.4&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;markdown-it-py&quot;,
+      &quot;version&quot;: &quot;4.2.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;markupsafe&quot;,
+      &quot;version&quot;: &quot;3.0.3&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;mdurl&quot;,
+      &quot;version&quot;: &quot;0.1.2&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;msgpack&quot;,
+      &quot;version&quot;: &quot;1.1.2&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;nodeenv&quot;,
+      &quot;version&quot;: &quot;1.10.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;packageurl-python&quot;,
+      &quot;version&quot;: &quot;0.17.6&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;packaging&quot;,
+      &quot;version&quot;: &quot;26.2&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;passlib&quot;,
+      &quot;version&quot;: &quot;1.7.4&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pip&quot;,
+      &quot;version&quot;: &quot;26.1.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pip-api&quot;,
+      &quot;version&quot;: &quot;0.0.34&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pip-audit&quot;,
+      &quot;version&quot;: &quot;2.10.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pip-requirements-parser&quot;,
+      &quot;version&quot;: &quot;32.0.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;platformdirs&quot;,
+      &quot;version&quot;: &quot;4.9.6&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;playwright&quot;,
+      &quot;version&quot;: &quot;1.59.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pluggy&quot;,
+      &quot;version&quot;: &quot;1.6.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pre-commit&quot;,
+      &quot;version&quot;: &quot;4.6.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;psycopg2-binary&quot;,
+      &quot;version&quot;: &quot;2.9.12&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;py-serializable&quot;,
+      &quot;version&quot;: &quot;2.1.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pydantic&quot;,
+      &quot;version&quot;: &quot;2.13.4&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pydantic-core&quot;,
+      &quot;version&quot;: &quot;2.46.4&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pydantic-settings&quot;,
+      &quot;version&quot;: &quot;2.14.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pyee&quot;,
+      &quot;version&quot;: &quot;13.0.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pygments&quot;,
+      &quot;version&quot;: &quot;2.20.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pyparsing&quot;,
+      &quot;version&quot;: &quot;3.3.2&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pytest&quot;,
+      &quot;version&quot;: &quot;9.0.3&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pytest-asyncio&quot;,
+      &quot;version&quot;: &quot;1.3.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pytest-base-url&quot;,
+      &quot;version&quot;: &quot;2.1.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pytest-cov&quot;,
+      &quot;version&quot;: &quot;7.1.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pytest-playwright&quot;,
+      &quot;version&quot;: &quot;0.7.2&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;python-discovery&quot;,
+      &quot;version&quot;: &quot;1.3.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;python-dotenv&quot;,
+      &quot;version&quot;: &quot;1.2.2&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;python-multipart&quot;,
+      &quot;version&quot;: &quot;0.0.28&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;python-slugify&quot;,
+      &quot;version&quot;: &quot;8.0.4&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;pyyaml&quot;,
+      &quot;version&quot;: &quot;6.0.3&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;redis&quot;,
+      &quot;version&quot;: &quot;7.4.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;requests&quot;,
+      &quot;version&quot;: &quot;2.34.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;rich&quot;,
+      &quot;version&quot;: &quot;15.0.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;ruff&quot;,
+      &quot;version&quot;: &quot;0.15.12&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;sortedcontainers&quot;,
+      &quot;version&quot;: &quot;2.4.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;sqlalchemy&quot;,
+      &quot;version&quot;: &quot;2.0.49&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;starlette&quot;,
+      &quot;version&quot;: &quot;1.0.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;stevedore&quot;,
+      &quot;version&quot;: &quot;5.7.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;text-unidecode&quot;,
+      &quot;version&quot;: &quot;1.3&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;tomli&quot;,
+      &quot;version&quot;: &quot;2.4.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;tomli-w&quot;,
+      &quot;version&quot;: &quot;1.2.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;typing-extensions&quot;,
+      &quot;version&quot;: &quot;4.15.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;typing-inspection&quot;,
+      &quot;version&quot;: &quot;0.4.2&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;urllib3&quot;,
+      &quot;version&quot;: &quot;2.7.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;uvicorn&quot;,
+      &quot;version&quot;: &quot;0.46.0&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;uvloop&quot;,
+      &quot;version&quot;: &quot;0.22.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;virtualenv&quot;,
+      &quot;version&quot;: &quot;21.3.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;watchfiles&quot;,
+      &quot;version&quot;: &quot;1.1.1&quot;,
+      &quot;vulns&quot;: []
+    },
+    {
+      &quot;name&quot;: &quot;websockets&quot;,
+      &quot;version&quot;: &quot;16.0&quot;,
+      &quot;vulns&quot;: []
+    }
+  ],
+  &quot;fixes&quot;: []
+}</pre>
+</div>
+</div>
+</div>
+<script>
+function show(view) {
+  document.getElementById('html-view').style.display =
+    view === 'html' ? 'block' : 'none';
+  document.getElementById('json-view').style.display =
+    view === 'json' ? 'block' : 'none';
+  document.querySelectorAll('.toggle button').forEach(
+    function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+}
+function copyJson() {
+  var text = document.getElementById('json-pre').textContent;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+(function() {
+  var el = document.getElementById('json-pre');
+  var raw = el.textContent;
+  try {
+    var obj = JSON.parse(raw);
+    var h = JSON.stringify(obj, null, 2)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"([^"]+)"(?=\s*:)/g,
+        '<span class="key">"$1"</span>')
+      .replace(/:\s*"([^"]*)"/g,
+        ': <span class="string">"$1"</span>')
+      .replace(/:\s*(\d+\.?\d*)/g,
+        ': <span class="number">$1</span>')
+      .replace(/:\s*(true|false)/g,
+        ': <span class="bool">$1</span>')
+      .replace(/:\s*(null)/g,
+        ': <span class="bool">$1</span>');
+    el.innerHTML = h;
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>
