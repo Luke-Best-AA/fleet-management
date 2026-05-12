@@ -12,6 +12,10 @@
                 <div class="alert alert-danger">{{ errors._general }}</div>
                 {% endif %}
 
+                {% if success %}
+                <div class="alert alert-success">{{ success }}</div>
+                {% endif %}
+
                 <form method="POST" action="/auth/login" novalidate>
                     {{ csrf_field(csrf_token) }}
                     {{ form_field("username", "Username", value=form_data.username if form_data else "", errors=errors, required=true) }}
@@ -28,4 +32,15 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+{% if errors %}
+<script nonce="{{ csp_nonce }}">
+document.addEventListener('DOMContentLoaded', function() {
+    var pw = document.getElementById('password');
+    if (pw) { pw.focus(); }
+});
+</script>
+{% endif %}
 {% endblock %}

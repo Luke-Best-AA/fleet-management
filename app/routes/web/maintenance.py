@@ -153,7 +153,9 @@ async def maintenance_detail_page(request: Request, record_id: int, db: Session 
 @router.get("/{record_id}/edit")
 async def maintenance_edit_page(request: Request, record_id: int, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     try:
@@ -176,7 +178,9 @@ async def maintenance_edit_page(request: Request, record_id: int, db: Session = 
 @router.post("/{record_id}/edit")
 async def maintenance_edit_post(request: Request, record_id: int, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     form = await request.form()
@@ -228,7 +232,9 @@ async def maintenance_edit_post(request: Request, record_id: int, db: Session = 
 @router.post("/{record_id}/delete")
 async def maintenance_delete_post(request: Request, record_id: int, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     form = await request.form()

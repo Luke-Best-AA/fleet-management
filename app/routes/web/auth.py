@@ -24,7 +24,10 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def login_page(request: Request):
     if request.state.user:
         return RedirectResponse("/dashboard", status_code=302)
-    return render(request, "auth/login.html")
+    ctx = {}
+    if request.query_params.get("password_changed"):
+        ctx["success"] = "Password changed successfully. Please log in with your new password."
+    return render(request, "auth/login.html", ctx)
 
 
 @router.post("/login")
