@@ -5,6 +5,7 @@ into a single HTML report at reports/ci-report.html.
 """
 
 import json
+import os
 import xml.etree.ElementTree as ET  # noqa: N817
 from datetime import UTC, datetime
 from pathlib import Path
@@ -1076,6 +1077,89 @@ def generate_detail_pages():
         print("  Detail page: lighthouse-detail.html")
 
 
+def generate_summary() -> str:
+    """Generate a Markdown summary for GitHub Actions Job Summary."""
+    ruff = _parse_ruff(_load_json("ruff.json"))
+    ruff_fmt = _parse_ruff_format(_load_text("ruff-format.txt"))
+    bandit = _parse_bandit(_load_json("bandit.json"))
+    pip_audit = _parse_pip_audit(_load_json("pip-audit.json"))
+    tests = _parse_pytest_xml("pytest.xml")
+    e2e = _parse_pytest_xml("e2e.xml")
+    zap = _parse_zap(_load_json("zap.json"))
+    lighthouse = _parse_lighthouse(_load_json("lighthouse.json"))
+
+    sections = {
+        "Ruff Lint": ruff,
+        "Ruff Format": ruff_fmt,
+        "Bandit": bandit,
+        "pip-audit": pip_audit,
+        "Unit Tests": tests,
+        "E2E Tests": e2e,
+        "OWASP ZAP": zap,
+        "Lighthouse": lighthouse,
+    }
+
+    overall = "pass" if all(s["status"] == "pass" for s in sections.values()) else "fail"
+    icon = "\u2705" if overall == "pass" else "\u274c"
+
+    md = f"## {icon} CI Pipeline Report\n\n"
+    md += "| Check | Status | Details |\n"
+    md += "|-------|--------|--------|\n"
+
+    def _icon(status: str) -> str:
+        return {"pass": "\u2705", "fail": "\u274c", "skipped": "\u23ed\ufe0f", "error": "\u26a0\ufe0f"}.get(
+            status, "\u2753"
+        )
+
+    # Ruff Lint
+    detail = f"{ruff['count']} issue(s)" if ruff.get("count") else "Clean"
+    md += f"| Ruff Lint | {_icon(ruff['status'])} | {detail} |\n"
+
+    # Ruff Format
+    detail = "All formatted" if ruff_fmt["status"] == "pass" else "Issues found"
+    md += f"| Ruff Format | {_icon(ruff_fmt['status'])} | {detail} |\n"
+
+    # Bandit
+    detail = f"{bandit['count']} issue(s)" if bandit.get("count") else f"{bandit.get('loc', '?')} LOC scanned"
+    md += f"| Bandit | {_icon(bandit['status'])} | {detail} |\n"
+
+    # pip-audit
+    detail = f"{pip_audit['count']} vuln(s)" if pip_audit.get("count") else f"{pip_audit.get('scanned', '?')} packages"
+    md += f"| pip-audit | {_icon(pip_audit['status'])} | {detail} |\n"
+
+    # Tests
+    detail = f"{tests['passed']}/{tests['tests']} passed"
+    if tests.get("time"):
+        detail += f" ({tests['time']}s)"
+    coverage = _load_json("coverage.json")
+    if coverage and coverage.get("totals", {}).get("percent_covered_display"):
+        detail += f" \u2022 {coverage['totals']['percent_covered_display']}% coverage"
+    md += f"| Unit Tests | {_icon(tests['status'])} | {detail} |\n"
+
+    # E2E
+    detail = f"{e2e['passed']}/{e2e['tests']} passed"
+    if e2e.get("time"):
+        detail += f" ({e2e['time']}s)"
+    md += f"| E2E Tests | {_icon(e2e['status'])} | {detail} |\n"
+
+    # ZAP
+    detail = f"{zap['count']} alert(s), {zap.get('high_risk', 0)} high"
+    md += f"| OWASP ZAP | {_icon(zap['status'])} | {detail} |\n"
+
+    # Lighthouse
+    if lighthouse["scores"]:
+        scores_str = " / ".join(f"{cat}: {score}" for cat, score in lighthouse["scores"].items())
+        detail = scores_str
+    else:
+        detail = "No data"
+    md += f"| Lighthouse | {_icon(lighthouse['status'])} | {detail} |\n"
+
+    md += "\n> Full report available on [GitHub Pages](https://luke-best-aa.github.io/fleet-management/ci-report.html)"
+    md += " or as a build artifact.\n"
+
+    return md
+
+
 if __name__ == "__main__":
     REPORTS_DIR.mkdir(exist_ok=True)
     report = generate_html()
@@ -1083,3 +1167,11 @@ if __name__ == "__main__":
     output.write_text(report)
     generate_detail_pages()
     print(f"Report generated: {output}")
+
+    # Write GitHub Actions Job Summary
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary_path:
+        summary = generate_summary()
+        with open(summary_path, "a") as f:  # noqa: PTH123
+            f.write(summary)
+        print("Job summary written to $GITHUB_STEP_SUMMARY")

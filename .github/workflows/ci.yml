@@ -1,8 +1,13 @@
 name: CI
 
 on:
+  push:
+    branches: [develop, main]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
   lint:
@@ -263,6 +268,14 @@ jobs:
         continue-on-error: true
       - name: Generate combined HTML report
         run: python scripts/generate_ci_report.py
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports
+          destination_dir: .
+          keep_files: false
       - uses: actions/upload-artifact@v4
         with:
           name: ci-report
