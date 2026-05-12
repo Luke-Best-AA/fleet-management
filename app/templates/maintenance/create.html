@@ -60,7 +60,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
+<script nonce="{{ csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     var vehicleMileage = { {% for v in vehicles %}{{ v.id }}: {{ v.current_mileage }}{% if not loop.last %}, {% endif %}{% endfor %} };
     var vehicleSelect = document.getElementById('vehicle_id');
