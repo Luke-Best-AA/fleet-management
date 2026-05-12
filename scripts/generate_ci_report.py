@@ -254,6 +254,7 @@ def generate_html() -> str:
     lighthouse = _parse_lighthouse(_load_json("lighthouse.json"))
 
     now = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
+    branch = os.environ.get("REPORT_BRANCH", "local")
 
     sections = {
         "Ruff Lint": ruff["status"],
@@ -297,10 +298,24 @@ def generate_html() -> str:
   .empty {{ color: var(--muted); font-style: italic; }}
   .detail-link {{ font-size: 0.8em; margin-left: auto; color: #0969da; text-decoration: none; }}
   .detail-link:hover {{ text-decoration: underline; }}
+  .branch-nav {{ display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+                 padding: 0.75rem 1.25rem; background: var(--card); border: 1px solid var(--border);
+                 border-radius: 8px; font-size: 0.9em; }}
+  .branch-nav .current {{ font-weight: 700; color: var(--text); }}
+  .branch-nav a {{ color: #0969da; text-decoration: none; }}
+  .branch-nav a:hover {{ text-decoration: underline; }}
+  .branch-nav .sep {{ color: var(--muted); }}
 </style>
 </head>
 <body>
 <div class="container">
+<div class="branch-nav">
+  <span>Branch:</span>
+  <span class="current">{_esc(branch)}</span>
+  <span class="sep">|</span>
+  <a href="../develop/ci-report.html">develop</a>
+  <a href="../main/ci-report.html">main</a>
+</div>
 <h1>CI Pipeline Report {_status_badge(overall)}</h1>
 <p class="timestamp">Generated {now}</p>
 
@@ -1154,7 +1169,8 @@ def generate_summary() -> str:
         detail = "No data"
     md += f"| Lighthouse | {_icon(lighthouse['status'])} | {detail} |\n"
 
-    md += "\n> Full report available on [GitHub Pages](https://luke-best-aa.github.io/fleet-management/ci-report.html)"
+    branch = os.environ.get("REPORT_BRANCH", "develop")
+    md += f"\n> Full report available on [GitHub Pages](https://luke-best-aa.github.io/fleet-management/{branch}/ci-report.html)"
     md += " or as a build artifact.\n"
 
     return md

@@ -1,0 +1,61 @@
+"""Generate the root index.html for GitHub Pages.
+
+Provides navigation between branch-specific CI reports.
+"""
+
+from pathlib import Path
+
+INDEX_HTML = """\
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CI Reports — Fleet Management</title>
+<style>
+  :root { --bg: #f8f9fa; --card: #fff; --border: #dee2e6;
+          --text: #212529; --muted: #6c757d; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+         Roboto, sans-serif; background: var(--bg); color: var(--text);
+         line-height: 1.6; padding: 2rem; min-height: 100vh;
+         display: flex; align-items: center; justify-content: center; }
+  .container { max-width: 480px; width: 100%; }
+  h1 { margin-bottom: 0.5rem; font-size: 1.5rem; }
+  p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9em; }
+  .branches { display: flex; flex-direction: column; gap: 0.75rem; }
+  .branch-link { display: block; background: var(--card);
+                 border: 1px solid var(--border); border-radius: 8px;
+                 padding: 1.25rem 1.5rem; text-decoration: none;
+                 color: var(--text); transition: border-color 0.15s; }
+  .branch-link:hover { border-color: #0969da; }
+  .branch-link .name { font-weight: 700; font-size: 1.1em;
+                       color: #0969da; }
+  .branch-link .desc { color: var(--muted); font-size: 0.85em;
+                       margin-top: 0.25rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Fleet Management CI Reports</h1>
+  <p>Select a branch to view its latest CI pipeline report.</p>
+  <div class="branches">
+    <a class="branch-link" href="develop/ci-report.html">
+      <div class="name">develop</div>
+      <div class="desc">Latest development branch report</div>
+    </a>
+    <a class="branch-link" href="main/ci-report.html">
+      <div class="name">main</div>
+      <div class="desc">Latest production branch report</div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
+"""
+
+if __name__ == "__main__":
+    out_dir = Path("pages-root")
+    out_dir.mkdir(exist_ok=True)
+    (out_dir / "index.html").write_text(INDEX_HTML)
+    print("Pages index generated: pages-root/index.html")

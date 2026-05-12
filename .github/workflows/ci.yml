@@ -268,13 +268,24 @@ jobs:
         continue-on-error: true
       - name: Generate combined HTML report
         run: python scripts/generate_ci_report.py
+        env:
+          REPORT_BRANCH: ${{ github.head_ref || github.ref_name }}
+      - name: Generate Pages index
+        run: python scripts/generate_pages_index.py
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./reports
-          destination_dir: .
+          destination_dir: ${{ github.head_ref || github.ref_name }}
           keep_files: false
+      - name: Deploy Pages index
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./pages-root
+          destination_dir: .
+          keep_files: true
       - uses: actions/upload-artifact@v4
         with:
           name: ci-report
