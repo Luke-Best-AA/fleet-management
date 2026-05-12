@@ -1,8 +1,13 @@
 name: CI
 
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
   lint:
@@ -18,6 +23,17 @@ jobs:
         run: ruff check .
       - name: Check formatting
         run: ruff format --check .
+      - name: Save lint report
+        if: always()
+        run: |
+          mkdir -p reports
+          ruff check . --output-format json > reports/ruff.json || true
+          ruff format --check . > reports/ruff-format.txt 2>&1 || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-lint
+          path: reports/
 
   security:
     name: Security Scan
@@ -32,6 +48,17 @@ jobs:
         run: bandit -r app/ seed.py run.py
       - name: Dependency vulnerability audit
         run: pip-audit
+      - name: Save security reports
+        if: always()
+        run: |
+          mkdir -p reports
+          bandit -r app/ seed.py run.py -f json -o reports/bandit.json || true
+          pip-audit --format json --output reports/pip-audit.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-security
+          path: reports/
 
   test:
     name: Tests
@@ -66,10 +93,17 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - name: Run tests
-        run: pytest tests/ -v --tb=short
+        run: |
+          mkdir -p reports
+          pytest tests/ --ignore=tests/e2e -v --tb=short --junitxml=reports/pytest.xml --cov=app --cov-report=json:reports/coverage.json
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/fleet_management_test
           REDIS_URL: redis://localhost:6379/0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-test
+          path: reports/
 
   e2e:
     name: E2E Tests
@@ -93,13 +127,77 @@ jobs:
       - name: Install Playwright browsers
         run: playwright install --with-deps chromium
       - name: Run E2E tests
-        run: pytest tests/e2e/ -v --tb=short
+        run: |
+          mkdir -p reports
+          pytest tests/e2e/ -v --tb=short --junitxml=reports/e2e.xml -W ignore::DeprecationWarning
         env:
           DATABASE_URL: sqlite:///./test_e2e.db
           REDIS_URL: redis://localhost:6379/0
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-e2e
+          path: reports/
 
   zap:
     name: OWASP ZAP Scan
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Seed database and start app
+        run: |
+          mkdir -p reports
+          python seed.py
+          python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 &
+          sleep 5
+          curl -f http://localhost:8000/auth/login || exit 1
+        env:
+          DATABASE_URL: sqlite:///./zap_test.db
+          REDIS_URL: redis://localhost:6379/0
+          SECRET_KEY: zap-ci-secret-key
+          SECURE_COOKIES: "false"
+      - name: Run ZAP baseline scan
+        uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: http://localhost:8000
+          cmd_options: "-I"
+          allow_issue_writing: false
+        env:
+          ZAP_AUTH_HEADER_VALUE: ""
+      - name: Upload ZAP HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: report_html.html
+      - name: Copy ZAP JSON for combined report
+        if: always()
+        run: |
+          mkdir -p reports
+          cp report_json.json reports/zap.json 2>/dev/null || true
+      - name: Upload ZAP JSON for combined report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-zap
+          path: reports/
+
+  lighthouse:
+    name: Lighthouse Audit
     runs-on: ubuntu-latest
     services:
       redis:
@@ -124,21 +222,71 @@ jobs:
           sleep 5
           curl -f http://localhost:8000/auth/login || exit 1
         env:
-          DATABASE_URL: sqlite:///./zap_test.db
+          DATABASE_URL: sqlite:///./lighthouse_test.db
           REDIS_URL: redis://localhost:6379/0
-          SECRET_KEY: zap-ci-secret-key
+          SECRET_KEY: lighthouse-ci-secret-key
           SECURE_COOKIES: "false"
-      - name: Run ZAP baseline scan
-        uses: zaproxy/action-baseline@v0.14.0
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
         with:
-          target: http://localhost:8000
-          cmd_options: "-I"
-          allow_issue_writing: false
-        env:
-          ZAP_AUTH_HEADER_VALUE: ""
-      - name: Upload ZAP HTML report
+          urls: |
+            http://localhost:8000/auth/login
+          uploadArtifacts: false
+          temporaryPublicStorage: false
+          configPath: .lighthouserc.json
+      - name: Copy Lighthouse results
         if: always()
-        uses: actions/upload-artifact@v4
+        run: |
+          mkdir -p reports
+          cp .lighthouseci/lhr-*.json reports/lighthouse.json 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-lighthouse
+          path: reports/
+
+  report:
+    name: CI Report
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [lint, security, test, e2e, zap, lighthouse]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: report-*
+          path: reports/
+          merge-multiple: true
+      - name: Download ZAP HTML report
+        uses: actions/download-artifact@v4
         with:
           name: zap-report
-          path: report_html.html
+          path: .
+        continue-on-error: true
+      - name: Generate combined HTML report
+        run: python scripts/generate_ci_report.py
+        env:
+          REPORT_BRANCH: ${{ github.head_ref || github.ref_name }}
+      - name: Generate Pages index
+        run: python scripts/generate_pages_index.py
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports
+          destination_dir: ${{ github.head_ref || github.ref_name }}
+          keep_files: false
+      - name: Deploy Pages index
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./pages-root
+          destination_dir: .
+          keep_files: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ci-report
+          path: reports/*

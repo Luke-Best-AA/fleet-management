@@ -1,4 +1,5 @@
 import logging
+import secrets
 
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -82,6 +83,31 @@ class SessionMiddleware(BaseHTTPMiddleware):
         return response
 
 
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """Add security response headers to mitigate common attacks."""
+
+    async def dispatch(self, request: Request, call_next):
+        nonce = secrets.token_urlsafe(16)
+        request.state.csp_nonce = nonce
+        response = await call_next(request)
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; "
+            f"script-src 'self' 'nonce-{nonce}'; "
+            "style-src 'self'; "
+            "img-src 'self' data:; "
+            "font-src 'self'; "
+            "frame-ancestors 'self'; "
+            "form-action 'self'"
+        )
+        response.headers["X-Frame-Options"] = "SAMEORIGIN"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
+        response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+        response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=(), payment=()"
+        return response
+
+
 # Paths excluded from page-visit tracking
 _VISIT_SKIP_PREFIXES = ("/static", "/api", "/auth", "/favicon")
 
@@ -121,6 +147,7 @@ def create_app() -> FastAPI:
     app.mount("/static", StaticFiles(directory="app/static"), name="static")
     app.add_middleware(PageVisitMiddleware)
     app.add_middleware(SessionMiddleware)
+    app.add_middleware(SecurityHeadersMiddleware)
 
     # Create tables
     Base.metadata.create_all(bind=engine)

@@ -38,6 +38,7 @@ pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
+reports/
 .tox/
 .nox/
 .coverage
@@ -223,3 +224,4 @@ __marimo__/
 diagrams/
 _my_context/
 .VSCodeCounter/
+pages-root/

@@ -1,0 +1,11 @@
+{
+  "ci": {
+    "collect": {
+      "settings": {
+        "chromeFlags": "--no-sandbox --headless",
+        "onlyCategories": ["performance", "accessibility", "best-practices", "seo"]
+      },
+      "numberOfRuns": 1
+    }
+  }
+}

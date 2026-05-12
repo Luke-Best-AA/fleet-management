@@ -22,6 +22,7 @@ def render(
         "user": user,
         "flashes": get_flashes(session_id) if session_id else [],
         "csrf_token": generate_csrf_token(),
+        "csp_nonce": getattr(request.state, "csp_nonce", ""),
     }
     if context:
         ctx.update(context)

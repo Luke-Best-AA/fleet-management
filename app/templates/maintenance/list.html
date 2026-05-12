@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div class="card-body p-0" style="overflow: visible;">
+    <div class="card-body p-0 overflow-visible">
         <table id="maintenanceTable" class="table table-hover table-sortable mb-0">
             <thead>
                 <tr>
@@ -99,7 +99,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.category-filter-link').forEach(function(link) {
         link.addEventListener('click', function(e) {
