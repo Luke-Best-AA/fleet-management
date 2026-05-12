@@ -47,7 +47,9 @@ async def vehicle_list(request: Request, db: Session = Depends(get_db)):
 @router.get("/create")
 async def vehicle_create_page(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     context = _vehicle_form_context(db)
@@ -57,7 +59,9 @@ async def vehicle_create_page(request: Request, db: Session = Depends(get_db)):
 @router.post("/create")
 async def vehicle_create_post(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     form = await request.form()
@@ -110,7 +114,9 @@ async def vehicle_detail(request: Request, vehicle_id: int, db: Session = Depend
 @router.get("/{vehicle_id}/edit")
 async def vehicle_edit_page(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     try:
@@ -140,7 +146,9 @@ async def vehicle_edit_page(request: Request, vehicle_id: int, db: Session = Dep
 @router.post("/{vehicle_id}/edit")
 async def vehicle_edit_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     form = await request.form()
@@ -184,7 +192,9 @@ async def vehicle_edit_post(request: Request, vehicle_id: int, db: Session = Dep
 @router.post("/{vehicle_id}/delete")
 async def vehicle_delete_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     form = await request.form()
@@ -206,7 +216,9 @@ async def vehicle_delete_post(request: Request, vehicle_id: int, db: Session = D
 @router.post("/{vehicle_id}/retire")
 async def vehicle_retire_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     form = await request.form()
@@ -235,7 +247,9 @@ async def vehicle_retire_post(request: Request, vehicle_id: int, db: Session = D
 @router.post("/{vehicle_id}/unretire")
 async def vehicle_unretire_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
-    if not user or user["role"] != "admin":
+    if not user:
+        return RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
     form = await request.form()

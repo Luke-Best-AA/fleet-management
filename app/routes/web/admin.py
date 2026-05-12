@@ -24,11 +24,14 @@ from app.utils.template import render
 router = APIRouter(prefix="/admin", tags=["admin"])
 
 
-def _require_admin(request: Request):
+def _check_admin(request: Request):
+    """Return (user, error_response). If user is admin, error_response is None."""
     user = request.state.user
-    if not user or user["role"] != "admin":
-        return None
-    return user
+    if not user:
+        return None, RedirectResponse("/auth/login", status_code=302)
+    if user["role"] != "admin":
+        return None, render(request, "errors/403.html", status_code=403)
+    return user, None
 
 
 # --- Locations ---
@@ -36,23 +39,26 @@ def _require_admin(request: Request):
 
 @router.get("/locations")
 async def location_list(request: Request, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
     locations = location_service.get_all_locations(db)
     return render(request, "admin/locations/list.html", {"locations": locations})
 
 
 @router.get("/locations/create")
 async def location_create_page(request: Request):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
     return render(request, "admin/locations/create.html")
 
 
 @router.post("/locations/create")
 async def location_create_post(request: Request, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     form = await request.form()
     form_data = dict(form)
@@ -91,7 +97,7 @@ async def location_create_post(request: Request, db: Session = Depends(get_db)):
             },
         )
 
-    admin = _require_admin(request)
+    admin, _ = _check_admin(request)
     audit_service.log_action(
         db, user_id=admin["id"], action="create", target_type="location", target_id=loc.id, target_label=loc.name
     )
@@ -101,8 +107,9 @@ async def location_create_post(request: Request, db: Session = Depends(get_db)):
 
 @router.get("/locations/{location_id}/edit")
 async def location_edit_page(request: Request, location_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     try:
         loc = location_service.get_location_by_id(db, location_id)
@@ -124,8 +131,9 @@ async def location_edit_page(request: Request, location_id: int, db: Session = D
 
 @router.post("/locations/{location_id}/edit")
 async def location_edit_post(request: Request, location_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     form = await request.form()
     form_data = dict(form)
@@ -180,7 +188,7 @@ async def location_edit_post(request: Request, location_id: int, db: Session = D
             },
         )
 
-    admin = _require_admin(request)
+    admin, _ = _check_admin(request)
     audit_service.log_action(
         db,
         user_id=admin["id"],
@@ -195,8 +203,9 @@ async def location_edit_post(request: Request, location_id: int, db: Session = D
 
 @router.post("/locations/{location_id}/delete")
 async def location_delete_post(request: Request, location_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     form = await request.form()
     if not validate_csrf_token(form.get("csrf_token", "")):
@@ -209,7 +218,7 @@ async def location_delete_post(request: Request, location_id: int, db: Session =
         flash(request.state.session_id, e.message, "danger")
         return RedirectResponse("/admin/locations", status_code=303)
 
-    admin = _require_admin(request)
+    admin, _ = _check_admin(request)
     audit_service.log_action(db, user_id=admin["id"], action="delete", target_type="location", target_id=location_id)
     flash(request.state.session_id, "Location deleted.", "success")
     return RedirectResponse("/admin/locations", status_code=303)
@@ -220,23 +229,26 @@ async def location_delete_post(request: Request, location_id: int, db: Session =
 
 @router.get("/categories")
 async def category_list(request: Request, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
     categories = maint_service.get_all_categories(db)
     return render(request, "admin/categories/list.html", {"categories": categories})
 
 
 @router.get("/categories/create")
 async def category_create_page(request: Request):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
     return render(request, "admin/categories/create.html")
 
 
 @router.post("/categories/create")
 async def category_create_post(request: Request, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     form = await request.form()
     form_data = dict(form)
@@ -276,7 +288,7 @@ async def category_create_post(request: Request, db: Session = Depends(get_db)):
             },
         )
 
-    admin = _require_admin(request)
+    admin, _ = _check_admin(request)
     audit_service.log_action(
         db, user_id=admin["id"], action="create", target_type="category", target_id=cat.id, target_label=cat.name
     )
@@ -286,8 +298,9 @@ async def category_create_post(request: Request, db: Session = Depends(get_db)):
 
 @router.get("/categories/{category_id}/edit")
 async def category_edit_page(request: Request, category_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     try:
         cat = maint_service.get_category_by_id(db, category_id)
@@ -305,8 +318,9 @@ async def category_edit_page(request: Request, category_id: int, db: Session = D
 
 @router.post("/categories/{category_id}/edit")
 async def category_edit_post(request: Request, category_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     form = await request.form()
     form_data = dict(form)
@@ -351,7 +365,7 @@ async def category_edit_post(request: Request, category_id: int, db: Session = D
             },
         )
 
-    admin = _require_admin(request)
+    admin, _ = _check_admin(request)
     audit_service.log_action(
         db,
         user_id=admin["id"],
@@ -366,8 +380,9 @@ async def category_edit_post(request: Request, category_id: int, db: Session = D
 
 @router.post("/categories/{category_id}/delete")
 async def category_delete_post(request: Request, category_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     form = await request.form()
     if not validate_csrf_token(form.get("csrf_token", "")):
@@ -380,7 +395,7 @@ async def category_delete_post(request: Request, category_id: int, db: Session =
         flash(request.state.session_id, e.message, "danger")
         return RedirectResponse("/admin/categories", status_code=303)
 
-    admin = _require_admin(request)
+    admin, _ = _check_admin(request)
     audit_service.log_action(db, user_id=admin["id"], action="delete", target_type="category", target_id=category_id)
     flash(request.state.session_id, "Category deleted.", "success")
     return RedirectResponse("/admin/categories", status_code=303)
@@ -391,8 +406,9 @@ async def category_delete_post(request: Request, category_id: int, db: Session =
 
 @router.get("/users")
 async def user_list(request: Request, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
     role = request.query_params.get("role")
     if role == "standard":
         users = user_service.get_standard_users(db, active_only=False)
@@ -404,17 +420,18 @@ async def user_list(request: Request, db: Session = Depends(get_db)):
 
 @router.get("/users/create")
 async def user_create_page(request: Request, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
     locations = location_service.get_all_locations(db, active_only=True)
     return render(request, "admin/users/create.html", {"locations": locations})
 
 
 @router.post("/users/create")
 async def user_create_post(request: Request, db: Session = Depends(get_db)):
-    admin = _require_admin(request)
-    if not admin:
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     form = await request.form()
     form_data = dict(form)
@@ -476,7 +493,7 @@ async def user_create_post(request: Request, db: Session = Depends(get_db)):
             },
         )
 
-    admin = _require_admin(request)
+    admin, _ = _check_admin(request)
     audit_service.log_action(db, user_id=admin["id"], action="create", target_type="user", target_label=schema.username)
     flash(request.state.session_id, "User created.", "success")
     return RedirectResponse("/admin/users", status_code=303)
@@ -484,8 +501,9 @@ async def user_create_post(request: Request, db: Session = Depends(get_db)):
 
 @router.get("/users/{user_id}")
 async def user_detail(request: Request, user_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     try:
         target_user = user_service.get_user_by_id(db, user_id)
@@ -497,8 +515,9 @@ async def user_detail(request: Request, user_id: int, db: Session = Depends(get_
 
 @router.get("/users/{user_id}/edit")
 async def user_edit_page(request: Request, user_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     try:
         target_user = user_service.get_user_by_id(db, user_id)
@@ -527,8 +546,9 @@ async def user_edit_page(request: Request, user_id: int, db: Session = Depends(g
 
 @router.post("/users/{user_id}/edit")
 async def user_edit_post(request: Request, user_id: int, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     form = await request.form()
     form_data = dict(form)
@@ -582,7 +602,7 @@ async def user_edit_post(request: Request, user_id: int, db: Session = Depends(g
             },
         )
 
-    admin = _require_admin(request)
+    admin, _ = _check_admin(request)
     audit_service.log_action(
         db, user_id=admin["id"], action="update", target_type="user", target_id=user_id, target_label=schema.email
     )
@@ -595,8 +615,9 @@ async def user_edit_post(request: Request, user_id: int, db: Session = Depends(g
 
 @router.get("/audit-log")
 async def audit_log_page(request: Request, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     page = int(request.query_params.get("page", 1))
     per_page = 50
@@ -623,8 +644,9 @@ async def audit_log_page(request: Request, db: Session = Depends(get_db)):
 
 @router.get("/page-visits")
 async def page_visits_page(request: Request, db: Session = Depends(get_db)):
-    if not _require_admin(request):
-        return render(request, "errors/403.html", status_code=403)
+    admin, err = _check_admin(request)
+    if err:
+        return err
 
     page = int(request.query_params.get("page", 1))
     user_id = safe_int_or_none(request.query_params.get("user_id"))

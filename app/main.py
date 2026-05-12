@@ -92,7 +92,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         response.headers["Content-Security-Policy"] = (
             "default-src 'self'; "
-            f"script-src 'self' 'nonce-{nonce}'; "
+            f"script-src 'self' 'nonce-{nonce}' https://cdn.jsdelivr.net; "
             "style-src 'self'; "
             "img-src 'self' data:; "
             "font-src 'self'; "

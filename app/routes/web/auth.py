@@ -24,7 +24,10 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 async def login_page(request: Request):
     if request.state.user:
         return RedirectResponse("/dashboard", status_code=302)
-    return render(request, "auth/login.html")
+    ctx = {}
+    if request.query_params.get("password_changed"):
+        ctx["success"] = "Password changed successfully. Please log in with your new password."
+    return render(request, "auth/login.html", ctx)
 
 
 @router.post("/login")
@@ -293,6 +296,6 @@ async def change_password_post(request: Request, db: Session = Depends(get_db)):
             {"errors": {"current_password": e.message}},
         )
 
-    response = RedirectResponse("/auth/login", status_code=303)
+    response = RedirectResponse("/auth/login?password_changed=1", status_code=303)
     response.delete_cookie("session_id")
     return response
