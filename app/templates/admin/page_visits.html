@@ -65,7 +65,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">Most Visited Pages</div>
-            <div class="card-body p-0" style="max-height: 320px; overflow-y: auto;">
+            <div class="card-body p-0 scroll-sm">
                 <table class="table table-sm mb-0">
                     <thead class="sticky-top bg-body">
                         <tr>
@@ -76,7 +76,7 @@
                     <tbody>
                     {% for path, count in popular_pages %}
                     <tr>
-                        <td class="text-truncate" style="max-width: 300px;">{{ path }}</td>
+                        <td class="text-truncate max-w-300">{{ path }}</td>
                         <td class="text-end">{{ count }}</td>
                     </tr>
                     {% else %}
@@ -92,7 +92,7 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">Most Active Users</div>
-            <div class="card-body p-0" style="max-height: 320px; overflow-y: auto;">
+            <div class="card-body p-0 scroll-sm">
                 <table class="table table-sm mb-0">
                     <thead class="sticky-top bg-body">
                         <tr>
@@ -121,7 +121,7 @@
 <!-- Recent Visits Log -->
 <div class="card">
     <div class="card-header">Recent Visits{% if filter_user_id %} (filtered by user){% endif %}</div>
-    <div class="card-body p-0" style="max-height: 500px; overflow-y: auto;">
+    <div class="card-body p-0 scroll-md">
         <table class="table table-sm table-hover mb-0">
             <thead class="sticky-top bg-body">
                 <tr>
@@ -137,7 +137,7 @@
                 <td>
                     <a href="/admin/page-visits?user_id={{ visit.user_id }}&days={{ filter_days }}" class="text-decoration-none">{{ visit.user.username }}</a>
                 </td>
-                <td class="text-truncate" style="max-width: 400px;">{{ visit.path }}</td>
+                <td class="text-truncate max-w-400">{{ visit.path }}</td>
             </tr>
             {% else %}
             <tr><td colspan="3" class="text-center text-muted py-3">No page visits recorded yet.</td></tr>
