@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CI Report — Fleet Management</title>
+<style>
+  :root { --bg: #f8f9fa; --card: #fff; --border: #dee2e6; --text: #212529; --muted: #6c757d; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.6; padding: 2rem; }
+  .container { max-width: 960px; margin: 0 auto; }
+  h1 { margin-bottom: 0.25rem; }
+  .timestamp { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9em; }
+  .summary { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem; }
+  .summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+                   padding: 0.75rem 1.25rem; flex: 1; min-width: 120px; text-align: center; }
+  .summary-card .label { font-size: 0.8em; color: var(--muted); text-transform: uppercase; }
+  .section { background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+             padding: 1.5rem; margin-bottom: 1.5rem; }
+  .section h2 { font-size: 1.15rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+  th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); }
+  th { background: var(--bg); font-weight: 600; }
+  .pass-row { }
+  .fail-row { background: #fff5f5; }
+  .detail { color: var(--muted); font-size: 0.85em; }
+  .empty { color: var(--muted); font-style: italic; }
+  .detail-link { font-size: 0.8em; margin-left: auto; color: #0969da; text-decoration: none; }
+  .detail-link:hover { text-decoration: underline; }
+  .branch-nav { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
+                 padding: 0.75rem 1.25rem; background: var(--card); border: 1px solid var(--border);
+                 border-radius: 8px; font-size: 0.9em; }
+  .branch-nav .current { font-weight: 700; color: var(--text); }
+  .branch-nav a { color: #0969da; text-decoration: none; }
+  .branch-nav a:hover { text-decoration: underline; }
+  .branch-nav .sep { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="branch-nav">
+  <span>Branch:</span>
+  <span class="current">main</span>
+  <span class="sep">|</span>
+  <a href="../develop/ci-report.html">develop</a>
+  <a href="../main/ci-report.html">main</a>
+</div>
+<h1>CI Pipeline Report <span style="background:#dc3545;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">FAIL</span></h1>
+<p class="timestamp">Generated 2026-05-12 10:42 UTC</p>
+
+<div class="summary">
+  <div class="summary-card">
+    <div class="label">Ruff Lint</div>
+    <div><span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span></div>
+  </div>
+  <div class="summary-card">
+    <div class="label">Ruff Format</div>
+    <div><span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span></div>
+  </div>
+  <div class="summary-card">
+    <div class="label">Bandit</div>
+    <div><span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span></div>
+  </div>
+  <div class="summary-card">
+    <div class="label">pip-audit</div>
+    <div><span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span></div>
+  </div>
+  <div class="summary-card">
+    <div class="label">Unit Tests</div>
+    <div><span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span></div>
+  </div>
+  <div class="summary-card">
+    <div class="label">E2E Tests</div>
+    <div><span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span></div>
+  </div>
+  <div class="summary-card">
+    <div class="label">OWASP ZAP</div>
+    <div><span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span></div>
+  </div>
+  <div class="summary-card">
+    <div class="label">Lighthouse</div>
+    <div><span style="background:#dc3545;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">FAIL</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Ruff Lint <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="ruff-detail.html">View Full Report &rarr;</a></h2>
+  <p class="empty">No lint issues found.</p>
+</div>
+
+<div class="section">
+  <h2>Ruff Format <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="ruff-format-detail.html">View Full Report &rarr;</a></h2>
+  <p>84 files already formatted</p>
+</div>
+
+<div class="section">
+  <h2>Bandit Security Scan <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="bandit-detail.html">View Full Report &rarr;</a></h2>
+  <p>Scanned 4270 lines of code</p>
+  <p class="empty">No security issues found.</p>
+</div>
+
+<div class="section">
+  <h2>pip-audit Dependency Scan <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="pip-audit-detail.html">View Full Report &rarr;</a></h2>
+  <p>Scanned 83 packages</p>
+  <p class="empty">No known vulnerabilities found.</p>
+</div>
+
+<div class="section">
+  <h2>Unit & Integration Tests <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="tests-detail.html">View Full Report &rarr;</a></h2>
+  <p>332 tests — 332 passed, 0 failed, 0 errors (139.720s)</p>
+  <p class="empty">All tests passed.</p>
+</div>
+
+<div class="section">
+  <h2>E2E Tests (Playwright) <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="e2e-detail.html">View Full Report &rarr;</a></h2>
+  <p>17 tests — 17 passed, 0 failed, 0 errors (12.536s)</p>
+  <p class="empty">All tests passed.</p>
+</div>
+
+<div class="section">
+  <h2>OWASP ZAP Baseline Scan <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="zap-detail.html">View Full Report &rarr;</a></h2>
+  <p>5 alert(s) found (0 high risk)</p>
+  <table>
+    <tr><th>Alert</th><th>Risk</th><th>Instances</th></tr>
+    <tr class=""><td>Authentication Request Identified</td><td>Informational (High)</td><td>1</td></tr>
+    <tr class=""><td>Information Disclosure - Suspicious Comments</td><td>Informational (Medium)</td><td>6</td></tr>
+    <tr class=""><td>Non-Storable Content</td><td>Informational (Medium)</td><td>2</td></tr>
+    <tr class=""><td>Storable and Cacheable Content</td><td>Informational (Medium)</td><td>5</td></tr>
+    <tr class=""><td>User Controllable HTML Element Attribute (Potential XSS)</td><td>Informational (Low)</td><td>10</td></tr>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Lighthouse Audit <span style="background:#dc3545;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">FAIL</span> <a class="detail-link" href="lighthouse-detail.html">View Full Report &rarr;</a></h2>
+  <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.5rem;">
+  <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#fd7e14">78</div><div style="font-size:0.8em;color:var(--muted)">Performance</div></div>
+  <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#28a745">95</div><div style="font-size:0.8em;color:var(--muted)">Accessibility</div></div>
+  <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#28a745">96</div><div style="font-size:0.8em;color:var(--muted)">Best Practices</div></div>
+  <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#28a745">90</div><div style="font-size:0.8em;color:var(--muted)">SEO</div></div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
