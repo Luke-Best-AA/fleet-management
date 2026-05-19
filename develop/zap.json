@@ -1,8 +1,8 @@
 {
 	"@programName": "ZAP",
 	"@version": "2.17.0",
-	"@generated": "Tue, 12 May 2026 13:23:25",
-	"created": "2026-05-12T13:23:25.890820061Z",
+	"@generated": "Tue, 19 May 2026 15:06:50",
+	"created": "2026-05-19T15:06:50.258609393Z",
 	"insights":[
 		{
 			"level": "Info",
@@ -83,6 +83,14 @@
 			"key": "insight.endpoint.total",
 			"description": "Count of total endpoints",
 			"statistic": "16"
+		},
+		{
+			"level": "Info",
+			"reason": "Informational",
+			"site": "http://localhost:8000",
+			"key": "insight.response.slow",
+			"description": "Percentage of slow responses",
+			"statistic": "16"
 		}
 	],
 	"site":[ 
@@ -133,7 +141,7 @@
 					"desc": "<p>The response appears to contain suspicious comments which may help an attacker.</p>",
 					"instances":[ 
 						{
-							"id": "12",
+							"id": "14",
 							"uri": "http://localhost:8000/static/js/app.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/app.js",
 							"method": "GET",
@@ -143,7 +151,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"// Clean navigation-only params from URL bar (keep filter params visible)\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "14",
+							"id": "12",
 							"uri": "http://localhost:8000/static/js/form-guard.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/form-guard.js",
 							"method": "GET",
@@ -153,7 +161,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"/**\n * Warns users when navigating away from forms with unsaved changes.\n * Auto-initializes on all forms with the \"novalidate\" \", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "49",
+							"id": "52",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -163,7 +171,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"// Clean filter params from URL bar after applying them\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "45",
+							"id": "50",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -173,7 +181,7 @@
 							"otherinfo": "The following pattern was used: \\bQUERY\\b and was detected in likely comment: \"// Pre-fill filters from URL query params (e.g. ?status=active)\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "47",
+							"id": "51",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -200,7 +208,7 @@
 					"reference": "",
 					"cweid": "615",
 					"wascid": "13",
-					"sourceid": "39"
+					"sourceid": "40"
 				},
 				{
 					"pluginid": "10049",
@@ -223,7 +231,7 @@
 							"otherinfo": ""
 						},
 						{
-							"id": "3",
+							"id": "2",
 							"uri": "http://localhost:8000/dashboard",
 							"nodeName": "http:\/\/localhost:8000\/dashboard",
 							"method": "GET",
@@ -240,7 +248,7 @@
 					"reference": "<p>https://datatracker.ietf.org/doc/html/rfc7234</p><p>https://datatracker.ietf.org/doc/html/rfc7231</p><p>https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html</p>",
 					"cweid": "524",
 					"wascid": "13",
-					"sourceid": "6"
+					"sourceid": "8"
 				},
 				{
 					"pluginid": "10049",
@@ -273,7 +281,7 @@
 							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
 						},
 						{
-							"id": "2",
+							"id": "6",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register",
 							"method": "GET",
@@ -283,9 +291,9 @@
 							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
 						},
 						{
-							"id": "6",
-							"uri": "http://localhost:8000/sitemap.xml",
-							"nodeName": "http:\/\/localhost:8000\/sitemap.xml",
+							"id": "4",
+							"uri": "http://localhost:8000/robots.txt",
+							"nodeName": "http:\/\/localhost:8000\/robots.txt",
 							"method": "GET",
 							"param": "",
 							"attack": "",
@@ -293,9 +301,9 @@
 							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
 						},
 						{
-							"id": "4",
-							"uri": "http://localhost:8000/static/css/style.css",
-							"nodeName": "http:\/\/localhost:8000\/static\/css\/style.css",
+							"id": "3",
+							"uri": "http://localhost:8000/sitemap.xml",
+							"nodeName": "http:\/\/localhost:8000\/sitemap.xml",
 							"method": "GET",
 							"param": "",
 							"attack": "",
@@ -403,7 +411,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\npassword_confirm=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "52",
+							"id": "49",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",

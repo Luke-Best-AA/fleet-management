@@ -107,8 +107,8 @@
 <pre id="json-pre">{
   &quot;@programName&quot;: &quot;ZAP&quot;,
   &quot;@version&quot;: &quot;2.17.0&quot;,
-  &quot;@generated&quot;: &quot;Tue, 12 May 2026 13:23:25&quot;,
-  &quot;created&quot;: &quot;2026-05-12T13:23:25.890820061Z&quot;,
+  &quot;@generated&quot;: &quot;Tue, 19 May 2026 15:06:50&quot;,
+  &quot;created&quot;: &quot;2026-05-19T15:06:50.258609393Z&quot;,
   &quot;insights&quot;: [
     {
       &quot;level&quot;: &quot;Info&quot;,
@@ -189,6 +189,14 @@
       &quot;key&quot;: &quot;insight.endpoint.total&quot;,
       &quot;description&quot;: &quot;Count of total endpoints&quot;,
       &quot;statistic&quot;: &quot;16&quot;
+    },
+    {
+      &quot;level&quot;: &quot;Info&quot;,
+      &quot;reason&quot;: &quot;Informational&quot;,
+      &quot;site&quot;: &quot;http://localhost:8000&quot;,
+      &quot;key&quot;: &quot;insight.response.slow&quot;,
+      &quot;description&quot;: &quot;Percentage of slow responses&quot;,
+      &quot;statistic&quot;: &quot;16&quot;
     }
   ],
   &quot;site&quot;: [
@@ -239,7 +247,7 @@
           &quot;desc&quot;: &quot;&lt;p&gt;The response appears to contain suspicious comments which may help an attacker.&lt;/p&gt;&quot;,
           &quot;instances&quot;: [
             {
-              &quot;id&quot;: &quot;12&quot;,
+              &quot;id&quot;: &quot;14&quot;,
               &quot;uri&quot;: &quot;http://localhost:8000/static/js/app.js&quot;,
               &quot;nodeName&quot;: &quot;http://localhost:8000/static/js/app.js&quot;,
               &quot;method&quot;: &quot;GET&quot;,
@@ -249,7 +257,7 @@
               &quot;otherinfo&quot;: &quot;The following pattern was used: \\bFROM\\b and was detected in likely comment: \&quot;// Clean navigation-only params from URL bar (keep filter params visible)\&quot;, see evidence field for the suspicious comment/snippet.&quot;
             },
             {
-              &quot;id&quot;: &quot;14&quot;,
+              &quot;id&quot;: &quot;12&quot;,
               &quot;uri&quot;: &quot;http://localhost:8000/static/js/form-guard.js&quot;,
               &quot;nodeName&quot;: &quot;http://localhost:8000/static/js/form-guard.js&quot;,
               &quot;method&quot;: &quot;GET&quot;,
@@ -259,7 +267,7 @@
               &quot;otherinfo&quot;: &quot;The following pattern was used: \\bFROM\\b and was detected in likely comment: \&quot;/**\n * Warns users when navigating away from forms with unsaved changes.\n * Auto-initializes on all forms with the \&quot;novalidate\&quot; \&quot;, see evidence field for the suspicious comment/snippet.&quot;
             },
             {
-              &quot;id&quot;: &quot;49&quot;,
+              &quot;id&quot;: &quot;52&quot;,
               &quot;uri&quot;: &quot;http://localhost:8000/static/js/table-filter.js&quot;,
               &quot;nodeName&quot;: &quot;http://localhost:8000/static/js/table-filter.js&quot;,
               &quot;method&quot;: &quot;GET&quot;,
@@ -269,7 +277,7 @@
               &quot;otherinfo&quot;: &quot;The following pattern was used: \\bFROM\\b and was detected in likely comment: \&quot;// Clean filter params from URL bar after applying them\&quot;, see evidence field for the suspicious comment/snippet.&quot;
             },
             {
-              &quot;id&quot;: &quot;45&quot;,
+              &quot;id&quot;: &quot;50&quot;,
               &quot;uri&quot;: &quot;http://localhost:8000/static/js/table-filter.js&quot;,
               &quot;nodeName&quot;: &quot;http://localhost:8000/static/js/table-filter.js&quot;,
               &quot;method&quot;: &quot;GET&quot;,
@@ -279,7 +287,7 @@
               &quot;otherinfo&quot;: &quot;The following pattern was used: \\bQUERY\\b and was detected in likely comment: \&quot;// Pre-fill filters from URL query params (e.g. ?status=active)\&quot;, see evidence field for the suspicious comment/snippet.&quot;
             },
             {
-              &quot;id&quot;: &quot;47&quot;,
+              &quot;id&quot;: &quot;51&quot;,
               &quot;uri&quot;: &quot;http://localhost:8000/static/js/table-filter.js&quot;,
               &quot;nodeName&quot;: &quot;http://localhost:8000/static/js/table-filter.js&quot;,
               &quot;method&quot;: &quot;GET&quot;,
@@ -306,7 +314,7 @@
           &quot;reference&quot;: &quot;&quot;,
           &quot;cweid&quot;: &quot;615&quot;,
           &quot;wascid&quot;: &quot;13&quot;,
-          &quot;sourceid&quot;: &quot;39&quot;
+          &quot;sourceid&quot;: &quot;40&quot;
         },
         {
           &quot;pluginid&quot;: &quot;10049&quot;,
@@ -329,7 +337,7 @@
               &quot;otherinfo&quot;: &quot;&quot;
             },
             {
-              &quot;id&quot;: &quot;3&quot;,
+              &quot;id&quot;: &quot;2&quot;,
               &quot;uri&quot;: &quot;http://localhost:8000/dashboard&quot;,
               &quot;nodeName&quot;: &quot;http://localhost:8000/dashboard&quot;,
               &quot;method&quot;: &quot;GET&quot;,
@@ -346,7 +354,7 @@
           &quot;reference&quot;: &quot;&lt;p&gt;https://datatracker.ietf.org/doc/html/rfc7234&lt;/p&gt;&lt;p&gt;https://datatracker.ietf.org/doc/html/rfc7231&lt;/p&gt;&lt;p&gt;https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html&lt;/p&gt;&quot;,
           &quot;cweid&quot;: &quot;524&quot;,
           &quot;wascid&quot;: &quot;13&quot;,
-          &quot;sourceid&quot;: &quot;6&quot;
+          &quot;sourceid&quot;: &quot;8&quot;
         },
         {
           &quot;pluginid&quot;: &quot;10049&quot;,
@@ -379,7 +387,7 @@
               &quot;otherinfo&quot;: &quot;In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.&quot;
             },
             {
-              &quot;id&quot;: &quot;2&quot;,
+              &quot;id&quot;: &quot;6&quot;,
               &quot;uri&quot;: &quot;http://localhost:8000/auth/register&quot;,
               &quot;nodeName&quot;: &quot;http://localhost:8000/auth/register&quot;,
               &quot;method&quot;: &quot;GET&quot;,
@@ -389,9 +397,9 @@
               &quot;otherinfo&quot;: &quot;In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.&quot;
             },
             {
-              &quot;id&quot;: &quot;6&quot;,
-              &quot;uri&quot;: &quot;http://localhost:8000/sitemap.xml&quot;,
-              &quot;nodeName&quot;: &quot;http://localhost:8000/sitemap.xml&quot;,
+              &quot;id&quot;: &quot;4&quot;,
+              &quot;uri&quot;: &quot;http://localhost:8000/robots.txt&quot;,
+              &quot;nodeName&quot;: &quot;http://localhost:8000/robots.txt&quot;,
               &quot;method&quot;: &quot;GET&quot;,
               &quot;param&quot;: &quot;&quot;,
               &quot;attack&quot;: &quot;&quot;,
@@ -399,9 +407,9 @@
               &quot;otherinfo&quot;: &quot;In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.&quot;
             },
             {
-              &quot;id&quot;: &quot;4&quot;,
-              &quot;uri&quot;: &quot;http://localhost:8000/static/css/style.css&quot;,
-              &quot;nodeName&quot;: &quot;http://localhost:8000/static/css/style.css&quot;,
+              &quot;id&quot;: &quot;3&quot;,
+              &quot;uri&quot;: &quot;http://localhost:8000/sitemap.xml&quot;,
+              &quot;nodeName&quot;: &quot;http://localhost:8000/sitemap.xml&quot;,
               &quot;method&quot;: &quot;GET&quot;,
               &quot;param&quot;: &quot;&quot;,
               &quot;attack&quot;: &quot;&quot;,
@@ -509,7 +517,7 @@
               &quot;otherinfo&quot;: &quot;User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\npassword_confirm=ZAP\n\nThe user-controlled value was:\nzap&quot;
             },
             {
-              &quot;id&quot;: &quot;52&quot;,
+              &quot;id&quot;: &quot;49&quot;,
               &quot;uri&quot;: &quot;http://localhost:8000/auth/register&quot;,
               &quot;nodeName&quot;: &quot;http://localhost:8000/auth/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)&quot;,
               &quot;method&quot;: &quot;POST&quot;,
