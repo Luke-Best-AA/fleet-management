@@ -87,7 +87,7 @@
     <div class="stat-label">Errors</div>
   </div>
   <div class="card">
-    <div class="stat">127.7s</div>
+    <div class="stat">183.8s</div>
     <div class="stat-label">Duration</div>
   </div>
   <div class="card">
@@ -102,7 +102,7 @@
 <tr><td>app/config.py</td><td>12</td><td>0</td><td>100%</td></tr>
 <tr><td>app/db/__init__.py</td><td>0</td><td>0</td><td>100%</td></tr>
 <tr><td>app/db/base.py</td><td>10</td><td>0</td><td>100%</td></tr>
-<tr><td>app/db/session.py</td><td>11</td><td>4</td><td>64%</td></tr>
+<tr><td>app/db/session.py</td><td>14</td><td>5</td><td>64%</td></tr>
 <tr><td>app/exceptions/__init__.py</td><td>27</td><td>3</td><td>89%</td></tr>
 <tr><td>app/main.py</td><td>111</td><td>9</td><td>92%</td></tr>
 <tr><td>app/models/__init__.py</td><td>0</td><td>0</td><td>100%</td></tr>
@@ -158,338 +158,338 @@
 <h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;color:#28a745;">Passed Tests (332)</h3>
 <table>
 <tr><th>Test</th><th>Class</th><th>Time</th></tr>
-<tr><td>test_location_list</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.743s</td></tr>
-<tr><td>test_location_list_standard_forbidden</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.571s</td></tr>
-<tr><td>test_location_create_page</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.605s</td></tr>
-<tr><td>test_location_create_success</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.582s</td></tr>
-<tr><td>test_location_create_duplicate_name</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.575s</td></tr>
-<tr><td>test_location_edit_page</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.589s</td></tr>
-<tr><td>test_location_edit_success</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.586s</td></tr>
-<tr><td>test_location_delete</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.582s</td></tr>
-<tr><td>test_category_list</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.584s</td></tr>
-<tr><td>test_category_list_standard_forbidden</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.571s</td></tr>
-<tr><td>test_category_create_page</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.576s</td></tr>
-<tr><td>test_category_create_success</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.582s</td></tr>
-<tr><td>test_category_create_duplicate</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.574s</td></tr>
-<tr><td>test_user_list</td><td>tests.test_admin_routes.TestUserAdminRoutes</td><td>0.582s</td></tr>
-<tr><td>test_user_list_standard_forbidden</td><td>tests.test_admin_routes.TestUserAdminRoutes</td><td>0.569s</td></tr>
-<tr><td>test_user_create_page</td><td>tests.test_admin_routes.TestUserAdminRoutes</td><td>0.589s</td></tr>
-<tr><td>test_user_create_success</td><td>tests.test_admin_routes.TestUserAdminRoutes</td><td>0.842s</td></tr>
-<tr><td>test_create_driver_admin</td><td>tests.test_api_routes.TestDriverAPI</td><td>0.833s</td></tr>
-<tr><td>test_create_driver_standard_forbidden</td><td>tests.test_api_routes.TestDriverAPI</td><td>0.617s</td></tr>
-<tr><td>test_create_driver_duplicate_username</td><td>tests.test_api_routes.TestDriverAPI</td><td>0.839s</td></tr>
-<tr><td>test_create_driver_invalid_csrf</td><td>tests.test_api_routes.TestDriverAPI</td><td>0.567s</td></tr>
-<tr><td>test_create_location_admin</td><td>tests.test_api_routes.TestLocationAPI</td><td>0.572s</td></tr>
-<tr><td>test_create_location_standard_forbidden</td><td>tests.test_api_routes.TestLocationAPI</td><td>0.569s</td></tr>
-<tr><td>test_create_location_duplicate_name</td><td>tests.test_api_routes.TestLocationAPI</td><td>0.575s</td></tr>
-<tr><td>test_create_location_invalid_csrf</td><td>tests.test_api_routes.TestLocationAPI</td><td>0.569s</td></tr>
-<tr><td>test_hash_and_verify</td><td>tests.test_auth.TestPasswordHashing</td><td>0.800s</td></tr>
-<tr><td>test_different_hashes</td><td>tests.test_auth.TestPasswordHashing</td><td>0.543s</td></tr>
-<tr><td>test_generate_and_validate</td><td>tests.test_auth.TestCSRF</td><td>0.030s</td></tr>
-<tr><td>test_invalid_token</td><td>tests.test_auth.TestCSRF</td><td>0.032s</td></tr>
-<tr><td>test_create_and_get</td><td>tests.test_auth.TestSession</td><td>0.032s</td></tr>
-<tr><td>test_destroy</td><td>tests.test_auth.TestSession</td><td>0.032s</td></tr>
-<tr><td>test_single_session_per_user</td><td>tests.test_auth.TestSession</td><td>0.033s</td></tr>
-<tr><td>test_invalidate_user_sessions</td><td>tests.test_auth.TestSession</td><td>0.033s</td></tr>
-<tr><td>test_not_locked_initially</td><td>tests.test_auth.TestLockout</td><td>0.028s</td></tr>
-<tr><td>test_lockout_after_max_attempts</td><td>tests.test_auth.TestLockout</td><td>0.032s</td></tr>
-<tr><td>test_clear_attempts</td><td>tests.test_auth.TestLockout</td><td>0.031s</td></tr>
-<tr><td>test_login_page_loads</td><td>tests.test_auth.TestAuthRoutes</td><td>0.044s</td></tr>
-<tr><td>test_register_page_loads</td><td>tests.test_auth.TestAuthRoutes</td><td>0.049s</td></tr>
-<tr><td>test_register_and_login</td><td>tests.test_auth.TestAuthRoutes</td><td>0.566s</td></tr>
-<tr><td>test_login_with_valid_credentials</td><td>tests.test_auth.TestAuthRoutes</td><td>0.563s</td></tr>
-<tr><td>test_login_with_invalid_credentials</td><td>tests.test_auth.TestAuthRoutes</td><td>0.560s</td></tr>
-<tr><td>test_logout</td><td>tests.test_auth.TestAuthRoutes</td><td>0.569s</td></tr>
-<tr><td>test_register_duplicate_username</td><td>tests.test_auth.TestAuthRoutes</td><td>0.306s</td></tr>
-<tr><td>test_unauthenticated_redirect</td><td>tests.test_auth.TestAuthRoutes</td><td>0.039s</td></tr>
-<tr><td>test_username_must_be_unique</td><td>tests.test_business_rules.TestUserRules</td><td>0.298s</td></tr>
-<tr><td>test_email_must_be_unique</td><td>tests.test_business_rules.TestUserRules</td><td>0.317s</td></tr>
-<tr><td>test_only_admin_can_create_admin</td><td>tests.test_business_rules.TestUserRules</td><td>0.027s</td></tr>
-<tr><td>test_admin_can_create_admin</td><td>tests.test_business_rules.TestUserRules</td><td>0.291s</td></tr>
-<tr><td>test_retired_vehicle_cannot_be_edited</td><td>tests.test_business_rules.TestVehicleRules</td><td>0.308s</td></tr>
-<tr><td>test_primary_driver_must_be_standard</td><td>tests.test_business_rules.TestVehicleRules</td><td>0.573s</td></tr>
-<tr><td>test_registration_unique</td><td>tests.test_business_rules.TestVehicleRules</td><td>0.308s</td></tr>
-<tr><td>test_standard_user_mileage_must_not_decrease</td><td>tests.test_business_rules.TestMileageRules</td><td>0.303s</td></tr>
-<tr><td>test_standard_user_can_add_higher_mileage</td><td>tests.test_business_rules.TestMileageRules</td><td>0.305s</td></tr>
-<tr><td>test_admin_override_requires_reason</td><td>tests.test_business_rules.TestMileageRules</td><td>0.560s</td></tr>
-<tr><td>test_admin_override_with_reason_succeeds</td><td>tests.test_business_rules.TestMileageRules</td><td>0.565s</td></tr>
-<tr><td>test_retired_vehicle_cannot_receive_mileage</td><td>tests.test_business_rules.TestMileageRules</td><td>0.566s</td></tr>
-<tr><td>test_standard_user_cannot_add_to_unassigned_vehicle</td><td>tests.test_business_rules.TestMileageRules</td><td>0.569s</td></tr>
-<tr><td>test_requires_notes_enforced</td><td>tests.test_business_rules.TestMaintenanceRules</td><td>0.309s</td></tr>
-<tr><td>test_retired_vehicle_cannot_receive_maintenance</td><td>tests.test_business_rules.TestMaintenanceRules</td><td>0.683s</td></tr>
-<tr><td>test_only_active_vehicle_can_be_retired</td><td>tests.test_business_rules.TestRetirementRules</td><td>0.563s</td></tr>
-<tr><td>test_only_one_pending_request</td><td>tests.test_business_rules.TestRetirementRules</td><td>0.577s</td></tr>
-<tr><td>test_standard_user_can_only_retire_assigned_vehicle</td><td>tests.test_business_rules.TestRetirementRules</td><td>0.561s</td></tr>
-<tr><td>test_approve_retires_vehicle</td><td>tests.test_business_rules.TestRetirementRules</td><td>0.570s</td></tr>
-<tr><td>test_returns_request</td><td>tests.test_deletion_service.TestGetDeletionRequestById</td><td>0.580s</td></tr>
-<tr><td>test_raises_not_found</td><td>tests.test_deletion_service.TestGetDeletionRequestById</td><td>0.029s</td></tr>
-<tr><td>test_returns_all</td><td>tests.test_deletion_service.TestGetAllDeletionRequests</td><td>0.313s</td></tr>
-<tr><td>test_filter_by_status</td><td>tests.test_deletion_service.TestGetAllDeletionRequests</td><td>0.312s</td></tr>
-<tr><td>test_returns_user_requests</td><td>tests.test_deletion_service.TestGetDeletionRequestsForUser</td><td>0.576s</td></tr>
-<tr><td>test_create_for_maintenance_record</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.312s</td></tr>
-<tr><td>test_create_for_mileage_record</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.312s</td></tr>
-<tr><td>test_nonexistent_target_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.296s</td></tr>
-<tr><td>test_already_deleted_target_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.309s</td></tr>
-<tr><td>test_standard_user_unassigned_vehicle_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.570s</td></tr>
-<tr><td>test_duplicate_pending_request_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.320s</td></tr>
-<tr><td>test_admin_can_request_any_record</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.577s</td></tr>
-<tr><td>test_invalid_target_type_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.292s</td></tr>
-<tr><td>test_approve_deletes_maintenance_record</td><td>tests.test_deletion_service.TestReviewDeletionRequest</td><td>0.581s</td></tr>
-<tr><td>test_approve_deletes_mileage_record_and_recalculates</td><td>tests.test_deletion_service.TestReviewDeletionRequest</td><td>0.583s</td></tr>
-<tr><td>test_reject_keeps_record</td><td>tests.test_deletion_service.TestReviewDeletionRequest</td><td>0.579s</td></tr>
-<tr><td>test_review_already_reviewed_fails</td><td>tests.test_deletion_service.TestReviewDeletionRequest</td><td>0.577s</td></tr>
-<tr><td>test_returns_location</td><td>tests.test_location_service.TestGetLocationById</td><td>0.033s</td></tr>
-<tr><td>test_raises_not_found</td><td>tests.test_location_service.TestGetLocationById</td><td>0.030s</td></tr>
-<tr><td>test_raises_not_found_for_deleted</td><td>tests.test_location_service.TestGetLocationById</td><td>0.034s</td></tr>
-<tr><td>test_returns_all</td><td>tests.test_location_service.TestGetAllLocations</td><td>0.037s</td></tr>
-<tr><td>test_excludes_deleted</td><td>tests.test_location_service.TestGetAllLocations</td><td>0.033s</td></tr>
-<tr><td>test_active_only_filter</td><td>tests.test_location_service.TestGetAllLocations</td><td>0.039s</td></tr>
-<tr><td>test_ordered_by_name</td><td>tests.test_location_service.TestGetAllLocations</td><td>0.039s</td></tr>
-<tr><td>test_create_minimal</td><td>tests.test_location_service.TestCreateLocation</td><td>0.033s</td></tr>
-<tr><td>test_create_full</td><td>tests.test_location_service.TestCreateLocation</td><td>0.033s</td></tr>
-<tr><td>test_duplicate_name_fails</td><td>tests.test_location_service.TestCreateLocation</td><td>0.037s</td></tr>
-<tr><td>test_duplicate_code_fails</td><td>tests.test_location_service.TestCreateLocation</td><td>0.034s</td></tr>
-<tr><td>test_empty_optional_fields_stored_as_none</td><td>tests.test_location_service.TestCreateLocation</td><td>0.033s</td></tr>
-<tr><td>test_update_name</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.040s</td></tr>
-<tr><td>test_update_duplicate_name_fails</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.038s</td></tr>
-<tr><td>test_update_duplicate_code_fails</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.037s</td></tr>
-<tr><td>test_update_same_name_ok</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.036s</td></tr>
-<tr><td>test_update_is_active</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.035s</td></tr>
-<tr><td>test_soft_delete</td><td>tests.test_location_service.TestSoftDeleteLocation</td><td>0.034s</td></tr>
-<tr><td>test_soft_delete_nonexistent_raises</td><td>tests.test_location_service.TestSoftDeleteLocation</td><td>0.031s</td></tr>
-<tr><td>test_list_admin</td><td>tests.test_maintenance_routes.TestMaintenanceListRoutes</td><td>0.585s</td></tr>
-<tr><td>test_list_standard</td><td>tests.test_maintenance_routes.TestMaintenanceListRoutes</td><td>0.582s</td></tr>
-<tr><td>test_list_unauthenticated</td><td>tests.test_maintenance_routes.TestMaintenanceListRoutes</td><td>0.036s</td></tr>
-<tr><td>test_create_page</td><td>tests.test_maintenance_routes.TestMaintenanceCreateRoutes</td><td>0.598s</td></tr>
-<tr><td>test_create_record_admin</td><td>tests.test_maintenance_routes.TestMaintenanceCreateRoutes</td><td>0.844s</td></tr>
-<tr><td>test_create_record_standard_user</td><td>tests.test_maintenance_routes.TestMaintenanceCreateRoutes</td><td>0.583s</td></tr>
-<tr><td>test_create_retired_vehicle_fails</td><td>tests.test_maintenance_routes.TestMaintenanceCreateRoutes</td><td>0.845s</td></tr>
-<tr><td>test_edit_page_admin</td><td>tests.test_maintenance_routes.TestMaintenanceEditRoutes</td><td>0.862s</td></tr>
-<tr><td>test_edit_page_standard_forbidden</td><td>tests.test_maintenance_routes.TestMaintenanceEditRoutes</td><td>0.580s</td></tr>
-<tr><td>test_edit_record_admin</td><td>tests.test_maintenance_routes.TestMaintenanceEditRoutes</td><td>0.858s</td></tr>
-<tr><td>test_delete_admin</td><td>tests.test_maintenance_routes.TestMaintenanceDeleteRoutes</td><td>0.848s</td></tr>
-<tr><td>test_delete_standard_forbidden</td><td>tests.test_maintenance_routes.TestMaintenanceDeleteRoutes</td><td>0.584s</td></tr>
-<tr><td>test_returns_category</td><td>tests.test_maintenance_service.TestGetCategoryById</td><td>0.032s</td></tr>
-<tr><td>test_raises_not_found</td><td>tests.test_maintenance_service.TestGetCategoryById</td><td>0.031s</td></tr>
+<tr><td>test_location_list</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.862s</td></tr>
+<tr><td>test_location_list_standard_forbidden</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.576s</td></tr>
+<tr><td>test_location_create_page</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.792s</td></tr>
+<tr><td>test_location_create_success</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.786s</td></tr>
+<tr><td>test_location_create_duplicate_name</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.584s</td></tr>
+<tr><td>test_location_edit_page</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.644s</td></tr>
+<tr><td>test_location_edit_success</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>1.022s</td></tr>
+<tr><td>test_location_delete</td><td>tests.test_admin_routes.TestLocationAdminRoutes</td><td>0.768s</td></tr>
+<tr><td>test_category_list</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.513s</td></tr>
+<tr><td>test_category_list_standard_forbidden</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.770s</td></tr>
+<tr><td>test_category_create_page</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.592s</td></tr>
+<tr><td>test_category_create_success</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.559s</td></tr>
+<tr><td>test_category_create_duplicate</td><td>tests.test_admin_routes.TestCategoryAdminRoutes</td><td>0.632s</td></tr>
+<tr><td>test_user_list</td><td>tests.test_admin_routes.TestUserAdminRoutes</td><td>0.762s</td></tr>
+<tr><td>test_user_list_standard_forbidden</td><td>tests.test_admin_routes.TestUserAdminRoutes</td><td>0.517s</td></tr>
+<tr><td>test_user_create_page</td><td>tests.test_admin_routes.TestUserAdminRoutes</td><td>0.515s</td></tr>
+<tr><td>test_user_create_success</td><td>tests.test_admin_routes.TestUserAdminRoutes</td><td>1.958s</td></tr>
+<tr><td>test_create_driver_admin</td><td>tests.test_api_routes.TestDriverAPI</td><td>1.146s</td></tr>
+<tr><td>test_create_driver_standard_forbidden</td><td>tests.test_api_routes.TestDriverAPI</td><td>1.033s</td></tr>
+<tr><td>test_create_driver_duplicate_username</td><td>tests.test_api_routes.TestDriverAPI</td><td>1.514s</td></tr>
+<tr><td>test_create_driver_invalid_csrf</td><td>tests.test_api_routes.TestDriverAPI</td><td>0.531s</td></tr>
+<tr><td>test_create_location_admin</td><td>tests.test_api_routes.TestLocationAPI</td><td>0.621s</td></tr>
+<tr><td>test_create_location_standard_forbidden</td><td>tests.test_api_routes.TestLocationAPI</td><td>0.513s</td></tr>
+<tr><td>test_create_location_duplicate_name</td><td>tests.test_api_routes.TestLocationAPI</td><td>0.507s</td></tr>
+<tr><td>test_create_location_invalid_csrf</td><td>tests.test_api_routes.TestLocationAPI</td><td>0.537s</td></tr>
+<tr><td>test_hash_and_verify</td><td>tests.test_auth.TestPasswordHashing</td><td>0.701s</td></tr>
+<tr><td>test_different_hashes</td><td>tests.test_auth.TestPasswordHashing</td><td>0.968s</td></tr>
+<tr><td>test_generate_and_validate</td><td>tests.test_auth.TestCSRF</td><td>2.099s</td></tr>
+<tr><td>test_invalid_token</td><td>tests.test_auth.TestCSRF</td><td>0.059s</td></tr>
+<tr><td>test_create_and_get</td><td>tests.test_auth.TestSession</td><td>0.259s</td></tr>
+<tr><td>test_destroy</td><td>tests.test_auth.TestSession</td><td>0.040s</td></tr>
+<tr><td>test_single_session_per_user</td><td>tests.test_auth.TestSession</td><td>0.032s</td></tr>
+<tr><td>test_invalidate_user_sessions</td><td>tests.test_auth.TestSession</td><td>0.043s</td></tr>
+<tr><td>test_not_locked_initially</td><td>tests.test_auth.TestLockout</td><td>0.312s</td></tr>
+<tr><td>test_lockout_after_max_attempts</td><td>tests.test_auth.TestLockout</td><td>0.283s</td></tr>
+<tr><td>test_clear_attempts</td><td>tests.test_auth.TestLockout</td><td>0.032s</td></tr>
+<tr><td>test_login_page_loads</td><td>tests.test_auth.TestAuthRoutes</td><td>0.077s</td></tr>
+<tr><td>test_register_page_loads</td><td>tests.test_auth.TestAuthRoutes</td><td>0.103s</td></tr>
+<tr><td>test_register_and_login</td><td>tests.test_auth.TestAuthRoutes</td><td>0.492s</td></tr>
+<tr><td>test_login_with_valid_credentials</td><td>tests.test_auth.TestAuthRoutes</td><td>0.491s</td></tr>
+<tr><td>test_login_with_invalid_credentials</td><td>tests.test_auth.TestAuthRoutes</td><td>0.492s</td></tr>
+<tr><td>test_logout</td><td>tests.test_auth.TestAuthRoutes</td><td>0.668s</td></tr>
+<tr><td>test_register_duplicate_username</td><td>tests.test_auth.TestAuthRoutes</td><td>0.321s</td></tr>
+<tr><td>test_unauthenticated_redirect</td><td>tests.test_auth.TestAuthRoutes</td><td>0.284s</td></tr>
+<tr><td>test_username_must_be_unique</td><td>tests.test_business_rules.TestUserRules</td><td>0.288s</td></tr>
+<tr><td>test_email_must_be_unique</td><td>tests.test_business_rules.TestUserRules</td><td>0.258s</td></tr>
+<tr><td>test_only_admin_can_create_admin</td><td>tests.test_business_rules.TestUserRules</td><td>0.139s</td></tr>
+<tr><td>test_admin_can_create_admin</td><td>tests.test_business_rules.TestUserRules</td><td>0.549s</td></tr>
+<tr><td>test_retired_vehicle_cannot_be_edited</td><td>tests.test_business_rules.TestVehicleRules</td><td>0.619s</td></tr>
+<tr><td>test_primary_driver_must_be_standard</td><td>tests.test_business_rules.TestVehicleRules</td><td>0.627s</td></tr>
+<tr><td>test_registration_unique</td><td>tests.test_business_rules.TestVehicleRules</td><td>0.330s</td></tr>
+<tr><td>test_standard_user_mileage_must_not_decrease</td><td>tests.test_business_rules.TestMileageRules</td><td>0.297s</td></tr>
+<tr><td>test_standard_user_can_add_higher_mileage</td><td>tests.test_business_rules.TestMileageRules</td><td>0.292s</td></tr>
+<tr><td>test_admin_override_requires_reason</td><td>tests.test_business_rules.TestMileageRules</td><td>0.559s</td></tr>
+<tr><td>test_admin_override_with_reason_succeeds</td><td>tests.test_business_rules.TestMileageRules</td><td>0.646s</td></tr>
+<tr><td>test_retired_vehicle_cannot_receive_mileage</td><td>tests.test_business_rules.TestMileageRules</td><td>0.963s</td></tr>
+<tr><td>test_standard_user_cannot_add_to_unassigned_vehicle</td><td>tests.test_business_rules.TestMileageRules</td><td>0.715s</td></tr>
+<tr><td>test_requires_notes_enforced</td><td>tests.test_business_rules.TestMaintenanceRules</td><td>0.348s</td></tr>
+<tr><td>test_retired_vehicle_cannot_receive_maintenance</td><td>tests.test_business_rules.TestMaintenanceRules</td><td>0.558s</td></tr>
+<tr><td>test_only_active_vehicle_can_be_retired</td><td>tests.test_business_rules.TestRetirementRules</td><td>0.670s</td></tr>
+<tr><td>test_only_one_pending_request</td><td>tests.test_business_rules.TestRetirementRules</td><td>0.624s</td></tr>
+<tr><td>test_standard_user_can_only_retire_assigned_vehicle</td><td>tests.test_business_rules.TestRetirementRules</td><td>0.515s</td></tr>
+<tr><td>test_approve_retires_vehicle</td><td>tests.test_business_rules.TestRetirementRules</td><td>0.802s</td></tr>
+<tr><td>test_returns_request</td><td>tests.test_deletion_service.TestGetDeletionRequestById</td><td>0.554s</td></tr>
+<tr><td>test_raises_not_found</td><td>tests.test_deletion_service.TestGetDeletionRequestById</td><td>0.041s</td></tr>
+<tr><td>test_returns_all</td><td>tests.test_deletion_service.TestGetAllDeletionRequests</td><td>0.295s</td></tr>
+<tr><td>test_filter_by_status</td><td>tests.test_deletion_service.TestGetAllDeletionRequests</td><td>0.316s</td></tr>
+<tr><td>test_returns_user_requests</td><td>tests.test_deletion_service.TestGetDeletionRequestsForUser</td><td>0.746s</td></tr>
+<tr><td>test_create_for_maintenance_record</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.870s</td></tr>
+<tr><td>test_create_for_mileage_record</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.423s</td></tr>
+<tr><td>test_nonexistent_target_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.487s</td></tr>
+<tr><td>test_already_deleted_target_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.320s</td></tr>
+<tr><td>test_standard_user_unassigned_vehicle_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.816s</td></tr>
+<tr><td>test_duplicate_pending_request_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.459s</td></tr>
+<tr><td>test_admin_can_request_any_record</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.567s</td></tr>
+<tr><td>test_invalid_target_type_fails</td><td>tests.test_deletion_service.TestCreateDeletionRequest</td><td>0.565s</td></tr>
+<tr><td>test_approve_deletes_maintenance_record</td><td>tests.test_deletion_service.TestReviewDeletionRequest</td><td>0.768s</td></tr>
+<tr><td>test_approve_deletes_mileage_record_and_recalculates</td><td>tests.test_deletion_service.TestReviewDeletionRequest</td><td>0.554s</td></tr>
+<tr><td>test_reject_keeps_record</td><td>tests.test_deletion_service.TestReviewDeletionRequest</td><td>0.540s</td></tr>
+<tr><td>test_review_already_reviewed_fails</td><td>tests.test_deletion_service.TestReviewDeletionRequest</td><td>0.558s</td></tr>
+<tr><td>test_returns_location</td><td>tests.test_location_service.TestGetLocationById</td><td>0.113s</td></tr>
+<tr><td>test_raises_not_found</td><td>tests.test_location_service.TestGetLocationById</td><td>0.043s</td></tr>
+<tr><td>test_raises_not_found_for_deleted</td><td>tests.test_location_service.TestGetLocationById</td><td>0.113s</td></tr>
+<tr><td>test_returns_all</td><td>tests.test_location_service.TestGetAllLocations</td><td>0.059s</td></tr>
+<tr><td>test_excludes_deleted</td><td>tests.test_location_service.TestGetAllLocations</td><td>0.209s</td></tr>
+<tr><td>test_active_only_filter</td><td>tests.test_location_service.TestGetAllLocations</td><td>0.049s</td></tr>
+<tr><td>test_ordered_by_name</td><td>tests.test_location_service.TestGetAllLocations</td><td>0.037s</td></tr>
+<tr><td>test_create_minimal</td><td>tests.test_location_service.TestCreateLocation</td><td>0.045s</td></tr>
+<tr><td>test_create_full</td><td>tests.test_location_service.TestCreateLocation</td><td>0.041s</td></tr>
+<tr><td>test_duplicate_name_fails</td><td>tests.test_location_service.TestCreateLocation</td><td>0.151s</td></tr>
+<tr><td>test_duplicate_code_fails</td><td>tests.test_location_service.TestCreateLocation</td><td>0.033s</td></tr>
+<tr><td>test_empty_optional_fields_stored_as_none</td><td>tests.test_location_service.TestCreateLocation</td><td>0.113s</td></tr>
+<tr><td>test_update_name</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.110s</td></tr>
+<tr><td>test_update_duplicate_name_fails</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.141s</td></tr>
+<tr><td>test_update_duplicate_code_fails</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.079s</td></tr>
+<tr><td>test_update_same_name_ok</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.150s</td></tr>
+<tr><td>test_update_is_active</td><td>tests.test_location_service.TestUpdateLocation</td><td>0.047s</td></tr>
+<tr><td>test_soft_delete</td><td>tests.test_location_service.TestSoftDeleteLocation</td><td>0.041s</td></tr>
+<tr><td>test_soft_delete_nonexistent_raises</td><td>tests.test_location_service.TestSoftDeleteLocation</td><td>0.070s</td></tr>
+<tr><td>test_list_admin</td><td>tests.test_maintenance_routes.TestMaintenanceListRoutes</td><td>0.704s</td></tr>
+<tr><td>test_list_standard</td><td>tests.test_maintenance_routes.TestMaintenanceListRoutes</td><td>0.542s</td></tr>
+<tr><td>test_list_unauthenticated</td><td>tests.test_maintenance_routes.TestMaintenanceListRoutes</td><td>0.054s</td></tr>
+<tr><td>test_create_page</td><td>tests.test_maintenance_routes.TestMaintenanceCreateRoutes</td><td>0.612s</td></tr>
+<tr><td>test_create_record_admin</td><td>tests.test_maintenance_routes.TestMaintenanceCreateRoutes</td><td>0.741s</td></tr>
+<tr><td>test_create_record_standard_user</td><td>tests.test_maintenance_routes.TestMaintenanceCreateRoutes</td><td>0.684s</td></tr>
+<tr><td>test_create_retired_vehicle_fails</td><td>tests.test_maintenance_routes.TestMaintenanceCreateRoutes</td><td>0.758s</td></tr>
+<tr><td>test_edit_page_admin</td><td>tests.test_maintenance_routes.TestMaintenanceEditRoutes</td><td>0.763s</td></tr>
+<tr><td>test_edit_page_standard_forbidden</td><td>tests.test_maintenance_routes.TestMaintenanceEditRoutes</td><td>0.510s</td></tr>
+<tr><td>test_edit_record_admin</td><td>tests.test_maintenance_routes.TestMaintenanceEditRoutes</td><td>0.961s</td></tr>
+<tr><td>test_delete_admin</td><td>tests.test_maintenance_routes.TestMaintenanceDeleteRoutes</td><td>0.885s</td></tr>
+<tr><td>test_delete_standard_forbidden</td><td>tests.test_maintenance_routes.TestMaintenanceDeleteRoutes</td><td>0.524s</td></tr>
+<tr><td>test_returns_category</td><td>tests.test_maintenance_service.TestGetCategoryById</td><td>0.040s</td></tr>
+<tr><td>test_raises_not_found</td><td>tests.test_maintenance_service.TestGetCategoryById</td><td>0.160s</td></tr>
 <tr><td>test_raises_not_found_for_deleted</td><td>tests.test_maintenance_service.TestGetCategoryById</td><td>0.033s</td></tr>
-<tr><td>test_returns_all</td><td>tests.test_maintenance_service.TestGetAllCategories</td><td>0.033s</td></tr>
-<tr><td>test_active_only_filter</td><td>tests.test_maintenance_service.TestGetAllCategories</td><td>0.038s</td></tr>
-<tr><td>test_excludes_deleted</td><td>tests.test_maintenance_service.TestGetAllCategories</td><td>0.032s</td></tr>
-<tr><td>test_create_basic</td><td>tests.test_maintenance_service.TestCreateCategory</td><td>0.031s</td></tr>
-<tr><td>test_create_with_notes_required</td><td>tests.test_maintenance_service.TestCreateCategory</td><td>0.032s</td></tr>
-<tr><td>test_create_with_description</td><td>tests.test_maintenance_service.TestCreateCategory</td><td>0.031s</td></tr>
-<tr><td>test_duplicate_name_fails</td><td>tests.test_maintenance_service.TestCreateCategory</td><td>0.030s</td></tr>
-<tr><td>test_update_name</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.035s</td></tr>
-<tr><td>test_update_requires_notes</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.036s</td></tr>
-<tr><td>test_update_duplicate_name_fails</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.037s</td></tr>
+<tr><td>test_returns_all</td><td>tests.test_maintenance_service.TestGetAllCategories</td><td>0.043s</td></tr>
+<tr><td>test_active_only_filter</td><td>tests.test_maintenance_service.TestGetAllCategories</td><td>0.034s</td></tr>
+<tr><td>test_excludes_deleted</td><td>tests.test_maintenance_service.TestGetAllCategories</td><td>0.033s</td></tr>
+<tr><td>test_create_basic</td><td>tests.test_maintenance_service.TestCreateCategory</td><td>0.030s</td></tr>
+<tr><td>test_create_with_notes_required</td><td>tests.test_maintenance_service.TestCreateCategory</td><td>0.038s</td></tr>
+<tr><td>test_create_with_description</td><td>tests.test_maintenance_service.TestCreateCategory</td><td>0.051s</td></tr>
+<tr><td>test_duplicate_name_fails</td><td>tests.test_maintenance_service.TestCreateCategory</td><td>0.031s</td></tr>
+<tr><td>test_update_name</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.061s</td></tr>
+<tr><td>test_update_requires_notes</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.033s</td></tr>
+<tr><td>test_update_duplicate_name_fails</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.094s</td></tr>
 <tr><td>test_update_same_name_ok</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.034s</td></tr>
-<tr><td>test_update_is_active</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.038s</td></tr>
-<tr><td>test_soft_delete</td><td>tests.test_maintenance_service.TestSoftDeleteCategory</td><td>0.035s</td></tr>
-<tr><td>test_soft_delete_nonexistent_raises</td><td>tests.test_maintenance_service.TestSoftDeleteCategory</td><td>0.030s</td></tr>
-<tr><td>test_returns_record</td><td>tests.test_maintenance_service.TestGetMaintenanceRecordById</td><td>0.311s</td></tr>
-<tr><td>test_raises_not_found</td><td>tests.test_maintenance_service.TestGetMaintenanceRecordById</td><td>0.033s</td></tr>
-<tr><td>test_create_basic</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.307s</td></tr>
-<tr><td>test_create_with_notes</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.303s</td></tr>
-<tr><td>test_create_with_cost</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.563s</td></tr>
-<tr><td>test_notes_required_enforced</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.301s</td></tr>
-<tr><td>test_notes_required_with_notes_succeeds</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.305s</td></tr>
-<tr><td>test_retired_vehicle_fails</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.564s</td></tr>
-<tr><td>test_deleted_vehicle_fails</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.567s</td></tr>
-<tr><td>test_inactive_category_fails</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.567s</td></tr>
-<tr><td>test_standard_user_unassigned_vehicle_fails</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.563s</td></tr>
-<tr><td>test_admin_can_log_any_vehicle</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.564s</td></tr>
-<tr><td>test_notes_whitespace_stripped</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.568s</td></tr>
-<tr><td>test_empty_notes_stored_as_none</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.571s</td></tr>
-<tr><td>test_update_record</td><td>tests.test_maintenance_service.TestUpdateMaintenanceRecord</td><td>0.576s</td></tr>
-<tr><td>test_update_notes_required_enforced</td><td>tests.test_maintenance_service.TestUpdateMaintenanceRecord</td><td>0.568s</td></tr>
-<tr><td>test_update_retired_vehicle_fails</td><td>tests.test_maintenance_service.TestUpdateMaintenanceRecord</td><td>0.578s</td></tr>
-<tr><td>test_get_records_for_vehicle</td><td>tests.test_maintenance_service.TestGetMaintenanceRecords</td><td>0.579s</td></tr>
-<tr><td>test_get_all_records</td><td>tests.test_maintenance_service.TestGetMaintenanceRecords</td><td>0.572s</td></tr>
-<tr><td>test_mileage_list_admin</td><td>tests.test_mileage_routes.TestMileageListRoutes</td><td>0.580s</td></tr>
-<tr><td>test_mileage_list_standard</td><td>tests.test_mileage_routes.TestMileageListRoutes</td><td>0.579s</td></tr>
+<tr><td>test_update_is_active</td><td>tests.test_maintenance_service.TestUpdateCategory</td><td>0.037s</td></tr>
+<tr><td>test_soft_delete</td><td>tests.test_maintenance_service.TestSoftDeleteCategory</td><td>0.031s</td></tr>
+<tr><td>test_soft_delete_nonexistent_raises</td><td>tests.test_maintenance_service.TestSoftDeleteCategory</td><td>0.027s</td></tr>
+<tr><td>test_returns_record</td><td>tests.test_maintenance_service.TestGetMaintenanceRecordById</td><td>0.333s</td></tr>
+<tr><td>test_raises_not_found</td><td>tests.test_maintenance_service.TestGetMaintenanceRecordById</td><td>0.037s</td></tr>
+<tr><td>test_create_basic</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.484s</td></tr>
+<tr><td>test_create_with_notes</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.841s</td></tr>
+<tr><td>test_create_with_cost</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.586s</td></tr>
+<tr><td>test_notes_required_enforced</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.676s</td></tr>
+<tr><td>test_notes_required_with_notes_succeeds</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.277s</td></tr>
+<tr><td>test_retired_vehicle_fails</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>1.048s</td></tr>
+<tr><td>test_deleted_vehicle_fails</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.573s</td></tr>
+<tr><td>test_inactive_category_fails</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.624s</td></tr>
+<tr><td>test_standard_user_unassigned_vehicle_fails</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.537s</td></tr>
+<tr><td>test_admin_can_log_any_vehicle</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.500s</td></tr>
+<tr><td>test_notes_whitespace_stripped</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.499s</td></tr>
+<tr><td>test_empty_notes_stored_as_none</td><td>tests.test_maintenance_service.TestCreateMaintenanceRecord</td><td>0.503s</td></tr>
+<tr><td>test_update_record</td><td>tests.test_maintenance_service.TestUpdateMaintenanceRecord</td><td>0.626s</td></tr>
+<tr><td>test_update_notes_required_enforced</td><td>tests.test_maintenance_service.TestUpdateMaintenanceRecord</td><td>0.637s</td></tr>
+<tr><td>test_update_retired_vehicle_fails</td><td>tests.test_maintenance_service.TestUpdateMaintenanceRecord</td><td>0.503s</td></tr>
+<tr><td>test_get_records_for_vehicle</td><td>tests.test_maintenance_service.TestGetMaintenanceRecords</td><td>0.573s</td></tr>
+<tr><td>test_get_all_records</td><td>tests.test_maintenance_service.TestGetMaintenanceRecords</td><td>0.579s</td></tr>
+<tr><td>test_mileage_list_admin</td><td>tests.test_mileage_routes.TestMileageListRoutes</td><td>0.636s</td></tr>
+<tr><td>test_mileage_list_standard</td><td>tests.test_mileage_routes.TestMileageListRoutes</td><td>1.212s</td></tr>
 <tr><td>test_mileage_list_unauthenticated</td><td>tests.test_mileage_routes.TestMileageListRoutes</td><td>0.034s</td></tr>
-<tr><td>test_create_page</td><td>tests.test_mileage_routes.TestMileageCreateRoutes</td><td>0.592s</td></tr>
-<tr><td>test_create_mileage_standard_user</td><td>tests.test_mileage_routes.TestMileageCreateRoutes</td><td>0.580s</td></tr>
-<tr><td>test_create_mileage_lower_than_current_fails</td><td>tests.test_mileage_routes.TestMileageCreateRoutes</td><td>0.579s</td></tr>
-<tr><td>test_create_mileage_admin_override</td><td>tests.test_mileage_routes.TestMileageCreateRoutes</td><td>0.842s</td></tr>
-<tr><td>test_edit_page_admin</td><td>tests.test_mileage_routes.TestMileageEditRoutes</td><td>0.859s</td></tr>
-<tr><td>test_edit_page_standard_forbidden</td><td>tests.test_mileage_routes.TestMileageEditRoutes</td><td>0.579s</td></tr>
-<tr><td>test_edit_mileage_admin</td><td>tests.test_mileage_routes.TestMileageEditRoutes</td><td>0.846s</td></tr>
-<tr><td>test_delete_admin</td><td>tests.test_mileage_routes.TestMileageDeleteRoutes</td><td>0.845s</td></tr>
-<tr><td>test_delete_standard_forbidden</td><td>tests.test_mileage_routes.TestMileageDeleteRoutes</td><td>0.575s</td></tr>
-<tr><td>test_returns_record</td><td>tests.test_mileage_service.TestGetMileageRecordById</td><td>0.563s</td></tr>
-<tr><td>test_raises_not_found</td><td>tests.test_mileage_service.TestGetMileageRecordById</td><td>0.032s</td></tr>
-<tr><td>test_raises_not_found_for_deleted</td><td>tests.test_mileage_service.TestGetMileageRecordById</td><td>0.566s</td></tr>
-<tr><td>test_returns_records_for_vehicle</td><td>tests.test_mileage_service.TestGetRecordsForVehicle</td><td>0.571s</td></tr>
-<tr><td>test_excludes_deleted</td><td>tests.test_mileage_service.TestGetRecordsForVehicle</td><td>0.567s</td></tr>
-<tr><td>test_standard_user_higher_mileage</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.301s</td></tr>
-<tr><td>test_standard_user_lower_mileage_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.299s</td></tr>
-<tr><td>test_standard_user_unassigned_vehicle_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.560s</td></tr>
-<tr><td>test_standard_user_override_ignored</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.305s</td></tr>
-<tr><td>test_admin_higher_mileage</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.568s</td></tr>
-<tr><td>test_admin_lower_without_override_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.564s</td></tr>
-<tr><td>test_admin_override_without_reason_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.575s</td></tr>
-<tr><td>test_admin_override_with_reason_succeeds</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.566s</td></tr>
-<tr><td>test_retired_vehicle_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.562s</td></tr>
-<tr><td>test_deleted_vehicle_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.563s</td></tr>
-<tr><td>test_updates_current_mileage_on_higher</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.565s</td></tr>
-<tr><td>test_admin_override_recalculates_mileage</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.578s</td></tr>
-<tr><td>test_update_reading</td><td>tests.test_mileage_service.TestUpdateMileageRecord</td><td>0.572s</td></tr>
-<tr><td>test_update_override_without_reason_fails</td><td>tests.test_mileage_service.TestUpdateMileageRecord</td><td>0.563s</td></tr>
-<tr><td>test_update_changes_reading_value</td><td>tests.test_mileage_service.TestUpdateMileageRecord</td><td>0.574s</td></tr>
-<tr><td>test_update_retired_vehicle_fails</td><td>tests.test_mileage_service.TestUpdateMileageRecord</td><td>0.565s</td></tr>
-<tr><td>test_soft_delete</td><td>tests.test_mileage_service.TestSoftDeleteMileageRecord</td><td>0.570s</td></tr>
-<tr><td>test_soft_delete_recalculates_mileage</td><td>tests.test_mileage_service.TestSoftDeleteMileageRecord</td><td>0.578s</td></tr>
-<tr><td>test_soft_delete_all_records_resets_to_zero</td><td>tests.test_mileage_service.TestSoftDeleteMileageRecord</td><td>0.570s</td></tr>
-<tr><td>test_soft_delete_nonexistent_raises</td><td>tests.test_mileage_service.TestSoftDeleteMileageRecord</td><td>0.032s</td></tr>
-<tr><td>test_retirement_list_admin</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.581s</td></tr>
-<tr><td>test_retirement_list_standard</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.571s</td></tr>
-<tr><td>test_retirement_list_unauthenticated</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.034s</td></tr>
-<tr><td>test_retirement_create_page</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.592s</td></tr>
-<tr><td>test_standard_user_creates_request</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.587s</td></tr>
-<tr><td>test_admin_retires_directly</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.839s</td></tr>
-<tr><td>test_retirement_detail_page</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.856s</td></tr>
-<tr><td>test_approve_retirement</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.846s</td></tr>
-<tr><td>test_reject_retirement</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.847s</td></tr>
-<tr><td>test_review_standard_forbidden</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.593s</td></tr>
-<tr><td>test_deletion_list_admin</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.578s</td></tr>
-<tr><td>test_deletion_list_standard</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.573s</td></tr>
-<tr><td>test_deletion_list_unauthenticated</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.037s</td></tr>
-<tr><td>test_deletion_create_page</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.595s</td></tr>
-<tr><td>test_create_deletion_request</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.586s</td></tr>
-<tr><td>test_deletion_detail_page</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.866s</td></tr>
-<tr><td>test_approve_deletion</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.860s</td></tr>
-<tr><td>test_reject_deletion</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.852s</td></tr>
-<tr><td>test_review_standard_forbidden</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.589s</td></tr>
-<tr><td>test_returns_request</td><td>tests.test_retirement_service.TestGetRetirementRequestById</td><td>0.561s</td></tr>
-<tr><td>test_raises_not_found</td><td>tests.test_retirement_service.TestGetRetirementRequestById</td><td>0.031s</td></tr>
-<tr><td>test_returns_all</td><td>tests.test_retirement_service.TestGetAllRequests</td><td>0.564s</td></tr>
-<tr><td>test_filter_by_status</td><td>tests.test_retirement_service.TestGetAllRequests</td><td>0.565s</td></tr>
-<tr><td>test_returns_user_requests</td><td>tests.test_retirement_service.TestGetRequestsForUser</td><td>0.567s</td></tr>
-<tr><td>test_standard_user_creates_request</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.304s</td></tr>
-<tr><td>test_admin_creates_request</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.561s</td></tr>
-<tr><td>test_retired_vehicle_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.560s</td></tr>
-<tr><td>test_pending_retirement_vehicle_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.560s</td></tr>
-<tr><td>test_duplicate_pending_request_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.566s</td></tr>
-<tr><td>test_standard_user_unassigned_vehicle_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.557s</td></tr>
-<tr><td>test_deleted_vehicle_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.559s</td></tr>
-<tr><td>test_approve_retires_vehicle</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.567s</td></tr>
-<tr><td>test_approve_sets_retirement_reason</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.565s</td></tr>
-<tr><td>test_reject_restores_active</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.572s</td></tr>
-<tr><td>test_reject_with_review_notes</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.567s</td></tr>
-<tr><td>test_review_already_reviewed_fails</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.565s</td></tr>
-<tr><td>test_admin_retire_directly</td><td>tests.test_retirement_service.TestRetireVehicleDirectly</td><td>0.558s</td></tr>
-<tr><td>test_retire_non_active_fails</td><td>tests.test_retirement_service.TestRetireVehicleDirectly</td><td>0.562s</td></tr>
-<tr><td>test_retire_deleted_vehicle_fails</td><td>tests.test_retirement_service.TestRetireVehicleDirectly</td><td>0.559s</td></tr>
-<tr><td>test_admin_can_access_admin_pages</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.568s</td></tr>
-<tr><td>test_standard_cannot_access_admin_pages</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.567s</td></tr>
-<tr><td>test_standard_cannot_create_vehicle</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.567s</td></tr>
-<tr><td>test_admin_can_create_vehicle</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.598s</td></tr>
-<tr><td>test_standard_cannot_edit_mileage</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.566s</td></tr>
-<tr><td>test_standard_cannot_delete_maintenance</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.566s</td></tr>
-<tr><td>test_dashboard_shows_for_standard</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.598s</td></tr>
-<tr><td>test_dashboard_shows_for_admin</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.586s</td></tr>
-<tr><td>test_register_password_mismatch</td><td>tests.test_routes.TestValidationRoutes</td><td>0.036s</td></tr>
-<tr><td>test_register_short_password</td><td>tests.test_routes.TestValidationRoutes</td><td>0.035s</td></tr>
-<tr><td>test_vehicle_create_validation</td><td>tests.test_routes.TestValidationRoutes</td><td>0.572s</td></tr>
-<tr><td>test_valid_current_format</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.028s</td></tr>
-<tr><td>test_valid_prefix_format</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.027s</td></tr>
-<tr><td>test_invalid_registration</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.027s</td></tr>
-<tr><td>test_empty_registration</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.029s</td></tr>
-<tr><td>test_invalid_vehicle_type</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.027s</td></tr>
+<tr><td>test_create_page</td><td>tests.test_mileage_routes.TestMileageCreateRoutes</td><td>0.734s</td></tr>
+<tr><td>test_create_mileage_standard_user</td><td>tests.test_mileage_routes.TestMileageCreateRoutes</td><td>0.978s</td></tr>
+<tr><td>test_create_mileage_lower_than_current_fails</td><td>tests.test_mileage_routes.TestMileageCreateRoutes</td><td>0.540s</td></tr>
+<tr><td>test_create_mileage_admin_override</td><td>tests.test_mileage_routes.TestMileageCreateRoutes</td><td>0.825s</td></tr>
+<tr><td>test_edit_page_admin</td><td>tests.test_mileage_routes.TestMileageEditRoutes</td><td>0.964s</td></tr>
+<tr><td>test_edit_page_standard_forbidden</td><td>tests.test_mileage_routes.TestMileageEditRoutes</td><td>0.642s</td></tr>
+<tr><td>test_edit_mileage_admin</td><td>tests.test_mileage_routes.TestMileageEditRoutes</td><td>1.026s</td></tr>
+<tr><td>test_delete_admin</td><td>tests.test_mileage_routes.TestMileageDeleteRoutes</td><td>1.127s</td></tr>
+<tr><td>test_delete_standard_forbidden</td><td>tests.test_mileage_routes.TestMileageDeleteRoutes</td><td>1.008s</td></tr>
+<tr><td>test_returns_record</td><td>tests.test_mileage_service.TestGetMileageRecordById</td><td>0.797s</td></tr>
+<tr><td>test_raises_not_found</td><td>tests.test_mileage_service.TestGetMileageRecordById</td><td>0.251s</td></tr>
+<tr><td>test_raises_not_found_for_deleted</td><td>tests.test_mileage_service.TestGetMileageRecordById</td><td>0.554s</td></tr>
+<tr><td>test_returns_records_for_vehicle</td><td>tests.test_mileage_service.TestGetRecordsForVehicle</td><td>0.539s</td></tr>
+<tr><td>test_excludes_deleted</td><td>tests.test_mileage_service.TestGetRecordsForVehicle</td><td>0.622s</td></tr>
+<tr><td>test_standard_user_higher_mileage</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.597s</td></tr>
+<tr><td>test_standard_user_lower_mileage_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.736s</td></tr>
+<tr><td>test_standard_user_unassigned_vehicle_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.490s</td></tr>
+<tr><td>test_standard_user_override_ignored</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.278s</td></tr>
+<tr><td>test_admin_higher_mileage</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.845s</td></tr>
+<tr><td>test_admin_lower_without_override_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.636s</td></tr>
+<tr><td>test_admin_override_without_reason_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.562s</td></tr>
+<tr><td>test_admin_override_with_reason_succeeds</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.586s</td></tr>
+<tr><td>test_retired_vehicle_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.524s</td></tr>
+<tr><td>test_deleted_vehicle_fails</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.947s</td></tr>
+<tr><td>test_updates_current_mileage_on_higher</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.515s</td></tr>
+<tr><td>test_admin_override_recalculates_mileage</td><td>tests.test_mileage_service.TestCreateMileageRecord</td><td>0.516s</td></tr>
+<tr><td>test_update_reading</td><td>tests.test_mileage_service.TestUpdateMileageRecord</td><td>0.601s</td></tr>
+<tr><td>test_update_override_without_reason_fails</td><td>tests.test_mileage_service.TestUpdateMileageRecord</td><td>0.996s</td></tr>
+<tr><td>test_update_changes_reading_value</td><td>tests.test_mileage_service.TestUpdateMileageRecord</td><td>0.556s</td></tr>
+<tr><td>test_update_retired_vehicle_fails</td><td>tests.test_mileage_service.TestUpdateMileageRecord</td><td>0.617s</td></tr>
+<tr><td>test_soft_delete</td><td>tests.test_mileage_service.TestSoftDeleteMileageRecord</td><td>0.655s</td></tr>
+<tr><td>test_soft_delete_recalculates_mileage</td><td>tests.test_mileage_service.TestSoftDeleteMileageRecord</td><td>0.799s</td></tr>
+<tr><td>test_soft_delete_all_records_resets_to_zero</td><td>tests.test_mileage_service.TestSoftDeleteMileageRecord</td><td>0.495s</td></tr>
+<tr><td>test_soft_delete_nonexistent_raises</td><td>tests.test_mileage_service.TestSoftDeleteMileageRecord</td><td>0.026s</td></tr>
+<tr><td>test_retirement_list_admin</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.503s</td></tr>
+<tr><td>test_retirement_list_standard</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.503s</td></tr>
+<tr><td>test_retirement_list_unauthenticated</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.033s</td></tr>
+<tr><td>test_retirement_create_page</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.717s</td></tr>
+<tr><td>test_standard_user_creates_request</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.690s</td></tr>
+<tr><td>test_admin_retires_directly</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>1.092s</td></tr>
+<tr><td>test_retirement_detail_page</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.925s</td></tr>
+<tr><td>test_approve_retirement</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.880s</td></tr>
+<tr><td>test_reject_retirement</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.786s</td></tr>
+<tr><td>test_review_standard_forbidden</td><td>tests.test_request_routes.TestRetirementRequestRoutes</td><td>0.571s</td></tr>
+<tr><td>test_deletion_list_admin</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.504s</td></tr>
+<tr><td>test_deletion_list_standard</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.515s</td></tr>
+<tr><td>test_deletion_list_unauthenticated</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.052s</td></tr>
+<tr><td>test_deletion_create_page</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.522s</td></tr>
+<tr><td>test_create_deletion_request</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.518s</td></tr>
+<tr><td>test_deletion_detail_page</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.772s</td></tr>
+<tr><td>test_approve_deletion</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>0.781s</td></tr>
+<tr><td>test_reject_deletion</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>1.305s</td></tr>
+<tr><td>test_review_standard_forbidden</td><td>tests.test_request_routes.TestDeletionRequestRoutes</td><td>1.319s</td></tr>
+<tr><td>test_returns_request</td><td>tests.test_retirement_service.TestGetRetirementRequestById</td><td>0.834s</td></tr>
+<tr><td>test_raises_not_found</td><td>tests.test_retirement_service.TestGetRetirementRequestById</td><td>0.032s</td></tr>
+<tr><td>test_returns_all</td><td>tests.test_retirement_service.TestGetAllRequests</td><td>0.505s</td></tr>
+<tr><td>test_filter_by_status</td><td>tests.test_retirement_service.TestGetAllRequests</td><td>0.495s</td></tr>
+<tr><td>test_returns_user_requests</td><td>tests.test_retirement_service.TestGetRequestsForUser</td><td>0.577s</td></tr>
+<tr><td>test_standard_user_creates_request</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.457s</td></tr>
+<tr><td>test_admin_creates_request</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.644s</td></tr>
+<tr><td>test_retired_vehicle_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.498s</td></tr>
+<tr><td>test_pending_retirement_vehicle_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.519s</td></tr>
+<tr><td>test_duplicate_pending_request_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.670s</td></tr>
+<tr><td>test_standard_user_unassigned_vehicle_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.503s</td></tr>
+<tr><td>test_deleted_vehicle_fails</td><td>tests.test_retirement_service.TestCreateRetirementRequest</td><td>0.697s</td></tr>
+<tr><td>test_approve_retires_vehicle</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.529s</td></tr>
+<tr><td>test_approve_sets_retirement_reason</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.622s</td></tr>
+<tr><td>test_reject_restores_active</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.630s</td></tr>
+<tr><td>test_reject_with_review_notes</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.789s</td></tr>
+<tr><td>test_review_already_reviewed_fails</td><td>tests.test_retirement_service.TestReviewRetirementRequest</td><td>0.589s</td></tr>
+<tr><td>test_admin_retire_directly</td><td>tests.test_retirement_service.TestRetireVehicleDirectly</td><td>0.497s</td></tr>
+<tr><td>test_retire_non_active_fails</td><td>tests.test_retirement_service.TestRetireVehicleDirectly</td><td>0.950s</td></tr>
+<tr><td>test_retire_deleted_vehicle_fails</td><td>tests.test_retirement_service.TestRetireVehicleDirectly</td><td>1.732s</td></tr>
+<tr><td>test_admin_can_access_admin_pages</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.797s</td></tr>
+<tr><td>test_standard_cannot_access_admin_pages</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.693s</td></tr>
+<tr><td>test_standard_cannot_create_vehicle</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.992s</td></tr>
+<tr><td>test_admin_can_create_vehicle</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.696s</td></tr>
+<tr><td>test_standard_cannot_edit_mileage</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.716s</td></tr>
+<tr><td>test_standard_cannot_delete_maintenance</td><td>tests.test_routes.TestRoleRestrictions</td><td>1.334s</td></tr>
+<tr><td>test_dashboard_shows_for_standard</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.890s</td></tr>
+<tr><td>test_dashboard_shows_for_admin</td><td>tests.test_routes.TestRoleRestrictions</td><td>0.894s</td></tr>
+<tr><td>test_register_password_mismatch</td><td>tests.test_routes.TestValidationRoutes</td><td>0.168s</td></tr>
+<tr><td>test_register_short_password</td><td>tests.test_routes.TestValidationRoutes</td><td>0.168s</td></tr>
+<tr><td>test_vehicle_create_validation</td><td>tests.test_routes.TestValidationRoutes</td><td>0.816s</td></tr>
+<tr><td>test_valid_current_format</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.400s</td></tr>
+<tr><td>test_valid_prefix_format</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.025s</td></tr>
+<tr><td>test_invalid_registration</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.186s</td></tr>
+<tr><td>test_empty_registration</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.350s</td></tr>
+<tr><td>test_invalid_vehicle_type</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.031s</td></tr>
 <tr><td>test_year_too_low</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.026s</td></tr>
-<tr><td>test_year_too_high</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.026s</td></tr>
-<tr><td>test_negative_mileage</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.029s</td></tr>
-<tr><td>test_registration_case_insensitive</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.027s</td></tr>
-<tr><td>test_empty_make_fails</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.027s</td></tr>
-<tr><td>test_valid_registration</td><td>tests.test_schemas.TestRegisterSchema</td><td>0.029s</td></tr>
-<tr><td>test_password_mismatch</td><td>tests.test_schemas.TestRegisterSchema</td><td>0.027s</td></tr>
-<tr><td>test_short_password</td><td>tests.test_schemas.TestRegisterSchema</td><td>0.027s</td></tr>
-<tr><td>test_short_username</td><td>tests.test_schemas.TestRegisterSchema</td><td>0.027s</td></tr>
-<tr><td>test_valid_location</td><td>tests.test_schemas.TestLocationSchema</td><td>0.027s</td></tr>
-<tr><td>test_empty_name_fails</td><td>tests.test_schemas.TestLocationSchema</td><td>0.027s</td></tr>
-<tr><td>test_empty_code_fails</td><td>tests.test_schemas.TestLocationSchema</td><td>0.028s</td></tr>
-<tr><td>test_valid_category</td><td>tests.test_schemas.TestMaintenanceSchemas</td><td>0.027s</td></tr>
-<tr><td>test_valid_record</td><td>tests.test_schemas.TestMaintenanceSchemas</td><td>0.032s</td></tr>
-<tr><td>test_negative_mileage_fails</td><td>tests.test_schemas.TestMaintenanceSchemas</td><td>0.029s</td></tr>
-<tr><td>test_valid_mileage</td><td>tests.test_schemas.TestMileageSchema</td><td>0.026s</td></tr>
-<tr><td>test_negative_reading_fails</td><td>tests.test_schemas.TestMileageSchema</td><td>0.026s</td></tr>
-<tr><td>test_valid_retirement_request</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.030s</td></tr>
-<tr><td>test_retirement_reason_too_short</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.027s</td></tr>
-<tr><td>test_valid_retirement_review</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.030s</td></tr>
-<tr><td>test_invalid_review_action</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.027s</td></tr>
-<tr><td>test_valid_deletion_request</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.030s</td></tr>
-<tr><td>test_invalid_deletion_target_type</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.028s</td></tr>
-<tr><td>test_valid_user</td><td>tests.test_schemas.TestUserSchema</td><td>0.028s</td></tr>
-<tr><td>test_short_username_fails</td><td>tests.test_schemas.TestUserSchema</td><td>0.030s</td></tr>
-<tr><td>test_returns_user</td><td>tests.test_user_service.TestGetUserById</td><td>0.290s</td></tr>
-<tr><td>test_raises_not_found</td><td>tests.test_user_service.TestGetUserById</td><td>0.028s</td></tr>
-<tr><td>test_returns_all</td><td>tests.test_user_service.TestGetAllUsers</td><td>0.553s</td></tr>
-<tr><td>test_ordered_by_username</td><td>tests.test_user_service.TestGetAllUsers</td><td>0.555s</td></tr>
-<tr><td>test_returns_standard_only</td><td>tests.test_user_service.TestGetStandardUsers</td><td>0.554s</td></tr>
-<tr><td>test_active_only_default</td><td>tests.test_user_service.TestGetStandardUsers</td><td>0.296s</td></tr>
-<tr><td>test_include_inactive</td><td>tests.test_user_service.TestGetStandardUsers</td><td>0.295s</td></tr>
-<tr><td>test_create_standard_user</td><td>tests.test_user_service.TestCreateUser</td><td>0.290s</td></tr>
-<tr><td>test_create_admin_by_admin</td><td>tests.test_user_service.TestCreateUser</td><td>0.297s</td></tr>
-<tr><td>test_create_admin_by_standard_fails</td><td>tests.test_user_service.TestCreateUser</td><td>0.029s</td></tr>
-<tr><td>test_duplicate_username_fails</td><td>tests.test_user_service.TestCreateUser</td><td>0.292s</td></tr>
-<tr><td>test_duplicate_email_fails</td><td>tests.test_user_service.TestCreateUser</td><td>0.295s</td></tr>
-<tr><td>test_duplicate_employee_number_fails</td><td>tests.test_user_service.TestCreateUser</td><td>0.295s</td></tr>
-<tr><td>test_empty_employee_number_ok</td><td>tests.test_user_service.TestCreateUser</td><td>0.292s</td></tr>
-<tr><td>test_create_with_location</td><td>tests.test_user_service.TestCreateUser</td><td>0.294s</td></tr>
-<tr><td>test_password_is_hashed</td><td>tests.test_user_service.TestCreateUser</td><td>0.288s</td></tr>
-<tr><td>test_update_name</td><td>tests.test_user_service.TestUpdateUser</td><td>0.296s</td></tr>
-<tr><td>test_update_email</td><td>tests.test_user_service.TestUpdateUser</td><td>0.295s</td></tr>
-<tr><td>test_update_duplicate_email_fails</td><td>tests.test_user_service.TestUpdateUser</td><td>0.558s</td></tr>
-<tr><td>test_update_same_email_ok</td><td>tests.test_user_service.TestUpdateUser</td><td>0.295s</td></tr>
-<tr><td>test_update_duplicate_employee_number_fails</td><td>tests.test_user_service.TestUpdateUser</td><td>0.558s</td></tr>
-<tr><td>test_update_is_active</td><td>tests.test_user_service.TestUpdateUser</td><td>0.296s</td></tr>
-<tr><td>test_update_nonexistent_raises</td><td>tests.test_user_service.TestUpdateUser</td><td>0.027s</td></tr>
-<tr><td>test_vehicle_list_admin</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>0.861s</td></tr>
-<tr><td>test_vehicle_list_standard_user</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>0.574s</td></tr>
-<tr><td>test_vehicle_list_unauthenticated_redirects</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>0.034s</td></tr>
-<tr><td>test_vehicle_detail_admin</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>0.885s</td></tr>
-<tr><td>test_vehicle_detail_standard_user_assigned</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>0.574s</td></tr>
-<tr><td>test_vehicle_detail_standard_user_unassigned</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>0.574s</td></tr>
-<tr><td>test_create_page_admin</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.574s</td></tr>
-<tr><td>test_create_page_standard_forbidden</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.569s</td></tr>
-<tr><td>test_create_vehicle_success</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.581s</td></tr>
-<tr><td>test_create_vehicle_validation_error</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.573s</td></tr>
-<tr><td>test_create_vehicle_duplicate_registration</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.838s</td></tr>
-<tr><td>test_edit_page_admin</td><td>tests.test_vehicle_routes.TestVehicleEdit</td><td>0.866s</td></tr>
-<tr><td>test_edit_page_standard_forbidden</td><td>tests.test_vehicle_routes.TestVehicleEdit</td><td>0.573s</td></tr>
-<tr><td>test_edit_retired_vehicle_redirects</td><td>tests.test_vehicle_routes.TestVehicleEdit</td><td>0.838s</td></tr>
-<tr><td>test_edit_vehicle_success</td><td>tests.test_vehicle_routes.TestVehicleEdit</td><td>0.841s</td></tr>
-<tr><td>test_delete_vehicle_admin</td><td>tests.test_vehicle_routes.TestVehicleDelete</td><td>0.838s</td></tr>
-<tr><td>test_delete_vehicle_standard_forbidden</td><td>tests.test_vehicle_routes.TestVehicleDelete</td><td>0.571s</td></tr>
-<tr><td>test_returns_vehicle</td><td>tests.test_vehicle_service.TestGetVehicleById</td><td>0.299s</td></tr>
-<tr><td>test_raises_not_found_for_missing</td><td>tests.test_vehicle_service.TestGetVehicleById</td><td>0.031s</td></tr>
-<tr><td>test_raises_not_found_for_deleted</td><td>tests.test_vehicle_service.TestGetVehicleById</td><td>0.302s</td></tr>
-<tr><td>test_returns_all_non_deleted</td><td>tests.test_vehicle_service.TestGetAllVehicles</td><td>0.303s</td></tr>
-<tr><td>test_excludes_deleted</td><td>tests.test_vehicle_service.TestGetAllVehicles</td><td>0.297s</td></tr>
-<tr><td>test_ordered_by_registration</td><td>tests.test_vehicle_service.TestGetAllVehicles</td><td>0.044s</td></tr>
-<tr><td>test_returns_only_assigned_vehicles</td><td>tests.test_vehicle_service.TestGetVehiclesForUser</td><td>0.301s</td></tr>
-<tr><td>test_returns_empty_for_no_vehicles</td><td>tests.test_vehicle_service.TestGetVehiclesForUser</td><td>0.289s</td></tr>
-<tr><td>test_admin_can_access_any</td><td>tests.test_vehicle_service.TestCheckVehicleAccess</td><td>0.295s</td></tr>
-<tr><td>test_standard_user_can_access_assigned</td><td>tests.test_vehicle_service.TestCheckVehicleAccess</td><td>0.297s</td></tr>
-<tr><td>test_standard_user_cannot_access_unassigned</td><td>tests.test_vehicle_service.TestCheckVehicleAccess</td><td>0.301s</td></tr>
-<tr><td>test_create_success</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.034s</td></tr>
-<tr><td>test_create_with_driver</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.299s</td></tr>
-<tr><td>test_duplicate_registration_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.296s</td></tr>
-<tr><td>test_duplicate_fleet_reference_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.298s</td></tr>
-<tr><td>test_invalid_location_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.028s</td></tr>
+<tr><td>test_year_too_high</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.223s</td></tr>
+<tr><td>test_negative_mileage</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.220s</td></tr>
+<tr><td>test_registration_case_insensitive</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.030s</td></tr>
+<tr><td>test_empty_make_fails</td><td>tests.test_schemas.TestVehicleSchema</td><td>0.034s</td></tr>
+<tr><td>test_valid_registration</td><td>tests.test_schemas.TestRegisterSchema</td><td>0.915s</td></tr>
+<tr><td>test_password_mismatch</td><td>tests.test_schemas.TestRegisterSchema</td><td>0.241s</td></tr>
+<tr><td>test_short_password</td><td>tests.test_schemas.TestRegisterSchema</td><td>0.036s</td></tr>
+<tr><td>test_short_username</td><td>tests.test_schemas.TestRegisterSchema</td><td>0.093s</td></tr>
+<tr><td>test_valid_location</td><td>tests.test_schemas.TestLocationSchema</td><td>0.555s</td></tr>
+<tr><td>test_empty_name_fails</td><td>tests.test_schemas.TestLocationSchema</td><td>0.028s</td></tr>
+<tr><td>test_empty_code_fails</td><td>tests.test_schemas.TestLocationSchema</td><td>0.046s</td></tr>
+<tr><td>test_valid_category</td><td>tests.test_schemas.TestMaintenanceSchemas</td><td>0.135s</td></tr>
+<tr><td>test_valid_record</td><td>tests.test_schemas.TestMaintenanceSchemas</td><td>0.287s</td></tr>
+<tr><td>test_negative_mileage_fails</td><td>tests.test_schemas.TestMaintenanceSchemas</td><td>0.223s</td></tr>
+<tr><td>test_valid_mileage</td><td>tests.test_schemas.TestMileageSchema</td><td>0.214s</td></tr>
+<tr><td>test_negative_reading_fails</td><td>tests.test_schemas.TestMileageSchema</td><td>0.716s</td></tr>
+<tr><td>test_valid_retirement_request</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.530s</td></tr>
+<tr><td>test_retirement_reason_too_short</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.281s</td></tr>
+<tr><td>test_valid_retirement_review</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.486s</td></tr>
+<tr><td>test_invalid_review_action</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.146s</td></tr>
+<tr><td>test_valid_deletion_request</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.028s</td></tr>
+<tr><td>test_invalid_deletion_target_type</td><td>tests.test_schemas.TestRequestSchemas</td><td>0.213s</td></tr>
+<tr><td>test_valid_user</td><td>tests.test_schemas.TestUserSchema</td><td>0.228s</td></tr>
+<tr><td>test_short_username_fails</td><td>tests.test_schemas.TestUserSchema</td><td>0.036s</td></tr>
+<tr><td>test_returns_user</td><td>tests.test_user_service.TestGetUserById</td><td>0.314s</td></tr>
+<tr><td>test_raises_not_found</td><td>tests.test_user_service.TestGetUserById</td><td>0.103s</td></tr>
+<tr><td>test_returns_all</td><td>tests.test_user_service.TestGetAllUsers</td><td>0.649s</td></tr>
+<tr><td>test_ordered_by_username</td><td>tests.test_user_service.TestGetAllUsers</td><td>0.644s</td></tr>
+<tr><td>test_returns_standard_only</td><td>tests.test_user_service.TestGetStandardUsers</td><td>0.668s</td></tr>
+<tr><td>test_active_only_default</td><td>tests.test_user_service.TestGetStandardUsers</td><td>0.483s</td></tr>
+<tr><td>test_include_inactive</td><td>tests.test_user_service.TestGetStandardUsers</td><td>1.818s</td></tr>
+<tr><td>test_create_standard_user</td><td>tests.test_user_service.TestCreateUser</td><td>1.424s</td></tr>
+<tr><td>test_create_admin_by_admin</td><td>tests.test_user_service.TestCreateUser</td><td>0.766s</td></tr>
+<tr><td>test_create_admin_by_standard_fails</td><td>tests.test_user_service.TestCreateUser</td><td>0.316s</td></tr>
+<tr><td>test_duplicate_username_fails</td><td>tests.test_user_service.TestCreateUser</td><td>0.642s</td></tr>
+<tr><td>test_duplicate_email_fails</td><td>tests.test_user_service.TestCreateUser</td><td>0.612s</td></tr>
+<tr><td>test_duplicate_employee_number_fails</td><td>tests.test_user_service.TestCreateUser</td><td>0.319s</td></tr>
+<tr><td>test_empty_employee_number_ok</td><td>tests.test_user_service.TestCreateUser</td><td>1.412s</td></tr>
+<tr><td>test_create_with_location</td><td>tests.test_user_service.TestCreateUser</td><td>1.328s</td></tr>
+<tr><td>test_password_is_hashed</td><td>tests.test_user_service.TestCreateUser</td><td>1.492s</td></tr>
+<tr><td>test_update_name</td><td>tests.test_user_service.TestUpdateUser</td><td>0.783s</td></tr>
+<tr><td>test_update_email</td><td>tests.test_user_service.TestUpdateUser</td><td>1.921s</td></tr>
+<tr><td>test_update_duplicate_email_fails</td><td>tests.test_user_service.TestUpdateUser</td><td>2.277s</td></tr>
+<tr><td>test_update_same_email_ok</td><td>tests.test_user_service.TestUpdateUser</td><td>0.851s</td></tr>
+<tr><td>test_update_duplicate_employee_number_fails</td><td>tests.test_user_service.TestUpdateUser</td><td>1.057s</td></tr>
+<tr><td>test_update_is_active</td><td>tests.test_user_service.TestUpdateUser</td><td>1.108s</td></tr>
+<tr><td>test_update_nonexistent_raises</td><td>tests.test_user_service.TestUpdateUser</td><td>0.078s</td></tr>
+<tr><td>test_vehicle_list_admin</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>1.712s</td></tr>
+<tr><td>test_vehicle_list_standard_user</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>1.042s</td></tr>
+<tr><td>test_vehicle_list_unauthenticated_redirects</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>1.101s</td></tr>
+<tr><td>test_vehicle_detail_admin</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>1.049s</td></tr>
+<tr><td>test_vehicle_detail_standard_user_assigned</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>0.711s</td></tr>
+<tr><td>test_vehicle_detail_standard_user_unassigned</td><td>tests.test_vehicle_routes.TestVehicleRoutes</td><td>0.922s</td></tr>
+<tr><td>test_create_page_admin</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.840s</td></tr>
+<tr><td>test_create_page_standard_forbidden</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.816s</td></tr>
+<tr><td>test_create_vehicle_success</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.748s</td></tr>
+<tr><td>test_create_vehicle_validation_error</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.769s</td></tr>
+<tr><td>test_create_vehicle_duplicate_registration</td><td>tests.test_vehicle_routes.TestVehicleCreate</td><td>0.945s</td></tr>
+<tr><td>test_edit_page_admin</td><td>tests.test_vehicle_routes.TestVehicleEdit</td><td>0.751s</td></tr>
+<tr><td>test_edit_page_standard_forbidden</td><td>tests.test_vehicle_routes.TestVehicleEdit</td><td>0.506s</td></tr>
+<tr><td>test_edit_retired_vehicle_redirects</td><td>tests.test_vehicle_routes.TestVehicleEdit</td><td>1.102s</td></tr>
+<tr><td>test_edit_vehicle_success</td><td>tests.test_vehicle_routes.TestVehicleEdit</td><td>1.180s</td></tr>
+<tr><td>test_delete_vehicle_admin</td><td>tests.test_vehicle_routes.TestVehicleDelete</td><td>0.827s</td></tr>
+<tr><td>test_delete_vehicle_standard_forbidden</td><td>tests.test_vehicle_routes.TestVehicleDelete</td><td>0.602s</td></tr>
+<tr><td>test_returns_vehicle</td><td>tests.test_vehicle_service.TestGetVehicleById</td><td>0.825s</td></tr>
+<tr><td>test_raises_not_found_for_missing</td><td>tests.test_vehicle_service.TestGetVehicleById</td><td>0.630s</td></tr>
+<tr><td>test_raises_not_found_for_deleted</td><td>tests.test_vehicle_service.TestGetVehicleById</td><td>0.278s</td></tr>
+<tr><td>test_returns_all_non_deleted</td><td>tests.test_vehicle_service.TestGetAllVehicles</td><td>1.954s</td></tr>
+<tr><td>test_excludes_deleted</td><td>tests.test_vehicle_service.TestGetAllVehicles</td><td>0.613s</td></tr>
+<tr><td>test_ordered_by_registration</td><td>tests.test_vehicle_service.TestGetAllVehicles</td><td>0.185s</td></tr>
+<tr><td>test_returns_only_assigned_vehicles</td><td>tests.test_vehicle_service.TestGetVehiclesForUser</td><td>0.710s</td></tr>
+<tr><td>test_returns_empty_for_no_vehicles</td><td>tests.test_vehicle_service.TestGetVehiclesForUser</td><td>0.891s</td></tr>
+<tr><td>test_admin_can_access_any</td><td>tests.test_vehicle_service.TestCheckVehicleAccess</td><td>0.518s</td></tr>
+<tr><td>test_standard_user_can_access_assigned</td><td>tests.test_vehicle_service.TestCheckVehicleAccess</td><td>1.272s</td></tr>
+<tr><td>test_standard_user_cannot_access_unassigned</td><td>tests.test_vehicle_service.TestCheckVehicleAccess</td><td>0.814s</td></tr>
+<tr><td>test_create_success</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.343s</td></tr>
+<tr><td>test_create_with_driver</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>1.350s</td></tr>
+<tr><td>test_duplicate_registration_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.284s</td></tr>
+<tr><td>test_duplicate_fleet_reference_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.285s</td></tr>
+<tr><td>test_invalid_location_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.044s</td></tr>
 <tr><td>test_deleted_location_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.033s</td></tr>
-<tr><td>test_admin_driver_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.294s</td></tr>
-<tr><td>test_inactive_driver_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.299s</td></tr>
-<tr><td>test_nonexistent_driver_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.036s</td></tr>
-<tr><td>test_create_with_mileage</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.042s</td></tr>
-<tr><td>test_update_success</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.305s</td></tr>
-<tr><td>test_update_retired_vehicle_fails</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.302s</td></tr>
-<tr><td>test_update_duplicate_registration_fails</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.303s</td></tr>
-<tr><td>test_update_duplicate_fleet_ref_fails</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.312s</td></tr>
-<tr><td>test_update_same_registration_ok</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.302s</td></tr>
-<tr><td>test_soft_delete</td><td>tests.test_vehicle_service.TestSoftDeleteVehicle</td><td>0.300s</td></tr>
-<tr><td>test_soft_delete_nonexistent_raises</td><td>tests.test_vehicle_service.TestSoftDeleteVehicle</td><td>0.028s</td></tr>
+<tr><td>test_admin_driver_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.263s</td></tr>
+<tr><td>test_inactive_driver_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.295s</td></tr>
+<tr><td>test_nonexistent_driver_fails</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.186s</td></tr>
+<tr><td>test_create_with_mileage</td><td>tests.test_vehicle_service.TestCreateVehicle</td><td>0.094s</td></tr>
+<tr><td>test_update_success</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.376s</td></tr>
+<tr><td>test_update_retired_vehicle_fails</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.298s</td></tr>
+<tr><td>test_update_duplicate_registration_fails</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.779s</td></tr>
+<tr><td>test_update_duplicate_fleet_ref_fails</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.270s</td></tr>
+<tr><td>test_update_same_registration_ok</td><td>tests.test_vehicle_service.TestUpdateVehicle</td><td>0.333s</td></tr>
+<tr><td>test_soft_delete</td><td>tests.test_vehicle_service.TestSoftDeleteVehicle</td><td>0.267s</td></tr>
+<tr><td>test_soft_delete_nonexistent_raises</td><td>tests.test_vehicle_service.TestSoftDeleteVehicle</td><td>0.027s</td></tr>
 </table>
 <p style="margin-top:1.5rem;"><a class="rule-link" href="pytest.xml" target="_blank">pytest.xml</a> &nbsp; <a class="rule-link" href="coverage.json" target="_blank">coverage.json</a> &nbsp; </p>
 </div>
@@ -503,796 +503,796 @@
     &quot;passed&quot;: 332,
     &quot;failed&quot;: 0,
     &quot;errors&quot;: 0,
-    &quot;time&quot;: &quot;127.712&quot;,
+    &quot;time&quot;: &quot;183.838&quot;,
     &quot;cases&quot;: [
       {
         &quot;name&quot;: &quot;test_location_list&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestLocationAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.743&quot;,
+        &quot;time&quot;: &quot;0.862&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_location_list_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestLocationAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.571&quot;,
+        &quot;time&quot;: &quot;0.576&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_location_create_page&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestLocationAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.605&quot;,
+        &quot;time&quot;: &quot;0.792&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_location_create_success&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestLocationAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.582&quot;,
+        &quot;time&quot;: &quot;0.786&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_location_create_duplicate_name&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestLocationAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.575&quot;,
+        &quot;time&quot;: &quot;0.584&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_location_edit_page&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestLocationAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.589&quot;,
+        &quot;time&quot;: &quot;0.644&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_location_edit_success&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestLocationAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.586&quot;,
+        &quot;time&quot;: &quot;1.022&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_location_delete&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestLocationAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.582&quot;,
+        &quot;time&quot;: &quot;0.768&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_category_list&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestCategoryAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.584&quot;,
+        &quot;time&quot;: &quot;0.513&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_category_list_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestCategoryAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.571&quot;,
+        &quot;time&quot;: &quot;0.770&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_category_create_page&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestCategoryAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.576&quot;,
+        &quot;time&quot;: &quot;0.592&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_category_create_success&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestCategoryAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.582&quot;,
+        &quot;time&quot;: &quot;0.559&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_category_create_duplicate&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestCategoryAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.574&quot;,
+        &quot;time&quot;: &quot;0.632&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_user_list&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestUserAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.582&quot;,
+        &quot;time&quot;: &quot;0.762&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_user_list_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestUserAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.569&quot;,
+        &quot;time&quot;: &quot;0.517&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_user_create_page&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestUserAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.589&quot;,
+        &quot;time&quot;: &quot;0.515&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_user_create_success&quot;,
         &quot;classname&quot;: &quot;tests.test_admin_routes.TestUserAdminRoutes&quot;,
-        &quot;time&quot;: &quot;0.842&quot;,
+        &quot;time&quot;: &quot;1.958&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_driver_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_api_routes.TestDriverAPI&quot;,
-        &quot;time&quot;: &quot;0.833&quot;,
+        &quot;time&quot;: &quot;1.146&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_driver_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_api_routes.TestDriverAPI&quot;,
-        &quot;time&quot;: &quot;0.617&quot;,
+        &quot;time&quot;: &quot;1.033&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_driver_duplicate_username&quot;,
         &quot;classname&quot;: &quot;tests.test_api_routes.TestDriverAPI&quot;,
-        &quot;time&quot;: &quot;0.839&quot;,
+        &quot;time&quot;: &quot;1.514&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_driver_invalid_csrf&quot;,
         &quot;classname&quot;: &quot;tests.test_api_routes.TestDriverAPI&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.531&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_location_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_api_routes.TestLocationAPI&quot;,
-        &quot;time&quot;: &quot;0.572&quot;,
+        &quot;time&quot;: &quot;0.621&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_location_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_api_routes.TestLocationAPI&quot;,
-        &quot;time&quot;: &quot;0.569&quot;,
+        &quot;time&quot;: &quot;0.513&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_location_duplicate_name&quot;,
         &quot;classname&quot;: &quot;tests.test_api_routes.TestLocationAPI&quot;,
-        &quot;time&quot;: &quot;0.575&quot;,
+        &quot;time&quot;: &quot;0.507&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_location_invalid_csrf&quot;,
         &quot;classname&quot;: &quot;tests.test_api_routes.TestLocationAPI&quot;,
-        &quot;time&quot;: &quot;0.569&quot;,
+        &quot;time&quot;: &quot;0.537&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_hash_and_verify&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestPasswordHashing&quot;,
-        &quot;time&quot;: &quot;0.800&quot;,
+        &quot;time&quot;: &quot;0.701&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_different_hashes&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestPasswordHashing&quot;,
-        &quot;time&quot;: &quot;0.543&quot;,
+        &quot;time&quot;: &quot;0.968&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_generate_and_validate&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestCSRF&quot;,
-        &quot;time&quot;: &quot;0.030&quot;,
+        &quot;time&quot;: &quot;2.099&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_invalid_token&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestCSRF&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.059&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_and_get&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestSession&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.259&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_destroy&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestSession&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.040&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_single_session_per_user&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestSession&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.032&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_invalidate_user_sessions&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestSession&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.043&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_not_locked_initially&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestLockout&quot;,
-        &quot;time&quot;: &quot;0.028&quot;,
+        &quot;time&quot;: &quot;0.312&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_lockout_after_max_attempts&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestLockout&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.283&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_clear_attempts&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestLockout&quot;,
-        &quot;time&quot;: &quot;0.031&quot;,
+        &quot;time&quot;: &quot;0.032&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_login_page_loads&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestAuthRoutes&quot;,
-        &quot;time&quot;: &quot;0.044&quot;,
+        &quot;time&quot;: &quot;0.077&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_register_page_loads&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestAuthRoutes&quot;,
-        &quot;time&quot;: &quot;0.049&quot;,
+        &quot;time&quot;: &quot;0.103&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_register_and_login&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestAuthRoutes&quot;,
-        &quot;time&quot;: &quot;0.566&quot;,
+        &quot;time&quot;: &quot;0.492&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_login_with_valid_credentials&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestAuthRoutes&quot;,
-        &quot;time&quot;: &quot;0.563&quot;,
+        &quot;time&quot;: &quot;0.491&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_login_with_invalid_credentials&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestAuthRoutes&quot;,
-        &quot;time&quot;: &quot;0.560&quot;,
+        &quot;time&quot;: &quot;0.492&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_logout&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestAuthRoutes&quot;,
-        &quot;time&quot;: &quot;0.569&quot;,
+        &quot;time&quot;: &quot;0.668&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_register_duplicate_username&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestAuthRoutes&quot;,
-        &quot;time&quot;: &quot;0.306&quot;,
+        &quot;time&quot;: &quot;0.321&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_unauthenticated_redirect&quot;,
         &quot;classname&quot;: &quot;tests.test_auth.TestAuthRoutes&quot;,
-        &quot;time&quot;: &quot;0.039&quot;,
+        &quot;time&quot;: &quot;0.284&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_username_must_be_unique&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestUserRules&quot;,
-        &quot;time&quot;: &quot;0.298&quot;,
+        &quot;time&quot;: &quot;0.288&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_email_must_be_unique&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestUserRules&quot;,
-        &quot;time&quot;: &quot;0.317&quot;,
+        &quot;time&quot;: &quot;0.258&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_only_admin_can_create_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestUserRules&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.139&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_can_create_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestUserRules&quot;,
-        &quot;time&quot;: &quot;0.291&quot;,
+        &quot;time&quot;: &quot;0.549&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retired_vehicle_cannot_be_edited&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestVehicleRules&quot;,
-        &quot;time&quot;: &quot;0.308&quot;,
+        &quot;time&quot;: &quot;0.619&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_primary_driver_must_be_standard&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestVehicleRules&quot;,
-        &quot;time&quot;: &quot;0.573&quot;,
+        &quot;time&quot;: &quot;0.627&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_registration_unique&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestVehicleRules&quot;,
-        &quot;time&quot;: &quot;0.308&quot;,
+        &quot;time&quot;: &quot;0.330&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_mileage_must_not_decrease&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestMileageRules&quot;,
-        &quot;time&quot;: &quot;0.303&quot;,
+        &quot;time&quot;: &quot;0.297&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_can_add_higher_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestMileageRules&quot;,
-        &quot;time&quot;: &quot;0.305&quot;,
+        &quot;time&quot;: &quot;0.292&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_override_requires_reason&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestMileageRules&quot;,
-        &quot;time&quot;: &quot;0.560&quot;,
+        &quot;time&quot;: &quot;0.559&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_override_with_reason_succeeds&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestMileageRules&quot;,
-        &quot;time&quot;: &quot;0.565&quot;,
+        &quot;time&quot;: &quot;0.646&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retired_vehicle_cannot_receive_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestMileageRules&quot;,
-        &quot;time&quot;: &quot;0.566&quot;,
+        &quot;time&quot;: &quot;0.963&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_cannot_add_to_unassigned_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestMileageRules&quot;,
-        &quot;time&quot;: &quot;0.569&quot;,
+        &quot;time&quot;: &quot;0.715&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_requires_notes_enforced&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestMaintenanceRules&quot;,
-        &quot;time&quot;: &quot;0.309&quot;,
+        &quot;time&quot;: &quot;0.348&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retired_vehicle_cannot_receive_maintenance&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestMaintenanceRules&quot;,
-        &quot;time&quot;: &quot;0.683&quot;,
+        &quot;time&quot;: &quot;0.558&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_only_active_vehicle_can_be_retired&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestRetirementRules&quot;,
-        &quot;time&quot;: &quot;0.563&quot;,
+        &quot;time&quot;: &quot;0.670&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_only_one_pending_request&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestRetirementRules&quot;,
-        &quot;time&quot;: &quot;0.577&quot;,
+        &quot;time&quot;: &quot;0.624&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_can_only_retire_assigned_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestRetirementRules&quot;,
-        &quot;time&quot;: &quot;0.561&quot;,
+        &quot;time&quot;: &quot;0.515&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_approve_retires_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_business_rules.TestRetirementRules&quot;,
-        &quot;time&quot;: &quot;0.570&quot;,
+        &quot;time&quot;: &quot;0.802&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_request&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestGetDeletionRequestById&quot;,
-        &quot;time&quot;: &quot;0.580&quot;,
+        &quot;time&quot;: &quot;0.554&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestGetDeletionRequestById&quot;,
-        &quot;time&quot;: &quot;0.029&quot;,
+        &quot;time&quot;: &quot;0.041&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_all&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestGetAllDeletionRequests&quot;,
-        &quot;time&quot;: &quot;0.313&quot;,
+        &quot;time&quot;: &quot;0.295&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_filter_by_status&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestGetAllDeletionRequests&quot;,
-        &quot;time&quot;: &quot;0.312&quot;,
+        &quot;time&quot;: &quot;0.316&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_user_requests&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestGetDeletionRequestsForUser&quot;,
-        &quot;time&quot;: &quot;0.576&quot;,
+        &quot;time&quot;: &quot;0.746&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_for_maintenance_record&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestCreateDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.312&quot;,
+        &quot;time&quot;: &quot;0.870&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_for_mileage_record&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestCreateDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.312&quot;,
+        &quot;time&quot;: &quot;0.423&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_nonexistent_target_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestCreateDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.296&quot;,
+        &quot;time&quot;: &quot;0.487&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_already_deleted_target_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestCreateDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.309&quot;,
+        &quot;time&quot;: &quot;0.320&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_unassigned_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestCreateDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.570&quot;,
+        &quot;time&quot;: &quot;0.816&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_pending_request_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestCreateDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.320&quot;,
+        &quot;time&quot;: &quot;0.459&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_can_request_any_record&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestCreateDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.577&quot;,
+        &quot;time&quot;: &quot;0.567&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_invalid_target_type_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestCreateDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.292&quot;,
+        &quot;time&quot;: &quot;0.565&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_approve_deletes_maintenance_record&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestReviewDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.581&quot;,
+        &quot;time&quot;: &quot;0.768&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_approve_deletes_mileage_record_and_recalculates&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestReviewDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.583&quot;,
+        &quot;time&quot;: &quot;0.554&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_reject_keeps_record&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestReviewDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.579&quot;,
+        &quot;time&quot;: &quot;0.540&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_review_already_reviewed_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_deletion_service.TestReviewDeletionRequest&quot;,
-        &quot;time&quot;: &quot;0.577&quot;,
+        &quot;time&quot;: &quot;0.558&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_location&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestGetLocationById&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.113&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestGetLocationById&quot;,
-        &quot;time&quot;: &quot;0.030&quot;,
+        &quot;time&quot;: &quot;0.043&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found_for_deleted&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestGetLocationById&quot;,
-        &quot;time&quot;: &quot;0.034&quot;,
+        &quot;time&quot;: &quot;0.113&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_all&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestGetAllLocations&quot;,
-        &quot;time&quot;: &quot;0.037&quot;,
+        &quot;time&quot;: &quot;0.059&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_excludes_deleted&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestGetAllLocations&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.209&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_active_only_filter&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestGetAllLocations&quot;,
-        &quot;time&quot;: &quot;0.039&quot;,
+        &quot;time&quot;: &quot;0.049&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_ordered_by_name&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestGetAllLocations&quot;,
-        &quot;time&quot;: &quot;0.039&quot;,
+        &quot;time&quot;: &quot;0.037&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_minimal&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestCreateLocation&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.045&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_full&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestCreateLocation&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.041&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_name_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestCreateLocation&quot;,
-        &quot;time&quot;: &quot;0.037&quot;,
+        &quot;time&quot;: &quot;0.151&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_code_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestCreateLocation&quot;,
-        &quot;time&quot;: &quot;0.034&quot;,
+        &quot;time&quot;: &quot;0.033&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_empty_optional_fields_stored_as_none&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestCreateLocation&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.113&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_name&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestUpdateLocation&quot;,
-        &quot;time&quot;: &quot;0.040&quot;,
+        &quot;time&quot;: &quot;0.110&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_duplicate_name_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestUpdateLocation&quot;,
-        &quot;time&quot;: &quot;0.038&quot;,
+        &quot;time&quot;: &quot;0.141&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_duplicate_code_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestUpdateLocation&quot;,
-        &quot;time&quot;: &quot;0.037&quot;,
+        &quot;time&quot;: &quot;0.079&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_same_name_ok&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestUpdateLocation&quot;,
-        &quot;time&quot;: &quot;0.036&quot;,
+        &quot;time&quot;: &quot;0.150&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_is_active&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestUpdateLocation&quot;,
-        &quot;time&quot;: &quot;0.035&quot;,
+        &quot;time&quot;: &quot;0.047&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestSoftDeleteLocation&quot;,
-        &quot;time&quot;: &quot;0.034&quot;,
+        &quot;time&quot;: &quot;0.041&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete_nonexistent_raises&quot;,
         &quot;classname&quot;: &quot;tests.test_location_service.TestSoftDeleteLocation&quot;,
-        &quot;time&quot;: &quot;0.031&quot;,
+        &quot;time&quot;: &quot;0.070&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_list_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceListRoutes&quot;,
-        &quot;time&quot;: &quot;0.585&quot;,
+        &quot;time&quot;: &quot;0.704&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_list_standard&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceListRoutes&quot;,
-        &quot;time&quot;: &quot;0.582&quot;,
+        &quot;time&quot;: &quot;0.542&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_list_unauthenticated&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceListRoutes&quot;,
-        &quot;time&quot;: &quot;0.036&quot;,
+        &quot;time&quot;: &quot;0.054&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_page&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceCreateRoutes&quot;,
-        &quot;time&quot;: &quot;0.598&quot;,
+        &quot;time&quot;: &quot;0.612&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_record_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceCreateRoutes&quot;,
-        &quot;time&quot;: &quot;0.844&quot;,
+        &quot;time&quot;: &quot;0.741&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_record_standard_user&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceCreateRoutes&quot;,
-        &quot;time&quot;: &quot;0.583&quot;,
+        &quot;time&quot;: &quot;0.684&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_retired_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceCreateRoutes&quot;,
-        &quot;time&quot;: &quot;0.845&quot;,
+        &quot;time&quot;: &quot;0.758&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_page_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceEditRoutes&quot;,
-        &quot;time&quot;: &quot;0.862&quot;,
+        &quot;time&quot;: &quot;0.763&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_page_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceEditRoutes&quot;,
-        &quot;time&quot;: &quot;0.580&quot;,
+        &quot;time&quot;: &quot;0.510&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_record_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceEditRoutes&quot;,
-        &quot;time&quot;: &quot;0.858&quot;,
+        &quot;time&quot;: &quot;0.961&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_delete_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceDeleteRoutes&quot;,
-        &quot;time&quot;: &quot;0.848&quot;,
+        &quot;time&quot;: &quot;0.885&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_delete_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_routes.TestMaintenanceDeleteRoutes&quot;,
-        &quot;time&quot;: &quot;0.584&quot;,
+        &quot;time&quot;: &quot;0.524&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_category&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetCategoryById&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.040&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetCategoryById&quot;,
-        &quot;time&quot;: &quot;0.031&quot;,
+        &quot;time&quot;: &quot;0.160&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
@@ -1306,70 +1306,70 @@
       {
         &quot;name&quot;: &quot;test_returns_all&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetAllCategories&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.043&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_active_only_filter&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetAllCategories&quot;,
-        &quot;time&quot;: &quot;0.038&quot;,
+        &quot;time&quot;: &quot;0.034&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_excludes_deleted&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetAllCategories&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.033&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_basic&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateCategory&quot;,
-        &quot;time&quot;: &quot;0.031&quot;,
+        &quot;time&quot;: &quot;0.030&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_with_notes_required&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateCategory&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.038&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_with_description&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateCategory&quot;,
-        &quot;time&quot;: &quot;0.031&quot;,
+        &quot;time&quot;: &quot;0.051&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_name_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateCategory&quot;,
-        &quot;time&quot;: &quot;0.030&quot;,
+        &quot;time&quot;: &quot;0.031&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_name&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestUpdateCategory&quot;,
-        &quot;time&quot;: &quot;0.035&quot;,
+        &quot;time&quot;: &quot;0.061&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_requires_notes&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestUpdateCategory&quot;,
-        &quot;time&quot;: &quot;0.036&quot;,
+        &quot;time&quot;: &quot;0.033&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_duplicate_name_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestUpdateCategory&quot;,
-        &quot;time&quot;: &quot;0.037&quot;,
+        &quot;time&quot;: &quot;0.094&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
@@ -1383,168 +1383,168 @@
       {
         &quot;name&quot;: &quot;test_update_is_active&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestUpdateCategory&quot;,
-        &quot;time&quot;: &quot;0.038&quot;,
+        &quot;time&quot;: &quot;0.037&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestSoftDeleteCategory&quot;,
-        &quot;time&quot;: &quot;0.035&quot;,
+        &quot;time&quot;: &quot;0.031&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete_nonexistent_raises&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestSoftDeleteCategory&quot;,
-        &quot;time&quot;: &quot;0.030&quot;,
+        &quot;time&quot;: &quot;0.027&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_record&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetMaintenanceRecordById&quot;,
-        &quot;time&quot;: &quot;0.311&quot;,
+        &quot;time&quot;: &quot;0.333&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetMaintenanceRecordById&quot;,
-        &quot;time&quot;: &quot;0.033&quot;,
+        &quot;time&quot;: &quot;0.037&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_basic&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.307&quot;,
+        &quot;time&quot;: &quot;0.484&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_with_notes&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.303&quot;,
+        &quot;time&quot;: &quot;0.841&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_with_cost&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.563&quot;,
+        &quot;time&quot;: &quot;0.586&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_notes_required_enforced&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.301&quot;,
+        &quot;time&quot;: &quot;0.676&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_notes_required_with_notes_succeeds&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.305&quot;,
+        &quot;time&quot;: &quot;0.277&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retired_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.564&quot;,
+        &quot;time&quot;: &quot;1.048&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_deleted_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.573&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_inactive_category_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.624&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_unassigned_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.563&quot;,
+        &quot;time&quot;: &quot;0.537&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_can_log_any_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.564&quot;,
+        &quot;time&quot;: &quot;0.500&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_notes_whitespace_stripped&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.568&quot;,
+        &quot;time&quot;: &quot;0.499&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_empty_notes_stored_as_none&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestCreateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.571&quot;,
+        &quot;time&quot;: &quot;0.503&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_record&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestUpdateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.576&quot;,
+        &quot;time&quot;: &quot;0.626&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_notes_required_enforced&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestUpdateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.568&quot;,
+        &quot;time&quot;: &quot;0.637&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_retired_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestUpdateMaintenanceRecord&quot;,
-        &quot;time&quot;: &quot;0.578&quot;,
+        &quot;time&quot;: &quot;0.503&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_get_records_for_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetMaintenanceRecords&quot;,
-        &quot;time&quot;: &quot;0.579&quot;,
+        &quot;time&quot;: &quot;0.573&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_get_all_records&quot;,
         &quot;classname&quot;: &quot;tests.test_maintenance_service.TestGetMaintenanceRecords&quot;,
-        &quot;time&quot;: &quot;0.572&quot;,
+        &quot;time&quot;: &quot;0.579&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_mileage_list_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageListRoutes&quot;,
-        &quot;time&quot;: &quot;0.580&quot;,
+        &quot;time&quot;: &quot;0.636&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_mileage_list_standard&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageListRoutes&quot;,
-        &quot;time&quot;: &quot;0.579&quot;,
+        &quot;time&quot;: &quot;1.212&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
@@ -1558,623 +1558,623 @@
       {
         &quot;name&quot;: &quot;test_create_page&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageCreateRoutes&quot;,
-        &quot;time&quot;: &quot;0.592&quot;,
+        &quot;time&quot;: &quot;0.734&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_mileage_standard_user&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageCreateRoutes&quot;,
-        &quot;time&quot;: &quot;0.580&quot;,
+        &quot;time&quot;: &quot;0.978&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_mileage_lower_than_current_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageCreateRoutes&quot;,
-        &quot;time&quot;: &quot;0.579&quot;,
+        &quot;time&quot;: &quot;0.540&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_mileage_admin_override&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageCreateRoutes&quot;,
-        &quot;time&quot;: &quot;0.842&quot;,
+        &quot;time&quot;: &quot;0.825&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_page_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageEditRoutes&quot;,
-        &quot;time&quot;: &quot;0.859&quot;,
+        &quot;time&quot;: &quot;0.964&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_page_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageEditRoutes&quot;,
-        &quot;time&quot;: &quot;0.579&quot;,
+        &quot;time&quot;: &quot;0.642&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_mileage_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageEditRoutes&quot;,
-        &quot;time&quot;: &quot;0.846&quot;,
+        &quot;time&quot;: &quot;1.026&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_delete_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageDeleteRoutes&quot;,
-        &quot;time&quot;: &quot;0.845&quot;,
+        &quot;time&quot;: &quot;1.127&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_delete_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_routes.TestMileageDeleteRoutes&quot;,
-        &quot;time&quot;: &quot;0.575&quot;,
+        &quot;time&quot;: &quot;1.008&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_record&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestGetMileageRecordById&quot;,
-        &quot;time&quot;: &quot;0.563&quot;,
+        &quot;time&quot;: &quot;0.797&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestGetMileageRecordById&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.251&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found_for_deleted&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestGetMileageRecordById&quot;,
-        &quot;time&quot;: &quot;0.566&quot;,
+        &quot;time&quot;: &quot;0.554&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_records_for_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestGetRecordsForVehicle&quot;,
-        &quot;time&quot;: &quot;0.571&quot;,
+        &quot;time&quot;: &quot;0.539&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_excludes_deleted&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestGetRecordsForVehicle&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.622&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_higher_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.301&quot;,
+        &quot;time&quot;: &quot;0.597&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_lower_mileage_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.299&quot;,
+        &quot;time&quot;: &quot;0.736&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_unassigned_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.560&quot;,
+        &quot;time&quot;: &quot;0.490&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_override_ignored&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.305&quot;,
+        &quot;time&quot;: &quot;0.278&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_higher_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.568&quot;,
+        &quot;time&quot;: &quot;0.845&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_lower_without_override_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.564&quot;,
+        &quot;time&quot;: &quot;0.636&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_override_without_reason_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.575&quot;,
+        &quot;time&quot;: &quot;0.562&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_override_with_reason_succeeds&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.566&quot;,
+        &quot;time&quot;: &quot;0.586&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retired_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.562&quot;,
+        &quot;time&quot;: &quot;0.524&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_deleted_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.563&quot;,
+        &quot;time&quot;: &quot;0.947&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_updates_current_mileage_on_higher&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.565&quot;,
+        &quot;time&quot;: &quot;0.515&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_override_recalculates_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestCreateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.578&quot;,
+        &quot;time&quot;: &quot;0.516&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_reading&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestUpdateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.572&quot;,
+        &quot;time&quot;: &quot;0.601&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_override_without_reason_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestUpdateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.563&quot;,
+        &quot;time&quot;: &quot;0.996&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_changes_reading_value&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestUpdateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.574&quot;,
+        &quot;time&quot;: &quot;0.556&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_retired_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestUpdateMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.565&quot;,
+        &quot;time&quot;: &quot;0.617&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestSoftDeleteMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.570&quot;,
+        &quot;time&quot;: &quot;0.655&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete_recalculates_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestSoftDeleteMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.578&quot;,
+        &quot;time&quot;: &quot;0.799&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete_all_records_resets_to_zero&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestSoftDeleteMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.570&quot;,
+        &quot;time&quot;: &quot;0.495&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete_nonexistent_raises&quot;,
         &quot;classname&quot;: &quot;tests.test_mileage_service.TestSoftDeleteMileageRecord&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.026&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retirement_list_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.581&quot;,
+        &quot;time&quot;: &quot;0.503&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retirement_list_standard&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.571&quot;,
+        &quot;time&quot;: &quot;0.503&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retirement_list_unauthenticated&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.034&quot;,
+        &quot;time&quot;: &quot;0.033&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retirement_create_page&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.592&quot;,
+        &quot;time&quot;: &quot;0.717&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_creates_request&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.587&quot;,
+        &quot;time&quot;: &quot;0.690&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_retires_directly&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.839&quot;,
+        &quot;time&quot;: &quot;1.092&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retirement_detail_page&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.856&quot;,
+        &quot;time&quot;: &quot;0.925&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_approve_retirement&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.846&quot;,
+        &quot;time&quot;: &quot;0.880&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_reject_retirement&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.847&quot;,
+        &quot;time&quot;: &quot;0.786&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_review_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestRetirementRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.593&quot;,
+        &quot;time&quot;: &quot;0.571&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_deletion_list_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.578&quot;,
+        &quot;time&quot;: &quot;0.504&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_deletion_list_standard&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.573&quot;,
+        &quot;time&quot;: &quot;0.515&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_deletion_list_unauthenticated&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.037&quot;,
+        &quot;time&quot;: &quot;0.052&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_deletion_create_page&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.595&quot;,
+        &quot;time&quot;: &quot;0.522&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_deletion_request&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.586&quot;,
+        &quot;time&quot;: &quot;0.518&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_deletion_detail_page&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.866&quot;,
+        &quot;time&quot;: &quot;0.772&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_approve_deletion&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.860&quot;,
+        &quot;time&quot;: &quot;0.781&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_reject_deletion&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.852&quot;,
+        &quot;time&quot;: &quot;1.305&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_review_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_request_routes.TestDeletionRequestRoutes&quot;,
-        &quot;time&quot;: &quot;0.589&quot;,
+        &quot;time&quot;: &quot;1.319&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_request&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestGetRetirementRequestById&quot;,
-        &quot;time&quot;: &quot;0.561&quot;,
+        &quot;time&quot;: &quot;0.834&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestGetRetirementRequestById&quot;,
-        &quot;time&quot;: &quot;0.031&quot;,
+        &quot;time&quot;: &quot;0.032&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_all&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestGetAllRequests&quot;,
-        &quot;time&quot;: &quot;0.564&quot;,
+        &quot;time&quot;: &quot;0.505&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_filter_by_status&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestGetAllRequests&quot;,
-        &quot;time&quot;: &quot;0.565&quot;,
+        &quot;time&quot;: &quot;0.495&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_user_requests&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestGetRequestsForUser&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.577&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_creates_request&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestCreateRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.304&quot;,
+        &quot;time&quot;: &quot;0.457&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_creates_request&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestCreateRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.561&quot;,
+        &quot;time&quot;: &quot;0.644&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retired_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestCreateRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.560&quot;,
+        &quot;time&quot;: &quot;0.498&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_pending_retirement_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestCreateRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.560&quot;,
+        &quot;time&quot;: &quot;0.519&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_pending_request_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestCreateRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.566&quot;,
+        &quot;time&quot;: &quot;0.670&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_unassigned_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestCreateRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.557&quot;,
+        &quot;time&quot;: &quot;0.503&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_deleted_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestCreateRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.559&quot;,
+        &quot;time&quot;: &quot;0.697&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_approve_retires_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestReviewRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.529&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_approve_sets_retirement_reason&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestReviewRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.565&quot;,
+        &quot;time&quot;: &quot;0.622&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_reject_restores_active&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestReviewRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.572&quot;,
+        &quot;time&quot;: &quot;0.630&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_reject_with_review_notes&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestReviewRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.789&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_review_already_reviewed_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestReviewRetirementRequest&quot;,
-        &quot;time&quot;: &quot;0.565&quot;,
+        &quot;time&quot;: &quot;0.589&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_retire_directly&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestRetireVehicleDirectly&quot;,
-        &quot;time&quot;: &quot;0.558&quot;,
+        &quot;time&quot;: &quot;0.497&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retire_non_active_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestRetireVehicleDirectly&quot;,
-        &quot;time&quot;: &quot;0.562&quot;,
+        &quot;time&quot;: &quot;0.950&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retire_deleted_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_retirement_service.TestRetireVehicleDirectly&quot;,
-        &quot;time&quot;: &quot;0.559&quot;,
+        &quot;time&quot;: &quot;1.732&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_can_access_admin_pages&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestRoleRestrictions&quot;,
-        &quot;time&quot;: &quot;0.568&quot;,
+        &quot;time&quot;: &quot;0.797&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_cannot_access_admin_pages&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestRoleRestrictions&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.693&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_cannot_create_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestRoleRestrictions&quot;,
-        &quot;time&quot;: &quot;0.567&quot;,
+        &quot;time&quot;: &quot;0.992&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_can_create_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestRoleRestrictions&quot;,
-        &quot;time&quot;: &quot;0.598&quot;,
+        &quot;time&quot;: &quot;0.696&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_cannot_edit_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestRoleRestrictions&quot;,
-        &quot;time&quot;: &quot;0.566&quot;,
+        &quot;time&quot;: &quot;0.716&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_cannot_delete_maintenance&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestRoleRestrictions&quot;,
-        &quot;time&quot;: &quot;0.566&quot;,
+        &quot;time&quot;: &quot;1.334&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_dashboard_shows_for_standard&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestRoleRestrictions&quot;,
-        &quot;time&quot;: &quot;0.598&quot;,
+        &quot;time&quot;: &quot;0.890&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_dashboard_shows_for_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestRoleRestrictions&quot;,
-        &quot;time&quot;: &quot;0.586&quot;,
+        &quot;time&quot;: &quot;0.894&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_register_password_mismatch&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestValidationRoutes&quot;,
-        &quot;time&quot;: &quot;0.036&quot;,
+        &quot;time&quot;: &quot;0.168&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_register_short_password&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestValidationRoutes&quot;,
-        &quot;time&quot;: &quot;0.035&quot;,
+        &quot;time&quot;: &quot;0.168&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicle_create_validation&quot;,
         &quot;classname&quot;: &quot;tests.test_routes.TestValidationRoutes&quot;,
-        &quot;time&quot;: &quot;0.572&quot;,
+        &quot;time&quot;: &quot;0.816&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_current_format&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.028&quot;,
+        &quot;time&quot;: &quot;0.400&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_prefix_format&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.025&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_invalid_registration&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.186&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_empty_registration&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.029&quot;,
+        &quot;time&quot;: &quot;0.350&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_invalid_vehicle_type&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.031&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
@@ -2188,560 +2188,560 @@
       {
         &quot;name&quot;: &quot;test_year_too_high&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.026&quot;,
+        &quot;time&quot;: &quot;0.223&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_negative_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.029&quot;,
+        &quot;time&quot;: &quot;0.220&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_registration_case_insensitive&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.030&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_empty_make_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestVehicleSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.034&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_registration&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRegisterSchema&quot;,
-        &quot;time&quot;: &quot;0.029&quot;,
+        &quot;time&quot;: &quot;0.915&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_password_mismatch&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRegisterSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.241&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_short_password&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRegisterSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.036&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_short_username&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRegisterSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.093&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_location&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestLocationSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.555&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_empty_name_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestLocationSchema&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.028&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_empty_code_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestLocationSchema&quot;,
-        &quot;time&quot;: &quot;0.028&quot;,
+        &quot;time&quot;: &quot;0.046&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_category&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestMaintenanceSchemas&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.135&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_record&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestMaintenanceSchemas&quot;,
-        &quot;time&quot;: &quot;0.032&quot;,
+        &quot;time&quot;: &quot;0.287&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_negative_mileage_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestMaintenanceSchemas&quot;,
-        &quot;time&quot;: &quot;0.029&quot;,
+        &quot;time&quot;: &quot;0.223&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestMileageSchema&quot;,
-        &quot;time&quot;: &quot;0.026&quot;,
+        &quot;time&quot;: &quot;0.214&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_negative_reading_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestMileageSchema&quot;,
-        &quot;time&quot;: &quot;0.026&quot;,
+        &quot;time&quot;: &quot;0.716&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_retirement_request&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRequestSchemas&quot;,
-        &quot;time&quot;: &quot;0.030&quot;,
+        &quot;time&quot;: &quot;0.530&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_retirement_reason_too_short&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRequestSchemas&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.281&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_retirement_review&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRequestSchemas&quot;,
-        &quot;time&quot;: &quot;0.030&quot;,
+        &quot;time&quot;: &quot;0.486&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_invalid_review_action&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRequestSchemas&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.146&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_deletion_request&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRequestSchemas&quot;,
-        &quot;time&quot;: &quot;0.030&quot;,
+        &quot;time&quot;: &quot;0.028&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_invalid_deletion_target_type&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestRequestSchemas&quot;,
-        &quot;time&quot;: &quot;0.028&quot;,
+        &quot;time&quot;: &quot;0.213&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_valid_user&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestUserSchema&quot;,
-        &quot;time&quot;: &quot;0.028&quot;,
+        &quot;time&quot;: &quot;0.228&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_short_username_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_schemas.TestUserSchema&quot;,
-        &quot;time&quot;: &quot;0.030&quot;,
+        &quot;time&quot;: &quot;0.036&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_user&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestGetUserById&quot;,
-        &quot;time&quot;: &quot;0.290&quot;,
+        &quot;time&quot;: &quot;0.314&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestGetUserById&quot;,
-        &quot;time&quot;: &quot;0.028&quot;,
+        &quot;time&quot;: &quot;0.103&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_all&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestGetAllUsers&quot;,
-        &quot;time&quot;: &quot;0.553&quot;,
+        &quot;time&quot;: &quot;0.649&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_ordered_by_username&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestGetAllUsers&quot;,
-        &quot;time&quot;: &quot;0.555&quot;,
+        &quot;time&quot;: &quot;0.644&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_standard_only&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestGetStandardUsers&quot;,
-        &quot;time&quot;: &quot;0.554&quot;,
+        &quot;time&quot;: &quot;0.668&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_active_only_default&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestGetStandardUsers&quot;,
-        &quot;time&quot;: &quot;0.296&quot;,
+        &quot;time&quot;: &quot;0.483&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_include_inactive&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestGetStandardUsers&quot;,
-        &quot;time&quot;: &quot;0.295&quot;,
+        &quot;time&quot;: &quot;1.818&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_standard_user&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.290&quot;,
+        &quot;time&quot;: &quot;1.424&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_admin_by_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.297&quot;,
+        &quot;time&quot;: &quot;0.766&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_admin_by_standard_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.029&quot;,
+        &quot;time&quot;: &quot;0.316&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_username_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.292&quot;,
+        &quot;time&quot;: &quot;0.642&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_email_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.295&quot;,
+        &quot;time&quot;: &quot;0.612&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_employee_number_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.295&quot;,
+        &quot;time&quot;: &quot;0.319&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_empty_employee_number_ok&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.292&quot;,
+        &quot;time&quot;: &quot;1.412&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_with_location&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.294&quot;,
+        &quot;time&quot;: &quot;1.328&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_password_is_hashed&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestCreateUser&quot;,
-        &quot;time&quot;: &quot;0.288&quot;,
+        &quot;time&quot;: &quot;1.492&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_name&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestUpdateUser&quot;,
-        &quot;time&quot;: &quot;0.296&quot;,
+        &quot;time&quot;: &quot;0.783&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_email&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestUpdateUser&quot;,
-        &quot;time&quot;: &quot;0.295&quot;,
+        &quot;time&quot;: &quot;1.921&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_duplicate_email_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestUpdateUser&quot;,
-        &quot;time&quot;: &quot;0.558&quot;,
+        &quot;time&quot;: &quot;2.277&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_same_email_ok&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestUpdateUser&quot;,
-        &quot;time&quot;: &quot;0.295&quot;,
+        &quot;time&quot;: &quot;0.851&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_duplicate_employee_number_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestUpdateUser&quot;,
-        &quot;time&quot;: &quot;0.558&quot;,
+        &quot;time&quot;: &quot;1.057&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_is_active&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestUpdateUser&quot;,
-        &quot;time&quot;: &quot;0.296&quot;,
+        &quot;time&quot;: &quot;1.108&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_nonexistent_raises&quot;,
         &quot;classname&quot;: &quot;tests.test_user_service.TestUpdateUser&quot;,
-        &quot;time&quot;: &quot;0.027&quot;,
+        &quot;time&quot;: &quot;0.078&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicle_list_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleRoutes&quot;,
-        &quot;time&quot;: &quot;0.861&quot;,
+        &quot;time&quot;: &quot;1.712&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicle_list_standard_user&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleRoutes&quot;,
-        &quot;time&quot;: &quot;0.574&quot;,
+        &quot;time&quot;: &quot;1.042&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicle_list_unauthenticated_redirects&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleRoutes&quot;,
-        &quot;time&quot;: &quot;0.034&quot;,
+        &quot;time&quot;: &quot;1.101&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicle_detail_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleRoutes&quot;,
-        &quot;time&quot;: &quot;0.885&quot;,
+        &quot;time&quot;: &quot;1.049&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicle_detail_standard_user_assigned&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleRoutes&quot;,
-        &quot;time&quot;: &quot;0.574&quot;,
+        &quot;time&quot;: &quot;0.711&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicle_detail_standard_user_unassigned&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleRoutes&quot;,
-        &quot;time&quot;: &quot;0.574&quot;,
+        &quot;time&quot;: &quot;0.922&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_page_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleCreate&quot;,
-        &quot;time&quot;: &quot;0.574&quot;,
+        &quot;time&quot;: &quot;0.840&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_page_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleCreate&quot;,
-        &quot;time&quot;: &quot;0.569&quot;,
+        &quot;time&quot;: &quot;0.816&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_vehicle_success&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleCreate&quot;,
-        &quot;time&quot;: &quot;0.581&quot;,
+        &quot;time&quot;: &quot;0.748&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_vehicle_validation_error&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleCreate&quot;,
-        &quot;time&quot;: &quot;0.573&quot;,
+        &quot;time&quot;: &quot;0.769&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_vehicle_duplicate_registration&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleCreate&quot;,
-        &quot;time&quot;: &quot;0.838&quot;,
+        &quot;time&quot;: &quot;0.945&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_page_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleEdit&quot;,
-        &quot;time&quot;: &quot;0.866&quot;,
+        &quot;time&quot;: &quot;0.751&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_page_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleEdit&quot;,
-        &quot;time&quot;: &quot;0.573&quot;,
+        &quot;time&quot;: &quot;0.506&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_retired_vehicle_redirects&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleEdit&quot;,
-        &quot;time&quot;: &quot;0.838&quot;,
+        &quot;time&quot;: &quot;1.102&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_edit_vehicle_success&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleEdit&quot;,
-        &quot;time&quot;: &quot;0.841&quot;,
+        &quot;time&quot;: &quot;1.180&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_delete_vehicle_admin&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleDelete&quot;,
-        &quot;time&quot;: &quot;0.838&quot;,
+        &quot;time&quot;: &quot;0.827&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_delete_vehicle_standard_forbidden&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_routes.TestVehicleDelete&quot;,
-        &quot;time&quot;: &quot;0.571&quot;,
+        &quot;time&quot;: &quot;0.602&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_vehicle&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestGetVehicleById&quot;,
-        &quot;time&quot;: &quot;0.299&quot;,
+        &quot;time&quot;: &quot;0.825&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found_for_missing&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestGetVehicleById&quot;,
-        &quot;time&quot;: &quot;0.031&quot;,
+        &quot;time&quot;: &quot;0.630&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_raises_not_found_for_deleted&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestGetVehicleById&quot;,
-        &quot;time&quot;: &quot;0.302&quot;,
+        &quot;time&quot;: &quot;0.278&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_all_non_deleted&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestGetAllVehicles&quot;,
-        &quot;time&quot;: &quot;0.303&quot;,
+        &quot;time&quot;: &quot;1.954&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_excludes_deleted&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestGetAllVehicles&quot;,
-        &quot;time&quot;: &quot;0.297&quot;,
+        &quot;time&quot;: &quot;0.613&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_ordered_by_registration&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestGetAllVehicles&quot;,
-        &quot;time&quot;: &quot;0.044&quot;,
+        &quot;time&quot;: &quot;0.185&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_only_assigned_vehicles&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestGetVehiclesForUser&quot;,
-        &quot;time&quot;: &quot;0.301&quot;,
+        &quot;time&quot;: &quot;0.710&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_returns_empty_for_no_vehicles&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestGetVehiclesForUser&quot;,
-        &quot;time&quot;: &quot;0.289&quot;,
+        &quot;time&quot;: &quot;0.891&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_can_access_any&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCheckVehicleAccess&quot;,
-        &quot;time&quot;: &quot;0.295&quot;,
+        &quot;time&quot;: &quot;0.518&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_can_access_assigned&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCheckVehicleAccess&quot;,
-        &quot;time&quot;: &quot;0.297&quot;,
+        &quot;time&quot;: &quot;1.272&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_standard_user_cannot_access_unassigned&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCheckVehicleAccess&quot;,
-        &quot;time&quot;: &quot;0.301&quot;,
+        &quot;time&quot;: &quot;0.814&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_success&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.034&quot;,
+        &quot;time&quot;: &quot;0.343&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_with_driver&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.299&quot;,
+        &quot;time&quot;: &quot;1.350&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_registration_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.296&quot;,
+        &quot;time&quot;: &quot;0.284&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_duplicate_fleet_reference_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.298&quot;,
+        &quot;time&quot;: &quot;0.285&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_invalid_location_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.028&quot;,
+        &quot;time&quot;: &quot;0.044&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
@@ -2755,90 +2755,90 @@
       {
         &quot;name&quot;: &quot;test_admin_driver_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.294&quot;,
+        &quot;time&quot;: &quot;0.263&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_inactive_driver_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.299&quot;,
+        &quot;time&quot;: &quot;0.295&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_nonexistent_driver_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.036&quot;,
+        &quot;time&quot;: &quot;0.186&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_create_with_mileage&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestCreateVehicle&quot;,
-        &quot;time&quot;: &quot;0.042&quot;,
+        &quot;time&quot;: &quot;0.094&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_success&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestUpdateVehicle&quot;,
-        &quot;time&quot;: &quot;0.305&quot;,
+        &quot;time&quot;: &quot;0.376&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_retired_vehicle_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestUpdateVehicle&quot;,
-        &quot;time&quot;: &quot;0.302&quot;,
+        &quot;time&quot;: &quot;0.298&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_duplicate_registration_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestUpdateVehicle&quot;,
-        &quot;time&quot;: &quot;0.303&quot;,
+        &quot;time&quot;: &quot;0.779&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_duplicate_fleet_ref_fails&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestUpdateVehicle&quot;,
-        &quot;time&quot;: &quot;0.312&quot;,
+        &quot;time&quot;: &quot;0.270&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_update_same_registration_ok&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestUpdateVehicle&quot;,
-        &quot;time&quot;: &quot;0.302&quot;,
+        &quot;time&quot;: &quot;0.333&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestSoftDeleteVehicle&quot;,
-        &quot;time&quot;: &quot;0.300&quot;,
+        &quot;time&quot;: &quot;0.267&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_soft_delete_nonexistent_raises&quot;,
         &quot;classname&quot;: &quot;tests.test_vehicle_service.TestSoftDeleteVehicle&quot;,
-        &quot;time&quot;: &quot;0.028&quot;,
+        &quot;time&quot;: &quot;0.027&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       }
     ]
   },
   &quot;coverage_summary&quot;: {
-    &quot;covered_lines&quot;: 2245,
-    &quot;num_statements&quot;: 2941,
-    &quot;percent_covered&quot;: 76.33458007480449,
+    &quot;covered_lines&quot;: 2247,
+    &quot;num_statements&quot;: 2944,
+    &quot;percent_covered&quot;: 76.32472826086956,
     &quot;percent_covered_display&quot;: &quot;76&quot;,
-    &quot;missing_lines&quot;: 696,
+    &quot;missing_lines&quot;: 697,
     &quot;excluded_lines&quot;: 0,
-    &quot;percent_statements_covered&quot;: 76.33458007480449,
+    &quot;percent_statements_covered&quot;: 76.32472826086956,
     &quot;percent_statements_covered_display&quot;: &quot;76&quot;
   }
 }</pre>
