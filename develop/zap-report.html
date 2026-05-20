@@ -212,7 +212,7 @@ td {
 	</h2>
 
 	<h3>
-		Generated on Wed, 20 May 2026 15:11:20
+		Generated on Wed, 20 May 2026 15:20:42
 	</h3>
 
 	<h3>
@@ -481,7 +481,7 @@ td {
 					<div>Percentage of slow responses</div>
 				</td>
 				<td align="center">
-					<div>15 %</div>
+					<div>20 %</div>
 				</td>
 				</tr>
 			
@@ -547,7 +547,7 @@ td {
 				<td align="center" class="risk-0">Informational</td>
 				
 				
-				<td align="center">11</td>
+				<td align="center">14</td>
 				
 			</tr>
 		</table>
@@ -1373,12 +1373,12 @@ td {
 					<tr>
 						<td width="20%"
 							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:8000/static/css/style.css">http://localhost:8000/static/css/style.css</a></td>
+						<td width="80%"><a href="http://localhost:8000/sitemap.xml">http://localhost:8000/sitemap.xml</a></td>
 					</tr>
 					<tr>
 						<td width="20%"
 							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:8000/static/css/style.css</td>
+						<td width="80%">http://localhost:8000/sitemap.xml</td>
 					</tr>
 					<tr>
 						<td width="20%"
@@ -1539,6 +1539,186 @@ td {
 							<br />
 						
 							<div>/dashboard</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/login">http://localhost:8000/auth/login</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,next,password,username)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%">next</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+							<br />
+						
+							<div>http://localhost:8000/auth/login</div>
+							<br />
+						
+							<div>appears to include user input in:</div>
+							<br />
+						
+							<div>a(n) [a] tag [href] attribute</div>
+							<br />
+						
+							<div>The user input found was:</div>
+							<br />
+						
+							<div>next=/dashboard</div>
+							<br />
+						
+							<div>The user-controlled value was:</div>
+							<br />
+						
+							<div>/dashboard</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/login">http://localhost:8000/auth/login</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,next,password,username)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%">password</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+							<br />
+						
+							<div>http://localhost:8000/auth/login</div>
+							<br />
+						
+							<div>appears to include user input in:</div>
+							<br />
+						
+							<div>a(n) [input] tag [value] attribute</div>
+							<br />
+						
+							<div>The user input found was:</div>
+							<br />
+						
+							<div>password=ZAP</div>
+							<br />
+						
+							<div>The user-controlled value was:</div>
+							<br />
+						
+							<div>zap</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/login">http://localhost:8000/auth/login</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,next,password,username)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%">username</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+							<br />
+						
+							<div>http://localhost:8000/auth/login</div>
+							<br />
+						
+							<div>appears to include user input in:</div>
+							<br />
+						
+							<div>a(n) [input] tag [value] attribute</div>
+							<br />
+						
+							<div>The user input found was:</div>
+							<br />
+						
+							<div>username=ZAP</div>
+							<br />
+						
+							<div>The user-controlled value was:</div>
+							<br />
+						
+							<div>zap</div>
 							
 						</td>
 					</tr>
@@ -2147,7 +2327,7 @@ td {
 					<td width="20%">Instances</td>
 					
 					
-					<td width="80%">11</td>
+					<td width="80%">14</td>
 					
 				</tr>
 				<tr>
