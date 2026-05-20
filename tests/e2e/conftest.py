@@ -78,7 +78,7 @@ def seed_data(app_server):
         **os.environ,
         "DATABASE_URL": "sqlite:///./test_e2e.db",
     }
-    subprocess.run(
+    subprocess.run(  # noqa: S603
         [sys.executable, "seed.py"],
         env=env,
         check=True,
@@ -86,7 +86,7 @@ def seed_data(app_server):
     )
     return {
         "admin": {"username": "admin", "password": "admin123!"},
-        "driver": {"username": "driver1", "password": "driver123!"},
+        "driver": {"username": "jdriver", "password": "driver123!"},
     }
 
 

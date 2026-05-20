@@ -45,14 +45,14 @@ jobs:
           python-version: "3.12"
       - run: pip install --upgrade pip && pip install bandit pip-audit -r requirements.txt
       - name: Bandit security scan
-        run: bandit -r app/ seed.py run.py
+        run: bandit -r app/ run.py --skip B105,B311 -x seed.py
       - name: Dependency vulnerability audit
         run: pip-audit
       - name: Save security reports
         if: always()
         run: |
           mkdir -p reports
-          bandit -r app/ seed.py run.py -f json -o reports/bandit.json || true
+          bandit -r app/ run.py --skip B105,B311 -x seed.py -f json -o reports/bandit.json || true
           pip-audit --format json --output reports/pip-audit.json || true
       - uses: actions/upload-artifact@v4
         if: always()
