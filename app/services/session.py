@@ -16,6 +16,15 @@ FLASH_PREFIX = "flash:"
 LOGIN_ATTEMPTS_PREFIX = "login_attempts:"
 
 
+def get_client_ip(request) -> str:
+    """Extract the real client IP, respecting X-Forwarded-For behind proxies."""
+    forwarded = request.headers.get("x-forwarded-for", "")
+    if forwarded:
+        # X-Forwarded-For: client, proxy1, proxy2 — first entry is the real client
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
+
+
 def make_client_fingerprint(ip: str, user_agent: str) -> str:
     """Hash IP + User-Agent to bind a session to a specific client."""
     raw = f"{ip}|{user_agent}"

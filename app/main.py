@@ -20,7 +20,7 @@ from app.models.page_visit import PageVisit  # noqa: F401
 from app.models.retirement_request import RetirementRequest  # noqa: F401
 from app.models.user import User  # noqa: F401
 from app.models.vehicle import Vehicle  # noqa: F401
-from app.services.session import destroy_session, get_session, make_client_fingerprint, refresh_session
+from app.services.session import destroy_session, get_client_ip, get_session, make_client_fingerprint, refresh_session
 from app.utils.template import render
 
 
@@ -40,7 +40,7 @@ class SessionMiddleware(BaseHTTPMiddleware):
                 )
             elif session_data.get("fingerprint"):
                 expected = session_data["fingerprint"]
-                actual = make_client_fingerprint(request.client.host, request.headers.get("user-agent", ""))
+                actual = make_client_fingerprint(get_client_ip(request), request.headers.get("user-agent", ""))
                 if actual != expected:
                     logger.warning(
                         "Session fingerprint mismatch for %s... (path=%s)",

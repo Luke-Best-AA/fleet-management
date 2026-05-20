@@ -14,7 +14,7 @@ from app.security.csrf import validate_csrf_token
 from app.services import auth as auth_service
 from app.services import session as session_service
 from app.services import user as user_service
-from app.services.session import make_client_fingerprint
+from app.services.session import get_client_ip, make_client_fingerprint
 from app.utils.flash import flash
 from app.utils.forms import parse_errors
 from app.utils.template import login_redirect, render
@@ -58,7 +58,7 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
             {"form_data": form_data, "next_url": next_url, "errors": parse_errors(e)},
         )
 
-    fingerprint = make_client_fingerprint(request.client.host, request.headers.get("user-agent", ""))
+    fingerprint = make_client_fingerprint(get_client_ip(request), request.headers.get("user-agent", ""))
 
     try:
         session_id, user = auth_service.login(db, schema.username, schema.password, fingerprint=fingerprint)
@@ -253,7 +253,7 @@ async def register_post(request: Request, db: Session = Depends(get_db)):
         )
 
     # Log the user in automatically
-    fingerprint = make_client_fingerprint(request.client.host, request.headers.get("user-agent", ""))
+    fingerprint = make_client_fingerprint(get_client_ip(request), request.headers.get("user-agent", ""))
     session_id, user = auth_service.login(db, schema.username, schema.password, fingerprint=fingerprint)
     flash(session_id, "Registration successful! Welcome.", "success")
     response = RedirectResponse("/dashboard", status_code=303)
