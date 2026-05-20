@@ -212,7 +212,7 @@ td {
 	</h2>
 
 	<h3>
-		Generated on Wed, 20 May 2026 12:35:44
+		Generated on Wed, 20 May 2026 12:55:41
 	</h3>
 
 	<h3>
@@ -467,24 +467,6 @@ td {
 				</td>
 				</tr>
 			
-				<tr>
-				<td class="risk-0">
-					<div>Info</div>
-				</td>
-				<td>
-					<div>Informational</div>
-				</td>
-				<td>
-					<div>http://localhost:8000</div>
-				</td>
-				<td>
-					<div>Percentage of slow responses</div>
-				</td>
-				<td align="center">
-					<div>5 %</div>
-				</td>
-				</tr>
-			
 		</table>
 		<div class="spacer-lg"></div>
 	
@@ -547,7 +529,7 @@ td {
 				<td align="center" class="risk-0">Informational</td>
 				
 				
-				<td align="center">9</td>
+				<td align="center">11</td>
 				
 			</tr>
 		</table>
@@ -811,7 +793,7 @@ td {
 							<div> * Warns users when navigating away from forms with unsaved changes.</div>
 							<br />
 						
-							<div> * Auto-initializes on all forms with the &quot;novalidate&quot; &quot;, see evidence field for the suspicious comment/snippet.</div>
+							<div> * Auto-saves form data to sessionStorage so it can be &quot;, see evidence field for the suspicious comment/snippet.</div>
 							
 						</td>
 					</tr>
@@ -1295,6 +1277,45 @@ td {
 					<tr>
 						<td width="20%"
 							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/register">http://localhost:8000/auth/register</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/register</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">GET</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
 						<td width="80%"><a href="http://localhost:8000/robots.txt">http://localhost:8000/robots.txt</a></td>
 					</tr>
 					<tr>
@@ -1340,45 +1361,6 @@ td {
 						<td width="20%"
 							class="indent2">Node Name</td>
 						<td width="80%">http://localhost:8000/sitemap.xml</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Method</td>
-						<td width="80%">GET</td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Parameter</td>
-						<td width="80%"></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Attack</td>
-						<td width="80%"></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Evidence</td>
-						<td width="80%"></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Other Info</td>
-						<td width="80%">
-							<div>In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.</div>
-							
-						</td>
-					</tr>
-				
-					<tr>
-						<td width="20%"
-							class="indent1">URL</td>
-						<td width="80%"><a href="http://localhost:8000/static/css/style.css">http://localhost:8000/static/css/style.css</a></td>
-					</tr>
-					<tr>
-						<td width="20%"
-							class="indent2">Node Name</td>
-						<td width="80%">http://localhost:8000/static/css/style.css</td>
 					</tr>
 					<tr>
 						<td width="20%"
@@ -1539,6 +1521,126 @@ td {
 							<br />
 						
 							<div>/dashboard</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/login">http://localhost:8000/auth/login</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,password,username)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%">password</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+							<br />
+						
+							<div>http://localhost:8000/auth/login</div>
+							<br />
+						
+							<div>appears to include user input in:</div>
+							<br />
+						
+							<div>a(n) [input] tag [value] attribute</div>
+							<br />
+						
+							<div>The user input found was:</div>
+							<br />
+						
+							<div>password=ZAP</div>
+							<br />
+						
+							<div>The user-controlled value was:</div>
+							<br />
+						
+							<div>zap</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/login">http://localhost:8000/auth/login</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,password,username)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%">username</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+							<br />
+						
+							<div>http://localhost:8000/auth/login</div>
+							<br />
+						
+							<div>appears to include user input in:</div>
+							<br />
+						
+							<div>a(n) [input] tag [value] attribute</div>
+							<br />
+						
+							<div>The user input found was:</div>
+							<br />
+						
+							<div>username=ZAP</div>
+							<br />
+						
+							<div>The user-controlled value was:</div>
+							<br />
+						
+							<div>zap</div>
 							
 						</td>
 					</tr>
@@ -2027,7 +2129,7 @@ td {
 					<td width="20%">Instances</td>
 					
 					
-					<td width="80%">9</td>
+					<td width="80%">11</td>
 					
 				</tr>
 				<tr>
