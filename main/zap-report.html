@@ -212,7 +212,7 @@ td {
 	</h2>
 
 	<h3>
-		Generated on Wed, 20 May 2026 13:00:19
+		Generated on Wed, 20 May 2026 15:14:34
 	</h3>
 
 	<h3>
@@ -467,24 +467,6 @@ td {
 				</td>
 				</tr>
 			
-				<tr>
-				<td class="risk-0">
-					<div>Info</div>
-				</td>
-				<td>
-					<div>Informational</div>
-				</td>
-				<td>
-					<div>http://localhost:8000</div>
-				</td>
-				<td>
-					<div>Percentage of slow responses</div>
-				</td>
-				<td align="center">
-					<div>5 %</div>
-				</td>
-				</tr>
-			
 		</table>
 		<div class="spacer-lg"></div>
 	
@@ -547,7 +529,7 @@ td {
 				<td align="center" class="risk-0">Informational</td>
 				
 				
-				<td align="center">11</td>
+				<td align="center">14</td>
 				
 			</tr>
 		</table>
@@ -1551,6 +1533,186 @@ td {
 					<tr>
 						<td width="20%"
 							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,next,password,username)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%">next</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+							<br />
+						
+							<div>http://localhost:8000/auth/login</div>
+							<br />
+						
+							<div>appears to include user input in:</div>
+							<br />
+						
+							<div>a(n) [a] tag [href] attribute</div>
+							<br />
+						
+							<div>The user input found was:</div>
+							<br />
+						
+							<div>next=/dashboard</div>
+							<br />
+						
+							<div>The user-controlled value was:</div>
+							<br />
+						
+							<div>/dashboard</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/login">http://localhost:8000/auth/login</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,next,password,username)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%">password</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+							<br />
+						
+							<div>http://localhost:8000/auth/login</div>
+							<br />
+						
+							<div>appears to include user input in:</div>
+							<br />
+						
+							<div>a(n) [input] tag [value] attribute</div>
+							<br />
+						
+							<div>The user input found was:</div>
+							<br />
+						
+							<div>password=ZAP</div>
+							<br />
+						
+							<div>The user-controlled value was:</div>
+							<br />
+						
+							<div>zap</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/login">http://localhost:8000/auth/login</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
+						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,next,password,username)</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Method</td>
+						<td width="80%">POST</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Parameter</td>
+						<td width="80%">username</td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Attack</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Evidence</td>
+						<td width="80%"></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Other Info</td>
+						<td width="80%">
+							<div>User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:</div>
+							<br />
+						
+							<div>http://localhost:8000/auth/login</div>
+							<br />
+						
+							<div>appears to include user input in:</div>
+							<br />
+						
+							<div>a(n) [input] tag [value] attribute</div>
+							<br />
+						
+							<div>The user input found was:</div>
+							<br />
+						
+							<div>username=ZAP</div>
+							<br />
+						
+							<div>The user-controlled value was:</div>
+							<br />
+						
+							<div>zap</div>
+							
+						</td>
+					</tr>
+				
+					<tr>
+						<td width="20%"
+							class="indent1">URL</td>
+						<td width="80%"><a href="http://localhost:8000/auth/login">http://localhost:8000/auth/login</a></td>
+					</tr>
+					<tr>
+						<td width="20%"
+							class="indent2">Node Name</td>
 						<td width="80%">http://localhost:8000/auth/login ()(csrf_token,password,username)</td>
 					</tr>
 					<tr>
@@ -2147,7 +2309,7 @@ td {
 					<td width="20%">Instances</td>
 					
 					
-					<td width="80%">11</td>
+					<td width="80%">14</td>
 					
 				</tr>
 				<tr>
