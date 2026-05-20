@@ -38,6 +38,11 @@
 {% endblock %}
 
 {% block scripts %}
+{% if next_url %}
+<script nonce="{{ csp_nonce }}">
+sessionStorage.setItem('_form_restore', {{ next_url | tojson }});
+</script>
+{% endif %}
 {% if errors %}
 <script nonce="{{ csp_nonce }}">
 document.addEventListener('DOMContentLoaded', function() {
