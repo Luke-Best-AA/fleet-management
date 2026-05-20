@@ -20,7 +20,7 @@ from app.services import retirement as retirement_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int
-from app.utils.template import render
+from app.utils.template import login_redirect, render
 
 router = APIRouter(prefix="/requests", tags=["requests"])
 
@@ -32,7 +32,7 @@ router = APIRouter(prefix="/requests", tags=["requests"])
 async def retirement_list(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     if user["role"] == "admin":
         requests_list = retirement_service.get_all_requests(db)
@@ -46,7 +46,7 @@ async def retirement_list(request: Request, db: Session = Depends(get_db)):
 async def retirement_create_page(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     if user["role"] == "admin":
         vehicles = vehicle_service.get_all_vehicles(db)
@@ -62,7 +62,7 @@ async def retirement_create_page(request: Request, db: Session = Depends(get_db)
 async def retirement_create_post(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     form = await request.form()
     form_data = dict(form)
@@ -134,7 +134,7 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
 async def retirement_review_page(request: Request, request_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     try:
         req = retirement_service.get_request_by_id(db, request_id)
@@ -148,7 +148,7 @@ async def retirement_review_page(request: Request, request_id: int, db: Session 
 async def retirement_review_post(request: Request, request_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -210,7 +210,7 @@ def _build_cancel_url(return_to: str, return_id: str) -> str:
 async def deletion_list(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     if user["role"] == "admin":
         requests_list = deletion_service.get_all_requests(db)
@@ -224,7 +224,7 @@ async def deletion_list(request: Request, db: Session = Depends(get_db)):
 async def deletion_create_page(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     form_data = {
         "target_type": request.query_params.get("target_type", ""),
@@ -266,7 +266,7 @@ async def deletion_create_page(request: Request, db: Session = Depends(get_db)):
 async def deletion_create_post(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     form = await request.form()
     form_data = dict(form)
@@ -319,7 +319,7 @@ async def deletion_create_post(request: Request, db: Session = Depends(get_db)):
 async def deletion_detail_page(request: Request, request_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     try:
         req = deletion_service.get_request_by_id(db, request_id)
@@ -333,7 +333,7 @@ async def deletion_detail_page(request: Request, request_id: int, db: Session = 
 async def deletion_review_post(request: Request, request_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 

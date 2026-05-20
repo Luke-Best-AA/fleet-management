@@ -18,6 +18,9 @@
 
                 <form method="POST" action="/auth/login" novalidate>
                     {{ csrf_field(csrf_token) }}
+                    {% if next_url %}
+                    <input type="hidden" name="next" value="{{ next_url }}">
+                    {% endif %}
                     {{ form_field("username", "Username", value=form_data.username if form_data else "", errors=errors, required=true) }}
                     {{ form_field("password", "Password", type="password", errors=errors, required=true) }}
                     <div class="d-grid">

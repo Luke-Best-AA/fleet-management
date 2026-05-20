@@ -1,12 +1,14 @@
 import hashlib
 import json
+import os
 import uuid
 
 import redis
 
 from app.config import settings
 
-redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True, health_check_interval=30)
+_redis_url = os.environ.get("REDIS_URL") or settings.REDIS_URL
+redis_client = redis.from_url(_redis_url, decode_responses=True, health_check_interval=30)
 
 SESSION_PREFIX = "session:"
 USER_SESSION_PREFIX = "user_session:"

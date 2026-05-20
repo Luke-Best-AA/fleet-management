@@ -11,7 +11,7 @@ from app.services import mileage as mileage_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int
-from app.utils.template import render
+from app.utils.template import login_redirect, render
 
 router = APIRouter(prefix="/mileage", tags=["mileage"])
 
@@ -28,7 +28,7 @@ def _form_vehicles(db: Session, user: dict):
 async def mileage_list(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     if user["role"] == "admin":
         records = mileage_service.get_all_records(db)
@@ -46,7 +46,7 @@ async def mileage_list(request: Request, db: Session = Depends(get_db)):
 async def mileage_create_page(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     vehicles = _form_vehicles(db, user)
     return_to = request.query_params.get("return_to", "")
@@ -68,7 +68,7 @@ async def mileage_create_page(request: Request, db: Session = Depends(get_db)):
 async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     form = await request.form()
     form_data = dict(form)
@@ -145,7 +145,7 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
 async def mileage_detail_page(request: Request, record_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     try:
         record = mileage_service.get_record_by_id(db, record_id)
@@ -169,7 +169,7 @@ async def mileage_detail_page(request: Request, record_id: int, db: Session = De
 async def mileage_edit_page(request: Request, record_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -190,7 +190,7 @@ async def mileage_edit_page(request: Request, record_id: int, db: Session = Depe
 async def mileage_edit_post(request: Request, record_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -252,7 +252,7 @@ async def mileage_edit_post(request: Request, record_id: int, db: Session = Depe
 async def mileage_delete_post(request: Request, record_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
