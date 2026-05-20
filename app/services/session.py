@@ -1,17 +1,28 @@
 import hashlib
 import json
+import os
 import uuid
 
 import redis
 
 from app.config import settings
 
-redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True, health_check_interval=30)
+_redis_url = os.environ.get("REDIS_URL") or settings.REDIS_URL
+redis_client = redis.from_url(_redis_url, decode_responses=True, health_check_interval=30)
 
 SESSION_PREFIX = "session:"
 USER_SESSION_PREFIX = "user_session:"
 FLASH_PREFIX = "flash:"
 LOGIN_ATTEMPTS_PREFIX = "login_attempts:"
+
+
+def get_client_ip(request) -> str:
+    """Extract the real client IP, respecting X-Forwarded-For behind proxies."""
+    forwarded = request.headers.get("x-forwarded-for", "")
+    if forwarded:
+        # X-Forwarded-For: client, proxy1, proxy2 — first entry is the real client
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "unknown"
 
 
 def make_client_fingerprint(ip: str, user_agent: str) -> str:

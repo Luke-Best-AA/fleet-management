@@ -1,11 +1,24 @@
+from urllib.parse import quote
+
 from fastapi import Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
 from app.security.csrf import generate_csrf_token
 from app.services.session import get_flashes
 
 templates = Jinja2Templates(directory="app/templates")
+
+# Paths that should never appear as a ?next= target
+_NO_RETURN_PREFIXES = ("/auth/login", "/auth/logout", "/auth/register")
+
+
+def login_redirect(request: Request, *, status_code: int = 302) -> RedirectResponse:
+    """Redirect to login, preserving the current path as ?next= for return."""
+    path = request.url.path
+    if path and not path.startswith(_NO_RETURN_PREFIXES) and path != "/":
+        return RedirectResponse(f"/auth/login?next={quote(path)}", status_code=status_code)
+    return RedirectResponse("/auth/login", status_code=status_code)
 
 
 def render(

@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -10,7 +9,7 @@ from app.models.mileage import MileageRecord
 from app.models.retirement_request import RetirementRequest
 from app.models.user import User
 from app.models.vehicle import Vehicle
-from app.utils.template import render
+from app.utils.template import login_redirect, render
 
 router = APIRouter(tags=["dashboard"])
 
@@ -19,7 +18,7 @@ router = APIRouter(tags=["dashboard"])
 async def dashboard(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     context = {}
 

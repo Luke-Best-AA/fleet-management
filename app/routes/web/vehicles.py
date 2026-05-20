@@ -13,7 +13,7 @@ from app.services import user as user_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int, safe_int_or_none
-from app.utils.template import render
+from app.utils.template import login_redirect, render
 
 router = APIRouter(prefix="/vehicles", tags=["vehicles"])
 
@@ -34,7 +34,7 @@ def _vehicle_form_context(db: Session):
 async def vehicle_list(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     if user["role"] == "admin":
         vehicles = vehicle_service.get_all_vehicles(db)
@@ -48,7 +48,7 @@ async def vehicle_list(request: Request, db: Session = Depends(get_db)):
 async def vehicle_create_page(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -60,7 +60,7 @@ async def vehicle_create_page(request: Request, db: Session = Depends(get_db)):
 async def vehicle_create_post(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -100,7 +100,7 @@ async def vehicle_create_post(request: Request, db: Session = Depends(get_db)):
 async def vehicle_detail(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     try:
         vehicle = vehicle_service.get_vehicle_by_id(db, vehicle_id)
@@ -115,7 +115,7 @@ async def vehicle_detail(request: Request, vehicle_id: int, db: Session = Depend
 async def vehicle_edit_page(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -147,7 +147,7 @@ async def vehicle_edit_page(request: Request, vehicle_id: int, db: Session = Dep
 async def vehicle_edit_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -193,7 +193,7 @@ async def vehicle_edit_post(request: Request, vehicle_id: int, db: Session = Dep
 async def vehicle_delete_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -217,7 +217,7 @@ async def vehicle_delete_post(request: Request, vehicle_id: int, db: Session = D
 async def vehicle_retire_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 
@@ -248,7 +248,7 @@ async def vehicle_retire_post(request: Request, vehicle_id: int, db: Session = D
 async def vehicle_unretire_post(request: Request, vehicle_id: int, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     if user["role"] != "admin":
         return render(request, "errors/403.html", status_code=403)
 

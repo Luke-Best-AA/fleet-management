@@ -1,3 +1,5 @@
+import re
+
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import RedirectResponse
 from pydantic import ValidationError as PydanticValidationError
@@ -12,10 +14,10 @@ from app.security.csrf import validate_csrf_token
 from app.services import auth as auth_service
 from app.services import session as session_service
 from app.services import user as user_service
-from app.services.session import make_client_fingerprint
+from app.services.session import get_client_ip, make_client_fingerprint
 from app.utils.flash import flash
 from app.utils.forms import parse_errors
-from app.utils.template import render
+from app.utils.template import login_redirect, render
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -27,6 +29,9 @@ async def login_page(request: Request):
     ctx = {}
     if request.query_params.get("password_changed"):
         ctx["success"] = "Password changed successfully. Please log in with your new password."
+    next_url = request.query_params.get("next", "")
+    if next_url:
+        ctx["next_url"] = next_url
     return render(request, "auth/login.html", ctx)
 
 
@@ -34,13 +39,15 @@ async def login_page(request: Request):
 async def login_post(request: Request, db: Session = Depends(get_db)):
     form = await request.form()
     form_data = dict(form)
+    next_url = form_data.get("next", "")
 
     if not validate_csrf_token(form_data.get("csrf_token", "")):
-        return render(
-            request,
-            "auth/login.html",
-            {"form_data": form_data, "errors": {"_general": "Invalid request. Please try again."}},
-        )
+        ctx = {
+            "form_data": form_data,
+            "next_url": next_url,
+            "errors": {"_general": "Invalid request. Please try again."},
+        }
+        return render(request, "auth/login.html", ctx)
 
     try:
         schema = LoginSchema(**form_data)
@@ -48,10 +55,10 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
         return render(
             request,
             "auth/login.html",
-            {"form_data": form_data, "errors": parse_errors(e)},
+            {"form_data": form_data, "next_url": next_url, "errors": parse_errors(e)},
         )
 
-    fingerprint = make_client_fingerprint(request.client.host, request.headers.get("user-agent", ""))
+    fingerprint = make_client_fingerprint(get_client_ip(request), request.headers.get("user-agent", ""))
 
     try:
         session_id, user = auth_service.login(db, schema.username, schema.password, fingerprint=fingerprint)
@@ -59,13 +66,13 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
         return render(
             request,
             "auth/login.html",
-            {"form_data": form_data, "errors": {"_general": e.message}},
+            {"form_data": form_data, "next_url": next_url, "errors": {"_general": e.message}},
         )
     except AuthenticationError as e:
         return render(
             request,
             "auth/login.html",
-            {"form_data": form_data, "errors": {"_general": e.message}},
+            {"form_data": form_data, "next_url": next_url, "errors": {"_general": e.message}},
         )
 
     welcome_msg = f"Welcome back, {user.first_name}!"
@@ -82,7 +89,13 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
                 f" You have {' and '.join(parts)} pending request{'s' if pending_ret + pending_del != 1 else ''}."
             )
     flash(session_id, welcome_msg, "success")
-    response = RedirectResponse("/dashboard", status_code=303)
+
+    # Redirect to the page the user was trying to reach, or /dashboard
+    next_url = form_data.get("next", "").strip()
+    # Only allow relative paths to prevent open-redirect
+    if not next_url or not re.match(r"^/[a-zA-Z0-9/_-]", next_url):
+        next_url = "/dashboard"
+    response = RedirectResponse(next_url, status_code=303)
     response.set_cookie(
         "session_id",
         session_id,
@@ -99,7 +112,7 @@ async def login_post(request: Request, db: Session = Depends(get_db)):
 async def profile_page(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     profile = user_service.get_user_by_id(db, user["id"])
     return render(request, "auth/profile.html", {"profile": profile})
@@ -109,7 +122,7 @@ async def profile_page(request: Request, db: Session = Depends(get_db)):
 async def profile_edit_page(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     profile = user_service.get_user_by_id(db, user["id"])
     return render(
@@ -129,7 +142,7 @@ async def profile_edit_page(request: Request, db: Session = Depends(get_db)):
 async def profile_edit_post(request: Request, db: Session = Depends(get_db)):
     user = request.state.user
     if not user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     form = await request.form()
     form_data = dict(form)
@@ -240,7 +253,7 @@ async def register_post(request: Request, db: Session = Depends(get_db)):
         )
 
     # Log the user in automatically
-    fingerprint = make_client_fingerprint(request.client.host, request.headers.get("user-agent", ""))
+    fingerprint = make_client_fingerprint(get_client_ip(request), request.headers.get("user-agent", ""))
     session_id, user = auth_service.login(db, schema.username, schema.password, fingerprint=fingerprint)
     flash(session_id, "Registration successful! Welcome.", "success")
     response = RedirectResponse("/dashboard", status_code=303)
@@ -259,14 +272,14 @@ async def register_post(request: Request, db: Session = Depends(get_db)):
 @router.get("/change-password")
 async def change_password_page(request: Request):
     if not request.state.user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
     return render(request, "auth/change_password.html")
 
 
 @router.post("/change-password")
 async def change_password_post(request: Request, db: Session = Depends(get_db)):
     if not request.state.user:
-        return RedirectResponse("/auth/login", status_code=302)
+        return login_redirect(request)
 
     form = await request.form()
     form_data = dict(form)

@@ -19,7 +19,7 @@ from app.services import page_visit as page_visit_service
 from app.services import user as user_service
 from app.utils.flash import flash
 from app.utils.forms import parse_errors, safe_int_or_none
-from app.utils.template import render
+from app.utils.template import login_redirect, render
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -28,7 +28,7 @@ def _check_admin(request: Request):
     """Return (user, error_response). If user is admin, error_response is None."""
     user = request.state.user
     if not user:
-        return None, RedirectResponse("/auth/login", status_code=302)
+        return None, login_redirect(request)
     if user["role"] != "admin":
         return None, render(request, "errors/403.html", status_code=403)
     return user, None
