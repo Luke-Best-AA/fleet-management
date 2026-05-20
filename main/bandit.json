@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2026-05-19T15:13:35Z",
+  "generated_at": "2026-05-20T11:50:07Z",
   "metrics": {
     "./run.py": {
       "CONFIDENCE.HIGH": 0,
@@ -15,19 +15,6 @@
       "nosec": 0,
       "skipped_tests": 1
     },
-    "./seed.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 95,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
     "_totals": {
       "CONFIDENCE.HIGH": 0,
       "CONFIDENCE.LOW": 0,
@@ -37,7 +24,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 4328,
+      "loc": 4233,
       "nosec": 0,
       "skipped_tests": 2
     },
