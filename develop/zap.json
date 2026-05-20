@@ -1,8 +1,8 @@
 {
 	"@programName": "ZAP",
 	"@version": "2.17.0",
-	"@generated": "Wed, 20 May 2026 11:06:15",
-	"created": "2026-05-20T11:06:15.553713424Z",
+	"@generated": "Wed, 20 May 2026 11:47:40",
+	"created": "2026-05-20T11:47:40.382922384Z",
 	"insights":[
 		{
 			"level": "Info",
@@ -83,14 +83,6 @@
 			"key": "insight.endpoint.total",
 			"description": "Count of total endpoints",
 			"statistic": "16"
-		},
-		{
-			"level": "Info",
-			"reason": "Informational",
-			"site": "http://localhost:8000",
-			"key": "insight.response.slow",
-			"description": "Percentage of slow responses",
-			"statistic": "11"
 		}
 	],
 	"site":[ 
@@ -128,7 +120,7 @@
 					"reference": "<p>https://www.zaproxy.org/docs/desktop/addons/authentication-helper/auth-req-id/</p>",
 					"cweid": "-1",
 					"wascid": "-1",
-					"sourceid": "42"
+					"sourceid": "41"
 				},
 				{
 					"pluginid": "10027",
@@ -141,7 +133,7 @@
 					"desc": "<p>The response appears to contain suspicious comments which may help an attacker.</p>",
 					"instances":[ 
 						{
-							"id": "12",
+							"id": "13",
 							"uri": "http://localhost:8000/static/js/app.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/app.js",
 							"method": "GET",
@@ -151,7 +143,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"// Clean navigation-only params from URL bar (keep filter params visible)\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "9",
+							"id": "10",
 							"uri": "http://localhost:8000/static/js/form-guard.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/form-guard.js",
 							"method": "GET",
@@ -161,7 +153,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"/**\n * Warns users when navigating away from forms with unsaved changes.\n * Auto-initializes on all forms with the \"novalidate\" \", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "16",
+							"id": "17",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -171,7 +163,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"// Clean filter params from URL bar after applying them\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "14",
+							"id": "15",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -181,7 +173,7 @@
 							"otherinfo": "The following pattern was used: \\bQUERY\\b and was detected in likely comment: \"// Pre-fill filters from URL query params (e.g. ?status=active)\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "15",
+							"id": "16",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -208,7 +200,7 @@
 					"reference": "",
 					"cweid": "615",
 					"wascid": "13",
-					"sourceid": "36"
+					"sourceid": "38"
 				},
 				{
 					"pluginid": "10049",
@@ -231,7 +223,7 @@
 							"otherinfo": ""
 						},
 						{
-							"id": "3",
+							"id": "2",
 							"uri": "http://localhost:8000/dashboard",
 							"nodeName": "http:\/\/localhost:8000\/dashboard",
 							"method": "GET",
@@ -261,7 +253,7 @@
 					"desc": "<p>The response contents are storable by caching components such as proxy servers, and may be retrieved directly from the cache, rather than from the origin server by the caching servers, in response to similar requests from other users. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where \"shared\" caching servers such as \"proxy\" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance.</p>",
 					"instances":[ 
 						{
-							"id": "6",
+							"id": "5",
 							"uri": "http://localhost:8000",
 							"nodeName": "http:\/\/localhost:8000",
 							"method": "GET",
@@ -281,7 +273,7 @@
 							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
 						},
 						{
-							"id": "2",
+							"id": "3",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register",
 							"method": "GET",
@@ -291,7 +283,7 @@
 							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
 						},
 						{
-							"id": "4",
+							"id": "6",
 							"uri": "http://localhost:8000/robots.txt",
 							"nodeName": "http:\/\/localhost:8000\/robots.txt",
 							"method": "GET",
@@ -301,9 +293,9 @@
 							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
 						},
 						{
-							"id": "5",
-							"uri": "http://localhost:8000/sitemap.xml",
-							"nodeName": "http:\/\/localhost:8000\/sitemap.xml",
+							"id": "4",
+							"uri": "http://localhost:8000/static/css/style.css",
+							"nodeName": "http:\/\/localhost:8000\/static\/css\/style.css",
 							"method": "GET",
 							"param": "",
 							"attack": "",
@@ -331,7 +323,7 @@
 					"desc": "<p>This check looks at user-supplied input in query string parameters and POST data to identify where certain HTML attribute values might be controlled. This provides hot-spot detection for XSS (cross-site scripting) that will require further review by a security analyst to determine exploitability.</p>",
 					"instances":[ 
 						{
-							"id": "29",
+							"id": "19",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,password,username)",
 							"method": "POST",
@@ -341,7 +333,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/login\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\npassword=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "30",
+							"id": "21",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,password,username)",
 							"method": "POST",
@@ -361,7 +353,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nemail=zaproxy@example.com\n\nThe user-controlled value was:\nzaproxy@example.com"
 						},
 						{
-							"id": "19",
+							"id": "20",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -371,7 +363,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nemployee_number=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "20",
+							"id": "22",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -381,7 +373,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nfirst_name=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "21",
+							"id": "23",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -391,7 +383,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nlast_name=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "22",
+							"id": "24",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -401,7 +393,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\npassword=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "23",
+							"id": "25",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -421,7 +413,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [option] tag [value] attribute\n\nThe user input found was:\nrole=standard\n\nThe user-controlled value was:\nstandard"
 						},
 						{
-							"id": "24",
+							"id": "26",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -438,7 +430,7 @@
 					"reference": "<p>https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html</p>",
 					"cweid": "20",
 					"wascid": "20",
-					"sourceid": "42"
+					"sourceid": "41"
 				}
 			]
 		}
