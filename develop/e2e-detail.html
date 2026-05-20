@@ -75,11 +75,11 @@
     <div class="stat-label">Total Tests</div>
   </div>
   <div class="card">
-    <div class="stat" style="color:#28a745">17</div>
+    <div class="stat" style="color:#28a745">13</div>
     <div class="stat-label">Passed</div>
   </div>
   <div class="card">
-    <div class="stat severity-high">0</div>
+    <div class="stat severity-high">4</div>
     <div class="stat-label">Failed</div>
   </div>
   <div class="card">
@@ -87,30 +87,47 @@
     <div class="stat-label">Errors</div>
   </div>
   <div class="card">
-    <div class="stat">13.4s</div>
+    <div class="stat">110.7s</div>
     <div class="stat-label">Duration</div>
   </div>
 </div>
-<h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;color:#28a745;">Passed Tests (17)</h3>
+<h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;color:#dc3545;">Failed Tests</h3>
+<table>
+<tr><th>Test</th><th>Result</th><th>Detail</th></tr>
+<tr class="fail-row"><td>tests.e2e.test_auth.TestLogin.test_login_with_valid_driver[chromium]</td><td>FAILED</td><td class="detail">AssertionError: Page URL expected to be 're.compile('/dashboard')'
+Actual value: http://127.0.0.1:48215/auth/login 
+Call log:
+  - Expect &quot;to_have_url&quot; with timeout 5000ms
+    14 × unexpected value &quot;ht</td></tr>
+<tr class="fail-row"><td>tests.e2e.test_navigation.TestDriverNavigation.test_dashboard_loads[chromium]</td><td>FAILED</td><td class="detail">playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to &quot;re.compile('/dashboard')&quot; until 'load'
+========</td></tr>
+<tr class="fail-row"><td>tests.e2e.test_navigation.TestDriverNavigation.test_vehicles_page_loads[chromium]</td><td>FAILED</td><td class="detail">playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to &quot;re.compile('/dashboard')&quot; until 'load'
+========</td></tr>
+<tr class="fail-row"><td>tests.e2e.test_navigation.TestDriverNavigation.test_driver_cannot_access_admin[chromium]</td><td>FAILED</td><td class="detail">playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.
+=========================== logs ===========================
+waiting for navigation to &quot;re.compile('/dashboard')&quot; until 'load'
+========</td></tr>
+</table>
+<h3 style="margin:1.5rem 0 0.75rem;font-size:1rem;color:#28a745;">Passed Tests (13)</h3>
 <table>
 <tr><th>Test</th><th>Class</th><th>Time</th></tr>
-<tr><td>test_login_page_loads[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>2.711s</td></tr>
-<tr><td>test_unauthenticated_redirects_to_login[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>0.186s</td></tr>
-<tr><td>test_login_with_valid_admin[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>1.850s</td></tr>
-<tr><td>test_login_with_valid_driver[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>0.572s</td></tr>
+<tr><td>test_login_page_loads[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>2.738s</td></tr>
+<tr><td>test_unauthenticated_redirects_to_login[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>0.188s</td></tr>
+<tr><td>test_login_with_valid_admin[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>4.459s</td></tr>
 <tr><td>test_login_with_wrong_password[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>0.554s</td></tr>
-<tr><td>test_login_with_nonexistent_user[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>0.251s</td></tr>
+<tr><td>test_login_with_nonexistent_user[chromium]</td><td>tests.e2e.test_auth.TestLogin</td><td>0.242s</td></tr>
 <tr><td>test_logout_redirects_to_login[chromium]</td><td>tests.e2e.test_auth.TestLogout</td><td>0.715s</td></tr>
-<tr><td>test_cannot_access_dashboard_after_logout[chromium]</td><td>tests.e2e.test_auth.TestLogout</td><td>0.767s</td></tr>
-<tr><td>test_dashboard_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.574s</td></tr>
-<tr><td>test_vehicles_page_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.637s</td></tr>
-<tr><td>test_mileage_page_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.621s</td></tr>
-<tr><td>test_maintenance_page_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.621s</td></tr>
-<tr><td>test_admin_locations_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.607s</td></tr>
-<tr><td>test_admin_users_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.623s</td></tr>
-<tr><td>test_dashboard_loads[chromium]</td><td>tests.e2e.test_navigation.TestDriverNavigation</td><td>0.560s</td></tr>
-<tr><td>test_vehicles_page_loads[chromium]</td><td>tests.e2e.test_navigation.TestDriverNavigation</td><td>0.606s</td></tr>
-<tr><td>test_driver_cannot_access_admin[chromium]</td><td>tests.e2e.test_navigation.TestDriverNavigation</td><td>0.857s</td></tr>
+<tr><td>test_cannot_access_dashboard_after_logout[chromium]</td><td>tests.e2e.test_auth.TestLogout</td><td>0.752s</td></tr>
+<tr><td>test_dashboard_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.578s</td></tr>
+<tr><td>test_vehicles_page_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.658s</td></tr>
+<tr><td>test_mileage_page_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.902s</td></tr>
+<tr><td>test_maintenance_page_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.717s</td></tr>
+<tr><td>test_admin_locations_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.649s</td></tr>
+<tr><td>test_admin_users_loads[chromium]</td><td>tests.e2e.test_navigation.TestAdminNavigation</td><td>0.637s</td></tr>
 </table>
 <p style="margin-top:1.5rem;"><a class="rule-link" href="e2e.xml" target="_blank">e2e.xml</a> &nbsp; </p>
 </div>
@@ -119,40 +136,40 @@
 <button class="copy-btn" onclick="copyJson()">Copy</button>
 <pre id="json-pre">{
   &quot;tests&quot;: {
-    &quot;status&quot;: &quot;pass&quot;,
+    &quot;status&quot;: &quot;fail&quot;,
     &quot;tests&quot;: 17,
-    &quot;passed&quot;: 17,
-    &quot;failed&quot;: 0,
+    &quot;passed&quot;: 13,
+    &quot;failed&quot;: 4,
     &quot;errors&quot;: 0,
-    &quot;time&quot;: &quot;13.365&quot;,
+    &quot;time&quot;: &quot;110.720&quot;,
     &quot;cases&quot;: [
       {
         &quot;name&quot;: &quot;test_login_page_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_auth.TestLogin&quot;,
-        &quot;time&quot;: &quot;2.711&quot;,
+        &quot;time&quot;: &quot;2.738&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_unauthenticated_redirects_to_login[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_auth.TestLogin&quot;,
-        &quot;time&quot;: &quot;0.186&quot;,
+        &quot;time&quot;: &quot;0.188&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_login_with_valid_admin[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_auth.TestLogin&quot;,
-        &quot;time&quot;: &quot;1.850&quot;,
+        &quot;time&quot;: &quot;4.459&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_login_with_valid_driver[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_auth.TestLogin&quot;,
-        &quot;time&quot;: &quot;0.572&quot;,
-        &quot;result&quot;: &quot;passed&quot;,
-        &quot;detail&quot;: &quot;&quot;
+        &quot;time&quot;: &quot;5.233&quot;,
+        &quot;result&quot;: &quot;failed&quot;,
+        &quot;detail&quot;: &quot;AssertionError: Page URL expected to be 're.compile('/dashboard')'\nActual value: http://127.0.0.1:48215/auth/login \nCall log:\n  - Expect \&quot;to_have_url\&quot; with timeout 5000ms\n    14 \u00d7 unexpected value \&quot;http://127.0.0.1:48215/auth/login\&quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_login_with_wrong_password[chromium]&quot;,
@@ -164,7 +181,7 @@
       {
         &quot;name&quot;: &quot;test_login_with_nonexistent_user[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_auth.TestLogin&quot;,
-        &quot;time&quot;: &quot;0.251&quot;,
+        &quot;time&quot;: &quot;0.242&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
@@ -178,72 +195,72 @@
       {
         &quot;name&quot;: &quot;test_cannot_access_dashboard_after_logout[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_auth.TestLogout&quot;,
-        &quot;time&quot;: &quot;0.767&quot;,
+        &quot;time&quot;: &quot;0.752&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_dashboard_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestAdminNavigation&quot;,
-        &quot;time&quot;: &quot;0.574&quot;,
+        &quot;time&quot;: &quot;0.578&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicles_page_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestAdminNavigation&quot;,
-        &quot;time&quot;: &quot;0.637&quot;,
+        &quot;time&quot;: &quot;0.658&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_mileage_page_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestAdminNavigation&quot;,
-        &quot;time&quot;: &quot;0.621&quot;,
+        &quot;time&quot;: &quot;0.902&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_maintenance_page_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestAdminNavigation&quot;,
-        &quot;time&quot;: &quot;0.621&quot;,
+        &quot;time&quot;: &quot;0.717&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_locations_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestAdminNavigation&quot;,
-        &quot;time&quot;: &quot;0.607&quot;,
+        &quot;time&quot;: &quot;0.649&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_admin_users_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestAdminNavigation&quot;,
-        &quot;time&quot;: &quot;0.623&quot;,
+        &quot;time&quot;: &quot;0.637&quot;,
         &quot;result&quot;: &quot;passed&quot;,
         &quot;detail&quot;: &quot;&quot;
       },
       {
         &quot;name&quot;: &quot;test_dashboard_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestDriverNavigation&quot;,
-        &quot;time&quot;: &quot;0.560&quot;,
-        &quot;result&quot;: &quot;passed&quot;,
-        &quot;detail&quot;: &quot;&quot;
+        &quot;time&quot;: &quot;30.260&quot;,
+        &quot;result&quot;: &quot;failed&quot;,
+        &quot;detail&quot;: &quot;playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \&quot;re.compile('/dashboard')\&quot; until 'load'\n============================================================&quot;
       },
       {
         &quot;name&quot;: &quot;test_vehicles_page_loads[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestDriverNavigation&quot;,
-        &quot;time&quot;: &quot;0.606&quot;,
-        &quot;result&quot;: &quot;passed&quot;,
-        &quot;detail&quot;: &quot;&quot;
+        &quot;time&quot;: &quot;30.265&quot;,
+        &quot;result&quot;: &quot;failed&quot;,
+        &quot;detail&quot;: &quot;playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \&quot;re.compile('/dashboard')\&quot; until 'load'\n============================================================&quot;
       },
       {
         &quot;name&quot;: &quot;test_driver_cannot_access_admin[chromium]&quot;,
         &quot;classname&quot;: &quot;tests.e2e.test_navigation.TestDriverNavigation&quot;,
-        &quot;time&quot;: &quot;0.857&quot;,
-        &quot;result&quot;: &quot;passed&quot;,
-        &quot;detail&quot;: &quot;&quot;
+        &quot;time&quot;: &quot;30.504&quot;,
+        &quot;result&quot;: &quot;failed&quot;,
+        &quot;detail&quot;: &quot;playwright._impl._errors.TimeoutError: Timeout 30000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \&quot;re.compile('/dashboard')\&quot; until 'load'\n============================================================&quot;
       }
     ]
   }
