@@ -155,9 +155,6 @@ class TestLocationAPI:
         assert resp.status_code == 400
 
 
-# --- Coverage tests merged from test_inline_api_coverage.py ---
-
-
 class TestCreateDriverInlineCoverage:
     def test_validation_error(self, client, db, admin_user, location):
         login_user(client, "testadmin", "password123")

@@ -226,9 +226,6 @@ class TestMaintenanceDeleteRoutes:
         assert resp.status_code == 403
 
 
-# --- Coverage tests merged from test_maintenance_coverage.py ---
-
-
 @pytest.fixture
 def maint_record(db, vehicle, category, admin_user):
     rec = MaintenanceRecord(

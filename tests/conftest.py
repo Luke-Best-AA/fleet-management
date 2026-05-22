@@ -163,4 +163,6 @@ def login_user(client, username="testadmin", password="password123"):
         data={"username": username, "password": password, "csrf_token": generate_csrf_token()},
         follow_redirects=False,
     )
+    if "session_id" in response.cookies:
+        client.cookies.set("session_id", response.cookies["session_id"])
     return response

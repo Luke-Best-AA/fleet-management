@@ -225,9 +225,6 @@ class TestVehicleDelete:
         assert resp.status_code == 403
 
 
-# --- Coverage tests merged from test_vehicles_coverage.py ---
-
-
 class TestVehicleCreatePageCoverage:
     def test_create_page(self, client, db, admin_user, location):
         login_user(client, "testadmin", "password123")

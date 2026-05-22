@@ -302,9 +302,6 @@ class TestUserSchema:
             )
 
 
-# --- Coverage tests merged from test_schema_validators.py ---
-
-
 class TestLoginSchemaValidation:
     def test_empty_username(self):
         with pytest.raises(ValidationError) as exc_info:

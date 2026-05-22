@@ -182,9 +182,6 @@ class TestAuthRoutes:
         assert response.status_code == 302
 
 
-# --- Coverage tests merged from test_auth_coverage.py ---
-
-
 class TestLoginPostCsrfCoverage:
     def test_login_csrf_failure(self, client, db, admin_user):
         resp = client.post(

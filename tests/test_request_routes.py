@@ -317,9 +317,6 @@ class TestDeletionRequestRoutes(_RequestTestBase):
         assert resp.status_code == 403
 
 
-# --- Coverage tests merged from test_requests_coverage.py ---
-
-
 class TestRetirementCreatePageCoverage:
     def test_admin_sees_all_vehicles(self, client, db, admin_user, vehicle):
         login_user(client, "testadmin", "password123")

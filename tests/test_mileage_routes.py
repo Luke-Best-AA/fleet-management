@@ -205,9 +205,6 @@ class TestMileageDeleteRoutes:
         assert resp.status_code == 403
 
 
-# --- Coverage tests merged from test_mileage_coverage.py ---
-
-
 @pytest.fixture
 def mileage_record(db, vehicle, admin_user):
     rec = MileageRecord(

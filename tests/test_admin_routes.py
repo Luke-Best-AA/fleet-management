@@ -187,9 +187,6 @@ class TestUserAdminRoutes(_AdminTestBase):
         assert resp.status_code == 303
 
 
-# --- Coverage tests merged from test_admin_crud_coverage.py ---
-
-
 class TestLocationCreatePostCoverage:
     def test_csrf_failure(self, client, db, admin_user, location):
         login_user(client, "testadmin", "password123")
