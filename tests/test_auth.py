@@ -12,6 +12,7 @@ from app.services.session import (
     record_failed_login,
     redis_client,
 )
+from tests.conftest import login_user
 
 
 class TestPasswordHashing:
@@ -179,3 +180,102 @@ class TestAuthRoutes:
     def test_unauthenticated_redirect(self, client):
         response = client.get("/dashboard", follow_redirects=False)
         assert response.status_code == 302
+
+
+# --- Coverage tests merged from test_auth_coverage.py ---
+
+
+class TestLoginPostCsrfCoverage:
+    def test_login_csrf_failure(self, client, db, admin_user):
+        resp = client.post(
+            "/auth/login",
+            data={"csrf_token": "bad", "username": "testadmin", "password": "password123"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+        assert "Invalid request" in resp.text
+
+
+class TestLoginValidationErrorCoverage:
+    def test_empty_username(self, client, db, admin_user):
+        resp = client.post(
+            "/auth/login",
+            data={"csrf_token": generate_csrf_token(), "username": "   ", "password": "password123"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+
+
+class TestLoginLockoutCoverage:
+    def test_lockout_after_attempts(self, client, db, admin_user):
+        for _ in range(6):
+            client.post(
+                "/auth/login",
+                data={"csrf_token": generate_csrf_token(), "username": "testadmin", "password": "wrong"},
+                follow_redirects=False,
+            )
+        resp = client.post(
+            "/auth/login",
+            data={"csrf_token": generate_csrf_token(), "username": "testadmin", "password": "wrong"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+        assert "locked" in resp.text.lower() or "too many" in resp.text.lower()
+
+
+class TestLogoutPostCoverage:
+    def test_logout(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/auth/logout",
+            data={"csrf_token": generate_csrf_token()},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 303
+
+
+class TestChangePasswordCsrfCoverage:
+    def test_csrf_failure(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/auth/change-password",
+            data={
+                "csrf_token": "bad",
+                "current_password": "password123",
+                "new_password": "newpass123",
+                "new_password_confirm": "newpass123",
+            },
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+        assert "Invalid request" in resp.text
+
+
+class TestChangePasswordValidationCoverage:
+    def test_short_password(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/auth/change-password",
+            data={
+                "csrf_token": generate_csrf_token(),
+                "current_password": "password123",
+                "new_password": "short",
+                "new_password_confirm": "short",
+            },
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+
+    def test_success(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/auth/change-password",
+            data={
+                "csrf_token": generate_csrf_token(),
+                "current_password": "password123",
+                "new_password": "newpassword123",
+                "new_password_confirm": "newpassword123",
+            },
+            follow_redirects=False,
+        )
+        assert resp.status_code == 303

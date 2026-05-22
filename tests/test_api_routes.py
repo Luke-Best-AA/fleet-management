@@ -1,6 +1,7 @@
 """Tests for API routes (inline AJAX endpoints)."""
 
 from app.security.csrf import generate_csrf_token
+from tests.conftest import login_user
 
 
 class TestDriverAPI:
@@ -152,3 +153,68 @@ class TestLocationAPI:
             },
         )
         assert resp.status_code == 400
+
+
+# --- Coverage tests merged from test_inline_api_coverage.py ---
+
+
+class TestCreateDriverInlineCoverage:
+    def test_validation_error(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/api/drivers",
+            json={
+                "csrf_token": generate_csrf_token(),
+                "username": "",
+                "email": "bad-email",
+                "password": "x",
+                "first_name": "",
+                "last_name": "",
+            },
+        )
+        assert resp.status_code == 422
+        assert "errors" in resp.json()
+
+    def test_service_error(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/api/drivers",
+            json={
+                "csrf_token": generate_csrf_token(),
+                "username": "testadmin",
+                "email": "dup@example.com",
+                "password": "password123",
+                "first_name": "Dup",
+                "last_name": "User",
+            },
+        )
+        assert resp.status_code == 422
+        assert "error" in resp.json()
+
+
+class TestCreateLocationInlineCoverage:
+    def test_validation_error(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/api/locations",
+            json={
+                "csrf_token": generate_csrf_token(),
+                "name": "",
+                "code": "",
+            },
+        )
+        assert resp.status_code == 422
+        assert "errors" in resp.json()
+
+    def test_service_error(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/api/locations",
+            json={
+                "csrf_token": generate_csrf_token(),
+                "name": "Dup Location",
+                "code": location.code,
+            },
+        )
+        assert resp.status_code == 422
+        assert "error" in resp.json()
