@@ -2,27 +2,50 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 
 from app.db.base import Base
 from app.db.session import get_db
 from app.main import app
+from app.models.audit_log import AuditLog  # noqa: F401
+from app.models.deletion_request import DeletionRequest  # noqa: F401
 from app.models.location import Location
-from app.models.maintenance import MaintenanceCategory
+from app.models.maintenance import MaintenanceCategory, MaintenanceRecord  # noqa: F401
+from app.models.mileage import MileageRecord  # noqa: F401
+from app.models.page_visit import PageVisit  # noqa: F401
+from app.models.retirement_request import RetirementRequest  # noqa: F401
 from app.models.user import User
 from app.models.vehicle import Vehicle
 from app.security.password import hash_password
 
-# Use SQLite for tests
-TEST_DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
+# Use in-memory SQLite with StaticPool for test isolation
+engine = create_engine(
+    "sqlite://",
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
 TestingSessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 
 @pytest.fixture(autouse=True)
 def setup_database():
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     yield
     Base.metadata.drop_all(bind=engine)
+
+
+@pytest.fixture(autouse=True)
+def clear_lockouts():
+    """Clear Redis login attempt counters between tests."""
+    yield
+    from app.services import session as session_service
+
+    for username in ["testadmin", "testdriver", "admin@test.com", "driver@test.com"]:
+        try:
+            session_service.clear_login_attempts(username)
+        except Exception:  # noqa: S110
+            pass
 
 
 @pytest.fixture
@@ -31,6 +54,7 @@ def db():
     try:
         yield session
     finally:
+        session.rollback()
         session.close()
 
 

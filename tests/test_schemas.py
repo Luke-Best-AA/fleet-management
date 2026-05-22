@@ -3,7 +3,7 @@
 import pytest
 from pydantic import ValidationError
 
-from app.schemas.auth import RegisterSchema
+from app.schemas.auth import ChangePasswordSchema, LoginSchema, RegisterSchema
 from app.schemas.location import LocationCreateSchema
 from app.schemas.maintenance import (
     MaintenanceCategoryCreateSchema,
@@ -300,3 +300,194 @@ class TestUserSchema:
                 first_name="Test",
                 last_name="User",
             )
+
+
+# --- Coverage tests merged from test_schema_validators.py ---
+
+
+class TestLoginSchemaValidation:
+    def test_empty_username(self):
+        with pytest.raises(ValidationError) as exc_info:
+            LoginSchema(username="   ", password="pass")
+        assert "Username is required" in str(exc_info.value)
+
+    def test_empty_password(self):
+        with pytest.raises(ValidationError) as exc_info:
+            LoginSchema(username="user", password="")
+        assert "Password is required" in str(exc_info.value)
+
+    def test_valid(self):
+        schema = LoginSchema(username="user", password="pass")
+        assert schema.username == "user"
+
+
+class TestRegisterSchemaValidation:
+    def test_invalid_role(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="user",
+                email="test@test.com",
+                password="password123",
+                password_confirm="password123",
+                first_name="Test",
+                last_name="User",
+                role="superadmin",
+            )
+        assert "Role must be standard or admin" in str(exc_info.value)
+
+    def test_short_username(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="ab",
+                email="test@test.com",
+                password="password123",
+                password_confirm="password123",
+                first_name="Test",
+                last_name="User",
+            )
+        assert "between 3 and 100" in str(exc_info.value)
+
+    def test_empty_username(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="   ",
+                email="test@test.com",
+                password="password123",
+                password_confirm="password123",
+                first_name="Test",
+                last_name="User",
+            )
+        assert "Username is required" in str(exc_info.value)
+
+    def test_short_password(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="validuser",
+                email="test@test.com",
+                password="short",
+                password_confirm="short",
+                first_name="Test",
+                last_name="User",
+            )
+        assert "at least 8 characters" in str(exc_info.value)
+
+    def test_password_mismatch(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="validuser",
+                email="test@test.com",
+                password="password123",
+                password_confirm="different123",
+                first_name="Test",
+                last_name="User",
+            )
+        assert "do not match" in str(exc_info.value)
+
+    def test_empty_first_name(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="validuser",
+                email="test@test.com",
+                password="password123",
+                password_confirm="password123",
+                first_name="   ",
+                last_name="User",
+            )
+        assert "First name is required" in str(exc_info.value)
+
+    def test_long_first_name(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="validuser",
+                email="test@test.com",
+                password="password123",
+                password_confirm="password123",
+                first_name="A" * 101,
+                last_name="User",
+            )
+        assert "100 characters" in str(exc_info.value)
+
+    def test_empty_last_name(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="validuser",
+                email="test@test.com",
+                password="password123",
+                password_confirm="password123",
+                first_name="Test",
+                last_name="   ",
+            )
+        assert "Last name is required" in str(exc_info.value)
+
+    def test_long_last_name(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="validuser",
+                email="test@test.com",
+                password="password123",
+                password_confirm="password123",
+                first_name="Test",
+                last_name="A" * 101,
+            )
+        assert "100 characters" in str(exc_info.value)
+
+    def test_long_employee_number(self):
+        with pytest.raises(ValidationError) as exc_info:
+            RegisterSchema(
+                username="validuser",
+                email="test@test.com",
+                password="password123",
+                password_confirm="password123",
+                first_name="Test",
+                last_name="User",
+                employee_number="X" * 51,
+            )
+        assert "50 characters" in str(exc_info.value)
+
+    def test_valid_employee_number(self):
+        schema = RegisterSchema(
+            username="validuser",
+            email="test@test.com",
+            password="password123",
+            password_confirm="password123",
+            first_name="Test",
+            last_name="User",
+            employee_number="EMP001",
+        )
+        assert schema.employee_number == "EMP001"
+
+
+class TestChangePasswordSchemaValidation:
+    def test_empty_current_password(self):
+        with pytest.raises(ValidationError) as exc_info:
+            ChangePasswordSchema(
+                current_password="",
+                new_password="newpass123",
+                new_password_confirm="newpass123",
+            )
+        assert "Current password is required" in str(exc_info.value)
+
+    def test_short_new_password(self):
+        with pytest.raises(ValidationError) as exc_info:
+            ChangePasswordSchema(
+                current_password="oldpass",
+                new_password="short",
+                new_password_confirm="short",
+            )
+        assert "at least 8 characters" in str(exc_info.value)
+
+    def test_new_password_mismatch(self):
+        with pytest.raises(ValidationError) as exc_info:
+            ChangePasswordSchema(
+                current_password="oldpass",
+                new_password="newpass123",
+                new_password_confirm="different",
+            )
+        assert "do not match" in str(exc_info.value)
+
+    def test_valid(self):
+        ChangePasswordSchema(
+            current_password="oldpass",
+            new_password="newpass123",
+            new_password_confirm="newpass123",
+        )
