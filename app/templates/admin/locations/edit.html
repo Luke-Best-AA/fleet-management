@@ -22,7 +22,7 @@
                     {{ csrf_field(csrf_token) }}
                     <div class="row">
                         <div class="col-md-8">{{ form_field("name", "Name", value=form_data.name if form_data else "", errors=errors, required=true) }}</div>
-                        <div class="col-md-4">{{ form_field("code", "Code", value=form_data.code if form_data else "", errors=errors, required=true) }}</div>
+                        <div class="col-md-4">{{ form_field("code", "Code", value=form_data.code if form_data else "", errors=errors, required=true, autocapitalize="characters") }}</div>
                     </div>
                     {{ form_field("region", "Region", value=form_data.region if form_data else "", errors=errors) }}
                     {{ form_field("address_line_1", "Address Line 1", value=form_data.address_line_1 if form_data else "", errors=errors) }}

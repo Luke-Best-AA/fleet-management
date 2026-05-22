@@ -1,3 +1,6 @@
+/* ===== Utility classes ===== */
+.text-uppercase-input { text-transform: uppercase; }
+
 /* ===== Color Palette — custom overrides ===== */
 :root,
 [data-bs-theme="light"] {
