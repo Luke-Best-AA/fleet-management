@@ -433,6 +433,7 @@ th {
 /* ===== Sortable table headers ===== */
 .sortable-header {
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
     position: relative;
     padding-right: 1.2em !important;

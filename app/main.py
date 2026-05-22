@@ -79,7 +79,13 @@ class SessionMiddleware(BaseHTTPMiddleware):
             )
         elif session_id and not session_data:
             # Cookie exists but session is gone — clear the stale cookie
-            response.delete_cookie("session_id", path="/")
+            response.delete_cookie(
+                "session_id",
+                path="/",
+                secure=settings.SECURE_COOKIES,
+                httponly=True,
+                samesite="strict",
+            )
 
         return response
 
@@ -91,6 +97,10 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         nonce = secrets.token_urlsafe(16)
         request.state.csp_nonce = nonce
         response = await call_next(request)
+        # Skip CSP for static assets — they don't need it and it avoids
+        # Edge flagging "unneeded" CSP on CSS/JS/image responses.
+        if request.url.path.startswith("/static"):
+            return response
         response.headers["Content-Security-Policy"] = (
             "default-src 'self'; "
             f"script-src 'self' 'nonce-{nonce}' https://cdn.jsdelivr.net; "
