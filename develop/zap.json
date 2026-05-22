@@ -1,8 +1,8 @@
 {
 	"@programName": "ZAP",
 	"@version": "2.17.0",
-	"@generated": "Wed, 20 May 2026 15:20:42",
-	"created": "2026-05-20T15:20:42.472417089Z",
+	"@generated": "Fri, 22 May 2026 13:36:14",
+	"created": "2026-05-22T13:36:14.143749894Z",
 	"insights":[
 		{
 			"level": "Info",
@@ -90,7 +90,7 @@
 			"site": "http://localhost:8000",
 			"key": "insight.response.slow",
 			"description": "Percentage of slow responses",
-			"statistic": "20"
+			"statistic": "10"
 		}
 	],
 	"site":[ 
@@ -100,6 +100,216 @@
 			"@port": "8000",
 			"@ssl": "false",
 			"alerts": [ 
+				{
+					"pluginid": "90004",
+					"alertRef": "90004-1",
+					"alert": "Cross-Origin-Resource-Policy Header Missing or Invalid",
+					"name": "Cross-Origin-Resource-Policy Header Missing or Invalid",
+					"riskcode": "1",
+					"confidence": "2",
+					"riskdesc": "Low (Medium)",
+					"desc": "<p>Cross-Origin-Resource-Policy header is an opt-in header designed to counter side-channels attacks like Spectre. Resource should be specifically set as shareable amongst different origins.</p>",
+					"instances":[ 
+						{
+							"id": "9",
+							"uri": "http://localhost:8000/static/css/style.css",
+							"nodeName": "http:\/\/localhost:8000\/static\/css\/style.css",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "28",
+							"uri": "http://localhost:8000/static/js/form-guard.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/js\/form-guard.js",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "20",
+							"uri": "http://localhost:8000/static/js/table-sort.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-sort.js",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "12",
+							"uri": "http://localhost:8000/static/vendor/css/bootstrap-icons.min.css",
+							"nodeName": "http:\/\/localhost:8000\/static\/vendor\/css\/bootstrap-icons.min.css",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "23",
+							"uri": "http://localhost:8000/static/vendor/css/bootstrap.min.css",
+							"nodeName": "http:\/\/localhost:8000\/static\/vendor\/css\/bootstrap.min.css",
+							"method": "GET",
+							"param": "Cross-Origin-Resource-Policy",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						}
+					],
+					"count": "5",
+					"systemic": true,
+					"solution": "<p>Ensure that the application/web server sets the Cross-Origin-Resource-Policy header appropriately, and that it sets the Cross-Origin-Resource-Policy header to 'same-origin' for all web pages.</p><p>'same-site' is considered as less secured and should be avoided.</p><p>If resources must be shared, set the header to 'cross-origin'.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that supports the Cross-Origin-Resource-Policy header (https://caniuse.com/mdn-http_headers_cross-origin-resource-policy).</p>",
+					"otherinfo": "",
+					"reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cross-Origin-Embedder-Policy</p>",
+					"cweid": "693",
+					"wascid": "14",
+					"sourceid": "33"
+				},
+				{
+					"pluginid": "10063",
+					"alertRef": "10063-1",
+					"alert": "Permissions Policy Header Not Set",
+					"name": "Permissions Policy Header Not Set",
+					"riskcode": "1",
+					"confidence": "2",
+					"riskdesc": "Low (Medium)",
+					"desc": "<p>Permissions Policy Header is an added layer of security that helps to restrict from unauthorized access or usage of browser/client features by web resources. This policy ensures the user privacy by limiting or specifying the features of the browsers can be used by the web resources. Permissions Policy provides a set of standard HTTP headers that allow website owners to limit which features of browsers can be used by the page such as camera, microphone, location, full screen etc.</p>",
+					"instances":[ 
+						{
+							"id": "30",
+							"uri": "http://localhost:8000/static/js/app.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/js\/app.js",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "27",
+							"uri": "http://localhost:8000/static/js/form-guard.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/js\/form-guard.js",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "51",
+							"uri": "http://localhost:8000/static/js/table-filter.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "19",
+							"uri": "http://localhost:8000/static/js/table-sort.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-sort.js",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						},
+						{
+							"id": "81",
+							"uri": "http://localhost:8000/static/vendor/js/bootstrap.bundle.min.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/vendor\/js\/bootstrap.bundle.min.js",
+							"method": "GET",
+							"param": "",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": ""
+						}
+					],
+					"count": "5",
+					"systemic": false,
+					"solution": "<p>Ensure that your web server, application server, load balancer, etc. is configured to set the Permissions-Policy header.</p>",
+					"otherinfo": "",
+					"reference": "<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy</p><p>https://developer.chrome.com/blog/feature-policy/</p><p>https://scotthelme.co.uk/a-new-security-header-feature-policy/</p><p>https://w3c.github.io/webappsec-feature-policy/</p><p>https://www.smashingmagazine.com/2018/12/feature-policy/</p>",
+					"cweid": "693",
+					"wascid": "15",
+					"sourceid": "43"
+				},
+				{
+					"pluginid": "10021",
+					"alertRef": "10021",
+					"alert": "X-Content-Type-Options Header Missing",
+					"name": "X-Content-Type-Options Header Missing",
+					"riskcode": "1",
+					"confidence": "2",
+					"riskdesc": "Low (Medium)",
+					"desc": "<p>The Anti-MIME-Sniffing header X-Content-Type-Options was not set to 'nosniff'. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. Current (early 2014) and legacy versions of Firefox will use the declared content type (if one is set), rather than performing MIME-sniffing.</p>",
+					"instances":[ 
+						{
+							"id": "7",
+							"uri": "http://localhost:8000/static/css/style.css",
+							"nodeName": "http:\/\/localhost:8000\/static\/css\/style.css",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						},
+						{
+							"id": "25",
+							"uri": "http://localhost:8000/static/js/form-guard.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/js\/form-guard.js",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						},
+						{
+							"id": "17",
+							"uri": "http://localhost:8000/static/js/table-sort.js",
+							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-sort.js",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						},
+						{
+							"id": "10",
+							"uri": "http://localhost:8000/static/vendor/css/bootstrap-icons.min.css",
+							"nodeName": "http:\/\/localhost:8000\/static\/vendor\/css\/bootstrap-icons.min.css",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						},
+						{
+							"id": "21",
+							"uri": "http://localhost:8000/static/vendor/css/bootstrap.min.css",
+							"nodeName": "http:\/\/localhost:8000\/static\/vendor\/css\/bootstrap.min.css",
+							"method": "GET",
+							"param": "x-content-type-options",
+							"attack": "",
+							"evidence": "",
+							"otherinfo": "This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.\nAt \"High\" threshold this scan rule will not alert on client or server error responses."
+						}
+					],
+					"count": "5",
+					"systemic": true,
+					"solution": "<p>Ensure that the application/web server sets the Content-Type header appropriately, and that it sets the X-Content-Type-Options header to 'nosniff' for all web pages.</p><p>If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.</p>",
+					"otherinfo": "<p>This issue still applies to error type pages (401, 403, 500, etc.) as those pages are often still affected by injection issues, in which case there is still concern for browsers sniffing pages away from their actual content type.</p><p>At \"High\" threshold this scan rule will not alert on client or server error responses.</p>",
+					"reference": "<p>https://learn.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/compatibility/gg622941(v=vs.85)</p><p>https://owasp.org/www-community/Security_Headers</p>",
+					"cweid": "693",
+					"wascid": "15",
+					"sourceid": "33"
+				},
 				{
 					"pluginid": "10111",
 					"alertRef": "10111",
@@ -111,7 +321,7 @@
 					"desc": "<p>The given request has been identified as an authentication request. The 'Other Info' field contains a set of key=value lines which identify any relevant fields. If the request is in a context which has an Authentication Method set to \"Auto-Detect\" then this rule will change the authentication to match the request identified.</p>",
 					"instances":[ 
 						{
-							"id": "19",
+							"id": "33",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,next,password,username)",
 							"method": "POST",
@@ -121,7 +331,7 @@
 							"otherinfo": "userParam=username\nuserValue=ZAP\npasswordParam=password\nreferer=http://localhost:8000/auth/login?next=/dashboard\ncsrfToken=csrf_token"
 						},
 						{
-							"id": "15",
+							"id": "32",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,password,username)",
 							"method": "POST",
@@ -151,7 +361,7 @@
 					"desc": "<p>The response appears to contain suspicious comments which may help an attacker.</p>",
 					"instances":[ 
 						{
-							"id": "12",
+							"id": "26",
 							"uri": "http://localhost:8000/static/js/app.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/app.js",
 							"method": "GET",
@@ -161,7 +371,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"// Clean navigation-only params from URL bar (keep filter params visible)\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "59",
+							"id": "24",
 							"uri": "http://localhost:8000/static/js/form-guard.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/form-guard.js",
 							"method": "GET",
@@ -171,7 +381,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"/**\n * Warns users when navigating away from forms with unsaved changes.\n * Auto-saves form data to sessionStorage so it can be \", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "35",
+							"id": "42",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -181,7 +391,7 @@
 							"otherinfo": "The following pattern was used: \\bFROM\\b and was detected in likely comment: \"// Clean filter params from URL bar after applying them\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "26",
+							"id": "40",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -191,7 +401,7 @@
 							"otherinfo": "The following pattern was used: \\bQUERY\\b and was detected in likely comment: \"// Pre-fill filters from URL query params (e.g. ?status=active)\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "29",
+							"id": "41",
 							"uri": "http://localhost:8000/static/js/table-filter.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-filter.js",
 							"method": "GET",
@@ -201,7 +411,7 @@
 							"otherinfo": "The following pattern was used: \\bSELECT\\b and was detected 4 times, the first in likely comment: \"/**\n * Client-side table filtering.\n * Supports: text search, select filters, range filters (min/max).\n *\n * Usage: Add data-fil\", see evidence field for the suspicious comment/snippet."
 						},
 						{
-							"id": "18",
+							"id": "16",
 							"uri": "http://localhost:8000/static/js/table-sort.js",
 							"nodeName": "http:\/\/localhost:8000\/static\/js\/table-sort.js",
 							"method": "GET",
@@ -218,7 +428,7 @@
 					"reference": "",
 					"cweid": "615",
 					"wascid": "13",
-					"sourceid": "41"
+					"sourceid": "43"
 				},
 				{
 					"pluginid": "10049",
@@ -271,7 +481,7 @@
 					"desc": "<p>The response contents are storable by caching components such as proxy servers, and may be retrieved directly from the cache, rather than from the origin server by the caching servers, in response to similar requests from other users. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where \"shared\" caching servers such as \"proxy\" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance.</p>",
 					"instances":[ 
 						{
-							"id": "6",
+							"id": "4",
 							"uri": "http://localhost:8000",
 							"nodeName": "http:\/\/localhost:8000",
 							"method": "GET",
@@ -301,7 +511,7 @@
 							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
 						},
 						{
-							"id": "5",
+							"id": "6",
 							"uri": "http://localhost:8000/robots.txt",
 							"nodeName": "http:\/\/localhost:8000\/robots.txt",
 							"method": "GET",
@@ -311,7 +521,7 @@
 							"otherinfo": "In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234."
 						},
 						{
-							"id": "4",
+							"id": "5",
 							"uri": "http://localhost:8000/sitemap.xml",
 							"nodeName": "http:\/\/localhost:8000\/sitemap.xml",
 							"method": "GET",
@@ -341,7 +551,7 @@
 					"desc": "<p>This check looks at user-supplied input in query string parameters and POST data to identify where certain HTML attribute values might be controlled. This provides hot-spot detection for XSS (cross-site scripting) that will require further review by a security analyst to determine exploitability.</p>",
 					"instances":[ 
 						{
-							"id": "7",
+							"id": "13",
 							"uri": "http://localhost:8000/auth/login?next=/dashboard",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login (next)",
 							"method": "GET",
@@ -351,7 +561,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/login?next=/dashboard\n\nappears to include user input in:\na(n) [a] tag [href] attribute\n\nThe user input found was:\nnext=/dashboard\n\nThe user-controlled value was:\n/dashboard"
 						},
 						{
-							"id": "27",
+							"id": "35",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,next,password,username)",
 							"method": "POST",
@@ -361,7 +571,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/login\n\nappears to include user input in:\na(n) [a] tag [href] attribute\n\nThe user input found was:\nnext=/dashboard\n\nThe user-controlled value was:\n/dashboard"
 						},
 						{
-							"id": "31",
+							"id": "38",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,next,password,username)",
 							"method": "POST",
@@ -371,7 +581,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/login\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\npassword=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "36",
+							"id": "39",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,next,password,username)",
 							"method": "POST",
@@ -381,7 +591,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/login\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nusername=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "16",
+							"id": "34",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,password,username)",
 							"method": "POST",
@@ -391,7 +601,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/login\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\npassword=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "17",
+							"id": "37",
 							"uri": "http://localhost:8000/auth/login",
 							"nodeName": "http:\/\/localhost:8000\/auth\/login ()(csrf_token,password,username)",
 							"method": "POST",
@@ -401,7 +611,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/login\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nusername=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "45",
+							"id": "64",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -411,7 +621,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nemail=zaproxy@example.com\n\nThe user-controlled value was:\nzaproxy@example.com"
 						},
 						{
-							"id": "20",
+							"id": "43",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -421,7 +631,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nemployee_number=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "21",
+							"id": "44",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -431,7 +641,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nfirst_name=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "22",
+							"id": "45",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -441,7 +651,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\nlast_name=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "23",
+							"id": "47",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -451,7 +661,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\npassword=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "24",
+							"id": "48",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -461,7 +671,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [input] tag [value] attribute\n\nThe user input found was:\npassword_confirm=ZAP\n\nThe user-controlled value was:\nzap"
 						},
 						{
-							"id": "58",
+							"id": "77",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -471,7 +681,7 @@
 							"otherinfo": "User-controlled HTML attribute values were found. Try injecting special characters to see if XSS might be possible. The page at the following URL:\n\nhttp://localhost:8000/auth/register\n\nappears to include user input in:\na(n) [option] tag [value] attribute\n\nThe user input found was:\nrole=standard\n\nThe user-controlled value was:\nstandard"
 						},
 						{
-							"id": "25",
+							"id": "49",
 							"uri": "http://localhost:8000/auth/register",
 							"nodeName": "http:\/\/localhost:8000\/auth\/register ()(csrf_token,email,employee_number,first_name,last_name,password,password_confirm,role,username)",
 							"method": "POST",
@@ -488,7 +698,7 @@
 					"reference": "<p>https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html</p>",
 					"cweid": "20",
 					"wascid": "20",
-					"sourceid": "21"
+					"sourceid": "35"
 				}
 			]
 		}
