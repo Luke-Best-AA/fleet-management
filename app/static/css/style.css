@@ -555,8 +555,19 @@ th {
 
 /* ===== Footer ===== */
 footer {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     letter-spacing: 0.02em;
+}
+
+.footer-main {
+    color: #222;
+    font-size: 1em;
+    font-weight: 500;
+}
+.footer-note {
+    color: #555;
+    font-size: 0.95em;
+    letter-spacing: 0.01em;
 }
 
 /* ===== Utility classes (CSP: no inline styles) ===== */
