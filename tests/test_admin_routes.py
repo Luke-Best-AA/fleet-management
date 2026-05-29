@@ -1,6 +1,7 @@
 """Tests for admin routes (locations, categories, users)."""
 
 from app.security.csrf import generate_csrf_token
+from tests.conftest import login_user
 
 
 class _AdminTestBase:
@@ -184,3 +185,188 @@ class TestUserAdminRoutes(_AdminTestBase):
             follow_redirects=False,
         )
         assert resp.status_code == 303
+
+
+class TestLocationCreatePostCoverage:
+    def test_csrf_failure(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/admin/locations/create",
+            data={"csrf_token": "bad", "name": "X", "code": "X"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+        assert "Invalid request" in resp.text
+
+    def test_validation_error(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/admin/locations/create",
+            data={"csrf_token": generate_csrf_token(), "name": "", "code": ""},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+
+
+class TestLocationEditPostCoverage:
+    def test_csrf_failure(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            f"/admin/locations/{location.id}/edit",
+            data={"csrf_token": "bad", "name": "X", "code": "X"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+        assert "Invalid request" in resp.text
+
+    def test_validation_error(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            f"/admin/locations/{location.id}/edit",
+            data={"csrf_token": generate_csrf_token(), "name": "", "code": ""},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+
+
+class TestLocationDeletePostCoverage:
+    def test_csrf_failure(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            f"/admin/locations/{location.id}/delete",
+            data={"csrf_token": "bad"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 303
+
+
+class TestCategoryCreatePostCoverage:
+    def test_csrf_failure(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/admin/categories/create",
+            data={"csrf_token": "bad", "name": "Cat", "requires_notes": "true"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+        assert "Invalid request" in resp.text
+
+    def test_validation_error(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/admin/categories/create",
+            data={"csrf_token": generate_csrf_token(), "name": ""},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+
+
+class TestCategoryEditPageCoverage:
+    def test_edit_page_not_found(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.get("/admin/categories/99999/edit")
+        assert resp.status_code == 404
+
+
+class TestCategoryEditPostCoverage:
+    def test_csrf_failure(self, client, db, admin_user, category):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            f"/admin/categories/{category.id}/edit",
+            data={"csrf_token": "bad", "name": "X", "requires_notes": "true", "is_active": "true"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 303
+
+    def test_validation_error(self, client, db, admin_user, category):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            f"/admin/categories/{category.id}/edit",
+            data={
+                "csrf_token": generate_csrf_token(),
+                "name": "",
+                "requires_notes": "true",
+                "is_active": "true",
+            },
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+
+
+class TestUserCreatePostCoverage:
+    def test_csrf_failure(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/admin/users/create",
+            data={"csrf_token": "bad", "username": "x"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+        assert "Invalid request" in resp.text
+
+    def test_validation_error(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/admin/users/create",
+            data={
+                "csrf_token": generate_csrf_token(),
+                "username": "",
+                "email": "bad",
+                "password": "x",
+                "first_name": "",
+                "last_name": "",
+            },
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+
+    def test_duplicate_username(self, client, db, admin_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            "/admin/users/create",
+            data={
+                "csrf_token": generate_csrf_token(),
+                "username": "testadmin",
+                "email": "dup@example.com",
+                "password": "password123",
+                "first_name": "Dup",
+                "last_name": "User",
+                "role": "standard",
+                "location_id": str(location.id),
+            },
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200
+
+
+class TestUserEditPageCoverage:
+    def test_edit_page_not_found(self, client, db, admin_user):
+        login_user(client, "testadmin", "password123")
+        resp = client.get("/admin/users/99999/edit")
+        assert resp.status_code == 404
+
+
+class TestUserEditPostCoverage:
+    def test_csrf_failure(self, client, db, admin_user, standard_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            f"/admin/users/{standard_user.id}/edit",
+            data={"csrf_token": "bad"},
+            follow_redirects=False,
+        )
+        assert resp.status_code == 303
+
+    def test_validation_error(self, client, db, admin_user, standard_user, location):
+        login_user(client, "testadmin", "password123")
+        resp = client.post(
+            f"/admin/users/{standard_user.id}/edit",
+            data={
+                "csrf_token": generate_csrf_token(),
+                "first_name": "",
+                "last_name": "",
+                "email": "bad",
+                "is_active": "true",
+            },
+            follow_redirects=False,
+        )
+        assert resp.status_code == 200

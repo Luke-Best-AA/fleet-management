@@ -201,7 +201,13 @@ async def logout_post(request: Request):
     if session_id:
         auth_service.logout(session_id)
     response = RedirectResponse("/auth/login", status_code=303)
-    response.delete_cookie("session_id")
+    response.delete_cookie(
+        "session_id",
+        path="/",
+        secure=session_service.settings.SECURE_COOKIES,
+        httponly=True,
+        samesite="strict",
+    )
     return response
 
 

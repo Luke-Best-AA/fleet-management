@@ -23,7 +23,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            {{ form_field("registration_number", "Registration Number", value=form_data.registration_number if form_data else "", errors=errors, required=true) }}
+                            {{ form_field("registration_number", "Registration Number", value=form_data.registration_number if form_data else "", errors=errors, required=true, autocapitalize="characters") }}
                         </div>
                         <div class="col-md-6">
                             {{ form_field("fleet_reference", "Fleet Reference", value=form_data.fleet_reference if form_data else "", errors=errors, required=true) }}
@@ -81,4 +81,5 @@
 {% endblock %}
 {% block scripts %}
 <script src="/static/js/quick-add.js"></script>
+<script src="/static/js/reg-format.js"></script>
 {% endblock %}

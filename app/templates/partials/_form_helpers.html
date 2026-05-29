@@ -1,4 +1,4 @@
-{% macro form_field(name, label, type="text", value="", errors=None, required=false, placeholder="", help_text="", options=None, textarea=false, step=None) %}
+{% macro form_field(name, label, type="text", value="", errors=None, required=false, placeholder="", help_text="", options=None, textarea=false, step=None, autocapitalize=None) %}
 <div class="mb-3">
     <label for="{{ name }}" class="form-label">{{ label }}{% if required %} <span class="text-danger">*</span>{% endif %}</label>
     {% if options %}
@@ -11,7 +11,7 @@
     {% elif textarea %}
     <textarea class="form-control {% if errors and errors.get(name) %}is-invalid{% endif %}" id="{{ name }}" name="{{ name }}" rows="3" placeholder="{{ placeholder }}">{{ value }}</textarea>
     {% else %}
-    <input type="{{ type }}" class="form-control {% if errors and errors.get(name) %}is-invalid{% endif %}" id="{{ name }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" {% if step %}step="{{ step }}"{% endif %}>
+    <input type="{{ type }}" class="form-control {% if errors and errors.get(name) %}is-invalid{% endif %} {% if autocapitalize %}text-uppercase-input{% endif %}" id="{{ name }}" name="{{ name }}" value="{{ value }}" placeholder="{{ placeholder }}" {% if step %}step="{{ step }}"{% endif %} {% if autocapitalize %}autocapitalize="{{ autocapitalize }}"{% endif %}>
     {% endif %}
     {% if errors and errors.get(name) %}
     <div class="invalid-feedback">{{ errors[name] }}</div>

@@ -570,7 +570,6 @@ def seed():  # noqa: C901
         audit_actions = [
             ("create", "vehicle", "Created vehicle {reg}"),
             ("update", "vehicle", "Updated vehicle {reg}"),
-            ("create", "user", "Created user {name}"),
             ("update", "user", "Updated user {name}"),
             ("delete", "location", "Soft-deleted location"),
             ("create", "location", "Created location {loc}"),

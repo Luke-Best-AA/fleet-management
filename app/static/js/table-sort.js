@@ -44,12 +44,11 @@
             if (th.classList.contains('no-sort') || th.textContent.trim() === '') return;
             th.classList.add('sortable-header');
             th.setAttribute('role', 'button');
-            th.setAttribute('aria-sort', 'none');
             th.addEventListener('click', function () {
-                var currentDir = th.getAttribute('aria-sort');
+                var currentDir = th.getAttribute('aria-sort') || 'none';
                 // Reset all
                 headers.forEach(function (h) {
-                    h.setAttribute('aria-sort', 'none');
+                    h.removeAttribute('aria-sort');
                     h.classList.remove('sort-asc', 'sort-desc');
                 });
                 var ascending = currentDir !== 'ascending';
