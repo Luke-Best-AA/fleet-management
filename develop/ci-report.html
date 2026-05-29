@@ -47,7 +47,7 @@
   <a href="../main/ci-report.html">main</a>
 </div>
 <h1>CI Pipeline Report <span style="background:#dc3545;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">FAIL</span></h1>
-<p class="timestamp">Generated 2026-05-29 08:21 UTC</p>
+<p class="timestamp">Generated 2026-05-29 15:22 UTC</p>
 
 <div class="summary">
   <div class="summary-card">
@@ -96,7 +96,7 @@
 
 <div class="section">
   <h2>Bandit Security Scan <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="bandit-detail.html">View Full Report &rarr;</a></h2>
-  <p>Scanned 4276 lines of code</p>
+  <p>Scanned 4277 lines of code</p>
   <p class="empty">No security issues found.</p>
 </div>
 
@@ -108,41 +108,38 @@
 
 <div class="section">
   <h2>Unit & Integration Tests <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="tests-detail.html">View Full Report &rarr;</a></h2>
-  <p>577 tests — 577 passed, 0 failed, 0 errors (273.291s)</p>
+  <p>577 tests — 577 passed, 0 failed, 0 errors (273.239s)</p>
   <p class="empty">All tests passed.</p>
 </div>
 
 <div class="section">
   <h2>E2E Tests (Playwright) <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="e2e-detail.html">View Full Report &rarr;</a></h2>
-  <p>17 tests — 17 passed, 0 failed, 0 errors (18.218s)</p>
+  <p>17 tests — 17 passed, 0 failed, 0 errors (16.476s)</p>
   <p class="empty">All tests passed.</p>
 </div>
 
 <div class="section">
   <h2>OWASP ZAP Baseline Scan <span style="background:#28a745;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">PASS</span> <a class="detail-link" href="zap-detail.html">View Full Report &rarr;</a></h2>
-  <p>11 alert(s) found (0 high risk)</p>
+  <p>8 alert(s) found (0 high risk)</p>
   <table>
     <tr><th>Alert</th><th>Risk</th><th>Instances</th></tr>
-    <tr class=""><td>CSP: Failure to Define Directive with No Fallback</td><td>Medium (High)</td><td>1</td></tr>
-    <tr class=""><td>CSP: style-src unsafe-inline</td><td>Medium (High)</td><td>3</td></tr>
     <tr class=""><td>Cross-Origin-Resource-Policy Header Missing or Invalid</td><td>Low (Medium)</td><td>5</td></tr>
     <tr class=""><td>Permissions Policy Header Not Set</td><td>Low (Medium)</td><td>5</td></tr>
     <tr class=""><td>X-Content-Type-Options Header Missing</td><td>Low (Medium)</td><td>5</td></tr>
     <tr class=""><td>Authentication Request Identified</td><td>Informational (High)</td><td>2</td></tr>
-    <tr class=""><td>CSP: Header &amp; Meta</td><td>Informational (High)</td><td>3</td></tr>
     <tr class=""><td>Information Disclosure - Suspicious Comments</td><td>Informational (Medium)</td><td>6</td></tr>
     <tr class=""><td>Non-Storable Content</td><td>Informational (Medium)</td><td>2</td></tr>
     <tr class=""><td>Storable and Cacheable Content</td><td>Informational (Medium)</td><td>5</td></tr>
-    <tr class=""><td>User Controllable HTML Element Attribute (Potential XSS)</td><td>Informational (Low)</td><td>14</td></tr>
+    <tr class=""><td>User Controllable HTML Element Attribute (Potential XSS)</td><td>Informational (Low)</td><td>9</td></tr>
   </table>
 </div>
 
 <div class="section">
   <h2>Lighthouse Audit <span style="background:#dc3545;color:#fff;padding:2px 10px;border-radius:4px;font-size:0.85em;font-weight:600;">FAIL</span> <a class="detail-link" href="lighthouse-detail.html">View Full Report &rarr;</a></h2>
   <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:0.5rem;">
-  <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#fd7e14">80</div><div style="font-size:0.8em;color:var(--muted)">Performance</div></div>
+  <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#fd7e14">78</div><div style="font-size:0.8em;color:var(--muted)">Performance</div></div>
   <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#28a745">100</div><div style="font-size:0.8em;color:var(--muted)">Accessibility</div></div>
-  <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#28a745">93</div><div style="font-size:0.8em;color:var(--muted)">Best Practices</div></div>
+  <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#28a745">100</div><div style="font-size:0.8em;color:var(--muted)">Best Practices</div></div>
   <div style="text-align:center;"><div style="font-size:1.8rem;font-weight:700;color:#28a745">100</div><div style="font-size:0.8em;color:var(--muted)">SEO</div></div>
   </div>
 </div>
