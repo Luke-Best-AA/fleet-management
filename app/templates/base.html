@@ -4,12 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Fleet Management login and dashboard application for managing vehicles, maintenance, and requests.">
-    <!-- Security headers (for best practices, some must be set server-side) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'nonce-{{ csp_nonce }}'; style-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self';">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-    <!-- HSTS must be set via server headers -->
     <script nonce="{{ csp_nonce }}">
         // Apply theme before first paint to avoid flash
         (function() {
@@ -40,13 +34,13 @@
         </div>
     </footer>
 
-    <script src="/static/vendor/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/vendor/js/bootstrap.bundle.min.js" nonce="{{ csp_nonce }}"></script>
     <!-- Graceful fallback for missing Bootstrap source maps -->
-    <script>window.addEventListener('error', function(e) { if (e.target && e.target.src && e.target.src.endsWith('.map')) e.preventDefault(); }, true);</script>
-    <script src="/static/js/table-sort.js"></script>
-    <script src="/static/js/table-filter.js"></script>
-    <script src="/static/js/form-guard.js"></script>
-    <script src="/static/js/app.js"></script>
+    <script nonce="{{ csp_nonce }}">window.addEventListener('error', function(e) { if (e.target && e.target.src && e.target.src.endsWith('.map')) e.preventDefault(); }, true);</script>
+    <script src="/static/js/table-sort.js" nonce="{{ csp_nonce }}"></script>
+    <script src="/static/js/table-filter.js" nonce="{{ csp_nonce }}"></script>
+    <script src="/static/js/form-guard.js" nonce="{{ csp_nonce }}"></script>
+    <script src="/static/js/app.js" nonce="{{ csp_nonce }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
