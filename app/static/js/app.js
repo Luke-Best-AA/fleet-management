@@ -1,4 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Page-load spinner — show on navigation, hide when new page is ready
+    (function () {
+        var loader = document.getElementById('page-loader');
+        if (!loader) return;
+
+        // Hide spinner now that this page has loaded
+        loader.classList.remove('is-loading');
+
+        function shouldShowSpinner(target) {
+            if (!target || target.tagName !== 'A') return false;
+            if (!target.href || target.href.startsWith('#')) return false;
+            if (target.hasAttribute('download')) return false;
+            if (target.target && target.target !== '_self') return false;
+            try { return new URL(target.href).origin === location.origin; }
+            catch (_) { return false; }
+        }
+
+        document.addEventListener('click', function (e) {
+            var el = e.target.closest('a');
+            if (shouldShowSpinner(el) && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                loader.classList.add('is-loading');
+            }
+        });
+
+        document.addEventListener('submit', function (e) {
+            if (e.target.tagName === 'FORM' && (!e.target.method || e.target.method.toLowerCase() !== 'dialog')) {
+                loader.classList.add('is-loading');
+            }
+        });
+
+        // Safety net: hide on back/forward navigation (bfcache restore)
+        window.addEventListener('pageshow', function () {
+            loader.classList.remove('is-loading');
+        });
+    })();
+
     // Clean navigation-only params from URL bar (keep filter params visible)
     (function() {
         var url = new URL(location.href);
