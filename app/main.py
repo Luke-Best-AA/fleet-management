@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import secrets
 
@@ -124,8 +125,23 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 _VISIT_SKIP_PREFIXES = ("/static", "/api", "/auth", "/favicon")
 
 
+def _record_visit_thread(user_id: int, path: str) -> None:
+    """Run in a thread-pool thread; never blocks the event loop."""
+    try:
+        from app.db.session import SessionLocal
+        from app.services.page_visit import record_visit
+
+        db = SessionLocal()
+        try:
+            record_visit(db, user_id=user_id, path=path)
+        finally:
+            db.close()
+    except Exception:  # noqa: S110  # nosec B110
+        pass  # Never break page loads for analytics
+
+
 class PageVisitMiddleware(BaseHTTPMiddleware):
-    """Records page visits for authenticated non-admin users."""
+    """Records page visits for authenticated non-admin users (fire-and-forget)."""
 
     async def dispatch(self, request: Request, call_next):
         response = await call_next(request)
@@ -138,17 +154,14 @@ class PageVisitMiddleware(BaseHTTPMiddleware):
             and response.status_code == 200
             and not request.url.path.startswith(_VISIT_SKIP_PREFIXES)
         ):
-            try:
-                from app.db.session import SessionLocal
-                from app.services.page_visit import record_visit
-
-                db = SessionLocal()
-                try:
-                    record_visit(db, user_id=request.state.user["id"], path=request.url.path)
-                finally:
-                    db.close()
-            except Exception:  # noqa: S110  # nosec B110
-                pass  # Never break page loads for analytics
+            # Fire-and-forget: submit to thread pool, do not await.
+            # The response is returned to the client immediately.
+            asyncio.get_event_loop().run_in_executor(
+                None,
+                _record_visit_thread,
+                request.state.user["id"],
+                request.url.path,
+            )
 
         return response
 

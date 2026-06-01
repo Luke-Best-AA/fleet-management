@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload, subqueryload
 
 from app.exceptions import (
     AuthorisationError,
@@ -18,13 +18,30 @@ def get_vehicle_by_id(db: Session, vehicle_id: int) -> Vehicle:
     return vehicle
 
 
+def _vehicle_list_options():
+    """Eager-load relationships accessed on the vehicles list page."""
+    return [
+        joinedload(Vehicle.location),
+        joinedload(Vehicle.primary_driver),
+        subqueryload(Vehicle.mileage_records),
+        subqueryload(Vehicle.maintenance_records),
+    ]
+
+
 def get_all_vehicles(db: Session) -> list[Vehicle]:
-    return db.query(Vehicle).filter(Vehicle.is_deleted == False).order_by(Vehicle.registration_number).all()
+    return (
+        db.query(Vehicle)
+        .options(*_vehicle_list_options())
+        .filter(Vehicle.is_deleted == False)
+        .order_by(Vehicle.registration_number)
+        .all()
+    )
 
 
 def get_vehicles_for_user(db: Session, user_id: int) -> list[Vehicle]:
     return (
         db.query(Vehicle)
+        .options(*_vehicle_list_options())
         .filter(
             Vehicle.primary_driver_user_id == user_id,
             Vehicle.is_deleted == False,
