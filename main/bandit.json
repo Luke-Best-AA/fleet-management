@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2026-06-01T15:10:02Z",
+  "generated_at": "2026-06-01T16:23:35Z",
   "metrics": {
     "./run.py": {
       "CONFIDENCE.HIGH": 0,
@@ -24,7 +24,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 4306,
+      "loc": 4323,
       "nosec": 0,
       "skipped_tests": 2
     },
@@ -336,7 +336,7 @@
       "SEVERITY.LOW": 0,
       "SEVERITY.MEDIUM": 0,
       "SEVERITY.UNDEFINED": 0,
-      "loc": 95,
+      "loc": 112,
       "nosec": 0,
       "skipped_tests": 0
     },
