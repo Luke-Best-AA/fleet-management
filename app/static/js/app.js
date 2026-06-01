@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!target || target.tagName !== 'A') return false;
             if (!target.href || target.href.startsWith('#')) return false;
             if (target.hasAttribute('download')) return false;
+            if (target.hasAttribute('data-bs-toggle')) return false;
             if (target.target && target.target !== '_self') return false;
             try { return new URL(target.href).origin === location.origin; }
             catch (_) { return false; }
