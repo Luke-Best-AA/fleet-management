@@ -49,9 +49,10 @@
         var visibleCount = 0;
 
         rows.forEach(function (row) {
-            // Skip "no results" placeholder rows
+            // Skip "no results" placeholder rows (server-rendered empty state)
             if (row.querySelector('[colspan]')) {
                 row.style.display = '';
+                visibleCount++;
                 return;
             }
 
