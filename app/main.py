@@ -156,7 +156,7 @@ class PageVisitMiddleware(BaseHTTPMiddleware):
         ):
             # Fire-and-forget: submit to thread pool, do not await.
             # The response is returned to the client immediately.
-            asyncio.get_event_loop().run_in_executor(
+            asyncio.get_running_loop().run_in_executor(
                 None,
                 _record_visit_thread,
                 request.state.user["id"],
