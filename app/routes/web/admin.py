@@ -649,7 +649,11 @@ async def page_visits_page(request: Request, db: Session = Depends(get_db)):
         return err
 
     page = int(request.query_params.get("page", 1))
-    user_id = safe_int_or_none(request.query_params.get("user_id"))
+    user_id_raw = request.query_params.get("user_id")
+    user_id = safe_int_or_none(user_id_raw)
+    # If user_id is not a valid int, treat as None (show all users)
+    if isinstance(user_id, str):
+        user_id = None
     days = int(request.query_params.get("days", 7))
     per_page = 50
     offset = (page - 1) * per_page
