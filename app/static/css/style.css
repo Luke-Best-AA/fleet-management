@@ -362,6 +362,32 @@ input[type="date"] {
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
+/* ===== Page-load spinner ===== */
+#page-loader {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(var(--bs-body-bg-rgb, 255,255,255), 0.7);
+    backdrop-filter: blur(2px);
+    align-items: center;
+    justify-content: center;
+}
+#page-loader.is-loading {
+    display: flex;
+}
+.page-loader-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 3px solid rgba(var(--bs-secondary-rgb), 0.2);
+    border-top-color: var(--bs-primary);
+    border-radius: 50%;
+    animation: page-loader-spin 0.7s linear infinite;
+}
+@keyframes page-loader-spin {
+    to { transform: rotate(360deg); }
+}
+
 /* ===== Flash messages overlay ===== */
 #flash-messages {
     position: fixed;
