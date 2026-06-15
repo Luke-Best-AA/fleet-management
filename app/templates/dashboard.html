@@ -133,7 +133,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header"><i class="bi bi-truck me-1"></i>My Assigned Vehicles</div>
-            <div class="card-body p-0">
+            <div class="card-body p-0 overflow-visible">
                 <table class="table table-hover table-sortable mb-0">
                     <thead><tr><th>Registration</th><th class="d-none d-sm-table-cell">Type</th><th>Make/Model</th><th class="d-none d-sm-table-cell">Mileage</th><th>Status</th><th class="no-sort">Log</th></tr></thead>
                     <tbody>
@@ -146,8 +146,13 @@
                         <td><span class="badge badge-status-{{ v.status }}">{{ v.status.replace('_', ' ').title() }}</span></td>
                         <td>
                             {% if v.status == 'active' %}
-                            <a href="/mileage/create?vehicle_id={{ v.id }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-speedometer me-1"></i>Log Mileage</a>
-                            <a href="/maintenance/create?vehicle_id={{ v.id }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-wrench me-1"></i>Log Maintenance</a>
+                            <div class="btn-group btn-group-sm">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Log actions for {{ v.registration_number }}">Log</button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="/mileage/create?vehicle_id={{ v.id }}"><i class="bi bi-speedometer2 me-2"></i>Log Mileage</a></li>
+                                    <li><a class="dropdown-item" href="/maintenance/create?vehicle_id={{ v.id }}"><i class="bi bi-wrench me-2"></i>Log Maintenance</a></li>
+                                </ul>
+                            </div>
                             {% endif %}
                         </td>
                     </tr>

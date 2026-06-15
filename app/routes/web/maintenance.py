@@ -12,6 +12,7 @@ from app.schemas.maintenance import (
     MaintenanceRecordUpdateSchema,
 )
 from app.security.csrf import validate_csrf_token
+from app.services import audit as audit_service
 from app.services import maintenance as maint_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
@@ -115,6 +116,13 @@ async def maintenance_create_post(request: Request, db: Session = Depends(get_db
         context.update({"form_data": form_data, "errors": {"_general": e.message}, **return_ctx})
         return render(request, "maintenance/create.html", context)
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="create",
+        target_type="maintenance_record",
+        target_id=None,
+    )
     flash(request.state.session_id, "Maintenance record created.", "success")
 
     return_to = form_data.get("return_to", "")
@@ -225,6 +233,13 @@ async def maintenance_edit_post(request: Request, record_id: int, db: Session = 
         context.update({"record": record, "form_data": form_data, "errors": {"_general": e.message}})
         return render(request, "maintenance/edit.html", context)
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="update",
+        target_type="maintenance_record",
+        target_id=record_id,
+    )
     flash(request.state.session_id, "Maintenance record updated.", "success")
     return RedirectResponse("/maintenance", status_code=303)
 
@@ -248,5 +263,12 @@ async def maintenance_delete_post(request: Request, record_id: int, db: Session 
         flash(request.state.session_id, e.message, "danger")
         return RedirectResponse("/maintenance", status_code=303)
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="delete",
+        target_type="maintenance_record",
+        target_id=record_id,
+    )
     flash(request.state.session_id, "Maintenance record deleted.", "success")
     return RedirectResponse("/maintenance", status_code=303)
