@@ -86,12 +86,20 @@ async def vehicle_create_post(request: Request, db: Session = Depends(get_db)):
         return render(request, "vehicles/create.html", context)
 
     try:
-        vehicle_service.create_vehicle(db, **schema.model_dump())
+        vehicle = vehicle_service.create_vehicle(db, **schema.model_dump())
     except AppError as e:
         context = _vehicle_form_context(db)
         context.update({"form_data": form_data, "errors": {"_general": e.message}})
         return render(request, "vehicles/create.html", context)
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="create",
+        target_type="vehicle",
+        target_id=vehicle.id,
+        target_label=vehicle.registration_number,
+    )
     flash(request.state.session_id, "Vehicle created successfully.", "success")
     return RedirectResponse("/vehicles", status_code=303)
 
@@ -185,6 +193,13 @@ async def vehicle_edit_post(request: Request, vehicle_id: int, db: Session = Dep
         context.update({"vehicle": vehicle, "form_data": form_data, "errors": {"_general": e.message}})
         return render(request, "vehicles/edit.html", context)
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="update",
+        target_type="vehicle",
+        target_id=vehicle_id,
+    )
     flash(request.state.session_id, "Vehicle updated successfully.", "success")
     return RedirectResponse(f"/vehicles/{vehicle_id}", status_code=303)
 

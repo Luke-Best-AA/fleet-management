@@ -7,6 +7,7 @@ from app.db.session import get_db
 from app.exceptions import AppError
 from app.schemas.mileage import MileageCreateSchema, MileageUpdateSchema
 from app.security.csrf import validate_csrf_token
+from app.services import audit as audit_service
 from app.services import mileage as mileage_service
 from app.services import vehicle as vehicle_service
 from app.utils.flash import flash
@@ -133,6 +134,13 @@ async def mileage_create_post(request: Request, db: Session = Depends(get_db)):
             },
         )
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="create",
+        target_type="mileage_record",
+        target_id=None,
+    )
     flash(request.state.session_id, "Mileage record created.", "success")
     if return_to == "vehicle" and return_id:
         return RedirectResponse(f"/vehicles/{return_id}", status_code=303)
@@ -244,6 +252,13 @@ async def mileage_edit_post(request: Request, record_id: int, db: Session = Depe
             },
         )
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="update",
+        target_type="mileage_record",
+        target_id=record_id,
+    )
     flash(request.state.session_id, "Mileage record updated.", "success")
     return RedirectResponse("/mileage", status_code=303)
 
@@ -267,5 +282,12 @@ async def mileage_delete_post(request: Request, record_id: int, db: Session = De
         flash(request.state.session_id, e.message, "danger")
         return RedirectResponse("/mileage", status_code=303)
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="delete",
+        target_type="mileage_record",
+        target_id=record_id,
+    )
     flash(request.state.session_id, "Mileage record deleted.", "success")
     return RedirectResponse("/mileage", status_code=303)

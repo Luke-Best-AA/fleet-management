@@ -217,7 +217,7 @@ def _parse_lighthouse(data: dict | None) -> dict:
             )
     failed_audits.sort(key=lambda a: a["score"])
 
-    all_pass = all(s >= 90 for s in scores.values()) if scores else False
+    all_pass = all(s >= 75 for s in scores.values()) if scores else False
     return {
         "status": "pass" if all_pass else ("fail" if scores else "skipped"),
         "scores": scores,

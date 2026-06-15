@@ -34,10 +34,13 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 │   └── exceptions/                # Custom exception classes
 ├── tests/                         # Automated test suite (pytest)
 ├── diagrams/                      # PlantUML architecture and flow diagrams
+├── scripts/                       # CI report generation and Pages index scripts
 ├── _my_context/                   # Development reference files (gitignored)
+├── .github/workflows/ci.yml       # GitHub Actions CI pipeline
 ├── docker-compose.yml             # Multi-container setup (app + Postgres + Redis)
 ├── Dockerfile                     # Application container image
 ├── seed.py                        # Database seed script with sample data
+├── pyproject.toml                 # Ruff, Bandit, pytest configuration
 ├── requirements.txt               # Python dependencies
 └── README.md
 ```
@@ -230,7 +233,7 @@ The application uses a relational PostgreSQL database with 10 tables. All tables
 
 ## Entity Relationship Diagram
 
-*To be added — see `diagrams/` folder for PlantUML source files.*
+See [diagrams/erd.md](diagrams/erd.md) for the full Mermaid ERD diagram. Architecture and workflow diagrams are available as PlantUML files in the `diagrams/` folder.
 
 ## Installation and Local Setup
 
@@ -328,25 +331,33 @@ Tests use an in-memory SQLite database and require a running Redis instance for 
 
 ## Test Coverage
 
-The test suite contains **17 test files** covering:
+The test suite contains **32 test files** (30 unit/integration + 2 end-to-end) with **594 test functions** covering:
 
 | Area | Test File(s) | What is Tested |
 |---|---|---|
-| **Authentication** | `test_auth.py` | Login, registration, logout, session management, lockout |
-| **Password security** | `test_auth.py` | Hashing, verification, salt uniqueness |
-| **CSRF protection** | `test_auth.py` | Token generation, validation, expiry |
-| **Vehicle CRUD** | `test_vehicle_service.py`, `test_vehicle_routes.py` | Create, read, update, delete vehicles |
-| **Maintenance CRUD** | `test_maintenance_service.py`, `test_maintenance_routes.py` | Create, read, update, delete records |
-| **Mileage CRUD** | `test_mileage_service.py`, `test_mileage_routes.py` | Record mileage, admin override validation |
-| **User management** | `test_user_service.py` | Create users, role validation, duplicates |
+| **Authentication** | `test_auth_service.py`, `test_auth_routes_extended.py` | Login, registration, logout, session management, lockout |
+| **Password security** | `test_auth_service.py` | Hashing, verification, salt uniqueness |
+| **CSRF protection** | `test_auth_service.py` | Token generation, validation, expiry |
+| **Security dependencies** | `test_security_dependencies.py` | Access control middleware, role enforcement |
+| **Vehicle CRUD** | `test_vehicle_service.py`, `test_vehicle_routes.py`, `test_vehicle_routes_extended.py` | Create, read, update, delete vehicles |
+| **Vehicle models** | `test_vehicle_model.py`, `test_vehicle_retire_service.py` | Model behaviour, retirement logic |
+| **Maintenance CRUD** | `test_maintenance_service.py`, `test_maintenance_routes.py`, `test_maintenance_mileage_extended.py` | Create, read, update, delete records |
+| **Mileage CRUD** | `test_mileage_service.py`, `test_mileage_routes.py`, `test_maintenance_mileage_extended.py` | Record mileage, admin override validation |
+| **User management** | `test_user_service.py`, `test_user_profile_service.py` | Create users, role validation, duplicates, profiles |
 | **Location management** | `test_location_service.py` | Location CRUD, uniqueness |
 | **Retirement workflow** | `test_retirement_service.py`, `test_request_routes.py` | Request, approve, reject |
 | **Deletion workflow** | `test_deletion_service.py`, `test_request_routes.py` | Request, approve, reject |
+| **Dashboard** | `test_dashboard_requests_extended.py` | Dashboard stats, pending requests display |
 | **Business rules** | `test_business_rules.py` | Retired vehicle restrictions, mileage validation |
 | **Schema validation** | `test_schemas.py` | Input validation, field constraints |
-| **Admin routes** | `test_admin_routes.py` | Admin-only page access control |
+| **Admin routes** | `test_admin_routes.py`, `test_admin_extended.py` | Admin-only page access control, extended admin features |
 | **API endpoints** | `test_api_routes.py` | JSON API responses |
 | **Route access** | `test_routes.py` | Authentication redirects, 403 responses |
+| **Audit logging** | `test_audit_service.py` | Audit trail creation and queries |
+| **Page visit tracking** | `test_page_visit_service.py` | Visit recording and analytics |
+| **Form utilities** | `test_forms_utils.py` | Form parsing, validation helpers |
+| **E2E — Auth** | `e2e/test_auth.py` | Browser-based login, registration, logout flows |
+| **E2E — Navigation** | `e2e/test_navigation.py` | Browser-based navigation and role-based access |
 
 ## Security Features
 
@@ -450,7 +461,7 @@ The test suite contains **17 test files** covering:
 | **Planning** | Requirements gathering, user stories, business rules | `_my_context/business-rules.txt` |
 | **Design** | Database schema, architecture diagrams, use case diagrams | `diagrams/` folder (PlantUML), `_my_context/postgres.sql` |
 | **Development** | Iterative feature development with Git branching | Git commit history, feature branches |
-| **Testing** | Unit tests, service tests, route tests, security tests | `tests/` folder (17 test files, 112+ tests) |
+| **Testing** | Unit tests, service tests, route tests, security tests, E2E tests | `tests/` folder (32 test files, 594 tests) |
 
 ## DevOps Approach
 
@@ -464,7 +475,7 @@ The test suite contains **17 test files** covering:
 
 ## CI/CD Pipeline
 
-A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every pull request to `main`. All five jobs must pass before merging is allowed.
+A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on every push or pull request to `main`. All jobs must pass before merging is allowed.
 
 | Job | Tool | What it Checks |
 |---|---|---|
@@ -473,15 +484,17 @@ A GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on eve
 | **Tests** | pytest | Full unit/integration test suite with Redis + PostgreSQL |
 | **E2E Tests** | Playwright | Browser-based end-to-end tests (login, navigation, access control) |
 | **OWASP ZAP Scan** | ZAP | Dynamic Application Security Testing (DAST) — baseline scan for common web vulnerabilities |
+| **Lighthouse Audit** | Lighthouse | Performance, accessibility, best practices and SEO audit |
+| **CI Report** | Custom script | Aggregates all job results into a combined HTML report, deployed to GitHub Pages |
 
-Branch protection rules on `main` enforce that all CI checks pass before a pull request can be merged.
+Branch protection rules on `main` enforce that all CI checks pass before a pull request can be merged. CI reports are automatically published to GitHub Pages per branch.
 
 ## Code Quality
 
 - **Modular architecture** — separated into routes, services, models, schemas, security and utilities
 - **Separation of concerns** — routes handle HTTP, services handle business logic, schemas handle validation
 - **Consistent naming** — snake_case throughout, descriptive function and variable names
-- **Custom exceptions** — `NotFoundError`, `ConflictError`, `AuthorisationError`, `AuthenticationError`, `LockedOutError`
+- **Custom exceptions** — `AppError`, `ValidationError`, `AuthenticationError`, `AuthorisationError`, `NotFoundError`, `ConflictError`, `BusinessRuleError`, `LockedOutError`
 - **Reusable template macros** — `form_field`, `csrf_field`, `submit_button` helpers
 - **Client-side JS modules** — separate files for table sorting, filtering, form guards and app behaviour
 - **No duplicated business logic** — validation rules defined once in schemas, enforced in services
@@ -518,12 +531,8 @@ Branch protection rules on `main` enforce that all CI checks pass before a pull 
 - Add password reset via email
 - Add rate limiting to login and registration routes
 - Add Alembic for versioned database migrations
-- Add dependency vulnerability scanning (`pip-audit`, `safety`)
-- Add static analysis (`bandit`)
-- Add GitHub Actions CI/CD pipeline
 - Add staging and production environments
 - Add automated database backup scheduling
-- ~~Add end-to-end tests with Playwright~~
 - Add email notifications for request status changes
 - Add vehicle document/image uploads
 - Add scheduled maintenance reminders

@@ -98,6 +98,13 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
                 reason=schema.reason,
                 admin_user_id=user["id"],
             )
+            audit_service.log_action(
+                db,
+                user_id=user["id"],
+                action="retire",
+                target_type="vehicle",
+                target_id=schema.vehicle_id,
+            )
             flash(request.state.session_id, "Vehicle retired successfully.", "success")
         else:
             retirement_service.create_request(
@@ -107,6 +114,13 @@ async def retirement_create_post(request: Request, db: Session = Depends(get_db)
                 reason=schema.reason,
                 user_role=user["role"],
                 user_id=user["id"],
+            )
+            audit_service.log_action(
+                db,
+                user_id=user["id"],
+                action="create",
+                target_type="retirement_request",
+                target_id=schema.vehicle_id,
             )
             flash(request.state.session_id, "Retirement request submitted.", "success")
     except AppError as e:
@@ -308,6 +322,13 @@ async def deletion_create_post(request: Request, db: Session = Depends(get_db)):
             },
         )
 
+    audit_service.log_action(
+        db,
+        user_id=user["id"],
+        action="create",
+        target_type="deletion_request",
+        target_id=schema.target_id,
+    )
     flash(request.state.session_id, "Deletion request submitted.", "success")
     return_to = form_data.get("return_to", "")
     return_id = form_data.get("return_id", "")
