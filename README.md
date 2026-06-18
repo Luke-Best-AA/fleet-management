@@ -8,9 +8,7 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 
 | | |
 |---|---|
-| **Live URL** | *To be added after production deployment* |
-| **Demo admin login** | `admin` / `admin123!` |
-| **Demo standard user login** | `driver1` / `driver123!` |
+| **Live URL** | https://fleet-management-luke-best.up.railway.app/
 
 > Demo credentials are created by the seed script. Do not use these in production.
 
@@ -35,7 +33,6 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 ├── tests/                         # Automated test suite (pytest)
 ├── diagrams/                      # PlantUML architecture and flow diagrams
 ├── scripts/                       # CI report generation and Pages index scripts
-├── _my_context/                   # Development reference files (gitignored)
 ├── .github/workflows/ci.yml       # GitHub Actions CI pipeline
 ├── docker-compose.yml             # Multi-container setup (app + Postgres + Redis)
 ├── Dockerfile                     # Application container image
@@ -99,7 +96,7 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 | **Linting / formatting** | Ruff |
 | **Security scanning** | Bandit, pip-audit |
 | **Containerisation** | Docker, Docker Compose |
-| **Deployment** | *To be confirmed* |
+| **Deployment** | Railway |
 
 ## Database Design
 
@@ -231,10 +228,6 @@ The application uses a relational PostgreSQL database with 10 tables. All tables
 - **retirement_requests** → vehicles, users (many-to-one, with separate reviewer)
 - **deletion_requests** → users (polymorphic target_type + target_id)
 
-## Entity Relationship Diagram
-
-See [diagrams/erd.md](diagrams/erd.md) for the full Mermaid ERD diagram. Architecture and workflow diagrams are available as PlantUML files in the `diagrams/` folder.
-
 ## Installation and Local Setup
 
 ### Prerequisites
@@ -361,16 +354,16 @@ The test suite contains **32 test files** (30 unit/integration + 2 end-to-end) w
 
 ## Security Features
 
+The application security controls are mapped against the OWASP Top 10:2021 categories.
+
 | OWASP Risk | Attack Example | Protection Implemented |
 |---|---|---|
-| **A01:2025 — Broken Access Control** | Standard user accessing `/admin/*` routes | Role checks enforced at route level; direct URL access blocked |
-| **A02:2025 — Security Misconfiguration** | CSRF forged form submission | HMAC-signed CSRF tokens on all state-changing forms with time-based expiry |
-| **A05:2025 — Injection** | SQL injection via search/login forms | SQLAlchemy ORM with parameterised queries; Pydantic input validation; Jinja2 auto-escaping prevents XSS |
-| **A07:2025 — Authentication Failures** | Brute-force password guessing | bcrypt password hashing; account lockout after 5 failed attempts; 15-minute cooldown |
-| **A09:2025 — Security Logging and Alerting Failures** | Undetected unauthorised activity | Audit log records all admin actions; page visit tracking for usage analytics |
-| **A10:2025 — Mishandling of Exceptional Conditions** | Unhandled error leaking stack trace | Custom 404/500 error pages; field-level validation errors; graceful database constraint handling |
-| **Session hijacking** | Stolen session cookie reuse | Redis-backed sessions; client fingerprinting (IP + User-Agent); HttpOnly + Secure + SameSite=Strict cookies; single session per user |
-| **Session fixation** | Attacker sets session ID | Server-generated UUIDs only; previous sessions invalidated on login |
+| **A01:2021 — Broken Access Control** | Standard user accessing `/admin/*` routes or submitting forged state-changing requests | Role checks are enforced at route level; direct URL access to admin-only pages is blocked; HMAC-signed CSRF tokens are used on state-changing forms with time-based expiry |
+| **A03:2021 — Injection** | SQL injection via search, login or form inputs; reflected script input in rendered pages | SQLAlchemy ORM is used for database access; Pydantic validates user input; Jinja2 auto-escaping reduces reflected XSS risk |
+| **A05:2021 — Security Misconfiguration** | Unsafe runtime configuration, exposed debug behaviour, insecure cookies or verbose server errors | Environment-driven configuration is used; secrets are excluded from source control; production cookies use HttpOnly, Secure and SameSite=Strict; custom error handling avoids exposing stack traces |
+| **A07:2021 — Identification and Authentication Failures** | Brute-force password guessing, plaintext password storage or unsafe session handling | Passwords are hashed with bcrypt; failed login attempts trigger account lockout after 5 attempts; Redis-backed sessions use server-generated IDs and controlled expiry |
+| **A09:2021 — Security Logging and Monitoring Failures** | Undetected unauthorised or administrative activity | Audit logs record administrative actions; page visit tracking supports review of user activity and suspicious behaviour |
+| **Session hijacking / fixation** | Reuse of stolen or attacker-supplied session IDs | Redis-backed sessions use server-generated UUIDs only; previous sessions are invalidated on login; session cookies are HttpOnly, Secure and SameSite=Strict; client fingerprinting binds sessions to IP and User-Agent |
 
 ### Additional Security Controls
 
@@ -385,11 +378,11 @@ The test suite contains **32 test files** (30 unit/integration + 2 end-to-end) w
 
 *To be added — screenshots/videos demonstrating defence against:*
 
-- SQL Injection attempts
-- XSS attempts
-- Broken Access Control (direct URL access)
-- CSRF token validation
-- Brute-force login lockout
+- **A01:2021 — Broken Access Control**: standard user attempts to access an admin-only route and is blocked.
+- **A01:2021 — Broken Access Control / CWE-352 CSRF**: a state-changing request with a missing or invalid CSRF token is rejected.
+- **A03:2021 — Injection**: SQL injection-style input is submitted through login/search/form fields and does not bypass authentication or alter database behaviour.
+- **A07:2021 — Identification and Authentication Failures**: repeated failed login attempts trigger account lockout.
+- **A09:2021 — Security Logging and Monitoring Failures**: administrative actions are visible in the audit log.
 
 ## User Roles
 
