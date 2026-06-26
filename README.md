@@ -10,8 +10,6 @@ The application manages the full lifecycle of fleet vehicles — from registrati
 |---|---|
 | **Live URL** | https://fleet-management-luke-best.up.railway.app/
 
-> Demo credentials are created by the seed script. Do not use these in production.
-
 ## Repository Contents
 
 ```
@@ -296,7 +294,7 @@ The application will be available at `http://localhost:8000`.
 | `LOCKOUT_DURATION_SECONDS` | Lockout cooldown period | `900` |
 | `SECURE_COOKIES` | Set cookie Secure flag (HTTPS only) | `true` |
 
-> The `.env` file is excluded by `.gitignore`. Never commit real secrets.
+> The `.env` file is excluded by `.gitignore`.
 
 ## How to Run Tests
 
@@ -446,15 +444,6 @@ The application security controls are mapped against the OWASP Top 10:2021 categ
 - Date inputs with appropriate sizing
 - Breadcrumb-style back navigation
 - Usage analytics notice in footer for transparency
-
-## SDLC Approach
-
-| Stage | What was Done | Evidence |
-|---|---|---|
-| **Planning** | Requirements gathering, user stories, business rules | `_my_context/business-rules.txt` |
-| **Design** | Database schema, architecture diagrams, use case diagrams | `diagrams/` folder (PlantUML), `_my_context/postgres.sql` |
-| **Development** | Iterative feature development with Git branching | Git commit history, feature branches |
-| **Testing** | Unit tests, service tests, route tests, security tests, E2E tests | `tests/` folder (32 test files, 594 tests) |
 
 ## DevOps Approach
 
